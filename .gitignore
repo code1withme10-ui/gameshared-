@@ -1,8 +1,8 @@
-Dockerfile
-
-/nbproject/private/
-=======
-Dockerfile
+# Ignore NetBeans project files
 /nbproject/private/
 nbproject/*
 
+# (Optional) ignore build artifacts, logs, or temp files
+*.log
+*.tmp
+*.bak
