@@ -1,3 +1,113 @@
+<<<<<<< HEAD
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Kids Creche - Our Staff</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .teacher-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .teacher-card img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+        }
+        .teacher-info {
+            flex: 1;
+        }
+        .teacher-info h3 {
+            margin: 0;
+            color: #34495e;
+        }
+        .teacher-info p {
+            color: #7f8c8d;
+        }
+        .teacher-count {
+            font-size: 18px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+ <?php
+  require_once 'menu-bar.php';
+ ?>
+    <?php
+// Array to store teacher records
+$aTeachers = [
+    ['name' => 'Mathagu', 'picture' => 'Mathagu.jpg'],
+    ['name' => 'Takalani', 'picture' => 'Takalani.jpg'],
+    ['name' => 'Thato', 'picture' => 'Thato.jpg'],
+    ['name' => 'Ndlovu', 'picture' => 'Ndlovu.jpg'],
+    // You can add more teachers here.
+];
+
+// Function to add a new teacher to the list
+function addTeacher($name, $picture) {
+    global $aTeachers;
+    $aTeachers[] = ['name' => $name, 'picture' => $picture];
+}
+
+// Example of adding a new teacher
+addTeacher('Ampfarisaho', 'Ampfarisaho.jpg');
+?>
+
+    <!-- Display the total number of teachers -->
+    <div class="teacher-count">
+        Total Staff: <?php echo count($aTeachers); ?>
+    </div>
+
+    <h2>Our Staff List:</h2>
+
+    <?php
+    // Loop through each teacher and display their information
+    foreach ($aTeachers as $teacher) {
+        echo '<div class="teacher-card">';
+        echo '<img src="images/' . $teacher['picture'] . '" alt="' . $teacher['name'] . '">';
+        echo '<div class="teacher-info">';
+        echo '<h3>' . $teacher['name'] . '</h3>';
+        echo '<p><strong>Picture:</strong> ' . $teacher['picture'] . '</p>';
+        echo '</div>';
+        echo '</div>';
+    }
+    ?>
+
+    <footer>
+        <p>&copy; 2025 Happy Kids Creche</p>
+    </footer>
+
+</body>
+</html>
+
+=======
 <!DOCTYPE html> 
 <!-- Declares this as an HTML5 document -->
 
@@ -134,3 +244,4 @@
     </footer>
 </body>
 </html>
+>>>>>>> 7c6b5cb748bc5f67d1f9a2ae756d4c2d76c9a0a5
