@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: thato-php-1
+    volumes:
+      - ./app:/var/www/html
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - thato
+
+  db:
+    image: mysql:8
+    container_name: thato-db-1
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: rootpass
+    ports:
+      - "3306:3306"
+    networks:
+      - thato
+
+networks:
+  thato:
+    driver: bridge
