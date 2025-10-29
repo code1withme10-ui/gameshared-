@@ -1,2 +1,8 @@
 Dockerfile
+
 /nbproject/private/
+=======
+Dockerfile
+/nbproject/private/
+nbproject/*
+
