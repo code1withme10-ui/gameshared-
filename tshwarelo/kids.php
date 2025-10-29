@@ -10,7 +10,6 @@ include 'menu-bar.php';
     <title>Kids Names</title>
 </head>
 <body>
-    <h1>Welcome to Ndlovu's Kids Creche</h1>
     <h2>Names of Kids</h2>
     
     <?php
@@ -30,7 +29,11 @@ include 'menu-bar.php';
     // Display the result immediately after the list
     echo "<h3>Total Number of Kids: " . $total_kids . "</h3>"; 
     ?>
+<p>This page displays the number of kids and their names.</p> 
+    
+    <footer>
+        <p>© 2025 Ndlovu's Creche</p>
+    </footer>
 
-    <p>This page displays the number of kids and thier names.</p> 
 </body>
 </html>
