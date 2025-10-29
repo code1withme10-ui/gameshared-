@@ -1,5 +1,5 @@
 <?php
-// Include your menu/header file if you have one
+// Include your menu/header file
 include 'menu-bar.php'; 
 ?>
 
@@ -10,11 +10,12 @@ include 'menu-bar.php';
     <title>Kids Names</title>
 </head>
 <body>
-    <h1>Names of Kids</h1>
-
+    <h1>Welcome to Ndlovu's Kids Creche</h1>
+    <h2>Names of Kids</h2>
+    
     <?php
-    // Define an array of names
-    $kids_names = array("Khumo", "Ziyanda", "Thato", "Thlarihani");
+    // Define an array of names (your list)
+    $kids_names = array("Khumo", "Ziyanda", "Thato", "Thlarihani", "Samu", "Asanda", "Langu", "Rio");
 
     // Display the names in an unordered list
     echo "<ul>";
@@ -22,8 +23,14 @@ include 'menu-bar.php';
         echo "<li>" . $name . "</li>";
     }
     echo "</ul>";
+
+    // Count the total number of kids using the count() function
+    $total_kids = count($kids_names);
+
+    // Display the result immediately after the list
+    echo "<h3>Total Number of Kids: " . $total_kids . "</h3>"; 
     ?>
 
-    <p>This page successfully displays the names.</p>
+    <p>This page displays the number of kids and thier names.</p> 
 </body>
 </html>

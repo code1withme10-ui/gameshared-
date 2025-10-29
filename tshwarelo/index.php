@@ -13,7 +13,7 @@
         <p>Providing loving care and early education for your little stars.</p>
     </main>
     <footer>
-        <p>© 2025 Happy Kids Creche</p>
+        <p>© 2025 Ndlovu's Creche</p>
     </footer>
 </body>
 </html>

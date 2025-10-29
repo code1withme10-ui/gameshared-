@@ -11,4 +11,4 @@
             
         </nav>
     </header>
-    <h1>Welcome to Happy Kids Creche</h1>
+    <h1>Welcome to Ndlovu's Kids Creche</h1>

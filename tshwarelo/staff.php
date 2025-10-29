@@ -120,7 +120,7 @@
     }    
     ?>
     <footer>
-        <p>© 2025 Happy Kids Creche</p>
+        <p>© 2025 Ndlovu's Creche</p>
     </footer>
 </body>
 </html>
