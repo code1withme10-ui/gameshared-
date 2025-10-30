@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 <!DOCTYPE html>
 <html lang="en">
@@ -107,7 +106,6 @@ addTeacher('Ampfarisaho', 'Ampfarisaho.jpg');
 </body>
 </html>
 
-=======
 <!DOCTYPE html> 
 <!-- Declares this as an HTML5 document -->
 
@@ -244,4 +242,3 @@ addTeacher('Ampfarisaho', 'Ampfarisaho.jpg');
     </footer>
 </body>
 </html>
->>>>>>> 7c6b5cb748bc5f67d1f9a2ae756d4c2d76c9a0a5
