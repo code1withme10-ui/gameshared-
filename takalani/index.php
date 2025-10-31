@@ -4,7 +4,8 @@ session_start();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
     <title>Home - Happy Kids Creche</title>
     <link rel="stylesheet" href="styles.css">
 </head>
