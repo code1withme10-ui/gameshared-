@@ -6,7 +6,7 @@ session_start();
 <head>
 <link rel="stylesheet" href="styles.css">
 <meta charset="UTF-8">
-    <title>Home - Happy Kids Creche</title>
+    <title>Home - SubixStar Pre-School</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,7 +17,9 @@ require_once 'menu-bar.php';
 ?>
 
 <main style="text-align:center; margin-top:50px;">
-    <h1>Welcome to Happy Kids Creche</h1>
+<h2>Hami Amukela,Ndaa ria-vha Tanganedza</h2>
+
+
 
     <?php if (isset($_SESSION['user'])): ?>
         <h3>Hello, <?= htmlspecialchars($_SESSION['user']['parentName']) ?>!</h3>
@@ -29,7 +31,7 @@ require_once 'menu-bar.php';
 </main>
 
 <footer style="text-align:center; margin-top:30px;">
-    <p>© 2025 Happy Kids Creche</p>
+    <p>© 2025 SubixStar Pre-School</p>
 </footer>
 
 </body>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Kids Creche - Our Staff</title>
+    <title>SubixStar Pre-School - Our Staff</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -100,7 +100,7 @@ addTeacher('Ampfarisaho', 'Ampfarisaho.jpg');
     ?>
 
     <footer>
-        <p>&copy; 2025 Happy Kids Creche</p>
+        <p>&copy; 2025 SubixStar Pre-School</p>
     </footer>
 
 </body>
@@ -116,7 +116,7 @@ addTeacher('Ampfarisaho', 'Ampfarisaho.jpg');
     <meta charset="UTF-8" />
     <!-- Ensures correct character encoding for all text -->
 
-    <title>Happy Kids Creche - Our Staff</title>
+    <title>SubixStar Pre-School - Our Staff</title>
     <!-- Browser tab title -->
 
     <!-- Internal CSS for quick design -->
@@ -238,7 +238,7 @@ addTeacher('Ampfarisaho', 'Ampfarisaho.jpg');
     </main>
 
     <footer>
-        <p>© 2025 Happy Kids Creche | Built with ❤️ by our Development Team</p>
+        <p>© 2025 SubixStar Pre-School | Built with ❤️ by our Development Team</p>
     </footer>
 </body>
 </html>

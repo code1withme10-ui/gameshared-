@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </main>
 
 <footer>
-    <p>© 2025 Happy Kids Creche</p>
+    <p>© 2025 SubixStar Pre-School</p>
 </footer>
 </body>
 </html>

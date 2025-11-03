@@ -19,4 +19,4 @@ session_start(); // Always start the session to detect login
     </nav>
 </header>
 
-<h1 style="text-align:center; margin-top: 20px;">Welcome to Happy Kids Creche</h1>
+<h1 style="text-align:center; margin-top: 20px;">Welcome to SubixStar Pre-School</h1>
