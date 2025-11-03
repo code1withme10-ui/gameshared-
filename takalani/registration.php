@@ -17,11 +17,13 @@ $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim($_POST["email"]);
+    $username = trim($_POST["username"]);
     $parentName = trim($_POST["parentName"]);
     $childName = trim($_POST["childName"]);
     $childAge = trim($_POST["childAge"]);
     $contact = trim($_POST["contact"]);
     $medical = trim($_POST["medical"]);
+    $password = $_POST["password"];
 
     // Check if user already exists
     $exists = false;
@@ -35,20 +37,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($exists) {
         $message = "<p style='color:red;'>User with this email already exists. Please log in.</p>";
     } else {
-        // Save new user
-        $newUser = [
-            "parentName" => $parentName,
-            "childName" => $childName,
-            "childAge" => $childAge,
-            "contact" => $contact,
-            "email" => $email,
-            "medical" => $medical,
-            "password" => password_hash("12345", PASSWORD_DEFAULT) // simple default password for now
-        ];
+        // Password validation (at least 8 chars, 1 uppercase, 1 special character)
+        if (!preg_match('/^(?=.*[A-Z])(?=.*[\W_]).{8,}$/', $password)) {
+            $message = "<p style='color:red;'>Password must be at least 8 characters long, include one uppercase letter, and one special character.</p>";
+        } else {
+            // Save new user
+            $newUser = [
+                "username" => $username,
+                "parentName" => $parentName,
+                "childName" => $childName,
+                "childAge" => $childAge,
+                "contact" => $contact,
+                "email" => $email,
+                "medical" => $medical,
+                "password" => password_hash($password, PASSWORD_DEFAULT)
+            ];
 
-        $users[] = $newUser;
-        file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
-        $message = "<p style='color:green;'>Registration successful! You can now <a href='login.php'>login</a>.</p>";
+            $users[] = $newUser;
+            file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
+            $message = "<p style='color:green;'>Registration successful! You can now <a href='login.php'>login</a>.</p>";
+        }
     }
 }
 ?>
@@ -84,6 +92,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <label for="email">Email Address:</label><br />
         <input type="email" id="email" name="email" required /><br /><br />
 
+        <label for="username">Username:</label><br />
+        <input type="text" id="username" name="username" required /><br /><br />
+
+        <label for="password">Password:</label><br />
+        <input type="password" id="password" name="password" required /><br /><br />
+
         <label for="medical">Medical Information / Allergies:</label><br />
         <textarea id="medical" name="medical" rows="4" cols="40"></textarea><br /><br />
 
@@ -96,4 +110,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </footer>
 </body>
 </html>
-
