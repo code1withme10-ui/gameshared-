@@ -81,7 +81,8 @@ include 'menu-bar.php';
     </form>
     
     <p>Don't have an account? <a href="registration.php">Register here</a>.</p>
-    
-       <h1>Welcome to Ndlovu's Kids Creche</h1>
+   <footer>
+    <p>&copy; 2025 Ndlovu's Crèche</p>
+  </footer>
 </body>
 </html>

@@ -104,6 +104,8 @@ include 'menu-bar.php';
     </form>
     
     <p>Already have an account? <a href="login.php">Login here</a>.</p>
-       <h1>Welcome to Ndlovu's Kids Creche</h1>
+      <footer>
+    <p>&copy; 2025 Ndlovu's Crèche</p>
+  </footer>
 </body>
 </html>
