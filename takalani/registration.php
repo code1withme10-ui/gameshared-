@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-// Path to JSON file for storing users
+// Always use an absolute path (very important for Docker)
 $usersFile = __DIR__ . '/users.json';
 
-// Create file if it doesn't exist
+// Create JSON file if it doesn’t exist
 if (!file_exists($usersFile)) {
     file_put_contents($usersFile, json_encode([]));
 }
@@ -28,45 +28,46 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $medical = trim($_POST["medical"]);
     $password = $_POST["password"];
 
-    // Check if child already exists
+    // Check if the same child (name + surname) already exists
     $exists = false;
     foreach ($users as $user) {
-        if (strcasecmp($user["childName"], $childName) === 0 && strcasecmp($user["childSurname"], $childSurname) === 0) {
+        if (
+            strcasecmp($user["childName"], $childName) === 0 &&
+            strcasecmp($user["childSurname"], $childSurname) === 0
+        ) {
             $exists = true;
             break;
         }
     }
 
     if ($exists) {
-        $message = "<p style='color:red;'>This child is already registered. Please log in.</p>";
+        $message = "<p style='color:red;'>⚠️ This child is already registered. Please log in.</p>";
+    } elseif (!preg_match('/^(?=.*[A-Z])(?=.*[\W_]).{8,}$/', $password)) {
+        $message = "<p style='color:red;'>Password must be at least 8 characters long, include one uppercase letter, and one special character.</p>";
     } else {
-        // Password validation
-        if (!preg_match('/^(?=.*[A-Z])(?=.*[\W_]).{8,}$/', $password)) {
-            $message = "<p style='color:red;'>Password must be at least 8 characters long, include one uppercase letter, and one special character.</p>";
-        } else {
-            // Save new user
-            $newUser = [
-                "parentName" => $parentName,
-                "parentSurname" => $parentSurname,
-                "parentAddress" => $parentAddress,
-                "childName" => $childName,
-                "childSurname" => $childSurname,
-                "childGender" => $childGender,
-                "childAge" => $childAge,
-                "contact" => $contact,
-                "email" => $email,
-                "medical" => $medical,
-                "password" => password_hash($password, PASSWORD_DEFAULT)
-            ];
+        // Create new user entry
+        $newUser = [
+            "parentName" => $parentName,
+            "parentSurname" => $parentSurname,
+            "parentAddress" => $parentAddress,
+            "childName" => $childName,
+            "childSurname" => $childSurname,
+            "childGender" => $childGender,
+            "childAge" => $childAge,
+            "contact" => $contact,
+            "email" => $email,
+            "medical" => $medical,
+            "password" => password_hash($password, PASSWORD_DEFAULT)
+        ];
 
-            $users[] = $newUser;
-            file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
-            $message = "<p style='color:green;'>Registration successful! You can now <a href='login.php'>login</a>.</p>";
-        }
+        // Append and save to JSON
+        $users[] = $newUser;
+        file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
+
+        $message = "<p style='color:green;'>✅ Registration successful! You can now <a href='login.php'>login</a>.</p>";
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
