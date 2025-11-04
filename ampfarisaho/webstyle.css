@@ -1,31 +1,44 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f9f9f9;
+  background-color: #fff8dc;
   margin: 0;
-  padding: 0;
 }
 
 header {
   background-color: #ffcc00;
   text-align: center;
-  padding: 10px;
+  padding: 15px 0;
 }
 
-nav a {
+.menu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  display: inline-block;
   margin: 0 10px;
+}
+
+.menu a {
   text-decoration: none;
   color: #333;
+  font-weight: bold;
+}
+
+.menu a:hover {
+  color: #ff6600;
 }
 
 main {
   padding: 20px;
+  min-height: 70vh;
 }
 
 footer {
   background-color: #ffcc00;
   text-align: center;
   padding: 10px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
 }
+

@@ -1,42 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>Code of Conduct</title>
-    <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
- <?php
-  require_once 'menu-bar.php';
- ?>
-    <main>
-        <h2>Our Commitment</h2>
-        <p>We are dedicated to maintaining a safe, respectful, and supportive environment for children, parents, and staff.</p>
+<?php
+$content = "
+  <h2>Code of Conduct</h2>
+  <p>At Happy Kids Creche, we value respect, kindness, and responsibility. 
+  To ensure a safe and nurturing environment for all children, parents, and staff, 
+  please follow these guidelines:</p>
 
-        <h3>Expectations for Parents & Guardians</h3>
-        <ul>
-            <li>Respect all staff and follow creche policies.</li>
-            <li>Communicate openly and honestly about your child's needs.</li>
-            <li>Maintain confidentiality about other children and families.</li>
-        </ul>
+  <ul>
+    <li>Respect all staff members, children, and other parents.</li>
+    <li>Maintain open communication with teachers and caregivers.</li>
+    <li>Encourage children to be kind, helpful, and honest.</li>
+    <li>Healthy snacks only — no sugary drinks or candy during class time.</li>
+    <li>Pick up and drop off your child on time.</li>
+    <li>Keep sick children at home to ensure everyone’s safety.</li>
+  </ul>
 
-        <h3>Expectations for Children</h3>
-        <ul>
-            <li>Be kind and respectful to peers and adults.</li>
-            <li>Listen and follow instructions from staff.</li>
-            <li>Care for creche property and materials.</li>
-        </ul>
-
-        <h3>Expectations for Staff</h3>
-        <ul>
-            <li>Provide nurturing and safe care at all times.</li>
-            <li>Communicate clearly and respectfully with families.</li>
-            <li>Ensure children’s safety and well-being as a top priority.</li>
-        </ul>
-    </main>
-    <footer>
-        <p>© 2025 Happy Kids Creche</p>
-    </footer>
-</body>
-</html>
-
+  <p>Thank you for helping us make Happy Kids Creche a joyful and safe place for everyone!</p>
+";
+include 'includes/layout.php';
+?>
