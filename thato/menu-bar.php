@@ -7,7 +7,6 @@
             <a href="gallery.php">Gallery</a> |
             <a href="staff.php">Staff</a> |
             <a href="code-of-conduct.php">Code of Conduct</a>
-            <a href="login.php">Login</a>
         </nav>
     </header>
     <h1>Welcome to Happy Kids Creche</h1>

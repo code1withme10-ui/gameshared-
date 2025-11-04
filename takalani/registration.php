@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-// Path to JSON file for storing users
+// Always use an absolute path (very important for Docker)
 $usersFile = __DIR__ . '/users.json';
 
-// Create file if it doesn't exist
+// Create JSON file if it doesn’t exist
 if (!file_exists($usersFile)) {
     file_put_contents($usersFile, json_encode([]));
 }
@@ -17,50 +17,57 @@ $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim($_POST["email"]);
-    $username = trim($_POST["username"]);
     $parentName = trim($_POST["parentName"]);
+    $parentSurname = trim($_POST["parentSurname"]);
+    $parentAddress = trim($_POST["parentAddress"]);
     $childName = trim($_POST["childName"]);
+    $childSurname = trim($_POST["childSurname"]);
+    $childGender = trim($_POST["childGender"]);
     $childAge = trim($_POST["childAge"]);
     $contact = trim($_POST["contact"]);
     $medical = trim($_POST["medical"]);
     $password = $_POST["password"];
 
-    // Check if user already exists
+    // Check if the same child (name + surname) already exists
     $exists = false;
     foreach ($users as $user) {
-        if ($user["email"] === $email) {
+        if (
+            strcasecmp($user["childName"], $childName) === 0 &&
+            strcasecmp($user["childSurname"], $childSurname) === 0
+        ) {
             $exists = true;
             break;
         }
     }
 
     if ($exists) {
-        $message = "<p style='color:red;'>User with this email already exists. Please log in.</p>";
+        $message = "<p style='color:red;'>⚠️ This child is already registered. Please log in.</p>";
+    } elseif (!preg_match('/^(?=.*[A-Z])(?=.*[\W_]).{8,}$/', $password)) {
+        $message = "<p style='color:red;'>Password must be at least 8 characters long, include one uppercase letter, and one special character.</p>";
     } else {
-        // Password validation (at least 8 chars, 1 uppercase, 1 special character)
-        if (!preg_match('/^(?=.*[A-Z])(?=.*[\W_]).{8,}$/', $password)) {
-            $message = "<p style='color:red;'>Password must be at least 8 characters long, include one uppercase letter, and one special character.</p>";
-        } else {
-            // Save new user
-            $newUser = [
-                "username" => $username,
-                "parentName" => $parentName,
-                "childName" => $childName,
-                "childAge" => $childAge,
-                "contact" => $contact,
-                "email" => $email,
-                "medical" => $medical,
-                "password" => password_hash($password, PASSWORD_DEFAULT)
-            ];
+        // Create new user entry
+        $newUser = [
+            "parentName" => $parentName,
+            "parentSurname" => $parentSurname,
+            "parentAddress" => $parentAddress,
+            "childName" => $childName,
+            "childSurname" => $childSurname,
+            "childGender" => $childGender,
+            "childAge" => $childAge,
+            "contact" => $contact,
+            "email" => $email,
+            "medical" => $medical,
+            "password" => password_hash($password, PASSWORD_DEFAULT)
+        ];
 
-            $users[] = $newUser;
-            file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
-            $message = "<p style='color:green;'>Registration successful! You can now <a href='login.php'>login</a>.</p>";
-        }
+        // Append and save to JSON
+        $users[] = $newUser;
+        file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
+
+        $message = "<p style='color:green;'>✅ Registration successful! You can now <a href='login.php'>login</a>.</p>";
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,14 +84,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <?= $message ?>
 
     <form action="" method="POST">
-        <label for="parentName">Parent/Guardian Name:</label><br />
+        <h3>Parent/Guardian Information</h3>
+        <label for="parentName">First Name:</label><br />
         <input type="text" id="parentName" name="parentName" required /><br /><br />
 
-        <label for="childName">Child's Name:</label><br />
-        <input type="text" id="childName" name="childName" required /><br /><br />
+        <label for="parentSurname">Surname:</label><br />
+        <input type="text" id="parentSurname" name="parentSurname" required /><br /><br />
 
-        <label for="childAge">Child's Age:</label><br />
-        <input type="number" id="childAge" name="childAge" min="0" max="10" required /><br /><br />
+        <label for="parentAddress">Address:</label><br />
+        <input type="text" id="parentAddress" name="parentAddress" required /><br /><br />
 
         <label for="contact">Contact Number:</label><br />
         <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" placeholder="e.g., 0123456789" required /><br /><br />
@@ -92,8 +100,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <label for="email">Email Address:</label><br />
         <input type="email" id="email" name="email" required /><br /><br />
 
-        <label for="username">Username:</label><br />
-        <input type="text" id="username" name="username" required /><br /><br />
+        <h3>Child Information</h3>
+        <label for="childName">First Name:</label><br />
+        <input type="text" id="childName" name="childName" required /><br /><br />
+
+        <label for="childSurname">Surname:</label><br />
+        <input type="text" id="childSurname" name="childSurname" required /><br /><br />
+
+        <label for="childGender">Gender:</label><br />
+        <select id="childGender" name="childGender" required>
+            <option value="">-- Select Gender --</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select><br /><br />
+
+        <label for="childAge">Age:</label><br />
+        <input type="number" id="childAge" name="childAge" min="0" max="10" required /><br /><br />
 
         <label for="password">Password:</label><br />
         <input type="password" id="password" name="password" required /><br /><br />
@@ -110,3 +132,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </footer>
 </body>
 </html>
+

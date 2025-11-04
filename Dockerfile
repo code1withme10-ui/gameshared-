@@ -1,18 +1,18 @@
-# Use PHP + Apache base image
-FROM php:8.1-apache
+# Use official PHP with Apache (We use the team's newer 8.2 version)
+FROM php:8.2-apache
 
-# Copy everything from your current folder (gameshared) into Apache root
-COPY tshwarelo /var/www/html/
+# CRITICAL: Install MySQL extension for database connectivity
+RUN docker-php-ext-install pdo pdo_mysql 
 
+# Copy contents of your project directory into the container
+# NOTE: Ensure 'tshwarelo/' is the correct path for YOUR project files
+COPY tshwarelo/ /var/www/html/
 
-# Enable index.php as the default
-RUN echo "<IfModule dir_module>\n    DirectoryIndex index.html index.php\n</IfModule>" > /etc/apache2/conf-available/dir.conf && \
-    a2enconf dir
-
-# Set working directory
+# Enable index.php as the default and set ServerName
+RUN echo "<?IfModule dir_module>\nDirectoryIndex index.html index.php</IfModule>\n" > /etc/apache2/conf-available/dir.conf \
+    && a2enconf dir
 WORKDIR /var/www/html/
-
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-
+# Expose Apache default port
 EXPOSE 80

@@ -1,30 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>About Us - Crèche</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
- <?php
-  require_once 'menu-bar.php';
- ?>
-    
-  <main>
-    <h2>About Our Crèche</h2>
-    <p>Our crèche provides a safe, nurturing environment for children aged 6 months to 5 years. 
-    We focus on early childhood development through structured play, learning, and socialization.</p>
-    
-    <h3>Our Mission</h3>
-    <p>To foster a happy and healthy learning environment where every child feels loved, safe, and valued.</p>
+<?php
+$content = "
+  <h2>About Us</h2>
+  <p>At Happy Kids Creche, we focus on early learning and personal growth through play and care.</p>
+";
+include 'layout.php';
+?>
 
-    <h3>Our Staff</h3>
-    <p>Our team consists of trained and certified caregivers with years of experience in early childhood education.</p>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Happy Kids Crèche</p>
-  </footer>
-</body>
-</html>
 
