@@ -2,7 +2,7 @@
 FROM php:8.1-apache
 
 # Copy everything from your current folder (gameshared) into Apache root
-COPY takalani /var/www/html/
+COPY tshwarelo /var/www/html/
 
 
 # Enable index.php as the default
