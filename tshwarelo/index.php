@@ -21,13 +21,10 @@ include 'menu-bar.php';
     <!-- Add your stylesheet link here if you have one -->
     <!-- <link rel="stylesheet" href="styles.css" /> -->
     <style>
-        body { font-family: sans-serif; text-align: center; }
-        .hero { background-color: #f7f9fc; padding: 60px 20px; margin-bottom: 40px; border-bottom: 5px solid #007bff; }
-        .hero h2 { color: #333; font-size: 2.5em; margin-bottom: 10px; }
-        .hero p { color: #555; font-size: 1.2em; margin-bottom: 30px; }
-        .cta-btn { background-color: #28a745; color: white; padding: 12px 25px; border: none; border-radius: 5px; text-decoration: none; font-weight: bold; }
-        .content-section { max-width: 800px; margin: 0 auto; padding: 20px; text-align: left; }
-    </style>
+        body { font-family: sans-serif; text-align: center; }
+        .hero { background-color: #f7f9fc; padding: 60px 20px; margin-bottom: 40px; border-bottom: 5px solid #007bff; }
+        .hero h2 { color: #333; font-size: 2.5em; margin-bottom: 10px; }
+</style>
 </head>
 <body>
     
