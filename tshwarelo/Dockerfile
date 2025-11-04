@@ -1,8 +1,7 @@
-# Use an official PHP image with Apache
 FROM php:8.1-apache
 
-# Copy all files from the current folder (tshwarelo) into the web server's root
-COPY . /var/www/html/
+# --- START: Add these lines to install the MySQL driver ---
+RUN docker-php-ext-install pdo pdo_mysql
+# --- END: Add these lines to install the MySQL driver ---
 
-# Expose port 80 (standard HTTP port)
-EXPOSE 80
+COPY . /var/www/html/

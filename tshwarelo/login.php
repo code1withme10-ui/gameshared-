@@ -2,21 +2,25 @@
 // CRITICAL: Start the session at the very top of the script
 session_start();
 
-// Define the path to the JSON file
-$json_file = 'users.json';
+// --- 1. Include Database Connection ---
+// This file connects to the MySQL database container
+include 'db_connect.php'; 
+
+// --- 2. Define Helper Functions and Variables ---
 $message = '';
 
 // Check if the user is already logged in (redirect them away from the login page)
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-    // Redirect to the home page or a dashboard page
-    header('Location: index.php');
+    // Redirect to the welcome/dashboard page
+    header('Location: welcome.php');
     exit;
 }
 
-// Check if the login form was submitted
+// --- 3. Process Login Form Submission ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    // 1. Get and sanitize the input data using $_POST
+    // Get and sanitize the input data
+    // Use trim() to remove leading/trailing spaces, just like in registration.php
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
     
@@ -25,32 +29,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = '<p style="color:red;">Please enter both username and password.</p>';
     } else {
         
-        // 2. Read the existing users from the JSON file
-        $users_data = file_get_contents($json_file);
-        $users = json_decode($users_data, true) ?? [];
-        
-        // 3. Verify credentials
-        
-        // Check if the username exists in our array
-        if (isset($users[$username])) {
-            
-            // Check if the submitted password matches the stored password
-            // NOTE: In a real app, you would use password_verify() on a HASHED password.
-            if ($users[$username] === $password) {
-                
-                // 4. Login successful: Set the session variables
-                $_SESSION['logged_in'] = true;
-                $_SESSION['username'] = $username;
-                
-                // Redirect to the home page after a successful login
-                header('Location: index.php');
-                exit;
-                
+        try {
+            // --- 4. Database Lookup (SELECT) ---
+            // Prepare the SQL SELECT statement to fetch the user by username (email)
+            $stmt = $pdo->prepare("SELECT password_hash, parent_name FROM users WHERE username = :username");
+            $stmt->execute(['username' => $username]);
+            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if ($user) {
+                // User found. Now verify the password hash.
+                // NOTE: We assume registration.php is using password_hash() for security.
+                if (password_verify($password, $user['password_hash'])) {
+                    
+                    // --- 5. Login successful: Set the session variables ---
+                    $_SESSION['logged_in'] = true;
+                    $_SESSION['username'] = $username;
+                    $_SESSION['user_name'] = $user['parent_name']; // Store the friendly name
+                    
+                    // Redirect to the welcome/dashboard page
+                    header('Location: welcome.php');
+                    exit;
+                    
+                } else {
+                    // Password verification failed
+                    $message = '<p style="color:red;">Invalid password.</p>';
+                }
             } else {
-                $message = '<p style="color:red;">Invalid password.</p>';
+                // User not found in the database
+                $message = '<p style="color:red;">Username not found.</p>';
             }
-        } else {
-            $message = '<p style="color:red;">Username not found.</p>';
+        } catch (\PDOException $e) {
+            // Handle database errors
+            $message = '<p style="color:red;">A database error occurred during login. Please try again.</p>';
+            error_log("Login PDO Error: " . $e->getMessage()); 
         }
     }
 }
@@ -66,13 +77,13 @@ include 'menu-bar.php';
     <title>User Login</title>
 </head>
 <body>
-    <h1>User Login</h1>
+    <h2>User Login</h2>
     
     <?php echo $message; // Display any success or error messages ?>
 
     <form method="POST" action="login.php">
         <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
+        <input type="text" id="username" name="username" value="<?= htmlspecialchars($username ?? '') ?>" required><br><br>
         
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" required><br><br>
@@ -81,8 +92,8 @@ include 'menu-bar.php';
     </form>
     
     <p>Don't have an account? <a href="registration.php">Register here</a>.</p>
-   <footer>
-    <p>&copy; 2025 Ndlovu's Crèche</p>
-  </footer>
+    <footer>
+        <p>&copy; 2025 Ndlovu's Crèche</p>
+    </footer>
 </body>
 </html>
