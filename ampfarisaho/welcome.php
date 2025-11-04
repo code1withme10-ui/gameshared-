@@ -11,6 +11,6 @@ $content = "
   <p>We’re glad to have you as part of Happy Kids Creche.</p>
   <a href='logout.php'>Logout</a>
 ";
-include 'includes/layout.php';
+include 'layout.php';
 ?>
 

@@ -22,7 +22,7 @@ $content = '
     <button type="submit">Register</button>
   </form>
 ';
-include 'includes/layout.php';
+include 'layout.php';
 ?>
 
 

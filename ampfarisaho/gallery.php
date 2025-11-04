@@ -5,6 +5,6 @@ $content = '
   <img src="https://via.placeholder.com/200" alt="Activities">
   <img src="https://via.placeholder.com/200" alt="Learning Time">
 ';
-include 'includes/layout.php';
+include 'layout.php';
 ?>
 

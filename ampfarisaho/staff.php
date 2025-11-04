@@ -31,6 +31,6 @@ $content = "
     </tr>
   </table>
 ";
-include 'includes/layout.php';
+include 'layout.php';
 ?>
 

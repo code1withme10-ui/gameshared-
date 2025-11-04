@@ -5,6 +5,6 @@ $content = "
   <p>Thank you, $name. Your registration has been received.</p>
   <p><a href='login.php'>Click here to Login</a></p>
 ";
-include 'includes/layout.php';
+include 'layout.php';
 ?>
 

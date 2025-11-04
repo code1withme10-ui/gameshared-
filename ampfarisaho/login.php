@@ -27,7 +27,7 @@ $content = '
   </form>
   <p style="color:red;">' . $error . '</p>
 ';
-include 'includes/layout.php';
+include 'layout.php';
 ?>
 
 

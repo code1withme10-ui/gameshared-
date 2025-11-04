@@ -16,5 +16,5 @@ $content = "
 
   <p>Thank you for helping us make Happy Kids Creche a joyful and safe place for everyone!</p>
 ";
-include 'includes/layout.php';
+include 'layout.php';
 ?>

@@ -8,7 +8,7 @@
 <body>
   <header>
     <h1>Happy Kids Creche</h1>
-    <?php include 'includes/menu.php'; ?>
+    <?php include 'menu-bar.php'; ?>
   </header>
 
   <main>
