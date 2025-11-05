@@ -2,29 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>About Us - Crèche</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>About Us - SubixStar Pre-School</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
- <?php
-  require_once 'menu-bar.php';
- ?>
-    
-  <main>
-    <h2>About Our Crèche</h2>
-    <p>Our crèche provides a safe, nurturing environment for children aged 6 months to 5 years. 
-    We focus on early childhood development through structured play, learning, and socialization.</p>
-    
-    <h3>Our Mission</h3>
-    <p>To foster a happy and healthy learning environment where every child feels loved, safe, and valued.</p>
+  <?php require_once 'menu-bar.php'; ?>
 
-    <h3>Our Staff</h3>
-    <p>Our team consists of trained and certified caregivers with years of experience in early childhood education.</p>
+  <main style="max-width:800px; margin:50px auto; text-align:center;">
+    <h2>About SubixStar Pre-School</h2>
+    <p>
+      SubixStar Pre-School is dedicated to providing a warm and creative space where young children can
+      explore, learn, and grow at their own pace. Our goal is to nurture curiosity and confidence from
+      the very start.
+    </p>
+
+    <h3>Our Mission</h3>
+    <p>
+      To create a safe, joyful environment that encourages early learning through play, discovery,
+      and care — helping every child reach their full potential.
+    </p>
+
+    <h3>Our Team</h3>
+    <p>
+      Our caring educators are trained in early childhood development and bring years of experience
+      to ensure your child’s well-being and growth.
+    </p>
   </main>
 
   <footer>
-    <p>&copy; 2025 Happy Kids Crèche</p>
+    <p>&copy; 2025 SubixStar Pre-School</p>
   </footer>
 </body>
 </html>
-
