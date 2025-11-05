@@ -20,6 +20,15 @@
 
     <h3>Our Staff</h3>
     <p>Our team consists of trained and certified caregivers with years of experience in early childhood education.</p>
+    
+    <div class="mt-10 text-center">
+        <p class="text-lg text-gray-700 mb-4">
+            If you want to hear more about us, then
+        </p>
+        <a href="contact.php" class="inline-block px-10 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-xl hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50">
+            Contact Us Today!
+        </a>
+    </div>
   </main>
 
   <footer>
