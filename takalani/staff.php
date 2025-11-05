@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Staff - SubixStar Pre-School</title>
-    <link rel="stylesheet" href="styles.css"> <!-- ✅ Use the same stylesheet -->
+    <link rel="stylesheet" href="styles.css"> <!-- keep your site-wide styles -->
 </head>
 
 <body>
     <?php require_once 'menu-bar.php'; ?>
 
-    <header style="background-color:#ff7f50; color:white; text-align:center; padding:1.5rem;">
+    <header style="background-color:#f8f9fa; color:#333; text-align:center; padding:1.5rem; border-bottom:1px solid #ddd;">
         <h1>Meet Our Caring Staff</h1>
         <p>Dedicated educators who nurture your child’s early learning journey.</p>
     </header>
@@ -34,17 +34,17 @@
         <p><strong>Total Staff Members:</strong> <?= count($aTeachers) ?></p>
 
         <?php foreach ($aTeachers as $teacher): ?>
-            <div class="staffinfo" style="background:#fff; border:1px solid #f2c3b3; border-radius:12px; padding:15px; margin:15px auto; width:80%; display:flex; align-items:center; box-shadow:0 4px 10px rgba(255,127,80,0.1);">
-                <img src="<?= htmlspecialchars($teacher['picture']) ?>" alt="<?= htmlspecialchars($teacher['name']) ?>" style="width:80px; height:80px; border-radius:50%; border:3px solid #ff7f50; object-fit:cover; margin-right:20px;">
+            <div class="staffinfo" style="background:#fff; border:1px solid #ddd; border-radius:12px; padding:15px; margin:15px auto; width:80%; display:flex; align-items:center; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
+                <img src="<?= htmlspecialchars($teacher['picture']) ?>" alt="<?= htmlspecialchars($teacher['name']) ?>" style="width:80px; height:80px; border-radius:50%; border:2px solid #ccc; object-fit:cover; margin-right:20px;">
                 <div>
                     <h4 style="margin:0; color:#2c3e50;"><?= htmlspecialchars($teacher['name']) ?></h4>
-                    <p style="color:#7f8c8d;"><?= htmlspecialchars($teacher['role']) ?></p>
+                    <p style="color:#666;"><?= htmlspecialchars($teacher['role']) ?></p>
                 </div>
             </div>
         <?php endforeach; ?>
     </main>
 
-    <footer style="text-align:center; margin-top:30px;">
+    <footer style="text-align:center; margin-top:30px; padding:1rem 0; background:#f8f9fa; border-top:1px solid #ddd;">
         <p>© 2025 SubixStar Pre-School</p>
     </footer>
 </body>
