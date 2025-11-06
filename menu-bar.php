@@ -9,7 +9,9 @@ if (session_status() === PHP_SESSION_NONE) {
     <nav style="background-color: #f2f2f2; padding: 10px; text-align: center;">
         <a href="index.php">Home</a> |
         <a href="about.php">About</a> |
-        <a href="registration.php">Registration</a> |
+        <a href="registration.php">Registration</a>|
+        <a href="admission.php">Admission</a>|
+        <a href="parent.php">Guardian</a>|
         <a href="gallery.php">Gallery</a> |
         <a href="staff.php">Staff</a><li>
 <a href="help.php">Help</a></li>
