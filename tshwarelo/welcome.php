@@ -12,11 +12,23 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 // User is logged in, set up personalized variables
 $parent_name = htmlspecialchars($_SESSION['user_name'] ?? 'Parent/Guardian');
-$welcome_message = "Welcome Back, $parent_name!";
+
+// --- NEW LOGIC: Check if this is the first time logging in this session ---
+if (!isset($_SESSION['_first_login'])) {
+    // This is the first time the user has hit the portal during this session
+    $greeting = "Hello";
+    // Set the session variable so future hits use the 'Welcome Back' message
+    $_SESSION['_first_login'] = true;
+} else {
+    // User has been here before during this session
+    $greeting = "Welcome Back";
+}
+$welcome_message = "$greeting, $parent_name!";
+// --- END NEW LOGIC ---
 
 // --- 2. Include Header/Menu ---
 // Include the menu bar here, after the session and security checks are complete.
-include 'menu-bar.php'; 
+include 'menu-bar.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,8 +39,22 @@ include 'menu-bar.php';
     <!-- <link rel="stylesheet" href="styles.css" /> -->
     <style>
         /* Basic styling to make the welcome look good */
-        body { font-family: sans-serif; text-align: center; }
-        .portal-container { margin-top: 50px; padding: 30px; border: 1px solid #ddd; border-radius: 8px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        /* Changed text-align to left and adjusted container width and margin */
+        body { 
+            font-family: sans-serif; 
+            text-align: left; /* Ensures all default text (including footer) is left-aligned */
+        }
+        .portal-container { 
+            margin-top: 50px; 
+            padding: 30px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            /* Reduced max-width and set left margin to 50px */
+            max-width: 450px; 
+            margin-left: 50px; 
+            margin-right: auto; /* Keeps it responsive on the right */
+            text-align: left; /* Ensure text inside the box is also left-aligned */
+        }
         .welcome-msg { color: #007bff; font-weight: bold; margin-bottom: 20px; }
         .logout-btn { background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 20px; }
     </style>
@@ -37,7 +63,7 @@ include 'menu-bar.php';
     
     <div class="portal-container">
         <!-- Display the welcome message -->
-        <h2 class="welcome-msg"><?= $welcome_message ?></h2> 
+        <h2 class="welcome-msg"><?= $welcome_message ?></h2>
         
         <h1>Ndlovu's Kids Creche Portal</h1>
         
@@ -50,6 +76,7 @@ include 'menu-bar.php';
     </div>
 
     <footer>
+        <!-- Footer text now relies on the body's left-align and does not need inline style -->
         <p>&copy; 2025 Ndlovu's Crèche</p>
     </footer>
 </body>

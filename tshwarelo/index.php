@@ -18,32 +18,29 @@ include 'menu-bar.php';
 <head>
     <meta charset="UTF-8">
     <title>Ndlovu's Crèche Home</title>
-    <!-- Add your stylesheet link here if you have one -->
-    <!-- <link rel="stylesheet" href="styles.css" /> -->
     <style>
-        body { font-family: sans-serif; text-align: center; }
-        .hero { background-color: #f7f9fc; padding: 60px 20px; margin-bottom: 40px; border-bottom: 5px solid #007bff; }
-        .hero h2 { color: #333; font-size: 2.5em; margin-bottom: 10px; }
-</style>
+
+    </style>
 </head>
 <body>
-    
-    <div class="hero">
-        <h2>A Bright Start for Little Stars</h2>
-        <p>Providing loving care and early education for your little stars.</p>
-        <a href="registration.php" class="cta-btn">Register Your Child Today!</a>
-    </div>
-
-    <div class="content-section">
-        <h3>Our Philosophy</h3>
-        <p>At Ndlovu's Crèche, we believe in nurturing the whole child—fostering curiosity, creativity, and confidence through play-based learning in a safe, supportive environment.</p>
+    <div class="container">
         
-        <h3>Why Choose Us?</h3>
-        <ul>
-            <li>Experienced and caring staff.</li>
-            <li>Nutritious meals prepared daily.</li>
-            <li>Secure, modern facilities.</li>
-            <li>Curriculum focused on early developmental milestones.</li>
+        <div class="hero">
+            <h2>A Bright Start for Little Stars</h2>
+            <p>Providing loving care and early education for your little stars.</p>
+            <a href="registration.php" class="cta-btn">Register Your Child Today!</a>
+        </div>
+
+        <div class="content-section">
+            <h3>Our Philosophy</h3>
+            <p>At Ndlovu's Crèche, we believe in nurturing the whole child—fostering curiosity, creativity, and confidence through play-based learning in a safe, supportive environment.</p>
+            
+            <h3>Why Choose Us?</h3>
+            <ul>
+                <li>Experienced and caring staff.</li>
+                <li>Nutritious meals prepared daily.</li>
+                <li>Secure, modern facilities.</li>
+                <li>Curriculum focused on early developmental milestones.</li>
         </ul>
         <p>Ready to learn more? Check out our <a href="about.php">About Us</a> page.</p>
     </div>

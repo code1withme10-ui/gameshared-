@@ -72,10 +72,10 @@
     $aTeachers = [];
 
     // Add multiple teachers to the array
-    $aTeachers[] = ['name' => 'Mkhazimula', 'picture' => 'xxxxxx', 'role' => 'School Principal','experience' => 15];
-    $aTeachers[] = ['name' => 'Zakumi', 'picture' => 'xxxxx','role' => 'Pre-School Teacher','experience' => 8];
-    $aTeachers[] = ['name' => 'Sipho', 'picture' => 'xxxxx','role'=>'Baby Class Teacher','experience' => 9];
-    $aTeachers[] = ['name' => 'Thembi', 'picture' => 'xxxxx','role'=>'Care Taker','experience' => 25];
+    $aTeachers[] = ['name' => 'Mkhazimula', 'picture' => 'xxxxxx', 'role' => 'School Principal'];
+    $aTeachers[] = ['name' => 'Zakumi', 'picture' => 'xxxxx','role' => 'Pre-School Teacher'];
+    $aTeachers[] = ['name' => 'Sipho', 'picture' => 'xxxxx','role'=>'Baby Class Teacher'];
+    $aTeachers[] = ['name' => 'Thembi', 'picture' => 'xxxxx','role'=>'Care Taker'];
     // Note: I changed the fourth Mashudu to Thembi to demonstrate a different initial
     ?>
 
@@ -113,7 +113,6 @@
             <div class='staff-details'>
                 <p><strong>Name:</strong> " . $teacher['name'] . "</p>
                 <p><strong>Role:</strong> " . $teacher['role'] . "</p>
-                <p><strong>Experience:</strong> " . $teacher['experience'] . "</p>
             </div>
             
         </div>";
