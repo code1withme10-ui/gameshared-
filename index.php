@@ -16,7 +16,7 @@ session_start();
     <h2>Hami Amukela, Ndaa ria-vha Tanganedza</h2>
 
     <?php if (isset($_SESSION['user'])): ?>
-        <h3>Welcome, <?= htmlspecialchars($_SESSION['user']['parentName']) ?>!</h3>
+        <h3>Welcome, <?= htmlspecialchars($_SESSION['user']['childName']) ?>!</h3>
         <p><strong>Child Name:</strong> <?= htmlspecialchars($_SESSION['user']['childName']) ?></p>
         <p><strong>Age:</strong> <?= htmlspecialchars($_SESSION['user']['childAge']) ?></p>
 
