@@ -1,14 +1,18 @@
-# Use official PHP + Apache image
-FROM php:8.2-apache
+# Use official PHP image with Apache
+FROM php:7.4-apache
 
-# Copy main index.html from root folder
-COPY index.html /var/www/html/
-
-# Copy everything from takalani folder into Apache root
-COPY takalani/ /var/www/html/
-
-# Enable Apache rewrite module (optional but useful)
+# Enable mod_rewrite for URL rewriting
 RUN a2enmod rewrite
 
-# Expose web port
+# Install required PHP extensions
+RUN docker-php-ext-install mysqli
+
+# Set the working directory
+WORKDIR /var/www/html/
+
+# Copy the application code into the container
+COPY ampfarisaho /var/www/html/
+
+# Expose the port Apache will run on
 EXPOSE 80
+

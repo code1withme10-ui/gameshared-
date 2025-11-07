@@ -1,33 +1,19 @@
-<?php
-session_start();
-$error = "";
+<?php include('header.php'); ?>
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $users = file("users.txt", FILE_IGNORE_NEW_LINES);
+<div class="content">
+    <h1>Parent Login</h1>
+    <form action="parent-page.php" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required>
 
-    foreach ($users as $user) {
-        list($name, $storedEmail, $storedPass) = explode(",", $user);
-        if ($email == $storedEmail && $password == trim($storedPass)) {
-            $_SESSION["username"] = $name;
-            header("Location: welcome.php");
-            exit;
-        }
-    }
-    $error = "Invalid email or password.";
-}
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
 
-$content = '
-  <h2>Login</h2>
-  <form method="POST">
-    <input type="email" name="email" placeholder="Email" required><br>
-    <input type="password" name="password" placeholder="Password" required><br>
-    <button type="submit">Login</button>
-  </form>
-  <p style="color:red;">' . $error . '</p>
-';
-include 'layout.php';
-?>
+        <input type="submit" value="Login">
+    </form>
+</div>
+
+<?php include('footer.php'); ?>
+
 
 
