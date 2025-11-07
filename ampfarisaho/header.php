@@ -8,13 +8,19 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="about.php">About Us</a></li>
-            <li><a href="gallery.php">Gallery</a></li>
-            <li><a href="registration.php">Admission</a></li>
+<!-- header.php -->
+<nav>
+    <ul>
+        <li><a href="index.php">Home</a></li> |
+        <li><a href="about.php">About Us</a></li> |
+        <li><a href="gallery.php">Gallery</a></li> |
+        <li><a href="code-of-conduct.php">Code Of Conduct</a></li> |
+        <li><a href="registration.php">Admission</a></li> |
+        <?php if (isset($_SESSION['parent_name'])): ?>
+            <li><a href="welcome.php">Welcome</a></li> |
+            <li><a href="logout.php">Log Out</a></li> |
+        <?php else: ?>
             <li><a href="login.php">Parent Login</a></li>
-            <li><a href="code-of-conduct.php">Code of Conduct</a></li> <!-- New menu item -->
-        </ul>
-    </nav>
+        <?php endif; ?>
+    </ul>
+</nav>

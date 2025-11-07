@@ -1,29 +1,26 @@
-# Use official PHP image with Apache
+# Use the official PHP image with Apache
 FROM php:7.4-apache
 
-HEAD
-# Copy everything in the current folder to Apache web root
-COPY . /var/www/html/
+# Install PHP extensions
+RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql
 
-# Enable Apache rewrite module (optional but useful)
-=======
-# Enable mod_rewrite for URL rewriting
-2185b1953e99bf536512579a153d0521d26e92c2
+# Enable Apache mod_rewrite (needed for clean URLs)
 RUN a2enmod rewrite
 
-# Install required PHP extensions
-RUN docker-php-ext-install mysqli
+# Set the working directory inside the container
+WORKDIR /var/www/html
 
-# Set the working directory
-WORKDIR /var/www/html/
+# Copy your PHP application files into the container
+COPY . /var/www/html/
 
-# Copy the application code into the container
-COPY ampfarisaho /var/www/html/
+# Set permissions for the files (needed for Apache to serve the files)
+RUN chown -R www-data:www-data /var/www/html
 
-# Expose the port Apache will run on
+# Expose port 80 for the web server
 EXPOSE 80
 
-HEAD
+# Start Apache when the container is run
 CMD ["apache2-foreground"]
-=======
-2185b1953e99bf536512579a153d0521d26e92c2
+

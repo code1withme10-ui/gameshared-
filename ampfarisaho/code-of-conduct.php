@@ -1,7 +1,7 @@
 <?php include('header.php'); ?>
 
 <div class="content">
-    <h1>Code of Conduct</h1>
+    <h1>Code of Conduct | Khoudu Ya Vhudifari</h1>
     <p>At Happy Kids Creche, we believe in maintaining a safe, respectful, and positive environment for both children and staff. Below is the code of conduct that all parents, guardians, and staff are expected to adhere to.</p>
 
     <h2>For Parents and Guardians:</h2>
