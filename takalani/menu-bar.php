@@ -1,6 +1,9 @@
 <?php
-session_start(); // Always start the session to detect login
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
+
 
 <header>
     <nav style="background-color: #f2f2f2; padding: 10px; text-align: center;">

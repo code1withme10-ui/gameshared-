@@ -1,28 +1,22 @@
-<?php
-$message = "";
+<?php include('header.php'); ?>
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
+<div class="content">
+    <h1>Admission Form</h1>
+    <form action="admission.php" method="POST">
+        <label for="name">Child's Name:</label>
+        <input type="text" name="child_name" id="name" required>
 
-    $line = "$name,$email,$password\n";
-    file_put_contents("users.txt", $line, FILE_APPEND);
+        <label for="age">Child's Age:</label>
+        <input type="number" name="age" id="age" required>
 
-    header("Location: confirm.php?name=" . urlencode($name));
-    exit;
-}
+        <label for="parent_name">Parent's Name:</label>
+        <input type="text" name="parent_name" id="parent_name" required>
 
-$content = '
-  <h2>Register</h2>
-  <form method="POST">
-    <input type="text" name="name" placeholder="Full Name" required><br>
-    <input type="email" name="email" placeholder="Email" required><br>
-    <input type="password" name="password" placeholder="Password" required><br>
-    <button type="submit">Register</button>
-  </form>
-';
-include 'layout.php';
-?>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<?php include('footer.php'); ?>
+
 
 
