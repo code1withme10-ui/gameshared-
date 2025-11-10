@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>School | Admission</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header"><h1>Online Admission</h1></header>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="admission.html">Admission</a>
+    <a href="login.html">Login</a>
+  </nav>
+
+  <main class="container">
+    <section class="card">
+      <h2>Apply for Admission</h2>
+      <form id="admissionForm" action="#" method="post" onsubmit="return submitForm(event)">
+        <input name="child_name" type="text" placeholder="Child full name" required>
+        <input name="dob" type="text" placeholder="Date of birth (YYYY-MM-DD)" required>
+        <input name="parent_name" type="text" placeholder="Parent / Guardian name" required>
+        <input name="phone" type="text" placeholder="Contact number" required>
+        <input name="email" type="email" placeholder="Parent email" required>
+        <textarea name="notes" placeholder="Any special notes (allergies, needs)"></textarea>
+        <button class="cta" type="submit">Submit Application</button>
+      </form>
+      <div id="msg" style="margin-top:12px;"></div>
+    </section>
+  </main>
+
+  <footer>&copy; BrightStart Preschool</footer>
+
+  <script>
+    function submitForm(e){
+      e.preventDefault();
+      // lightweight client-side confirmation demo (no backend)
+      const msg = document.getElementById('msg');
+      msg.innerHTML = '<strong>Application received.</strong> We will contact you within 3 business days.';
+      document.getElementById('admissionForm').reset();
+      return false;
+    }
+  </script>
+</body>
+</html>
