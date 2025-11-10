@@ -1,179 +1,172 @@
-/* General Styles */
+/* === General Layout === */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(45deg, #ff7f50, #ff6347, #ff1493, #8a2be2, #7fff00, #00bfff, #ff1493, #ff7f50); 
-    background-size: 400% 400%;
-    animation: rainbow 10s ease infinite;
-    color: white;
+  font-family: 'Poppins', sans-serif;
+  background: #fff9f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
-a {
-    text-decoration: none;
-    color: #ffffff;
+header {
+  text-align: center;
+  background: #fff;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-a:hover {
-    color: #ff66b2;
+header h1 {
+  color: #ff4081;
+  font-size: 2.2em;
+  margin-bottom: 10px;
 }
 
-/* Rainbow Animation for Background */
-@keyframes rainbow {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+/* === Navigation === */
+.rainbow-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
 }
 
-/* Navigation Menu */
-nav ul {
-    list-style-type: none;
-    background: rgba(0, 0, 0, 0.7); /* Dark background for contrast */
-    margin: 0;
-    padding: 10px 0;
-    text-align: center;
+.rainbow-nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 12px 18px;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
-nav ul li {
-    display: inline;
-    margin: 0 15px;
+.rainbow-nav a:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
 }
 
-nav ul li a {
-    color: white;
-    font-size: 18px;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
+/* === Main Content === */
+main {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  line-height: 1.6;
 }
 
-nav ul li a:hover {
-    background-color: #ff66b2;
-    color: black;
+h2 {
+  color: #ff4081;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-/* Content Area */
-.content {
-    margin: 20px;
-    background-color: rgba(0, 0, 0, 0.7); /* Dark background for contrast */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-    opacity: 0.9;
+section {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
 }
 
-/* Header and Titles */
-h1, h2 {
-    color: #fff;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-/* Code of Conduct Page Specific Styles */
-ul {
-    list-style-type: square;
-    margin-left: 20px;
-    padding-left: 20px;
-}
-
-ul li {
-    margin-bottom: 10px;
-}
-
-/* Form Styles (for Admission, Login, etc.) */
+/* === Forms === */
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
+  background: #fff5f7;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
-form input[type="text"],
-form input[type="password"],
-form input[type="number"],
-form input[type="submit"],
-form textarea {
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    box-sizing: border-box;
+form input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
 }
 
-form input[type="submit"] {
-    background-color: #ff66b2;
-    color: white;
-    border: none;
-    cursor: pointer;
+form button {
+  background: #ff4081;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-form input[type="submit"]:hover {
-    background-color: #ff1493;
+form button:hover {
+  background: #e73573;
 }
 
-/* Confirmation Page Specific Styles */
-.content .welcome-message {
-    background-color: rgba(255, 99, 71, 0.8); /* Tomato color with some transparency */
-    color: white;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 30px;
-    font-size: 22px;
-    text-align: center;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+/* === Gallery === */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 }
 
-/* Progress Report */
-ul {
-    list-style-type: square;
-    margin-left: 20px;
+.gallery img {
+  width: 220px;
+  border-radius: 12px;
+  transition: transform 0.3s;
 }
 
-ul li {
-    margin-bottom: 10px;
+.gallery img:hover {
+  transform: scale(1.05);
 }
 
-/* Footer */
+/* === Code of Conduct === */
+.code-of-conduct ul {
+  list-style: none;
+  padding: 0;
+}
+
+.code-of-conduct li {
+  background: #ffe6ef;
+  margin: 8px 0;
+  padding: 10px;
+  border-left: 6px solid #ff4081;
+  border-radius: 6px;
+}
+
+.code-of-conduct h3 {
+  color: #4caf50;
+  margin-top: 20px;
+}
+
+.code-of-conduct .closing {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  color: #444;
+}
+
+/* === Staff Cards === */
+.staff {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.staff-member {
+  background: #e3f2fd;
+  padding: 20px;
+  border-radius: 12px;
+  width: 250px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.staff-member h3 {
+  color: #2196f3;
+}
+
+/* === Footer === */
 footer {
-    text-align: center;
-    padding: 15px;
-    background: linear-gradient(45deg, #ff7f50, #ff6347, #ff1493, #8a2be2, #7fff00, #00bfff, #ff1493, #ff7f50);
-    color: white;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
-}
-
-footer p {
-    margin: 0;
-    font-size: 14px;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    nav ul {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    nav ul li {
-        display: block;
-        margin: 10px 0;
-    }
-
-    .content {
-        margin: 10px;
-    }
-
-    footer {
-        font-size: 12px;
-    }
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  margin-top: 20px;
+  font-size: 0.9em;
 }
 

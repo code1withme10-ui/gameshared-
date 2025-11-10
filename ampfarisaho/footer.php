@@ -1,7 +1,6 @@
-<!-- footer.php -->
+</main>
 <footer>
-    <p>&copy; 2025 Happy Kids Creche | All Rights Reserved</p>
+  <p>&copy; <?php echo date("Y"); ?> Happy Kids Crèche. All Rights Reserved.</p>
 </footer>
 </body>
 </html>
-

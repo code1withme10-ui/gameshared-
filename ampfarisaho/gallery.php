@@ -1,13 +1,9 @@
-<?php include('header.php'); ?>
-
-<div class="content">
-    <h1>Gallery</h1>
-    <div class="gallery">
-        <img src="assets/images/school-photo1.jpg" alt="School Image 1">
-        <img src="assets/images/school-photo2.jpg" alt="School Image 2">
-    </div>
+<?php include('includes/header.php'); ?>
+<h2>Our Gallery</h2>
+<div class="gallery">
+  <img src="images/playroom.jpg" alt="Playroom">
+  <img src="images/outdoor.jpg" alt="Outdoor Fun">
+  <img src="images/classroom.jpg" alt="Classroom">
 </div>
-
-<?php include('footer.php'); ?>
-
+<?php include('includes/footer.php'); ?>
 

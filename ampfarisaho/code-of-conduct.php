@@ -1,33 +1,33 @@
 <?php include('header.php'); ?>
+<section class="code-of-conduct">
+  <h2>Code of Conduct</h2>
 
-<div class="content">
-    <h1>Code of Conduct | Khoudu Ya Vhudifari</h1>
-    <p>At Happy Kids Creche, we believe in maintaining a safe, respectful, and positive environment for both children and staff. Below is the code of conduct that all parents, guardians, and staff are expected to adhere to.</p>
+  <p>At <strong>Happy Kids Crèche</strong>, we believe that a safe, respectful, and nurturing environment allows every child to learn and grow with joy. This Code of Conduct applies to all parents, staff, and visitors to ensure our crèche remains a place of love and learning.</p>
 
-    <h2>For Parents and Guardians:</h2>
-    <ul>
-        <li>Respect the staff and other children at all times.</li>
-        <li>Ensure that your child is brought to the creche on time and picked up promptly.</li>
-        <li>Be involved in your child’s education and progress.</li>
-        <li>Communicate any concerns or issues respectfully with staff.</li>
-        <li>Ensure that all fees and payments are made on time.</li>
-        <li>Do not engage in any form of violence or abusive behavior towards staff or other children.</li>
-    </ul>
+  <h3>🌈 For Children</h3>
+  <ul>
+    <li>We treat our friends with kindness and respect.</li>
+    <li>We share, take turns, and listen to one another.</li>
+    <li>We take care of our toys, books, and classroom materials.</li>
+    <li>We use polite language and gentle hands.</li>
+  </ul>
 
-    <h2>For Staff:</h2>
-    <ul>
-        <li>Treat all children and parents with kindness, respect, and empathy.</li>
-        <li>Ensure the safety and well-being of all children in our care.</li>
-        <li>Maintain clear communication with parents regarding their child’s progress and behavior.</li>
-        <li>Provide a stimulating and educational environment for children to learn and grow.</li>
-        <li>Respect the privacy and confidentiality of families.</li>
-    </ul>
+  <h3>👩‍🏫 For Staff</h3>
+  <ul>
+    <li>Provide a safe, caring, and inclusive environment for all children.</li>
+    <li>Encourage learning through play, creativity, and curiosity.</li>
+    <li>Communicate openly and respectfully with parents and colleagues.</li>
+    <li>Act with integrity, empathy, and professionalism at all times.</li>
+  </ul>
 
-    <h2>Consequences of Breaching the Code:</h2>
-    <p>Any breach of this code may result in disciplinary action, including termination of the child’s enrollment or the involvement of authorities in the case of serious misconduct.</p>
+  <h3>👨‍👩‍👧 For Parents</h3>
+  <ul>
+    <li>Respect crèche staff and other families at all times.</li>
+    <li>Ensure timely drop-off and pickup of children.</li>
+    <li>Inform staff of any special needs, allergies, or concerns.</li>
+    <li>Support your child’s growth by reinforcing positive behavior at home.</li>
+  </ul>
 
-    <p>We appreciate your cooperation in maintaining a respectful and safe environment for all involved.</p>
-</div>
-
+  <p class="closing">Together, we create a safe, happy, and respectful community for all our little learners!</p>
+</section>
 <?php include('footer.php'); ?>
-
