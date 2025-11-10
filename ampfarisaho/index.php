@@ -1,10 +1,11 @@
-<?php
-$content = "
-  <h2>Welcome to Happy Kids Creche</h2>
-  <p>We provide a loving and safe environment for your children to learn and play.</p>
-";
-include 'layout.php';
-?>
+<?php include('header.php'); ?>
+
+<div class="content">
+    <h1>Welcome to Happy Kids Creche! || Vho Tanganedzwa</h1>
+    <p>Your child’s safety, education, and happiness is our top priority.</p>
+</div>
+
+<?php include('footer.php'); ?>
 
 
 

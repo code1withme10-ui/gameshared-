@@ -1,44 +1,179 @@
+/* General Styles */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #fff8dc;
-  margin: 0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(45deg, #ff7f50, #ff6347, #ff1493, #8a2be2, #7fff00, #00bfff, #ff1493, #ff7f50); 
+    background-size: 400% 400%;
+    animation: rainbow 10s ease infinite;
+    color: white;
 }
 
-header {
-  background-color: #ffcc00;
-  text-align: center;
-  padding: 15px 0;
+a {
+    text-decoration: none;
+    color: #ffffff;
 }
 
-.menu {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+a:hover {
+    color: #ff66b2;
 }
 
-.menu li {
-  display: inline-block;
-  margin: 0 10px;
+/* Rainbow Animation for Background */
+@keyframes rainbow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
-.menu a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
+/* Navigation Menu */
+nav ul {
+    list-style-type: none;
+    background: rgba(0, 0, 0, 0.7); /* Dark background for contrast */
+    margin: 0;
+    padding: 10px 0;
+    text-align: center;
 }
 
-.menu a:hover {
-  color: #ff6600;
+nav ul li {
+    display: inline;
+    margin: 0 15px;
 }
 
-main {
-  padding: 20px;
-  min-height: 70vh;
+nav ul li a {
+    color: white;
+    font-size: 18px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
+nav ul li a:hover {
+    background-color: #ff66b2;
+    color: black;
+}
+
+/* Content Area */
+.content {
+    margin: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background for contrast */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0.9;
+}
+
+/* Header and Titles */
+h1, h2 {
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Code of Conduct Page Specific Styles */
+ul {
+    list-style-type: square;
+    margin-left: 20px;
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+/* Form Styles (for Admission, Login, etc.) */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="number"],
+form input[type="submit"],
+form textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+form input[type="submit"] {
+    background-color: #ff66b2;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+    background-color: #ff1493;
+}
+
+/* Confirmation Page Specific Styles */
+.content .welcome-message {
+    background-color: rgba(255, 99, 71, 0.8); /* Tomato color with some transparency */
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+    font-size: 22px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Progress Report */
+ul {
+    list-style-type: square;
+    margin-left: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+/* Footer */
 footer {
-  background-color: #ffcc00;
-  text-align: center;
-  padding: 10px;
+    text-align: center;
+    padding: 15px;
+    background: linear-gradient(45deg, #ff7f50, #ff6347, #ff1493, #8a2be2, #7fff00, #00bfff, #ff1493, #ff7f50);
+    color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    nav ul {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .content {
+        margin: 10px;
+    }
+
+    footer {
+        font-size: 12px;
+    }
 }
 
