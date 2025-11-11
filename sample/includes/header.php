@@ -9,4 +9,5 @@
 <body>
 <div class="w3-container w3-center w3-padding w3-<?php echo $config['themeColor']; ?>">
   <h1><?php echo $config['texts']['welcome']; ?></h1>
+  
 </div>

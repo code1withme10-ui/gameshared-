@@ -1,6 +1,6 @@
 <?php
-session_start();
-if (!isset($_SESSION['parent'])) {
+
+if (!isset($_SESSION['role']) &&($_SESSION['role']=="parent")) {
   header("Location: ?page=login");
   exit;
 }
@@ -14,7 +14,7 @@ $message = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newChild = [
         "id" => uniqid(),
-        "parent_email" => $_SESSION['parent']['email'],
+        "parent_email" => $_SESSION['user']['email'],
         "name" => trim($_POST['child_name']),
         "age" => trim($_POST['child_age']),
         "gender" => trim($_POST['gender'])

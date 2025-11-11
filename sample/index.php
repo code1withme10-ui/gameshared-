@@ -1,8 +1,9 @@
 <?php
 // index.php
+session_start();  // <-- MUST start session first
 
 // Load site configuration
-$config = json_decode(file_get_contents("configs/client1.json"), true);
+$config = json_decode(file_get_contents("configs/client2.json"), true);
 
 // Determine which page to load
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';

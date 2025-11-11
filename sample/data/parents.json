@@ -2,11 +2,19 @@
     {
         "name": "perent1",
         "email": "perent1@dddd.com",
-        "password": "$2y$10$a.xahFNdcxy94OOw1ns2o.o4LfTmIclioy3ajovlDvO.C4dNuT.6u"
+        "password": "$2y$10$a.xahFNdcxy94OOw1ns2o.o4LfTmIclioy3ajovlDvO.C4dNuT.6u",
+        "role": "parent"
     },
     {
         "name": "Parent2",
         "email": "Parent2@gmads.ddd",
-        "password": "$2y$10$OWXJazpxYVeWwamtzm4J.OU8kZR.p\/bY\/3\/lacN4he8jtNSzsfhAK"
+        "password": "$2y$10$OWXJazpxYVeWwamtzm4J.OU8kZR.p\/bY\/3\/lacN4he8jtNSzsfhAK",
+        "role": "parent"
+    },
+    {
+        "name": "parent3",
+        "email": "parent3@gmail.com",
+        "password": "$2y$10$3nehlyxp9kqoNOpB2Zd1vuXJhqIf7kPKlwT3cSwQ1TxcgRxyaRGJO",
+         "role": "parent"
     }
 ]

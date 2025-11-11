@@ -1,11 +1,11 @@
 <?php
-session_start();
-if (!isset($_SESSION['parent'])) {
+ 
+if (!isset($_SESSION['role']) &&($_SESSION['role']=="parent")) {
   header("Location: ?page=login");
   exit;
 }
 
-$parent = $_SESSION['parent'];
+$parent = $_SESSION['user'];
 include "includes/functions.php";
 
 $children = readData("data/children.json");
