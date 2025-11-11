@@ -1,3 +1,9 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once 'menu-bar.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +12,6 @@
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
- <?php
-  require_once 'menu-bar.php';
- ?>
     <main>
         <h2>Our Commitment</h2>
         <p>We are dedicated to maintaining a safe, respectful, and supportive environment for children, parents, and staff.</p>
@@ -39,4 +42,3 @@
     </footer>
 </body>
 </html>
-
