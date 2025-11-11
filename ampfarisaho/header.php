@@ -11,7 +11,7 @@
     <a href="index.php">Home</a> |
     <a href="about.php">About</a> |
     <a href="gallery.php">Gallery</a> |
-    <a href="register.php">Register</a> |
+    <a href="registration.php">Admission</a> |
     <a href="login.php">Parent Login</a> |
     <a href="staff.php">Staff</a> |
     <a href="code-of-conduct.php">Code of Conduct</a> |
