@@ -1,1 +1,42 @@
-[]
+[
+    {
+        "id": "user-6914ca57b2890",
+        "parentName": "Taki",
+        "email": "Takalani101@gmail.com",
+        "password": "123456",
+        "children": [
+            {
+                "childId": "child-6914ca57b28dd",
+                "name": "TakiJr",
+                "age": 1,
+                "gender": "Male",
+                "reports": [],
+                "status": "admitted"
+            },
+            {
+                "childId": "child-6914eebf90462",
+                "name": "Taki Princess",
+                "age": 4,
+                "gender": "Female",
+                "reports": [],
+                "status": "rejected"
+            },
+            {
+                "childId": "child-69150356b3759",
+                "name": "Taki Prince",
+                "age": 3,
+                "gender": "Male",
+                "reports": [],
+                "status": "pending"
+            }
+        ]
+    },
+    {
+        "id": "user-headmaster",
+        "parentName": "Headmaster Admin",
+        "email": "headmaster@creche.com",
+        "password": "admin",
+        "children": [],
+        "role": "headmaster"
+    }
+]
