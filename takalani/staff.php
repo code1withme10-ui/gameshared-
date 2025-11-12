@@ -1,3 +1,9 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once 'menu-bar.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +14,6 @@
 </head>
 
 <body>
-    <?php require_once 'menu-bar.php'; ?>
-
     <header style="background-color:#f8f9fa; color:#333; text-align:center; padding:1.5rem; border-bottom:1px solid #ddd;">
         <h1>Meet Our Caring Staff</h1>
         <p>Dedicated educators who nurture your child’s early learning journey.</p>

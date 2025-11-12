@@ -7,7 +7,7 @@ $users = file_exists($usersFile) ? json_decode(file_get_contents($usersFile), tr
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $username = trim($_POST["username"]); // child name entered as username
+    $username = trim($_POST["username"]); // child name
     $password = trim($_POST["password"]);
 
     $foundUser = null;
@@ -19,14 +19,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if ($foundUser && password_verify($password, $foundUser["password"])) {
-        // Store all info in session
         $_SESSION["user"] = [
             "parentName" => $foundUser["parentName"],
             "childName" => $foundUser["childName"],
-            "childAge" => $foundUser["childAge"]
+            "childAge" => $foundUser["childAge"],
+            "email" => $foundUser["email"] ?? "",
+            "phone" => $foundUser["phone"] ?? ""
         ];
-
-        // Redirect to home
         header("Location: index.php");
         exit();
     } else {

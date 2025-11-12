@@ -1,26 +1,97 @@
 <?php
-// ADMISSION PAGE: admission.php
+// REGISTRATION/ADMISSION PAGE: registration.php
 
 // CRITICAL: Start the session at the very top
 session_start();
 
-// NOTE: In a real application, form data would be validated and saved to a database here (using $_POST).
+// Include database connection file (must define the $pdo object)
+require_once 'db_connect.php'; 
+
+// Initialize variables
+$success = false; 
+$registration_error = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // --- Basic Form Submission Handling (For demonstration) ---
-    // You would normally validate the data, save it, and send an email confirmation.
+    // 1. Basic Validation and Variable Setup
+    $child_name = trim($_POST['child_name'] ?? '');
+    $dob = trim($_POST['dob'] ?? '');
+    $parent_name = trim($_POST['parent_name'] ?? '');
     
-    // For now, we will just set a success flag and display a message.
+    // The email field from the form is mapped to the 'username' column in the 'users' table
+    $parent_email = trim($_POST['parent_email'] ?? ''); 
+    
+    $parent_password = $_POST['parent_password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+    $enrollment_type = trim($_POST['enrollment_type'] ?? '');
+    $start_date = trim($_POST['start_date'] ?? '');
+    $notes = trim($_POST['notes'] ?? '');
+
+    // Server-side Password Match Check 
+    if ($parent_password !== $confirm_password) {
+        $registration_error = 'Passwords do not match. Please ensure both fields are identical.';
+    } 
+    
+    // Server-side Check for Empty Fields
+    if (empty($child_name) || empty($parent_email) || empty($parent_password)) {
+        $registration_error = 'Please fill in all required fields.';
+    }
+
+    if (empty($registration_error)) {
+        // 2. Hash the Password for Security
+        $hashed_password = password_hash($parent_password, PASSWORD_DEFAULT);
+
+// In the PHP block of registration.php:
+$sql = "INSERT INTO users (child_name, dob, parent_name, username, password_hash, enrollment_type, start_date, notes) 
+        VALUES (:child_name, :dob, :parent_name, :username, :password_hash, :enrollment_type, :start_date, :notes)";
+
+// Ensure the bindValue section ALSO only contains these 8 values.
+        try {
+            // Prepare the statement using the $pdo object
+            $stmt = $pdo->prepare($sql);
+
+            // Bind values to named placeholders
+            $stmt->bindValue(':child_name', $child_name);
+            $stmt->bindValue(':dob', $dob);
+            $stmt->bindValue(':parent_name', $parent_name);
+            $stmt->bindValue(':username', $parent_email); 
+            $stmt->bindValue(':password_hash', $hashed_password); 
+            $stmt->bindValue(':enrollment_type', $enrollment_type);
+            $stmt->bindValue(':start_date', $start_date);
+            $stmt->bindValue(':notes', $notes);
+            
+            // 4. Execute the statement
+            $stmt->execute();
+            
+            // Registration successful! Redirect (Post/Redirect/Get pattern)
+            header('Location: registration.php?status=success');
+            exit; 
+            
+        } catch (\PDOException $e) {
+            // Handle unique constraint violation (email already registered)
+            if ($e->getCode() === '23000') { 
+                 $registration_error = 'This email address is already registered. Please use the login page.';
+            } else {
+                 $registration_error = 'A critical database error occurred during registration. Please try again.';
+                 // For development debugging: $registration_error = 'A critical database error occurred: ' . $e->getMessage();
+            }
+        }
+    }
+}
+
+// Check for redirect status to display the success message
+if (isset($_GET['status']) && $_GET['status'] == 'success') {
     $success = true;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Online Admission - Humulani Pre School</title>
+    <title>Online Admission - Humulani Pre School</title> 
     
     <style>
-        /* --- 1. CORE STYLES (Consistency with Homepage) --- */
+        /* CSS styles for the page */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes rainbowShine {
             0% { border-color: #ff0000; } 50% { border-color: #0000ff; } 100% { border-color: #ff0000; }
@@ -55,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-weight: bold;
             color: #4b0082; /* Deep violet */
         }
-        input[type="text"], input[type="email"], input[type="date"], select, textarea {
+        input[type="text"], input[type="email"], input[type="date"], select, textarea, input[type="password"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
@@ -88,6 +159,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 5px;
             font-weight: bold;
             text-align: center;
+        }
+        .error-message {
+            padding: 10px;
+            background-color: #ffe6e6; /* Light red */
+            border: 1px solid #cc0000; /* Dark red border */
+            color: #cc0000;
+            border-radius: 5px;
+            margin-bottom: 20px;
         }
         
         /* Step Indicator Styling */
@@ -131,24 +210,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="container">
         
-        <h1>Online Admission Form</h1>
+        <h1>Online Admission Form</h1> 
         <p style="text-align: center; color: #555;">Begin your child's journey at Humulani in two simple steps.</p>
 
         <div class="admission-form-box">
             
-            <?php if (isset($success) && $success): ?>
+            <?php if ($success): ?>
                 <div class="success-message">
                     🎉 Thank you! Your admission application has been submitted successfully.<br>
-                    We will review your application and contact you within 48 hours.
+                    You can now **<a href="login.php">log in</a>** using your email and the password you provided.
                 </div>
             <?php else: ?>
+            
+                <?php if ($registration_error): ?>
+                    <div class="error-message"><?php echo $registration_error; ?></div>
+                <?php endif; ?>
 
                 <div class="step-indicator">
                     <span id="indicator1" class="step active">1. Child & Parent Details</span>
                     <span id="indicator2" class="step">2. Enrollment Plan</span>
                 </div>
 
-                <form action="admission.php" method="POST" onsubmit="return validateForm()">
+                <form action="registration.php" method="POST" onsubmit="return validateForm()"> 
                     
                     <div id="step1">
                         <h2>Step 1: Child's Information</h2>
@@ -164,8 +247,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="parent_name">Full Name:</label>
                         <input type="text" id="parent_name" name="parent_name" required>
                         
-                        <label for="parent_email">Email Address:</label>
+                        <label for="parent_email">Email Address (This will be your username):</label>
                         <input type="email" id="parent_email" name="parent_email" required>
+                        
+                        <label for="parent_password">Password (for login):</label>
+                        <input type="password" id="parent_password" name="parent_password" required>
+
+                        <label for="confirm_password">Confirm Password:</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required>
                         
                         <button type="button" class="form-nav-btn" onclick="nextStep(2)">Next: Enrollment Plan &raquo;</button>
                     </div>
@@ -206,15 +295,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             const ind2 = document.getElementById('indicator2');
 
             if (step === 2) {
-                // Validation for Step 1 fields (basic check)
+                const password = document.getElementById('parent_password').value;
+                const confirmPassword = document.getElementById('confirm_password').value;
+
+                // Validation for all required fields in Step 1
                 if (!document.getElementById('child_name').value || 
                     !document.getElementById('dob').value ||
                     !document.getElementById('parent_name').value ||
-                    !document.getElementById('parent_email').value) {
+                    !document.getElementById('parent_email').value ||
+                    !password || 
+                    !confirmPassword) {
                     alert("Please fill out all required fields in Step 1 before proceeding.");
                     return false;
                 }
+                
+                // Password Match Check
+                if (password !== confirmPassword) {
+                    alert("The password and confirmation password do not match. Please try again.");
+                    return false;
+                }
 
+                // If validation passes, move to next step
                 step1.style.display = 'none';
                 step2.style.display = 'block';
                 ind1.classList.remove('active');
@@ -227,19 +328,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
         
-        // This function runs when the final form submit button is clicked
         function validateForm() {
-            // A basic final check just to ensure the enrollment type is selected
+            // Check required fields in Step 2 before final submission
             if (!document.getElementById('enrollment_type').value || 
                 !document.getElementById('start_date').value) {
                 alert("Please select an enrollment plan and start date.");
-                // If validation fails, we stop submission and keep the user on step 2
                 return false; 
             }
             return true;
         }
 
-        // Initialize to ensure Step 1 is visible on load
         document.addEventListener('DOMContentLoaded', () => {
              document.getElementById('step1').style.display = 'block';
              document.getElementById('step2').style.display = 'none';

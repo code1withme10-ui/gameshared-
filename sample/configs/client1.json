@@ -1,0 +1,12 @@
+{
+  "name": "Rainbow Kids Preschool",
+  "themeColor": "pink",
+  "css": "client1.css",
+  "contact": {
+    "facebook": "https://facebook.com/rainbowkids"
+  },
+  "texts": {
+    "welcome": "Welcome to Rainbow Kids Preschool"
+  }
+}
+
