@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Help - Little Ones Preschool</title>
-    <link rel="stylesheet" href="webstyle.css">
-</head>
-<body>
-<header><h1>Contact Us</h1></header>
-<?php include('menu-bar.php'); ?>
+<?php include('includes/header.php'); ?>
+
 <div class="container">
-    <p>📍 Address: 159 Mathagu Street, Tshakhuma</p>
-    <p>📞 Phone: 076 540 6436</p>
-    <p>📧 Email: mathaguampfarisaho@gmail.com</p>
+    <h2>Help & Support</h2>
+    <p>If you need help, contact us at:</p>
+    <ul>
+        <li><b>Email:</b> support@littleonespreschool.com</li>
+        <li><b>Phone:</b> +1 (555) 123-4567</li>
+        <li><b>Hours:</b> Mon–Fri, 8 AM – 4 PM</li>
+    </ul>
 </div>
-</body>
-</html>
+
+<?php include('includes/footer.php'); ?>

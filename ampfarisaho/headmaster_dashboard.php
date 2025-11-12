@@ -1,55 +1,32 @@
-<?php
-$username = $_POST['username'];
-$password = $_POST['password'];
+<?php include('includes/header.php'); include('database/connection.php'); ?>
 
-$correct_user = "headmaster";
-$correct_pass = "secure123";
-
-if ($username !== $correct_user || $password !== $correct_pass) {
-    echo "<script>alert('Invalid login'); window.location='headmaster_login.php';</script>";
-    exit();
-}
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Headmaster Dashboard</title>
-    <link rel="stylesheet" href="webstyle.css">
-</head>
-<body>
-<header><h1>Headmaster Dashboard</h1></header>
-<?php include('menu-bar.php'); ?>
 <div class="container">
-    <h2>Pending Admissions</h2>
-    <?php
-    include('config.php');
-    if (isset($_GET['approve'])) {
-        $id = $_GET['approve'];
-        $conn->query("UPDATE admissions SET status='Approved' WHERE id=$id");
-        echo "<p style='color:green;'>Child ID $id approved!</p>";
-    }
-
-    $sql = "SELECT * FROM admissions";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        echo "<table border='1' style='margin:auto;'>";
-        echo "<tr><th>ID</th><th>Parent</th><th>Child</th><th>Age</th><th>Status</th><th>Action</th></tr>";
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>".$row['id']."</td>";
-            echo "<td>".$row['parent_name']."</td>";
-            echo "<td>".$row['child_name']."</td>";
-            echo "<td>".$row['child_age']."</td>";
-            echo "<td>".$row['status']."</td>";
-            echo "<td><a href='headmaster_dashboard.php?approve=".$row['id']."'><button>Approve</button></a></td>";
-            echo "</tr>";
+    <h2>Headmaster Dashboard</h2>
+    <table>
+        <tr><th>Parent Name</th><th>Child Name</th><th>Age</th><th>Status</th><th>Action</th></tr>
+        <?php
+        $result = $conn->query("SELECT * FROM admissions");
+        while($row = $result->fetch_assoc()) {
+            echo "<tr>
+                <td>{$row['parent_name']}</td>
+                <td>{$row['child_name']}</td>
+                <td>{$row['child_age']}</td>
+                <td>{$row['status']}</td>
+                <td>
+                    <form method='POST'>
+                        <input type='hidden' name='id' value='{$row['id']}'>
+                        <button type='submit' name='approve'>Approve</button>
+                    </form>
+                </td>
+            </tr>";
         }
-        echo "</table>";
-    } else {
-        echo "<p>No admissions found.</p>";
-    }
-    ?>
+        if (isset($_POST['approve'])) {
+            $id = $_POST['id'];
+            $conn->query("UPDATE admissions SET status='Approved' WHERE id=$id");
+            echo "<meta http-equiv='refresh' content='0'>";
+        }
+        ?>
+    </table>
 </div>
-</body>
-</html>
+
+<?php include('includes/footer.php'); ?>

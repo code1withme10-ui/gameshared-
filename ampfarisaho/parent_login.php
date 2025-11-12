@@ -1,46 +1,34 @@
-<?php session_start(); ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Parent Login</title>
-    <link rel="stylesheet" href="webstyle.css">
-</head>
-<body>
-<header><h1>Parent Login</h1></header>
-<?php include('menu-bar.php'); ?>
+<?php include('includes/header.php'); include('database/connection.php'); session_start(); ?>
+
 <div class="container">
+    <h2>Parent Login</h2>
+    <form method="POST">
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
+
+        <label>Password:</label><br>
+        <input type="password" name="password" required><br><br>
+
+        <button type="submit" name="login">Login</button>
+    </form>
+</div>
+
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    include('config.php');
+if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-
     $sql = "SELECT * FROM parents WHERE email='$email'";
     $result = $conn->query($sql);
-
     if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        if (password_verify($password, $row['password'])) {
-            $_SESSION['parent_id'] = $row['id'];
-            $_SESSION['parent_name'] = $row['parent_name'];
+        $parent = $result->fetch_assoc();
+        if (password_verify($password, $parent['password'])) {
+            $_SESSION['parent_id'] = $parent['id'];
+            $_SESSION['parent_name'] = $parent['parent_name'];
+            $_SESSION['email'] = $email;
             header("Location: parent_dashboard.php");
-            exit();
-        } else {
-            echo "<p style='color:red;'>Incorrect password.</p>";
-        }
-    } else {
-        echo "<p style='color:red;'>No account found with that email.</p>";
-    }
+        } else echo "<p class='error'>Invalid password.</p>";
+    } else echo "<p class='error'>No account found with that email.</p>";
 }
 ?>
-<form method="POST" action="">
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br><br>
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
-    <button type="submit">Login</button>
-</form>
-</div>
-</body>
-</html>
 
+<?php include('includes/footer.php'); ?>

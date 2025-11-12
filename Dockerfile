@@ -1,22 +1,4 @@
-
-# Use official PHP CLI image (no Apache)
-FROM php:8.2-cli
-
-# Install PHP extensions
-RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql mysqli \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Set working directory
-WORKDIR /var/www
-
-# Copy project (optional; for initial build)
-COPY ampfarisaho /var/www/
-
-# Expose ports (for each site)
-EXPOSE 8040 8041 8042 8043 8044 8045 8046 8047
-
-# Keep container running — servers started via docker-compose
-CMD ["tail", "-f", "/dev/null"]
-
+FROM php:8.2-apache
+RUN docker-php-ext-install mysqli
+COPY ampfarisaho /var/www/html/
+EXPOSE 80
