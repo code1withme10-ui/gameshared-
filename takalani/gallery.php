@@ -1,3 +1,9 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once 'menu-bar.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,10 +63,6 @@
 </head>
 <body>
 
-<?php
-require_once 'menu-bar.php';
-?>
-
 <main>
   <h1>Our Gallery</h1>
 
@@ -113,4 +115,3 @@ require_once 'menu-bar.php';
 
 </body>
 </html>
-
