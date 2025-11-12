@@ -1,12 +1,7 @@
 <?php
-// logout.php
 session_start();
-
-// Destroy the session to log out
+session_unset();
 session_destroy();
-
-// Redirect to the login page
-header('Location: login.php');
+header("Location: parent_login.php");
 exit();
 ?>
-

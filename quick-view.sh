@@ -54,6 +54,91 @@ get_site_info() {
     echo ""  # No info file = skip this folder
   fi
 }
+# --- Check if PHP is installed or auto-detect it in common locations ---
+check_php() {
+  local php_path
+
+  # If PHP already in PATH
+  if command -v php >/dev/null 2>&1; then
+    php_path=$(command -v php)
+    local php_version
+    php_version=$(php -v | head -n 1)
+    echo -e "${GREEN}✅ PHP detected:${NC} $php_version"
+    echo -e "   Path: ${CYAN}$php_path${NC}"
+    return 0
+  fi
+
+  echo -e "${YELLOW}⚠️  PHP not found in PATH. Attempting auto-detection...${NC}"
+
+  # Common installation paths
+  local candidates=()
+
+  case "$OSTYPE" in
+    cygwin*|msys*|win*)
+      candidates+=(
+        "/c/xampp/php/php.exe"
+        "/c/Program Files/php/php.exe"
+        "/c/Program Files (x86)/php/php.exe"
+        "/c/wamp/bin/php/php*/php.exe"
+      )
+      ;;
+    linux*)
+      candidates+=(
+        "/usr/bin/php"
+        "/usr/local/bin/php"
+        "/bin/php"
+      )
+      ;;
+    darwin*)
+      candidates+=(
+        "/usr/local/bin/php"
+        "/opt/homebrew/bin/php"
+        "/Applications/XAMPP/xamppfiles/bin/php"
+      )
+      ;;
+  esac
+
+  # Try to locate PHP manually
+  for path in "${candidates[@]}"; do
+    if [[ -x "$path" ]]; then
+      php_path="$path"
+      echo -e "${GREEN}✅ Found PHP at:${NC} $php_path"
+      # Temporarily add to PATH for this session
+      export PATH="$(dirname "$php_path"):$PATH"
+      local php_version
+      php_version=$(php -v | head -n 1)
+      echo -e "${GREEN}✅ PHP version:${NC} $php_version"
+      return 0
+    fi
+  done
+
+  # If we reach here, PHP was not found
+  echo -e "${RED}❌ PHP not found on this system.${NC}\n"
+  echo -e "${YELLOW}💡 To fix this:${NC}"
+  case "$OSTYPE" in
+    cygwin*|msys*|win*)
+      echo -e "  • Install ${CYAN}XAMPP${NC} or ${CYAN}WAMP${NC} from:"
+      echo -e "      https://www.apachefriends.org/download.html"
+      echo -e "  • Then add the PHP folder to your PATH:"
+      echo -e "      setx PATH \"%PATH%;C:\\xampp\\php\""
+      echo -e "  • Restart Git Bash or your terminal afterward."
+      ;;
+    linux*)
+      echo -e "  • Install PHP via your package manager:"
+      echo -e "      ${CYAN}sudo apt install php${NC}  or  ${CYAN}sudo dnf install php${NC}"
+      ;;
+    darwin*)
+      echo -e "  • Install PHP using Homebrew:"
+      echo -e "      ${CYAN}brew install php${NC}"
+      ;;
+    *)
+      echo -e "  • Please install PHP manually and add it to your PATH."
+      ;;
+  esac
+
+  echo -e "${RED}Aborting script.${NC}"
+  exit 1
+}
 
 # --- Scan for sites (only include those with config file) ---
 scan_sites() {
@@ -144,6 +229,7 @@ show_summary_table() {
 # ============================================================
 
 main() {
+  check_php  # ✅ Ensure PHP exists or auto-detect before continuing
   echo "======================================================="
   echo -e "${CYAN}🌍 Scanning for available PHP site directories...${NC}"
   echo "======================================================="

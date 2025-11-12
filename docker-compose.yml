@@ -24,24 +24,12 @@ services:
         php -S 0.0.0.0:8046 -t /var/www/ampfarisaho/public &
         wait
       "
-    depends_on:
-      - db
-    networks:
-      - app-network
-
   db:
-    image: mysql:5.7
+    image: mysql:8
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: happy_kids_db
-      MYSQL_USER: happy_kids_user
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: littleones
     ports:
       - "3306:3306"
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
 

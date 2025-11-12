@@ -1,18 +1,23 @@
-<?php include('header.php'); ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About - Little Ones Preschool</title>
+    <link rel="stylesheet" href="webstyle.css">
+</head>
+<body>
+<header>
+    <h1>About Little Ones Preschool</h1>
+</header>
+<?php include('menu-bar.php'); ?>
+<div class="container">
+    <h2>Our History</h2>
+    <p>Founded in 2010, Little Ones Preschool has been providing quality early education for over a decade.</p>
 
-<div class="content">
-    <h1>About Us | Nga Ha Rine</h1>
-    <h2>Our History | Divhazwakale Yashu</h2>
-    <p>Happy Kids Creche has been a trusted preschool since 2000...</p>
-    
-    <h2>Mission | Ndivho</h2>
-    <p>Our mission is to nurture the minds and hearts of young children...</p>
-    
-    <h2>Vision | Bono</h2>
-    <p>To build the foundation for life-long learning for every child...</p>
+    <h2>Our Mission</h2>
+    <p>To nurture curiosity, creativity, and confidence in every child.</p>
+
+    <h2>Our Vision</h2>
+    <p>To be a leading preschool known for excellence and child-centered learning.</p>
 </div>
-
-<?php include('footer.php'); ?>
-
-
-
+</body>
+</html>

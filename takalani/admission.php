@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$admissionFile = __DIR__ . '/admissions.json';
+$admissionFile = _DIR_ . '/admissions.json';
 $admissions = file_exists($admissionFile)
     ? json_decode(file_get_contents($admissionFile), true)
     : [];
@@ -23,7 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $emergencyContact = trim($_POST["emergencyContact"]);
 
     if ($childFirstName && $childSurname && $dob && $gender && $age && $parentName && $parentContact) {
-        $admissions[] = [
+
+        $newAdmission = [
+            "id" => uniqid("child_"),
             "childFirstName" => $childFirstName,
             "childSurname" => $childSurname,
             "dob" => $dob,
@@ -35,11 +37,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "address" => $address,
             "medicalInfo" => $medicalInfo,
             "emergencyContact" => $emergencyContact,
+            "status" => "Pending", // NEW: Default status
             "timestamp" => date("Y-m-d H:i:s")
         ];
 
+        $admissions[] = $newAdmission;
+
         if (file_put_contents($admissionFile, json_encode($admissions, JSON_PRETTY_PRINT))) {
-            $success = "✅ Admission form submitted successfully!";
+            $success = "✅ Admission form submitted successfully! Your application is currently pending review.";
         } else {
             $error = "⚠ Unable to save admission data. Please try again.";
         }
@@ -171,7 +176,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <?php endif; ?>
 
     <form method="POST">
-
         <div class="section-title">Child’s Information</div>
         <label>First Name *</label>
         <input type="text" name="childFirstName" required>
