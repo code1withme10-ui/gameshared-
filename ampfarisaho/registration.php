@@ -1,48 +1,45 @@
 <?php
-include('header.php');
+session_start();
+include('config.php');
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admission - Little Ones Preschool</title>
+    <link rel="stylesheet" href="webstyle.css">
+</head>
+<body>
+<header><h1>Child Admission</h1></header>
+<?php include('menu-bar.php'); ?>
+<div class="container">
+<?php
+if (!isset($_SESSION['parent_name'])) {
+    echo "<p>You must be logged in as a parent to register a child.</p>";
+} elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $parent = $_SESSION['parent_name'];
+    $child = $_POST['child_name'];
+    $age = $_POST['child_age'];
 
-// Include your database connection
-// Example: include('db_connect.php');
+    $sql = "INSERT INTO admissions (parent_name, child_name, child_age)
+            VALUES ('$parent', '$child', '$age')";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize input
-    $username = trim($_POST['username']);
-    $password_plain = $_POST['password'];
-
-    if (!empty($username) && !empty($password_plain)) {
-        // Hash the password
-        $password_hashed = password_hash($password_plain, PASSWORD_DEFAULT);
-
-        // Example of saving to database (optional)
-        /*
-        $stmt = $conn->prepare("INSERT INTO parents (username, password) VALUES (?, ?)");
-        $stmt->bind_param("ss", $username, $password_hashed);
-        if ($stmt->execute()) {
-            header("Location: confirmation.php");
-            exit;
-        } else {
-            echo "<p style='color:red;'>Error: Could not register user.</p>";
-        }
-        */
-
-        // If not saving to DB yet, just redirect
-        header("Location: confirmation.php");
-        exit;
+    if ($conn->query($sql) === TRUE) {
+        header("Location: parent_dashboard.php");
+        exit();
     } else {
-        echo "<p style='color:red;'>Please fill in all fields.</p>";
+        echo "<p>Error: " . $conn->error . "</p>";
     }
 }
 ?>
-
-<h2>Parent Registration</h2>
 <form method="POST" action="">
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br><br>
+    <label>Child Name:</label><br>
+    <input type="text" name="child_name" required><br><br>
 
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
+    <label>Child Age:</label><br>
+    <input type="number" name="child_age" required><br><br>
 
-    <button type="submit">Register</button>
+    <button type="submit">Register Child</button>
 </form>
-
-<?php include('footer.php'); ?>
+</div>
+</body>
+</html>

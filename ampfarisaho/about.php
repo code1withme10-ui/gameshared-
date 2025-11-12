@@ -1,7 +1,23 @@
-<?php include('header.php'); ?>
-<h2>About Us || Nga Ha Rine</h2>
-<p><strong>History:</strong> Founded in 2010, Happy Kids Crèche began as a small daycare center with a passion for nurturing children in a safe and stimulating environment.</p>
-<p><strong>Vision:</strong> To be the leading early childhood center recognized for excellence, inclusivity, and love.</p>
-<p><strong>Mission:</strong> To provide high-quality care and education that supports the holistic development of every child.</p>
-<?php include('footer.php'); ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About - Little Ones Preschool</title>
+    <link rel="stylesheet" href="webstyle.css">
+</head>
+<body>
+<header>
+    <h1>About Little Ones Preschool</h1>
+</header>
+<?php include('menu-bar.php'); ?>
+<div class="container">
+    <h2>Our History</h2>
+    <p>Founded in 2010, Little Ones Preschool has been providing quality early education for over a decade.</p>
 
+    <h2>Our Mission</h2>
+    <p>To nurture curiosity, creativity, and confidence in every child.</p>
+
+    <h2>Our Vision</h2>
+    <p>To be a leading preschool known for excellence and child-centered learning.</p>
+</div>
+</body>
+</html>

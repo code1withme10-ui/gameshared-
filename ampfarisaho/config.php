@@ -1,5 +1,12 @@
-CREATE TABLE parents (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(50) NOT NULL,
-  password VARCHAR(255) NOT NULL
-);
+<?php
+$servername = "db"; // Use "localhost" if running on XAMPP
+$username = "root";
+$password = "root";
+$dbname = "littleones";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
