@@ -35,9 +35,7 @@ require_once 'menu-bar.php';
     </section>
 </main>
 
-<footer style="text-align:center; margin-top:30px;">
-    <p>© 2025 SubixStar Pre-School</p>
-</footer>
+<?php include 'footer.php'; ?>
 
 </body>
 </html>
