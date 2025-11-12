@@ -5,7 +5,7 @@ FROM php:7.4-apache
 WORKDIR /var/www/html
 
 # Copy everything inside takalani/ to Apache's web root
-COPY takalani/ /var/www/html/
+COPY sample/ /var/www/html/
 
 # Enable Apache rewrite module (optional, useful for PHP routes)
 RUN a2enmod rewrite
