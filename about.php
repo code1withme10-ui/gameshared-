@@ -34,8 +34,6 @@ if (session_status() === PHP_SESSION_NONE) {
     </p>
   </main>
 
-  <footer>
-    <p>&copy; 2025 SubixStar Pre-School</p>
-  </footer>
+  <?php include 'footer.php'; ?>
 </body>
 </html>

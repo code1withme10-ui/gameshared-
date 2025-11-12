@@ -7,7 +7,6 @@ if (session_status() === PHP_SESSION_NONE) {
   <nav style="text-align: center;">
     <a href="index.php" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Home</a>
     <a href="about.php" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">About</a>
-    <a href="registration.php" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Registration</a>
     <a href="admission.php" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Admission</a>
     <a href="parent.php" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Guardian</a>
     <a href="gallery.php" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Gallery</a>
@@ -19,8 +18,6 @@ if (session_status() === PHP_SESSION_NONE) {
       <a href="logout.php" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">
         Logout (<?= htmlspecialchars($_SESSION['user']['email']) ?>)
       </a>
-    <?php else: ?>
-      <a href="login.php" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Login</a>
     <?php endif; ?>
   </nav>
 </header>

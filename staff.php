@@ -48,8 +48,6 @@ require_once 'menu-bar.php';
         <?php endforeach; ?>
     </main>
 
-    <footer style="text-align:center; margin-top:30px; padding:1rem 0; background:#f8f9fa; border-top:1px solid #ddd;">
-        <p>© 2025 SubixStar Pre-School</p>
-    </footer>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

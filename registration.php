@@ -127,9 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </form>
 </main>
 
-<footer>
-    <p>© 2025 SubixStar Pre-School</p>
-</footer>
+<?php include 'footer.php'; ?>
 </body>
 </html>
 

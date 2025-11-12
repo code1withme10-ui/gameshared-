@@ -109,9 +109,7 @@ require_once 'menu-bar.php';
   </div>
 </main>
 
-<footer>
-  <p>© 2025 SubixStar Pre-School</p>
-</footer>
+<?php include 'footer.php'; ?>
 
 </body>
 </html>

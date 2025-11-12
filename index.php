@@ -48,9 +48,7 @@ session_start();
     <p><strong>Email:</strong> takalanimusubi117@gmail.com</p>
 </section>
 
-<footer class="footer">
-    <p>© 2025 SubixStar Pre-School | Growing Little Stars 🌟</p>
-</footer>
+<?php include 'footer.php'; ?>
 
 </body>
 </html>
