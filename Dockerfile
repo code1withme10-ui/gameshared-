@@ -1,26 +1,20 @@
-# Use the official PHP image with Apache
-FROM php:7.4-apache
+# Use official PHP CLI image (no Apache)
+FROM php:8.2-cli
 
 # Install PHP extensions
 RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql
+    && docker-php-ext-install gd pdo pdo_mysql mysqli \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache mod_rewrite (needed for clean URLs)
-RUN a2enmod rewrite
+# Set working directory
+WORKDIR /var/www
 
-# Set the working directory inside the container
-WORKDIR /var/www/html
+# Copy project (optional; for initial build)
+COPY . /var/www/
 
-# Copy your PHP application files into the container
-COPY . /var/www/html/
+# Expose ports (for each site)
+EXPOSE 8000 8001 8002 8003 8004
 
-# Set permissions for the files (needed for Apache to serve the files)
-RUN chown -R www-data:www-data /var/www/html
-
-# Expose port 80 for the web server
-EXPOSE 80
-
-# Start Apache when the container is run
-CMD ["apache2-foreground"]
-
+# Keep container running — servers started via docker-compose
+CMD ["tail", "-f", "/dev/null"]

@@ -17,10 +17,17 @@ $developers = [
         "role" => "Full Stack Engineer",
         "photo" => "https://via.placeholder.com/150",
         "portfolio" => "tshwarelo/"
+    ],
+    [
+        "name" => "thato",
+        "role" => "Full Stack Engineer",
+        "photo" => "https://via.placeholder.com/150",
+        "portfolio" => "tshwarelo/"
     ]
     
 ];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,7 +77,9 @@ $developers = [
         </div>
     <?php endforeach; ?>
 </div>
-
+<?php
+require_once './public/sites_list.html';
+?>
 <!-- Footer -->
 <footer class="w3-center w3-padding-32 w3-blue">
     <p>&copy; <?= date('Y') ?> DevTeam Inc. /p>

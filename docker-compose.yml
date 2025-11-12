@@ -1,12 +1,29 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  web:
+  php-dev:
     build: .
+    container_name: php-dev
     ports:
-      - "8080:80"
+      - "8000:8000"
+      - "8001:8001"
+      - "8002:8002"
+      - "8003:8003"
+      - "8004:8004"
+      - "8005:8005"
     volumes:
-      - ampfarisaho /var/www/html
+      - .:/var/www
+    command: |
+      bash -c "
+        php -S 0.0.0.0:8040 -t /var/www/ &
+        php -S 0.0.0.0:8041 -t /var/www/public &
+        php -S 0.0.0.0:8042 -t /var/www/tshwarelo/public &
+        php -S 0.0.0.0:8043 -t /var/www/thato/public &
+        php -S 0.0.0.0:8044 -t /var/www/pheladi/public &
+        php -S 0.0.0.0:8045 -t /var/www/takalani/public &
+        php -S 0.0.0.0:8046 -t /var/www/ampfarisaho/public &
+        wait
+      "
     depends_on:
       - db
     networks:
@@ -27,3 +44,4 @@ services:
 networks:
   app-network:
     driver: bridge
+
