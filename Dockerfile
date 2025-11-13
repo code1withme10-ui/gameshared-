@@ -1,3 +1,4 @@
+
 # Use official PHP + Apache image
 FROM php:8.2-apache
 
@@ -16,9 +17,6 @@ RUN a2enmod rewrite
 
 # Copy website files into the Apache document root
 COPY takalani/ /var/www/html/
-
-# (Optional) Copy another project folder if needed
-# COPY ampfarisaho /var/www/
 
 # Fix file permissions
 RUN chown -R www-data:www-data /var/www/html \

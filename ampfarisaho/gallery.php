@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Gallery - Little Ones Preschool</title>
-    <link rel="stylesheet" href="webstyle.css">
-</head>
-<body>
-<header><h1>Our Gallery</h1></header>
-<?php include('menu-bar.php'); ?>
+<?php include('includes/header.php'); ?>
+
 <div class="container">
-    <img src="images/classroom1.jpg" width="300">
-    <img src="images/playground.jpg" width="300">
-    <img src="images/arttime.jpg" width="300">
+    <h2>Gallery</h2>
+    <p>Memorable moments at Little Ones Preschool!</p>
+
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px;">
+        <img src="https://via.placeholder.com/250x150?text=Play+Time" style="border-radius:10px;">
+        <img src="https://via.placeholder.com/250x150?text=Art+Class" style="border-radius:10px;">
+        <img src="https://via.placeholder.com/250x150?text=Story+Hour" style="border-radius:10px;">
+        <img src="https://via.placeholder.com/250x150?text=Outdoor+Fun" style="border-radius:10px;">
+    </div>
 </div>
-</body>
-</html>
+
+<?php include('includes/footer.php'); ?>
