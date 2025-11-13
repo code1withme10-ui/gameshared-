@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Security: Only allow headmaster role
+// Allow only the headmaster
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'headmaster') {
     header('Location: login.php');
     exit();
@@ -45,12 +45,12 @@ $admissions = file_exists($admissionFile) ? json_decode(file_get_contents($admis
                                 <form action="update-status.php" method="POST" style="display:inline;">
                                     <input type="hidden" name="id" value="<?= $admission['id'] ?>">
                                     <input type="hidden" name="status" value="Admitted">
-                                    <button type="submit">Admit</button>
+                                    <button type="submit">✅ Admit</button>
                                 </form>
                                 <form action="update-status.php" method="POST" style="display:inline;">
                                     <input type="hidden" name="id" value="<?= $admission['id'] ?>">
                                     <input type="hidden" name="status" value="Rejected">
-                                    <button type="submit">Reject</button>
+                                    <button type="submit">❌ Reject</button>
                                 </form>
                             </td>
                         </tr>
