@@ -1,10 +1,5 @@
-
 # Use official PHP + Apache image
 FROM php:8.2-apache
-
-# Use official PHP CLI image (no Apache)
-FROM php:8.2-cli
-
 
 # Set working directory inside container
 WORKDIR /var/www/html
@@ -19,12 +14,11 @@ RUN apt-get update && apt-get install -y \
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
-
 # Copy website files into the Apache document root
 COPY takalani/ /var/www/html/
 
-# Copy project (optional; for initial build)
-COPY ampfarisaho /var/www/
+# (Optional) Copy another project folder if needed
+# COPY ampfarisaho /var/www/
 
 # Fix file permissions
 RUN chown -R www-data:www-data /var/www/html \
@@ -35,8 +29,3 @@ EXPOSE 80
 
 # Start Apache automatically when container runs
 CMD ["apache2-foreground"]
-
-# Keep container running — servers started via docker-compose
-CMD ["tail", "-f", "/dev/null"]
-
-
