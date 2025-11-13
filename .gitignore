@@ -8,3 +8,6 @@ nbproject/*
 *.bak
 public/sites_list.html
 backup
+nbproject/
+data/*
+backup/*

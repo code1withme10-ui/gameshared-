@@ -1,18 +1,18 @@
 <?php
 session_start();
 
-$usersFile = __DIR__ . '/users.json';
+$usersFile = _DIR_ . '/users.json';
 $users = file_exists($usersFile) ? json_decode(file_get_contents($usersFile), true) : [];
 
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $username = trim($_POST["username"]); // child name
+    $username = trim($_POST["username"]);
     $password = trim($_POST["password"]);
 
     $foundUser = null;
     foreach ($users as $user) {
-        if (strcasecmp($user["childName"], $username) === 0) {
+        if (strcasecmp($user["username"], $username) === 0) { // username field
             $foundUser = $user;
             break;
         }
@@ -20,13 +20,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($foundUser && password_verify($password, $foundUser["password"])) {
         $_SESSION["user"] = [
-            "parentName" => $foundUser["parentName"],
-            "childName" => $foundUser["childName"],
-            "childAge" => $foundUser["childAge"],
+            "username" => $foundUser["username"],
+            "role" => $foundUser["role"], // important
+            "parentName" => $foundUser["parentName"] ?? "",
+            "childName" => $foundUser["childName"] ?? "",
+            "childAge" => $foundUser["childAge"] ?? "",
             "email" => $foundUser["email"] ?? "",
             "phone" => $foundUser["phone"] ?? ""
         ];
-        header("Location: index.php");
+
+        // Redirect by role
+        if ($foundUser["role"] === "headmaster") {
+            header("Location: headmaster.php");
+        } else {
+            header("Location: index.php");
+        }
         exit();
     } else {
         $error = "❌ Invalid username or password.";
@@ -51,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <?php endif; ?>
 
     <form method="POST" style="display:inline-block; text-align:left;">
-        <label for="username">Enter Username (Child Name):</label><br>
+        <label for="username">Username:</label><br>
         <input type="text" id="username" name="username" required><br><br>
 
         <label for="password">Password:</label><br>

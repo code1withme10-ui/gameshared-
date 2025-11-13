@@ -1,198 +1,119 @@
 <?php
-// LOGIN PAGE: login.php
-
-// CRITICAL: Start the session
 session_start();
+$data_file = 'users.json'; // The file where all user data is stored
 
-// Check if the user is already logged in, if so, redirect them to the welcome page
-if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-    header('Location: welcome.php');
+// ----------------------------------------------------
+// Functions to read/write JSON data
+// ----------------------------------------------------
+function get_users($file) {
+    if (!file_exists($file) || filesize($file) == 0) {
+        return [];
+    }
+    
+    $data = json_decode(file_get_contents($file), true);
+    
+    if (!is_array($data)) {
+        return [];
+    }
+    
+    return $data;
+}
+// ----------------------------------------------------
+
+// Check if user is already logged in
+if (isset($_SESSION['user_email'])) {
+    if ($_SESSION['role'] === 'headmaster') {
+        header('Location: headmaster_dashboard.php');
+    } else {
+        header('Location: dashboard.php');
+    }
     exit;
 }
 
-// Include database connection file (must define the $pdo object)
-require_once 'db_connect.php'; 
+$message = '';
 
-// Initialize variables
-$username = $password = "";
-$username_err = $password_err = $login_err = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 1. Validate input fields
-    
-    // Check if username is empty
-    if (empty(trim($_POST['username'] ?? ''))) {
-        $username_err = "Please enter username (email).";
-    } else {
-        $username = trim($_POST['username']);
-    }
-    
-    // Check if password is empty
-    if (empty(trim($_POST['password'] ?? ''))) {
-        $password_err = "Please enter your password.";
-    } else {
-        $password = trim($_POST['password']);
-    }
+    $users = get_users($data_file);
+    $loggedIn = false;
 
-    // 2. Validate credentials if no errors in input
-    if (empty($username_err) && empty($password_err)) {
-        // SQL to retrieve the user's hashed password and other details
-        $sql = "SELECT id, username, password_hash, parent_name FROM users WHERE username = :username";
-
-        if ($stmt = $pdo->prepare($sql)) {
-            // Bind the username parameter
-            $stmt->bindValue(':username', $username);
-
-            if ($stmt->execute()) {
-                if ($stmt->rowCount() == 1) {
-                    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                    $hashed_password = $user['password_hash'];
-                    
-                    // 3. Verify the password
-                    if (password_verify($password, $hashed_password)) {
-                        // Password is correct, start a new session
-                        $_SESSION['logged_in'] = true;
-                        $_SESSION['id'] = $user['id'];
-                        $_SESSION['username'] = $user['username'];
-                        $_SESSION['parent_name'] = $user['parent_name'];
-                        $_SESSION['user_type'] = 'parent';
-
-                        // Redirect user to welcome page
-                        header('Location: welcome.php');
-                        exit;
-                    } else {
-                        $login_err = "Invalid username or password.";
-                    }
-                } else {
-                    $login_err = "Invalid username or password.";
-                }
-            } else {
-                $login_err = "Oops! Something went wrong. Please try again later.";
-            }
-            unset($stmt);
+    // Find the user and check credentials
+    foreach ($users as $user) {
+        if ($user['email'] === $email && $user['password'] === $password) {
+            // Success! Store user info and their role in the session
+            $_SESSION['user_email'] = $user['email'];
+            $_SESSION['parent_name'] = $user['parentName'];
+            $_SESSION['role'] = $user['role'] ?? 'parent'; // Default to 'parent' if role is missing
+            $loggedIn = true;
+            break;
         }
     }
+
+    if ($loggedIn) {
+        // Redirect based on the user's role
+        if ($_SESSION['role'] === 'headmaster') {
+            header('Location: headmaster_dashboard.php');
+        } else {
+            header('Location: dashboard.php');
+        }
+        exit;
+    } else {
+        $message = '<p style="color: red;">Invalid email or password. Please try again.</p>';
+    }
 }
+
+// PHP logic to check login status for the navbar
+$is_logged_in = isset($_SESSION['user_email']);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Parent Portal Login - Humulani Pre School</title>
-    
-    <style>
-        /* ADDED CSS for header consistency */
-        @keyframes rainbowShine {
-            0% { border-color: #ff0000; } 50% { border-color: #0000ff; } 100% { border-color: #ff0000; }
-        }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        .site-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; background-color: #fff; border-bottom: 3px solid transparent; animation: rainbowShine 8s infinite alternate; }
-        .nav-link { text-decoration: none; font-weight: bold; margin: 0 10px; }
-        .nav-link:nth-child(1) { color: #ff0000; } .nav-link:nth-child(2) { color: #ff9900; } .nav-link:nth-child(3) { color: #008000; } 
-        .nav-link:nth-child(4) { color: #0000ff; } .nav-link:nth-child(5) { color: #4b0082; } .nav-link:nth-child(6) { color: #ee82ee; } 
-        footer { margin-top: 40px; padding: 20px 0; border-top: 1px solid #ddd; text-align: left; }
-        /* END ADDED CSS */
-
-
-        body { font-family: 'Poppins', sans-serif; background-color: #f0f2f5; margin: 0; padding-top: 50px; /* Added padding to move content down */ }
-        .login-center-container { display: flex; justify-content: center; align-items: center; min-height: 80vh; }
-        .login-container {
-            width: 100%;
-            max-width: 400px;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        h2 { color: #4b0082; margin-bottom: 25px; }
-        .form-group { margin-bottom: 20px; text-align: left; }
-        label { display: block; font-weight: bold; color: #333; margin-bottom: 5px; }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 1em;
-        }
-        .btn-secure {
-            width: 100%;
-            padding: 12px;
-            background-color: #ff9900;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        .btn-secure:hover { background-color: #ffb347; }
-        .alert-danger {
-            color: #cc0000;
-            background-color: #ffe6e6;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            border: 1px solid #cc0000;
-        }
-        .help-text { font-size: 0.9em; color: #666; margin-top: 15px; }
-    </style>
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
     
-    <header>
-        <div class="container site-header">
-            <div style="font-size: 1.5em; font-weight: bold; color: #333;">Humulani Pre School</div>
+    <div class="navbar">
+        <span class="navbar-title">Humulani Pre School</span>
+        <div class="navbar-links">
+            <a href="index.php">Home</a> 
+            <a href="about.php">About Us</a>
+            <a href="gallery.php">Gallery</a>
+            <a href="admission.php">Admission</a>
+            <a href="contact.php">Contact</a>
             
-            <nav>
-                <a href="index.php" class="nav-link">Home</a>
-                <a href="about.php" class="nav-link">About Us</a>
-                <a href="gallery.php" class="nav-link">Gallery</a>
-                <a href="registration.php" class="nav-link">Admission</a>
-                <a href="contact.php" class="nav-link">Contact</a>
-                <a href="login.php" class="nav-link">Login</a>
-            </nav>
-        </div>
-    </header>
-    <div class="login-center-container">
-        <div class="login-container">
-            <h2>Parent Portal Login</h2>
-            
-            <?php 
-            if (!empty($login_err)) {
-                echo '<div class="alert-danger">' . $login_err . '</div>';
-            }        
-            ?>
-
-            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
-                
-                <div class="form-group">
-                    <label for="username">Email Address:</label>
-                    <input type="text" id="username" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
-                    <span style="color: red; font-size: 0.9em;"><?php echo $username_err; ?></span>
-                </div>    
-                
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>">
-                    <span style="color: red; font-size: 0.9em;"><?php echo $password_err; ?></span>
-                </div>
-                
-                <div class="form-group">
-                    <button type="submit" class="btn-secure">Secure Login</button>
-                </div>
-                
-                <p class="help-text">Don't have an account? <a href="registration.php">Apply for Admission here</a>.</p>
-            </form>
+            <?php if ($is_logged_in): ?>
+                <a href="dashboard.php?action=logout">Logout</a>
+            <?php else: ?>
+                <a href="login.php">Login</a>
+            <?php endif; ?>
         </div>
     </div>
-    
-    <footer>
-        <div class="container">
+    <div class="page-container">
+        <h1>Login</h1>
+
+        <?php echo $message; ?>
+
+        <form method="POST" action="login.php">
+            <label for="email">Email (Username):</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p>Don't have an account? <a href="admission.php">Register here</a></p>
+            </div>
+
+        <footer>
             <p>&copy; 2026 Humulani Pre School</p>
-        </div>
-    </footer>
-    </body>
+        </footer>
+    </div>
+</body>
 </html>

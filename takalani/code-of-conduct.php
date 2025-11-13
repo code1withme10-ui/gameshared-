@@ -37,8 +37,6 @@ require_once 'menu-bar.php';
             <li>Ensure children’s safety and well-being as a top priority.</li>
         </ul>
     </main>
-    <footer>
-        <p>© 2025 SubixStar Pre-School</p>
-    </footer>
+    <?php include 'footer.php'; ?>
 </body>
 </html>
