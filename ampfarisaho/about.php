@@ -1,18 +1,22 @@
-<?php include('header.php'); ?>
+<?php include('includes/header.php'); ?>
 
-<div class="content">
-    <h1>About Us | Nga Ha Rine</h1>
-    <h2>Our History | Divhazwakale Yashu</h2>
-    <p>Happy Kids Creche has been a trusted preschool since 2000...</p>
-    
-    <h2>Mission | Ndivho</h2>
-    <p>Our mission is to nurture the minds and hearts of young children...</p>
-    
-    <h2>Vision | Bono</h2>
-    <p>To build the foundation for life-long learning for every child...</p>
+<div class="container">
+    <h2>About Little Ones Preschool</h2>
+    <p>
+        Founded in 2020, Little Ones Preschool provides a safe and nurturing 
+        environment for children aged 3–6 years. Our curriculum encourages 
+        creativity, independence, and learning through play.
+    </p>
+
+    <h3>Our Mission</h3>
+    <p>To inspire curiosity and build confidence through care and quality education.</p>
+
+    <h3>Our Values</h3>
+    <ul>
+        <li>Respect and kindness</li>
+        <li>Playful learning</li>
+        <li>Parent–teacher collaboration</li>
+    </ul>
 </div>
 
-<?php include('footer.php'); ?>
-
-
-
+<?php include('includes/footer.php'); ?>

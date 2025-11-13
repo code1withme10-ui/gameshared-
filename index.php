@@ -1,3 +1,4 @@
+
 <?php
 $developers = [
     [
@@ -85,5 +86,4 @@ require_once './public/sites_list.html';
     <p>&copy; <?= date('Y') ?> DevTeam Inc. /p>
 </footer>
 
-</body>
-</html>
+

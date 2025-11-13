@@ -223,12 +223,19 @@ show_summary_table() {
   done <<< "$1"
   echo
 }
+# --- Include Git repo check ---
+if [[ -f "./bin/check-git-repo.sh" ]]; then
+  source ./bin/check-git-repo.sh
+else
+  echo -e "${YELLOW}⚠️  Git helper not found (bin/check-git-repo.sh). Skipping repo check.${NC}"
+fi
 
 # ============================================================
 # 🧠 MAIN LOGIC
 # ============================================================
 
 main() {
+  check_git_repo   # ✅ Runs the repo update chec
   check_php  # ✅ Ensure PHP exists or auto-detect before continuing
   echo "======================================================="
   echo -e "${CYAN}🌍 Scanning for available PHP site directories...${NC}"

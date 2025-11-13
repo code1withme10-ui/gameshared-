@@ -1,13 +1,15 @@
-<?php include('header.php'); ?>
+<?php include('includes/header.php'); ?>
 
-<div class="content">
-    <h1>Gallery</h1>
-    <div class="gallery">
-        <img src="assets/images/school-photo1.jpg" alt="School Image 1">
-        <img src="assets/images/school-photo2.jpg" alt="School Image 2">
+<div class="container">
+    <h2>Gallery</h2>
+    <p>Memorable moments at Little Ones Preschool!</p>
+
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px;">
+        <img src="https://via.placeholder.com/250x150?text=Play+Time" style="border-radius:10px;">
+        <img src="https://via.placeholder.com/250x150?text=Art+Class" style="border-radius:10px;">
+        <img src="https://via.placeholder.com/250x150?text=Story+Hour" style="border-radius:10px;">
+        <img src="https://via.placeholder.com/250x150?text=Outdoor+Fun" style="border-radius:10px;">
     </div>
 </div>
 
-<?php include('footer.php'); ?>
-
-
+<?php include('includes/footer.php'); ?>
