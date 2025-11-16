@@ -3,14 +3,14 @@ session_start();
 
 function requireParentLogin() {
     if (!isset($_SESSION['parent'])) {
-        header("Location: parent_login.php");
+        header("Location: login.php");
         exit();
     }
 }
 
 function requireHeadmasterLogin() {
     if (!isset($_SESSION['headmaster'])) {
-        header("Location: headmaster_login.php");
+        header("Location: login.php");
         exit();
     }
 }

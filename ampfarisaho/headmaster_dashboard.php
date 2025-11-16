@@ -5,20 +5,18 @@ include "includes/functions.php";
 
 $children = readJSON("data/children.json");
 
-// Actions
 if (isset($_GET['approve'])) {
     $children[$_GET['approve']]['status'] = "Approved";
     writeJSON("data/children.json", $children);
 }
+
 if (isset($_GET['decline'])) {
     $children[$_GET['decline']]['status'] = "Declined";
     writeJSON("data/children.json", $children);
 }
 ?>
 
-<link rel="stylesheet" href="css/style.css">
 <?php include "includes/menu-bar.php"; ?>
-
 <div class="container">
     <h2>Headmaster Dashboard</h2>
 
@@ -35,5 +33,4 @@ if (isset($_GET['decline'])) {
             <a class="button" href="?decline=<?= $i ?>" style="background:red;">Decline</a>
         </div>
     <?php endforeach; ?>
-
 </div>

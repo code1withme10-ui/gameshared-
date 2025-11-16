@@ -7,6 +7,7 @@
     <a href="code_of_conduct.php">Code of Conduct</a>
     <a href="help.php">Help</a>
     <a href="admission.php">Admission</a>
-    <a href="parent_login.php">Parent Login</a>
-    <a href="headmaster_login.php">Headmaster Login</a>
+    <a href="progress_report.php">Progress Report</a>
+    <a href="login.php">Login</a>
+    <a href="logout.php">Logout</a>
 </div>

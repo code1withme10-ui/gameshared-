@@ -6,7 +6,6 @@ include "includes/functions.php";
 $username = $_SESSION['parent'];
 $children = readJSON("data/children.json");
 
-// Adding additional children
 if ($_POST) {
     $children[] = [
         "parent" => $username,
@@ -21,11 +20,8 @@ if ($_POST) {
 }
 ?>
 
-<link rel="stylesheet" href="css/style.css">
 <?php include "includes/menu-bar.php"; ?>
-
 <div class="container">
-
     <h2>Parent Dashboard</h2>
     <p>Welcome, <b><?= $username ?></b></p>
 
@@ -34,22 +30,21 @@ if ($_POST) {
     foreach ($children as $c) {
         if ($c['parent'] == $username) {
             echo "<div class='card'>
-                    <b>{$c['name']} {$c['surname']}</b><br>
-                    Age: {$c['age']}<br>
-                    Status: <b>{$c['status']}</b>
-                  </div>";
+                <b>{$c['name']} {$c['surname']}</b><br>
+                Age: {$c['age']}<br>
+                Status: <b>{$c['status']}</b>
+            </div>";
         }
     }
     ?>
 
     <h3>Add Another Child</h3>
     <form method="POST">
-        <input name="name" placeholder="Name" required><br><br>
-        <input name="surname" placeholder="Surname" required><br><br>
-        <input name="age" placeholder="Age" required><br><br>
-        <input name="race" placeholder="Race" required><br><br>
-        <input name="gender" placeholder="Gender" required><br><br>
+        <input name="name" placeholder="Name" required>
+        <input name="surname" placeholder="Surname" required>
+        <input name="age" placeholder="Age" required>
+        <input name="race" placeholder="Race" required>
+        <input name="gender" placeholder="Gender" required>
         <button class="button">Add Child</button>
     </form>
-
 </div>

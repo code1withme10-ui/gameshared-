@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="css/style.css">
+
 <?php include "includes/menu-bar.php"; ?>
 
 <div class="container">

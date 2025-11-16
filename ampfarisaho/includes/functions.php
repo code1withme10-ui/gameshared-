@@ -1,6 +1,8 @@
 <?php
 function readJSON($file) {
-    return json_decode(file_get_contents($file), true);
+    if(!file_exists($file)) return [];
+    $json = file_get_contents($file);
+    return json_decode($json, true);
 }
 
 function writeJSON($file, $data) {
