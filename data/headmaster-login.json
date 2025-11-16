@@ -1,0 +1,10 @@
+[
+  {
+    "username": "headmaster",
+    "password": "$2y$10$JwbO98dM9rW8EJcE5xYDsOyOqjL3t5Pj6pces5eWZx2KuVdO3Gvmy",
+    "role": "headmaster",
+    "firstName": "School",
+    "lastName": "Headmaster",
+    "email": "headmaster@subixstar.com"
+  }
+]

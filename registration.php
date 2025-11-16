@@ -1,18 +1,12 @@
 <?php
 session_start();
 
-// Always use an absolute path (very important for Docker)
 $usersFile = __DIR__ . '/users.json';
-
-// Create JSON file if it doesn’t exist
 if (!file_exists($usersFile)) {
-    file_put_contents($usersFile, json_encode([]));
+    file_put_contents($usersFile, json_encode([], JSON_PRETTY_PRINT));
 }
-
-// Load existing users
 $users = json_decode(file_get_contents($usersFile), true);
 
-// Handle form submission
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -28,13 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $medical = trim($_POST["medical"]);
     $password = $_POST["password"];
 
-    // Check if the same child (name + surname) already exists
+    // username convention: childname + childsurname (lowercase, no spaces)
+    $username = strtolower(preg_replace('/\s+/', '', $childName . $childSurname));
+
+    // Check if child already registered (by username)
     $exists = false;
     foreach ($users as $user) {
-        if (
-            strcasecmp($user["childName"], $childName) === 0 &&
-            strcasecmp($user["childSurname"], $childSurname) === 0
-        ) {
+        if (isset($user['username']) && $user['username'] === $username) {
             $exists = true;
             break;
         }
@@ -45,8 +39,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif (!preg_match('/^(?=.*[A-Z])(?=.*[\W_]).{8,}$/', $password)) {
         $message = "<p style='color:red;'>Password must be at least 8 characters long, include one uppercase letter, and one special character.</p>";
     } else {
-        // Create new user entry
         $newUser = [
+            "username" => $username,
+            "role" => "parent",
             "parentName" => $parentName,
             "parentSurname" => $parentSurname,
             "parentAddress" => $parentAddress,
@@ -60,29 +55,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "password" => password_hash($password, PASSWORD_DEFAULT)
         ];
 
-        // Append and save to JSON
         $users[] = $newUser;
         file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
-
-        $message = "<p style='color:green;'>✅ Registration successful! You can now <a href='login.php'>login</a>.</p>";
+        $message = "<p style='color:green;'>✅ Registration successful! Your login username is <strong>" . htmlspecialchars($username) . "</strong>. You can now <a href='login.php'>login</a>.</p>";
     }
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Register</title>
-    <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8" />
+  <title>Register - SubixStar Pre-School</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 <?php require_once 'menu-bar.php'; ?>
-
 <main>
     <h2>Register</h2>
-
     <?= $message ?>
-
     <form action="" method="POST">
         <h3>Parent/Guardian Information</h3>
         <label for="parentName">First Name:</label><br />
@@ -95,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <input type="text" id="parentAddress" name="parentAddress" required /><br /><br />
 
         <label for="contact">Contact Number:</label><br />
-        <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" placeholder="e.g., 0123456789" required /><br /><br />
+        <input type="tel" id="contact" name="contact" pattern="[0-9]{9,15}" placeholder="e.g., 0123456789" required /><br /><br />
 
         <label for="email">Email Address:</label><br />
         <input type="email" id="email" name="email" required /><br /><br />
@@ -115,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </select><br /><br />
 
         <label for="childAge">Age:</label><br />
-        <input type="number" id="childAge" name="childAge" min="0" max="10" required /><br /><br />
+        <input type="number" id="childAge" name="childAge" min="0" max="18" required /><br /><br />
 
         <label for="password">Password:</label><br />
         <input type="password" id="password" name="password" required /><br /><br />
@@ -125,9 +115,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <input type="submit" value="Register" />
     </form>
+    <p style="margin-top:12px;">After registering, your login <strong>username</strong> will be generated as <em>childname+childsurname</em> (lowercase, no spaces). Example: <code>leratoMokoena → leratomokoena</code></p>
 </main>
-
 <?php include 'footer.php'; ?>
 </body>
 </html>
-

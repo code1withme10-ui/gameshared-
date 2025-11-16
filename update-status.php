@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Security check
+// Only headmaster
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'headmaster') {
     die('Unauthorized');
 }
@@ -17,31 +17,31 @@ if (!$id || !in_array($status, ['Admitted', 'Rejected'])) {
     die('Missing or invalid data');
 }
 
-$admissionFile = _DIR_ . '/admissions.json';
+$admissionFile = __DIR__ . '/admissions.json';
 $admissions = file_exists($admissionFile) ? json_decode(file_get_contents($admissionFile), true) : [];
 
+$found = false;
 foreach ($admissions as &$admission) {
-    if ($admission['id'] === $id) {
+    if (isset($admission['id']) && $admission['id'] === $id) {
         $admission['status'] = $status;
+        $admission['reviewedBy'] = $_SESSION['user']['username'];
+        $admission['reviewedAt'] = date('Y-m-d H:i:s');
 
-        // Include helper function
-        require_once 'send-email.php';
+        // In-app notification: set lastNotification and time
+        $childName = ($admission['childFirstName'] ?? '') . ' ' . ($admission['childSurname'] ?? '');
+        $admission['lastNotification'] = "Your child's application ({$childName}) has been {$status}.";
+        $admission['notificationAt'] = date('Y-m-d H:i:s');
 
-        // Call function
-        $emailSent = sendAdmissionStatusEmail($admission['parentEmail'], $admission['childFirstName'], $status);
-
-        if ($emailSent) {
-            echo "Email notification sent successfully.";
-        } else {
-            echo "Failed to send email notification.";
-        }
-
+        $found = true;
         break;
     }
 }
+unset($admission);
 
-file_put_contents($admissionFile, json_encode($admissions, JSON_PRETTY_PRINT));
+if ($found) {
+    file_put_contents($admissionFile, json_encode($admissions, JSON_PRETTY_PRINT));
+}
 
+// Redirect back
 header('Location: headmaster.php');
 exit();
-?>

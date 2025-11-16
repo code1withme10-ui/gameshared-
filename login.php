@@ -1,39 +1,55 @@
 <?php
 session_start();
 
-$usersFile = _DIR_ . '/users.json';
+$headmastersFile = __DIR__ . '/headmasters.json';
+$usersFile = __DIR__ . '/users.json';
+
+$headmasters = file_exists($headmastersFile) ? json_decode(file_get_contents($headmastersFile), true) : [];
 $users = file_exists($usersFile) ? json_decode(file_get_contents($usersFile), true) : [];
 
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $username = trim($_POST["username"]);
-    $password = trim($_POST["password"]);
-
+    $username = trim($_POST["username"] ?? "");
+    $password = trim($_POST["password"] ?? "");
     $foundUser = null;
-    foreach ($users as $user) {
-        if (strcasecmp($user["username"], $username) === 0) { // username field
-            $foundUser = $user;
+
+    // Check headmasters
+    foreach ($headmasters as $headmaster) {
+        if (isset($headmaster["username"]) && strcasecmp($headmaster["username"], $username) === 0) {
+            $foundUser = $headmaster;
             break;
         }
     }
 
+    // Check parents
+    if (!$foundUser) {
+        foreach ($users as $user) {
+            if (isset($user["username"]) && strcasecmp($user["username"], $username) === 0) {
+                $foundUser = $user;
+                break;
+            }
+        }
+    }
+
     if ($foundUser && password_verify($password, $foundUser["password"])) {
+        // Set session
         $_SESSION["user"] = [
-            "username" => $foundUser["username"],
-            "role" => $foundUser["role"], // important
+            "username"   => $foundUser["username"],
+            "role"       => $foundUser["role"] ?? "parent",
             "parentName" => $foundUser["parentName"] ?? "",
-            "childName" => $foundUser["childName"] ?? "",
-            "childAge" => $foundUser["childAge"] ?? "",
-            "email" => $foundUser["email"] ?? "",
-            "phone" => $foundUser["phone"] ?? ""
+            "parentSurname" => $foundUser["parentSurname"] ?? "",
+            "childName"  => $foundUser["childName"] ?? "",
+            "childSurname" => $foundUser["childSurname"] ?? "",
+            "childAge"   => $foundUser["childAge"] ?? "",
+            "email"      => $foundUser["email"] ?? "",
+            "phone"      => $foundUser["contact"] ?? ""
         ];
 
-        // Redirect by role
         if ($foundUser["role"] === "headmaster") {
             header("Location: headmaster.php");
         } else {
-            header("Location: index.php");
+            header("Location: parent.php");
         }
         exit();
     } else {
@@ -44,16 +60,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login - SubixStar Pre-School</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <title>Login - SubixStar Pre-School</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 <?php require_once 'menu-bar.php'; ?>
-
-<main style="text-align:center; margin-top:50px;">
+<main style="text-align:center; margin-top:40px;">
     <h2>Login</h2>
-
     <?php if (!empty($error)): ?>
         <p style="color:red;"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
@@ -68,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <button type="submit">Login</button>
     </form>
 
-    <p>Don't have an account? <a href="registration.php">Register here</a></p>
+    <p style="margin-top:10px;">Don't have an account? <a href="registration.php">Register here</a></p>
 </main>
 </body>
 </html>

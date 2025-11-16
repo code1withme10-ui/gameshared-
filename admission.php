@@ -1,7 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 
-$admissionFile = _DIR_ . '/admissions.json';
+$admissionFile = __DIR__ . '/admissions.json';
 $admissions = file_exists($admissionFile)
     ? json_decode(file_get_contents($admissionFile), true)
     : [];
@@ -9,47 +11,54 @@ $admissions = file_exists($admissionFile)
 $success = "";
 $error = "";
 
+$loggedInParent  = $_SESSION['user']['parentName'] ?? null;
+$loggedInEmail   = $_SESSION['user']['email'] ?? null;
+$loggedInContact = $_SESSION['user']['phone'] ?? null;
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $childFirstName = trim($_POST["childFirstName"]);
-    $childSurname = trim($_POST["childSurname"]);
-    $dob = trim($_POST["dob"]);
-    $gender = trim($_POST["gender"]);
-    $age = trim($_POST["age"]);
-    $parentName = trim($_POST["parentName"]);
-    $parentContact = trim($_POST["parentContact"]);
-    $parentEmail = trim($_POST["parentEmail"]);
-    $address = trim($_POST["address"]);
-    $medicalInfo = trim($_POST["medicalInfo"]);
-    $emergencyContact = trim($_POST["emergencyContact"]);
+    $children = $_POST['children'] ?? [];
 
-    if ($childFirstName && $childSurname && $dob && $gender && $age && $parentName && $parentContact) {
+    foreach ($children as $child) {
+        $childFirstName = trim($child["childFirstName"] ?? "");
+        $childSurname = trim($child["childSurname"] ?? "");
+        $dob = trim($child["dob"] ?? "");
+        $gender = trim($child["gender"] ?? "");
+        $age = trim($child["age"] ?? "");
+        $parentName = $loggedInParent ?: trim($_POST["parentName"]);
+        $parentContact = $loggedInContact ?: trim($_POST["parentContact"]);
+        $parentEmail = $loggedInEmail ?: trim($_POST["parentEmail"]);
+        $address = trim($_POST["address"] ?? "");
+        $medicalInfo = trim($child["medicalInfo"] ?? "");
+        $emergencyContact = trim($_POST["emergencyContact"] ?? "");
 
-        $newAdmission = [
-            "id" => uniqid("child_"),
-            "childFirstName" => $childFirstName,
-            "childSurname" => $childSurname,
-            "dob" => $dob,
-            "gender" => $gender,
-            "age" => $age,
-            "parentName" => $parentName,
-            "parentContact" => $parentContact,
-            "parentEmail" => $parentEmail,
-            "address" => $address,
-            "medicalInfo" => $medicalInfo,
-            "emergencyContact" => $emergencyContact,
-            "status" => "Pending", // NEW: Default status
-            "timestamp" => date("Y-m-d H:i:s")
-        ];
+        if ($childFirstName && $childSurname && $dob && $gender && $age && $parentName && $parentContact) {
+            $newAdmission = [
+                "id" => uniqid("child_"),
+                "childFirstName" => $childFirstName,
+                "childSurname" => $childSurname,
+                "dob" => $dob,
+                "gender" => $gender,
+                "age" => $age,
+                "parentName" => $parentName,
+                "parentContact" => $parentContact,
+                "parentEmail" => $parentEmail,
+                "address" => $address,
+                "medicalInfo" => $medicalInfo,
+                "emergencyContact" => $emergencyContact,
+                "status" => "Pending",
+                "timestamp" => date("Y-m-d H:i:s"),
+                "lastNotification" => null,
+                "notificationAt" => null
+            ];
 
-        $admissions[] = $newAdmission;
-
-        if (file_put_contents($admissionFile, json_encode($admissions, JSON_PRETTY_PRINT))) {
-            $success = "✅ Admission form submitted successfully! Your application is currently pending review.";
-        } else {
-            $error = "⚠ Unable to save admission data. Please try again.";
+            $admissions[] = $newAdmission;
         }
+    }
+
+    if (file_put_contents($admissionFile, json_encode($admissions, JSON_PRETTY_PRINT))) {
+        $success = "✅ All admission forms were submitted successfully!";
     } else {
-        $error = "⚠ Please fill in all required fields marked with *.";
+        $error = "⚠ Unable to save admission data. Please try again.";
     }
 }
 ?>
@@ -57,169 +66,89 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admission - SubixStar Pre-School</title>
+    <title>Admission Form - SubixStar Pre-School</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: #f8f9fa;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-
-        main.form-container {
-            max-width: 700px;
-            margin: 50px auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            padding: 40px 35px;
-        }
-
-        h2 {
-            text-align: center;
-            color: #222;
-            margin-bottom: 10px;
-        }
-
-        p {
-            text-align: center;
-            color: #555;
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: 600;
-            color: #444;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-            box-sizing: border-box;
-        }
-
-        button {
-            display: block;
-            width: 100%;
-            margin-top: 25px;
-            padding: 12px;
-            background: linear-gradient(90deg, #4a90e2, #6dd5ed);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s ease;
-        }
-
-        button:hover {
-            background: linear-gradient(90deg, #357abd, #50a7c2);
-        }
-
-        .success, .error {
-            text-align: center;
-            font-weight: bold;
-            padding: 10px;
-            border-radius: 6px;
-        }
-
-        .success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #777;
-        }
-
-        .section-title {
-            margin-top: 30px;
-            font-size: 17px;
-            color: #2c3e50;
-            border-bottom: 2px solid #4a90e2;
-            padding-bottom: 5px;
-        }
+        /* inline small styles kept from your original */
+        body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; margin: 0; }
+        main { max-width: 900px; margin: 30px auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        input, select, textarea, button { width: 100%; padding: 10px; margin: 8px 0; border-radius: 5px; border: 1px solid #ccc; }
+        button { background: #007bff; color: white; font-weight: bold; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .child-block { background: #f1f1f1; padding: 15px; border-radius: 8px; margin-bottom: 10px; }
+        .add-child { background: #28a745; margin-top: 10px; }
+        .add-child:hover { background: #1e7e34; }
+        .message { text-align: center; margin-bottom: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
+    <?php require_once 'menu-bar.php'; ?>
+    <main>
+        <h1>Admission Application</h1>
 
-<?php require_once 'menu-bar.php'; ?>
+        <?php if ($success): ?>
+            <div class="message" style="color:green;"><?= htmlspecialchars($success) ?></div>
+        <?php endif; ?>
 
-<main class="form-container">
-    <h2>Online Admission Form</h2>
-    <p>Please fill out the required information to apply for admission at SubixStar Pre-School.</p>
+        <?php if ($error): ?>
+            <div class="message" style="color:red;"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
 
-    <?php if (!empty($success)): ?>
-        <p class="success"><?= htmlspecialchars($success) ?></p>
-    <?php endif; ?>
+        <form method="POST">
+            <h3>Parent Information</h3>
+            <input type="text" name="parentName" placeholder="Parent Full Name *"
+                value="<?= htmlspecialchars($loggedInParent ?? '') ?>" <?= $loggedInParent ? 'readonly' : '' ?> required>
+            <input type="text" name="parentContact" placeholder="Parent Contact *"
+                value="<?= htmlspecialchars($loggedInContact ?? '') ?>" <?= $loggedInContact ? 'readonly' : '' ?> required>
+            <input type="email" name="parentEmail" placeholder="Parent Email *"
+                value="<?= htmlspecialchars($loggedInEmail ?? '') ?>" <?= $loggedInEmail ? 'readonly' : '' ?> required>
+            <textarea name="address" placeholder="Home Address"></textarea>
+            <input type="text" name="emergencyContact" placeholder="Emergency Contact *" required>
 
-    <?php if (!empty($error)): ?>
-        <p class="error"><?= htmlspecialchars($error) ?></p>
-    <?php endif; ?>
+            <h3>Children Information</h3>
+            <div id="children-container">
+                <div class="child-block">
+                    <input type="text" name="children[0][childFirstName]" placeholder="Child First Name *" required>
+                    <input type="text" name="children[0][childSurname]" placeholder="Child Surname *" required>
+                    <input type="date" name="children[0][dob]" required>
+                    <select name="children[0][gender]" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <input type="number" name="children[0][age]" placeholder="Age *" required>
+                    <textarea name="children[0][medicalInfo]" placeholder="Medical Info"></textarea>
+                </div>
+            </div>
 
-    <form method="POST">
-        <div class="section-title">Child’s Information</div>
-        <label>First Name *</label>
-        <input type="text" name="childFirstName" required>
+            <button type="button" class="add-child" onclick="addChild()">+ Add Another Child</button>
+            <button type="submit">Submit Application</button>
+        </form>
+    </main>
 
-        <label>Surname *</label>
-        <input type="text" name="childSurname" required>
+    <script>
+        let childCount = 1;
+        function addChild() {
+            const container = document.getElementById('children-container');
+            const newChild = document.createElement('div');
+            newChild.classList.add('child-block');
+            newChild.innerHTML = `
+                <input type="text" name="children[${childCount}][childFirstName]" placeholder="Child First Name *" required>
+                <input type="text" name="children[${childCount}][childSurname]" placeholder="Child Surname *" required>
+                <input type="date" name="children[${childCount}][dob]" required>
+                <select name="children[${childCount}][gender]" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <input type="number" name="children[${childCount}][age]" placeholder="Age *" required>
+                <textarea name="children[${childCount}][medicalInfo]" placeholder="Medical Info"></textarea>
+            `;
+            container.appendChild(newChild);
+            childCount++;
+        }
+    </script>
 
-        <label>Date of Birth *</label>
-        <input type="date" name="dob" required>
-
-        <label>Gender *</label>
-        <select name="gender" required>
-            <option value="">Select gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-
-        <label>Age *</label>
-        <input type="number" name="age" required>
-
-        <div class="section-title">Parent/Guardian Information</div>
-        <label>Full Name *</label>
-        <input type="text" name="parentName" required>
-
-        <label>Contact Number *</label>
-        <input type="tel" name="parentContact" required>
-
-        <label>Email Address</label>
-        <input type="email" name="parentEmail">
-
-        <label>Home Address *</label>
-        <textarea name="address" rows="3" required></textarea>
-
-        <div class="section-title">Additional Information</div>
-        <label>Medical Information (Allergies, Conditions, etc.)</label>
-        <textarea name="medicalInfo" rows="3"></textarea>
-
-        <label>Emergency Contact (Name & Number)</label>
-        <textarea name="emergencyContact" rows="2"></textarea>
-
-        <button type="submit">Submit Admission</button>
-    </form>
-</main>
-
-<?php include 'footer.php'; ?>
+    <?php include 'footer.php'; ?>
 </body>
 </html>
