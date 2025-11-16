@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$headmastersFile = __DIR__ . '/headmasters.json';
+$headmastersFile = __DIR__ . '/headmaster-login.json';
 $usersFile = __DIR__ . '/users.json';
 
 $headmasters = file_exists($headmastersFile) ? json_decode(file_get_contents($headmastersFile), true) : [];
