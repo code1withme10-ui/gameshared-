@@ -2,25 +2,26 @@
 session_start();
 include "includes/functions.php";
 
-if ($_POST) {
-    $parents = readJSON("data/parents.json");
+$hm = readJSON("data/headmaster.json");
 
-    foreach ($parents as $p) {
-        if ($p['username'] == $_POST['username'] && $p['password'] == $_POST['password']) {
-            $_SESSION['parent'] = $p['username'];
-            header("Location: parent_dashboard.php");
-            exit;
-        }
+if ($_POST) {
+    if ($_POST['username'] == $hm['username'] &&
+        $_POST['password'] == $hm['password']) {
+
+        $_SESSION['headmaster'] = "logged_in";
+        header("Location: headmaster_dashboard.php");
+        exit;
     }
 
     echo "<p style='color:red;'>Invalid login.</p>";
 }
 ?>
+
 <link rel="stylesheet" href="css/style.css">
 <?php include "includes/menu-bar.php"; ?>
 
 <div class="container">
-    <h2>Parent Login</h2>
+    <h2>Headmaster Login</h2>
     <form method="POST">
         <input name="username" required placeholder="Username"><br><br>
         <input type="password" name="password" required placeholder="Password"><br><br>

@@ -1,30 +1,55 @@
-<?php include('includes/header.php'); include('database/connection.php'); session_start();
-if (!isset($_SESSION['parent_id'])) header("Location: parent_login.php");
-$pid = $_SESSION['parent_id'];
-$result = $conn->query("SELECT * FROM admissions WHERE parent_id='$pid'");
+<?php
+include "includes/auth.php";
+requireParentLogin();
+include "includes/functions.php";
+
+$username = $_SESSION['parent'];
+$children = readJSON("data/children.json");
+
+// Adding additional children
+if ($_POST) {
+    $children[] = [
+        "parent" => $username,
+        "name" => $_POST['name'],
+        "surname" => $_POST['surname'],
+        "age" => $_POST['age'],
+        "race" => $_POST['race'],
+        "gender" => $_POST['gender'],
+        "status" => "Awaiting approval"
+    ];
+    writeJSON("data/children.json", $children);
+}
 ?>
 
+<link rel="stylesheet" href="css/style.css">
+<?php include "includes/menu-bar.php"; ?>
+
 <div class="container">
-    <h2>Welcome, <?php echo $_SESSION['parent_name']; ?></h2>
+
+    <h2>Parent Dashboard</h2>
+    <p>Welcome, <b><?= $username ?></b></p>
+
     <h3>Your Registered Children</h3>
+    <?php
+    foreach ($children as $c) {
+        if ($c['parent'] == $username) {
+            echo "<div class='card'>
+                    <b>{$c['name']} {$c['surname']}</b><br>
+                    Age: {$c['age']}<br>
+                    Status: <b>{$c['status']}</b>
+                  </div>";
+        }
+    }
+    ?>
 
-    <table>
-        <tr><th>Child Name</th><th>Age</th><th>Status</th></tr>
-        <?php while($row = $result->fetch_assoc()) { ?>
-        <tr>
-            <td><?php echo $row['child_name']; ?></td>
-            <td><?php echo $row['child_age']; ?></td>
-            <td><?php echo $row['status']; ?></td>
-        </tr>
-        <?php } ?>
-    </table>
+    <h3>Add Another Child</h3>
+    <form method="POST">
+        <input name="name" placeholder="Name" required><br><br>
+        <input name="surname" placeholder="Surname" required><br><br>
+        <input name="age" placeholder="Age" required><br><br>
+        <input name="race" placeholder="Race" required><br><br>
+        <input name="gender" placeholder="Gender" required><br><br>
+        <button class="button">Add Child</button>
+    </form>
 
-    <form action="admission.php" style="margin-top:20px;">
-        <button>Add Another Child</button>
-    </form>
-    <form action="logout.php" method="POST" style="margin-top:10px;">
-        <button type="submit">Logout</button>
-    </form>
 </div>
-
-<?php include('includes/footer.php'); ?>

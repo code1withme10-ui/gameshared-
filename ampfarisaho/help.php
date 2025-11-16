@@ -1,13 +1,9 @@
-<?php include('includes/header.php'); ?>
+<link rel="stylesheet" href="css/style.css">
+<?php include "includes/menu-bar.php"; ?>
 
 <div class="container">
     <h2>Help & Support</h2>
-    <p>If you need help, contact us at:</p>
-    <ul>
-        <li><b>Email:</b> mathaguampfarisaho@gmail.com</li>
-        <li><b>Phone:</b> 076 540 6436</li>
-        <li><b>Hours:</b> Mon–Fri, 8 AM – 4 PM</li>
-    </ul>
+    <p>Email: mathaguampfarisaho@gmail.com</p>
+    <p>Phone: +27 76 540 6436</p>
+    <p>Address: 159 Mathagu st, Tshakhuma, Limpopo</p>
 </div>
-
-<?php include('includes/footer.php'); ?>

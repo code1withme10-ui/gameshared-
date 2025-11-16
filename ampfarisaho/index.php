@@ -1,24 +1,21 @@
-<?php include('includes/header.php'); ?>
+<link rel="stylesheet" href="css/style.css">
+<?php include "includes/menu-bar.php"; ?>
 
 <div class="container">
-    <h2>Welcome to Little Ones Preschool</h2>
+    <h1>Welcome to Sunshine Preschool</h1>
     <p>
-        At <b>Little Ones Preschool</b>, we believe learning should be joyful. 
-        Our school provides a nurturing environment for young minds to explore, 
-        create, and grow.
+        Sunshine Preschool provides a safe, nurturing space for your child's early development.  
+        Explore our website using the guide below.
     </p>
 
-    <h3>Quick Guide for Parents</h3>
+    <h2>User Guide</h2>
     <ul>
-        <li>Go to <b>Register</b> to create your parent account.</li>
-        <li>Login and visit <b>Admission</b> to register your child.</li>
-        <li>Track status on your <b>Parent Dashboard</b>.</li>
+        <li>Read about us in the <b>About</b> page.</li>
+        <li>View images in the <b>Gallery</b>.</li>
+        <li>Learn rules in <b>Code of Conduct</b>.</li>
+        <li>Register using <b>Admission</b>.</li>
+        <li>Login as a parent in <b>Parent Login</b>.</li>
+        <li>Headmaster login in <b>Headmaster Login</b>.</li>
+        <li>View approved children's progress in <b>Progress Report</b>.</li>
     </ul>
-
-    <div style="text-align:center; margin-top:30px;">
-        <a href="register.php"><button>Create Parent Account</button></a>
-        <a href="about.php"><button style="background-color:#0056b3;">Learn More</button></a>
-    </div>
 </div>
-
-<?php include('includes/footer.php'); ?>

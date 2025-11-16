@@ -1,22 +1,13 @@
-<?php include('includes/header.php'); ?>
+<link rel="stylesheet" href="css/style.css">
+<?php include "includes/menu-bar.php"; ?>
 
 <div class="container">
-    <h2>About Little Ones Preschool</h2>
-    <p>
-        Founded in 2020, Little Ones Preschool provides a safe and nurturing 
-        environment for children aged 3–6 years. Our curriculum encourages 
-        creativity, independence, and learning through play.
-    </p>
+    <h2>History</h2>
+    <p>Founded in 2008, Sunshine Preschool has grown into a nurturing home for young learners.</p>
 
-    <h3>Our Mission</h3>
-    <p>To inspire curiosity and build confidence through care and quality education.</p>
+    <h2>Mission</h2>
+    <p>To develop confident, creative thinkers through play-based learning.</p>
 
-    <h3>Our Values</h3>
-    <ul>
-        <li>Respect and kindness</li>
-        <li>Playful learning</li>
-        <li>Parent–teacher collaboration</li>
-    </ul>
+    <h2>Vision</h2>
+    <p>To be the region’s leading early childhood development centre.</p>
 </div>
-
-<?php include('includes/footer.php'); ?>

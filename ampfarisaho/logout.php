@@ -1,6 +1,6 @@
 <?php
-session_start();
-session_destroy();
+include "includes/auth.php";
+logout();
 header("Location: index.php");
-exit();
+exit;
 ?>
