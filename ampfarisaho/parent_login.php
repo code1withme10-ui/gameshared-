@@ -1,4 +1,4 @@
-<?php include('includes/header.php'); include('database/connection.php'); session_start(); ?>
+<?php include('includes/header.php'); include('database/connection.php'); ?>
 
 <div class="container">
     <h2>Parent Login</h2>
@@ -17,7 +17,7 @@
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $sql = "SELECT * FROM parents WHERE email='$email'";
+    $sql = "SELECT * FROM parents WHERE email='$email' AND password = '$password'";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         $parent = $result->fetch_assoc();

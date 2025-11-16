@@ -1,8 +1,9 @@
-<?php session_start(); ?>
+
 <nav>
     <a href="index.php">Home</a>
     <a href="about.php">About</a>
     <a href="gallery.php">Gallery</a>
+    <a href="admission.php">Admission</a>
     <a href="code_of_conduct.php">Code of Conduct</a>
     <a href="help.php">Help</a>
 

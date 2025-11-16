@@ -1,4 +1,4 @@
-<?php include('includes/header.php'); include('database/connection.php'); session_start(); ?>
+<?php include('includes/header.php'); include('database/connection.php'); ?>
 
 <div class="container">
 <?php if (!isset($_SESSION['parent_id'])) { ?>
