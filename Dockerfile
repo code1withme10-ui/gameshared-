@@ -1,3 +1,4 @@
+
 # Use an official PHP + Apache base image
 FROM php:8.2-apache
 
@@ -16,3 +17,4 @@ EXPOSE 80
 
 # Start Apache server
 CMD ["apache2-foreground"]
+
