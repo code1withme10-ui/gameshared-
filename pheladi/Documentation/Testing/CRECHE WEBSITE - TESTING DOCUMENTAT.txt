@@ -1,0 +1,51 @@
+CRECHE WEBSITE - TESTING DOCUMENTATION
+
+Introduction
+The purpose of the documentation is to ensure that the websites features are functioning correcting and meet the requirements listed.
+The website is supposed to do the following:
+Allow a parent to login and add more than one children.
+Allow the headmaster to be able to accept or reject a child.
+The parent must be able to track the status of the child if whether they are accepted or rejected.
+
+Test Environment:
+Browse: Chrome, Firefox, Edge
+Devices: Laptop
+Database: JSON
+
+Test Cases:
+Parent registration and Login
+
+Test-ID	Test Case Descriptions	        Steps	                                                Results
+TC-01	Parent registers successfully	Fill registration form and submit	                Account created, confirmation message displayed
+TC-02	Login with valid details	Enter username/email and password then press login	Redirected to the parent dashboard
+TC-03	Login with invalid details	Enter wrong username or password	                Error message displayed stating “invalid details”
+
+Add Child Feature
+Test-ID	Test Case Descriptions	        Steps	                                                 Results
+TC-04	Parent adds one child	        Click Add and fill details then submit	                 Child added successfully
+TC-05	Parent adds another child	Add child and repeat the process of first child	         All children appear on a list
+TC-06	Required field validation	Skip mandatory field empty then submits	                 Error message displayed “required field missing”
+
+Track Admission Status
+Test-ID	Test Case Descriptions	        Steps	                                                 Results
+TC-07	Parent views child status	Go to parent dashboard view status	                 Shows “pending/accepted/rejected”
+TC-08	Status updates after decision	Headmaster updates status then parent checks dashboard	 Updated status displays correctly
+
+Headmaster dashboard
+Test-ID	Test Case Descriptions	        Steps	                                                 Results
+TC-09	Headmaster logs in 	        Enter headmaster default details	                 Redirected to headmaster dashboard
+TC-10	admin views list of applicants	Navigate to applicant list	                         Child details display
+TC-11	Accept student	                Click “Accept”	                                         Child status changes to “Accepted”
+TC-12	Reject student	                Click “Reject”						 Child status changes to “Rejected”
+
+User Interface and Navigation testing:
+Test-ID	Test Case Descriptions	Steps	                Results
+TC-13	Test Navigation menu 	Click all menu items	All links redirect correctly
+
+Test Completion Criteria:
+Testing is considered complete when:
+All test cases have been executed.
+When the core features function correctly.
+
+
+

@@ -1,24 +1,38 @@
-<?php include('includes/header.php'); ?>
-
-<div class="container">
-    <h2>Headmaster Login</h2>
-    <form method="POST">
-        <label>Username:</label><br>
-        <input type="text" name="username" required><br><br>
-
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
-
-        <button type="submit" name="login">Login</button>
-    </form>
-</div>
-
 <?php
-if (isset($_POST['login'])) {
-    if ($_POST['username'] == "headmaster" && $_POST['password'] == "secure123")
+session_start();
+include "includes/functions.php";
+
+$parents = readJSON("data/parents.json");
+$headmaster = readJSON("data/headmaster.json");
+
+if ($_POST) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    if ($username === $headmaster['username'] && $password === $headmaster['password']) {
+        $_SESSION['headmaster'] = $username;
         header("Location: headmaster_dashboard.php");
-    else echo "<p class='error'>Invalid credentials!</p>";
+        exit;
+    }
+
+    foreach ($parents as $p) {
+        if ($p['username'] == $username && $p['password'] == $password) {
+            $_SESSION['parent'] = $username;
+            header("Location: parent_dashboard.php");
+            exit;
+        }
+    }
+    $error = "Invalid username or password.";
 }
 ?>
-
-<?php include('includes/footer.php'); ?>
+<link rel="stylesheet" href="css/style.css">
+<?php include "includes/menu-bar.php"; ?>
+<div class="container">
+    <h2>Login</h2>
+    <?php if(isset($error)) echo "<p style='color:red; font-weight:bold;'>$error</p>"; ?>
+    <form method="POST">
+        <input name="username" placeholder="Username" required><br>
+        <input type="password" name="password" placeholder="Password" required><br>
+        <button class="button">Login</button>
+    </form>
+</div>
