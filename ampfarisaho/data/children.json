@@ -9,6 +9,15 @@
         "status": "Approved"
     },
     {
+
+        "parent": "Pheladi30",
+        "name": "Fortune ",
+        "surname": "Nchabeleng",
+        "age": "6",
+        "race": "Black",
+        "gender": "Male",        "status": "Awaiting approval"
+
+
         "parent": "Takalani Musubi",
         "name": "Zwothe",
         "surname": "Musubi",
@@ -16,5 +25,6 @@
         "race": "White",
         "gender": "Female",
         "status": "Approved"
+ f04b59382c9a113004e17730b6499d18846def7b
     }
 ]

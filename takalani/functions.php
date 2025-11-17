@@ -2,9 +2,9 @@
 // ----------------------------------------------------
 //  GLOBAL JSON FILE PATHS
 // ----------------------------------------------------
-define('USERS_FILE', _DIR_ . '/users.json');
-define('ADMISSIONS_FILE', _DIR_ . '/admissions.json');
-define('HEADMASTER_FILE', _DIR_ . '/headmaster-login.json');
+define('USERS_FILE', __DIR__ . '/users.json');
+define('ADMISSIONS_FILE', __DIR__ . '/admissions.json');
+define('HEADMASTER_FILE', __DIR__ . '/headmaster-login.json');
 
 // ----------------------------------------------------
 //  JSON READ / WRITE HELPERS
