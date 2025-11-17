@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="style.css">
 <?php
 $email = $_POST['email'];
 

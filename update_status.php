@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="style.css">
 <?php
 $id = $_GET['id'];
 $status = $_GET['status'];

@@ -1,4 +1,8 @@
+<link rel="stylesheet" href="style.css">
 <?php include 'navbar.php'; ?>
 
-<h1>About Tshwane Preschool</h1>
-<p>We provide a safe and nurturing environment for children aged 2–6 years.</p>
+<div class="container">
+    <h1>About Tshwane Preschool</h1>
+    <p>Tshwane Preschool is dedicated to nurturing young minds in a safe, fun, and educational environment.</p>
+    <p>We provide a curriculum that supports early childhood development, social skills, and creative learning.</p>
+</div>

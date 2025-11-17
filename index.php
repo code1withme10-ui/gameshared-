@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="style.css">
 <?php include 'navbar.php'; ?>
 
 <h1>Welcome to Tshwane Preschool</h1>
