@@ -15,7 +15,7 @@ if (isset($_GET['decline'])) {
     writeJSON("data/children.json", $children);
 }
 ?>
-
+<link rel="stylesheet" href="css/style.css">
 <?php include "includes/menu-bar.php"; ?>
 <div class="container">
     <h2>Headmaster Dashboard</h2>

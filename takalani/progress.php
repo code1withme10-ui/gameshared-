@@ -1,21 +1,18 @@
-<?php session_start();
-// ✅ Only allow parents to access
-if (!isset($_SESSION['user'])) {
+<?php
+session_start();
+if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'parent') {
   header('Location: login.php');
   exit();
 }
 
-// ✅ Get child ID from the query string
 $childId = $_GET['id'] ?? null;
 if (!$childId) {
   die('Child ID is required.');
 }
 
-// ✅ Load admission data
 $admissionFile = __DIR__ . '/admissions.json';
 $admissions = file_exists($admissionFile) ? json_decode(file_get_contents($admissionFile), true) : [];
 
-// ✅ Find the specific child record
 $childData = null;
 foreach ($admissions as $admission) {
   if ($admission['id'] === $childId && strcasecmp($admission['parentName'], $_SESSION['user']['parentName']) === 0) {
@@ -28,7 +25,6 @@ if (!$childData) {
   die('Child not found or you do not have permission to view this record.');
 }
 
-// ✅ Example progress (for demo — later can be stored in a progress.json file)
 $progressData = [
   'attendance'   => '95%',
   'behavior'     => 'Excellent',
@@ -36,7 +32,6 @@ $progressData = [
   'teacherNotes' => 'Shows great enthusiasm during group activities and storytelling.'
 ];
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,7 +49,6 @@ $progressData = [
 </head>
 <body>
 <?php require_once 'menu-bar.php'; ?>
-
 <main>
   <h2>Progress Report</h2>
   <div class="info">

@@ -1,7 +1,8 @@
-<?php session_start();
-if (!isset($_SESSION['user'])) {
-  header('Location: login.php');
-  exit();
+<?php
+session_start();
+if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'parent') {
+    header('Location: login.php');
+    exit();
 }
 
 $admissionFile = __DIR__ . '/admissions.json';
@@ -10,7 +11,6 @@ $admissions = file_exists($admissionFile) ? json_decode(file_get_contents($admis
 $parentName = $_SESSION['user']['parentName'];
 $parentEmail = $_SESSION['user']['email'] ?? '';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,16 +27,38 @@ $parentEmail = $_SESSION['user']['email'] ?? '';
     .Pending  { color: orange; }
     .Admitted { color: green; }
     .Rejected { color: red; }
+    .notification { background:#fff3cd; border:1px solid #ffeeba; padding:10px; margin-bottom:12px; border-radius:6px; }
     a.track { color: #4a90e2; text-decoration: none; }
-    a.track:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 <?php require_once 'menu-bar.php'; ?>
-
 <main>
   <h2>Welcome, <?= htmlspecialchars($parentName) ?> 👋</h2>
   <p style="text-align:center;">Below are your submitted admission applications.</p>
+
+  <?php
+    $foundAny = false;
+    foreach ($admissions as $admission) {
+        if (strcasecmp($admission['parentName'], $parentName) === 0) {
+            $foundAny = true;
+            // show notification if exists
+            if (!empty($admission['lastNotification'])) {
+                echo "<div class='notification'>
+                        <strong>Notification:</strong> " . htmlspecialchars($admission['lastNotification']) . "
+                        <form method='POST' action='dismiss-notification.php' style='display:inline;margin-left:10px;'>
+                          <input type='hidden' name='id' value='" . htmlspecialchars($admission['id']) . "' />
+                          <button type='submit' style='background:#6c757d;color:#fff;border:none;padding:6px 8px;border-radius:4px;cursor:pointer;'>Dismiss</button>
+                        </form>
+                      </div>";
+            }
+        }
+    }
+
+    if (!$foundAny) {
+        echo "<p style='text-align:center;'>No admissions found yet. <a href='admission.php'>Submit an application</a></p>";
+    }
+  ?>
 
   <table>
     <thead>
