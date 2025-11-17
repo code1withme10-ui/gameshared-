@@ -7,5 +7,14 @@
         "race": "Black",
         "gender": "Male",
         "status": "Approved"
+    },
+    {
+        "parent": "Pheladi30",
+        "name": "Fortune ",
+        "surname": "Nchabeleng",
+        "age": "6",
+        "race": "Black",
+        "gender": "Male",
+        "status": "Awaiting approval"
     }
 ]
