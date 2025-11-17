@@ -1,10 +1,32 @@
-HEAD
-[]
 [
-  {
-    "username": "headmaster",
-    "password": "Headmaster123@", 
-    "role": "headmaster"
-  }
+    {
+ HEAD
+        "parentName": "Pheladi",
+        "parentSurname": "Nchabeleng",
+        "parentAddress": "02 mhiri street",
+        "childName": "bianca",
+        "childSurname": "Nchabeleng",
+        "childGender": "Female",
+        "childAge": "5",
+        "contact": "0637624266",
+        "email": "basitsanapheladi@icloud.com",
+        "medical": "none",
+        "password": "$2y$10$gdFdHKIUI9ZEmz4\/dxDKp.TwqutdOYH7JI4.iQT4LIeUzEo19KI0a"
+
+        "username": "takalanimusubi",
+        "role": "parent",
+        "parentName": "Promise",
+        "parentSurname": "Kubayi",
+        "parentAddress": "Aubrey Matlala Road Block L SOSHANGUVE0152",
+        "childName": "Takalani",
+        "childSurname": "Musubi",
+        "childGender": "Male",
+        "childAge": "3",
+        "contact": "0660245504",
+        "email": "takalanimusubi117@gmail.com",
+        "medical": "none",
+        "password": "$2y$10$67J37iqLczEEdJxvYOlDTe\/lCbHc\/\/gPuubWAi1CUOhhaecbiCDt."
+
+ f04b59382c9a113004e17730b6499d18846def7b
+    }
 ]
- 47489a274ac8a259cad593bcdccbbbdc7f90b102

@@ -1,4 +1,4 @@
-<footer>
+<footer> 
   <div class="footer-content">
     <p>&copy; <?= date("Y") ?> SubixStar Pre-School. All Rights Reserved.</p>
     <div class="social-links">
