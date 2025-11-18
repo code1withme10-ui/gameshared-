@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Developer Attendance & Activity Report</title>
+<style>
+body {
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background: #f5f6fa;
+  padding: 30px;
+  color: #333;
+}
+.container {
+  max-width: 1100px;
+  margin: auto;
+  background: #fff;
+  padding: 35px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+h1 {
+  color: #0056d6;
+  border-bottom: 3px solid #0056d6;
+  padding-bottom: 10px;
+}
+h2 {
+  margin-top: 30px;
+  border-bottom: 2px solid #e1e5ea;
+  padding-bottom: 8px;
+  color: #444;
+}
+h3 { color: #6c757d; }
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(21, 1fr);
+  gap: 5px;
+  margin-top: 20px;
+  font-size: 12px;
+}
+
+.day {
+  width: 100%;
+  padding: 6px 0;
+  text-align: center;
+  border-radius: 4px;
+  background: #e9ecef;
+  color: #555;
+}
+
+.active-strong { background: #28a745; color: #fff; }
+.active-normal { background: #5cb85c; color: #fff; }
+.active-light  { background: #a7dca7; color: #fff; }
+.no-activity   { background: #f8d7da; color: #721c24; }
+.role-day      { background: #cce5ff; color: #004085; }
+
+.legend {
+  margin-top: 20px;
+}
+.legend span {
+  display: inline-block;
+  padding: 6px 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.problem {
+  background: #ffe3e3;
+  border-left: 4px solid #dc3545;
+  padding: 10px 15px;
+  margin: 15px 0;
+}
+.note {
+  background: #e7f3ff;
+  border-left: 4px solid #007bff;
+  padding: 12px 15px;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>Daily Developer Attendance & Activity Report</h1>
+<p><strong>Reporting Period:</strong> October 27 – November 16, 2025</p>
+
+<!-- ============================
+     SECTION 1: CALENDAR OVERVIEW
+     ============================ -->
+<h2>Daily Activity Calendar</h2>
+<p>This calendar visualizes day-by-day contributions for all active developers.  
+Days are highlighted based on activity level and developer role.</p>
+
+<div class="legend">
+  <span style="background:#28a745;color:#fff;">Strong Activity (4+ commits)</span>
+  <span style="background:#5cb85c;color:#fff;">Normal Activity (2–3 commits)</span>
+  <span style="background:#a7dca7;color:#fff;">Light Activity (1 commit)</span>
+  <span style="background:#cce5ff;color:#004085;">Analysis / Documentation Day</span>
+  <span style="background:#f8d7da;color:#721c24;">No Activity</span>
+</div>
+
+<div class="calendar">
+  <!-- Dates from Oct 27 to Nov 16 (21 days) -->
+  <!-- Activity calculated from your dataset -->
+
+  <!-- Oct 27 -->
+  <div class="day active-strong">27</div>
+
+  <!-- Oct 28 -->
+  <div class="day active-normal">28</div>
+
+  <!-- Oct 29 -->
+  <div class="day active-strong">29</div>
+
+  <!-- Oct 30 -->
+  <div class="day active-light">30</div>
+
+  <!-- Oct 31 -->
+  <div class="day active-light">31</div>
+
+  <!-- Nov 1–3 (no contributions) -->
+  <div class="day no-activity">1</div>
+  <div class="day no-activity">2</div>
+  <div class="day no-activity">3</div>
+
+  <!-- Nov 4 -->
+  <div class="day active-normal">4</div>
+
+  <!-- Nov 5 -->
+  <div class="day active-strong">5</div>
+
+  <!-- Nov 6 -->
+  <div class="day active-light">6</div>
+
+  <!-- Nov 7 -->
+  <div class="day active-strong">7</div>
+
+  <!-- Nov 8–9 -->
+  <div class="day no-activity">8</div>
+  <div class="day no-activity">9</div>
+
+  <!-- Nov 10 -->
+  <div class="day active-normal">10</div>
+
+  <!-- Nov 11 -->
+  <div class="day active-light">11</div>
+
+  <!-- Nov 12 -->
+  <div class="day active-normal">12</div>
+
+  <!-- Nov 13 -->
+  <div class="day active-strong">13</div>
+
+  <!-- Nov 14–15 -->
+  <div class="day no-activity">14</div>
+  <div class="day no-activity">15</div>
+
+  <!-- Nov 16 -->
+  <div class="day active-light">16</div>
+</div>
+
+<!-- ============================
+     SECTION 2: PROBLEM MEMBERS
+     ============================ -->
+<h2>Problematic / Low-Activity Team Members</h2>
+
+<div class="problem">
+  <p><strong>Thato</strong> — only 2 commits over the entire 21-day period, with long inactivity gaps.  
+  Needs consistent check-ins and should be paired with an active developer for support.</p>
+</div>
+
+<div class="problem">
+  <p><strong>General Observation:</strong> Several days show full team inactivity (Nov 1–3, 8–9, 14–15).  
+  These patterns should be monitored, especially for remote interns.</p>
+</div>
+
+<!-- ============================
+     SECTION 3: LEADER GUIDANCE
+     ============================ -->
+<h2>Leadership Guidance for Pheladi</h2>
+<p>Since Pheladi serves in an analyst/documentation/coordination role, the goal is not high commit count but **team alignment and momentum**. Based on the data, here are recommended steps:</p>
+
+<ol>
+  <li><strong>Daily Check-In Ritual:</strong>  
+      Create a quick video or text stand-up every morning where each developer states:  
+      <em>What I did yesterday, what I will do today, where I am stuck.</em></li>
+
+  <li><strong>Monitor Activity Gaps:</strong>  
+      When a developer has 1+ inactive days, send a friendly message to ensure they're not stuck or blocked.</li>
+
+  <li><strong>Pair Slow Performers with Active Developers:</strong>  
+      Example: Thato should pair with Takalani or ampfarisaho for mentorship and pace alignment.</li>
+
+  <li><strong>Weekly Short Demo Sessions:</strong>  
+      Each developer shows progress, even if small. This reduces “silent stuck” behavior.</li>
+
+  <li><strong>Define Micro-Tasks:</strong>  
+      Break work into very small tasks so interns can complete items daily rather than large multi-day tasks.</li>
+
+  <li><strong>Introduce a lightweight “Done Today” Form:</strong>  
+      A simple shared Google Form where each intern checks off tasks completed.</li>
+</ol>
+<h2>Developer Attendance Register</h2>
+<!-- 
+<p>✔ = contributed (1 or more commits), ✖ = no contribution</p>
+-->
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; text-align: center;">
+  <thead style="background-color:#0056d6; color:white;">
+    <tr>
+      <th>Developer</th>
+      <th>Oct 27</th>
+      <th>Oct 28</th>
+      <th>Oct 29</th>
+      <th>Oct 30</th>
+      <th>Oct 31</th>
+      <th>Nov 1</th>
+      <th>Nov 2</th>
+      <th>Nov 3</th>
+      <th>Nov 4</th>
+      <th>Nov 5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Gajeni44</td>
+      <td>✖</td>
+      <td>✔</td>
+      <td>✔</td>
+      <td>✔</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✔</td>
+      <td>✔</td>
+    </tr>
+    <tr>
+      <td>Thato</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✔</td>
+      <td>✖</td>
+    </tr>
+    <tr>
+      <td>ampfarisahomathagu@gmail.com</td>
+      <td>✔</td>
+      <td>✔</td>
+      <td>✔</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✔</td>
+      <td>✖</td>
+    </tr>
+    <tr>
+      <td>Takalani</td>
+      <td>✔</td>
+      <td>✖</td>
+      <td>✔</td>
+      <td>✔</td>
+      <td>✔</td>
+      <td>✖</td>
+      <td>✖</td>
+      <td>✔</td>
+      <td>✔</td>
+      <td>✖</td>
+    </tr>
+     
+  </tbody>
+</table>
+
+<!-- ============================
+     SECTION 4: SUMMARY
+     ============================ -->
+<div class="note">
+<p><strong>Summary:</strong>  
+This attendance-style activity report helps highlight daily consistency and shows clear areas where support is needed.  
+The strongest contributors maintain steady presence, while others need structured guidance.  
+With coordinated leadership from Pheladi and daily check-ins, the team can maintain a healthy and synchronized pace.</p>
+</div>
+
+</div>
+</body>
+</html>

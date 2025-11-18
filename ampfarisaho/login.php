@@ -25,7 +25,7 @@ if ($_POST) {
     $error = "Invalid username or password.";
 }
 ?>
-
+<link rel="stylesheet" href="css/style.css">
 <?php include "includes/menu-bar.php"; ?>
 <div class="container">
     <h2>Login</h2>

@@ -6,7 +6,7 @@ include "includes/functions.php";
 $children = readJSON("data/children.json");
 $username = $_SESSION['parent'];
 ?>
-
+<link rel="stylesheet" href="css/style.css">
 <?php include "includes/menu-bar.php"; ?>
 <div class="container">
     <h2>Progress Report</h2>

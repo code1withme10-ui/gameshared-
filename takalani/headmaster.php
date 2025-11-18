@@ -1,12 +1,16 @@
 <?php
 session_start();
+require_once 'functions.php'; // Ensures access to get_admissions()
+
+// 1. Authorization Check (Must be done before any HTML output)
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'headmaster') {
-    header('Location: login.php');
+    // This is the line that throws the error if output starts before it.
+    header('Location: login.php'); 
     exit();
 }
 
-$admissionFile = __DIR__ . '/admissions.json';
-$admissions = file_exists($admissionFile) ? json_decode(file_get_contents($admissionFile), true) : [];
+// 2. Load Data
+$admissions = get_admissions();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,11 +19,12 @@ $admissions = file_exists($admissionFile) ? json_decode(file_get_contents($admis
     <title>Headmaster Dashboard</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-      main.dashboard { max-width:1000px; margin:30px auto; background:#fff; padding:20px; border-radius:8px; }
-      table { width:100%; border-collapse:collapse; }
-      th, td { padding:8px; border-bottom:1px solid #ddd; text-align:left; }
-      th { background:#4a90e2; color:#fff; }
-      .btn { padding:6px 10px; border-radius:6px; border:none; cursor:pointer; }
+        /* Re-including the necessary CSS from your original code */
+        main.dashboard { max-width:1000px; margin:30px auto; background:#fff; padding:20px; border-radius:8px; }
+        table { width:100%; border-collapse:collapse; }
+        th, td { padding:8px; border-bottom:1px solid #ddd; text-align:left; }
+        th { background:#4a90e2; color:#fff; }
+        .btn { padding:6px 10px; border-radius:6px; border:none; cursor:pointer; }
     </style>
 </head>
 <body>
@@ -28,7 +33,7 @@ $admissions = file_exists($admissionFile) ? json_decode(file_get_contents($admis
     <h2>Pending Admissions</h2>
     <?php
       $hasPending = false;
-      foreach ($admissions as $a) { if ($a['status'] === 'Pending') { $hasPending = true; break; } }
+      foreach ($admissions as $a) { if (($a['status'] ?? '') === 'Pending') { $hasPending = true; break; } }
       if (!$hasPending) {
         echo "<p>No pending admissions at the moment.</p>";
       }
@@ -46,7 +51,7 @@ $admissions = file_exists($admissionFile) ? json_decode(file_get_contents($admis
         </thead>
         <tbody>
             <?php foreach ($admissions as $admission): ?>
-                <?php if ($admission['status'] === 'Pending'): ?>
+                <?php if (($admission['status'] ?? '') === 'Pending'): ?>
                     <tr>
                         <td><?= htmlspecialchars($admission['childFirstName'] . ' ' . $admission['childSurname']) ?></td>
                         <td><?= htmlspecialchars($admission['age']) ?></td>
