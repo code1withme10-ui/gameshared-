@@ -17,18 +17,26 @@ session_start();
     <h1>Welcome to SubixStar Pre-School</h1>
     <h2 class="welcome-subtitle">Hami Amukela, Ndaa ria-vha Tanganedza</h2>
 
-    <?php if (isset($_SESSION['user'])): ?>
+    <?php if (isset($_SESSION['user'])): 
+        // Safely retrieve user data, defaulting to 'N/A' or a safe string if key is missing
+        $parentName = $_SESSION['user']['parentName'] ?? 'User';
+        $childName  = $_SESSION['user']['childName'] ?? 'N/A';
+        $childAge   = $_SESSION['user']['childAge'] ?? 'N/A';
+        $email      = $_SESSION['user']['email'] ?? '';
+        $phone      = $_SESSION['user']['phone'] ?? '';
+    ?>
         <div class="user-info-card">
-            <h3>Welcome, <?= htmlspecialchars($_SESSION['user']['parentName']) ?>!</h3>
-            <p><strong>Child Name:</strong> <?= htmlspecialchars($_SESSION['user']['childName']) ?></p>
-            <p><strong>Age:</strong> <?= htmlspecialchars($_SESSION['user']['childAge']) ?></p>
+            <h3>Welcome, <?= htmlspecialchars($parentName) ?>!</h3>
+            
+            <p><strong>Child Name:</strong> <?= htmlspecialchars($childName) ?></p>
+            <p><strong>Age:</strong> <?= htmlspecialchars($childAge) ?></p>
 
-            <?php if (!empty($_SESSION['user']['email'])): ?>
-                <p><strong>Email:</strong> <?= htmlspecialchars($_SESSION['user']['email']) ?></p>
+            <?php if (!empty($email)): ?>
+                <p><strong>Email:</strong> <?= htmlspecialchars($email) ?></p>
             <?php endif; ?>
 
-            <?php if (!empty($_SESSION['user']['phone'])): ?>
-                <p><strong>Phone:</strong> <?= htmlspecialchars($_SESSION['user']['phone']) ?></p>
+            <?php if (!empty($phone)): ?>
+                <p><strong>Phone:</strong> <?= htmlspecialchars($phone) ?></p>
             <?php endif; ?>
 
             <p><a href="logout.php" class="button rainbow-btn">Logout</a></p>
@@ -38,6 +46,7 @@ session_start();
             Welcome! Please <a href="login.php" class="rainbow-link">Login</a> or 
             <a href="registration.php" class="rainbow-link">Register</a> to continue.
         </p>
+        <p><a href="headmaster-login.php">Headmaster Login</a> </p>
     <?php endif; ?>
 </main>
 

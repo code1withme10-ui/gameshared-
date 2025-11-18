@@ -1,14 +1,10 @@
 <?php
+// PHP login logic remains the same (assuming you fixed the login functionality earlier)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
-
-// Load JSON file
-$headmasterFile = __DIR__ . "/headmaster-login.json";
-
-if (!file_exists($headmasterFile)) {
-    die("Headmaster login file missing!");
-}
-
-$data = json_decode(file_get_contents($headmasterFile), true);
+require_once 'functions.php'; // Ensures access to find_headmaster()
 
 $error = "";
 
@@ -16,14 +12,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST["username"]);
     $password = trim($_POST["password"]);
 
-    // Check credentials
-    if ($username === $data["username"] && $password === $data["password"]) {
+    $user = find_headmaster($username); 
+
+    if ($user && password_verify($password, $user['password'])) {
         
         $_SESSION["user"] = [
-            "username" => $username,
-            "role" => "headmaster"
+            "username" => $user['username'],
+            "role" => $user['role']
         ];
-
+        
         header("Location: headmaster.php");
         exit();
 
@@ -40,21 +37,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
 
-<h2 style="text-align:center;">Headmaster Login</h2>
+<?php require_once 'menu-bar.php'; ?>
 
-<?php if ($error): ?>
-    <p style="color:red; text-align:center;"><?= htmlspecialchars($error) ?></p>
-<?php endif; ?>
+<main>
+    <h2 style="text-align:center;">Headmaster Login</h2>
+    
+    <?php if ($error): ?>
+        <p style="color:red; text-align:center;"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
 
-<form method="POST" style="max-width:300px; margin:auto;">
-    <label>Username</label>
-    <input type="text" name="username" required>
+    <form method="POST" style="max-width:300px; margin:auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <label>Username</label>
+        <input type="text" name="username" required>
 
-    <label>Password</label>
-    <input type="password" name="password" required>
+        <label>Password</label>
+        <input type="password" name="password" required>
 
-    <button type="submit">Login</button>
-</form>
+        <button type="submit">Login</button>
+    </form>
+</main>
+
+<?php include 'footer.php'; ?>
 
 </body>
 </html>
