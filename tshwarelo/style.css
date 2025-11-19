@@ -10,43 +10,42 @@ body {
     line-height: 1.6;
 }
 
-/* Page Container for central content area, matching static pages */
+/* Page Container for central content area */
 .page-container {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* --- Navigation Bar Styling (FIXED) --- */
+/* --- Navigation Bar (Horizontal) --- */
 .navbar {
-    background-color: #4CAF50; /* Green background */
-    color: white;
-    padding: 10px 20px;
-    display: flex; 
-    justify-content: space-between; /* Pushes the title left, links right */
-    align-items: center;
-    margin-bottom: 20px;
-}
-.navbar a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px; /* Spacing between links */
-    transition: color 0.3s;
-}
-.navbar a:hover {
-    color: #ddd;
-    text-decoration: underline;
-}
-.navbar-links {
-    display: flex;
-}
-.navbar-title {
-    font-weight: bold;
-    font-size: 1.5em;
-    color: white; 
+    background-color: #333;
+    padding: 12px 0;
 }
 
-/* --- Heading Styles (Matching your screenshots) --- */
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;           /* horizontal */
+    justify-content: center; /* center links */
+    gap: 30px;               /* spacing between links */
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 6px 12px;
+    transition: 0.3s;
+}
+
+.navbar ul li a:hover {
+   background-color: #FF8C00; /* Orange background */
+    border-radius: 5px;
+}
+
+/* --- Heading Styles --- */
 h1 {
     color: #333;
     font-size: 2.2em;
@@ -70,7 +69,7 @@ form {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     max-width: 500px;
     margin-bottom: 20px;
-    border-left: 5px solid #4CAF50; /* Green accent bar for forms */
+    border-left: 5px solid #4CAF50;
 }
 
 label {
@@ -114,7 +113,7 @@ button[type="submit"]:hover {
     border: 1px solid #e0e0e0;
     border-radius: 6px;
     margin-bottom: 15px;
-    border-left: 5px solid #2196F3; /* Blue accent for children */
+    border-left: 5px solid #2196F3;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
@@ -137,7 +136,6 @@ button[type="submit"]:hover {
 }
 
 /* --- Message Styling (Success/Error) --- */
-/* The !important ensures the style overrides any inline styles you previously used */
 p[style*="color: green"], .status-message-success { 
     background-color: #e6ffe6;
     border: 1px solid #4CAF50;
@@ -159,7 +157,7 @@ p[style*="color: red"], .status-message-error {
 .status-admitted { color: green; font-weight: bold; }
 .status-rejected { color: red; font-weight: bold; }
 
-/* Admin table styling */
+/* --- Admin Table Styling --- */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -177,7 +175,8 @@ th {
     color: #333;
     font-weight: bold;
 }
-/* Style for the admit/reject buttons in the table */
+
+/* Admit / Reject buttons in table */
 table button {
     padding: 5px 10px;
     margin-right: 5px;
@@ -186,9 +185,63 @@ table button {
     cursor: pointer;
     color: white;
 }
-table button[value="admit"] {
-    background-color: #4CAF50;
+table button[value="admit"] { background-color: #4CAF50; }
+table button[value="reject"] { background-color: #f44336; }
+
+/* --- About Page Specific Classes --- */
+.about-section {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    border-left: 5px solid #008000; /* default green accent */
 }
-table button[value="reject"] {
-    background-color: #f44336;
+
+.founder-box {
+    display: flex;
+    align-items: center;
+    background-color: #f0f8ff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.founder-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: cover;
+    border: 4px solid #47b3ff;
+}
+
+.sponsor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.sponsor-logo {
+    width: 100%;
+    height: auto;
+    max-width: 150px;
+    filter: grayscale(80%);
+    opacity: 0.8;
+    transition: filter 0.3s, opacity 0.3s;
+}
+
+.sponsor-logo:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    
+    /* Logo styling in the navbar */
+.navbar .logo {
+    font-weight: bold;       /* Bold text */
+    font-size: 18px;         /* Same size as nav links */
+    color: white;            /* Matches nav link color */
+}
+
 }
