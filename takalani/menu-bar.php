@@ -18,8 +18,6 @@ if (session_status() === PHP_SESSION_NONE) {
       <a href="logout.php" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">
         Logout (<?= htmlspecialchars($_SESSION['user']['email'] ?? $_SESSION['user']['username']) ?>)
       </a>
-    <?php else: ?>
-      <a href="login.php" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Login</a>
     <?php endif; ?>
   </nav>
 </header>

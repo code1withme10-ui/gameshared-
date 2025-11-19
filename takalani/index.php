@@ -46,7 +46,7 @@ session_start();
             Welcome! Please <a href="login.php" class="rainbow-link">Login</a> or 
             <a href="registration.php" class="rainbow-link">Register</a> to continue.
         </p>
-        <p><a href="headmaster-login.php">Headmaster Login</a> </p>
+       
     <?php endif; ?>
 </main>
 
