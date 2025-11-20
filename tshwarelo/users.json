@@ -38,5 +38,29 @@
         "password": "admin",
         "children": [],
         "role": "headmaster"
+    },
+    {
+        "id": "user-691c3aa3d5a12",
+        "parentName": "Tlharihani",
+        "email": "Tlharihani@gmail.com",
+        "password": "123456",
+        "children": [
+            {
+                "childId": "child-691c3aa3d5c85",
+                "name": "Millan",
+                "age": 2,
+                "gender": "Male",
+                "reports": [],
+                "status": "pending"
+            },
+            {
+                "childId": "child-691c3ad11e27b",
+                "name": "Rose",
+                "age": 2,
+                "gender": "Female",
+                "reports": [],
+                "status": "pending"
+            }
+        ]
     }
 ]
