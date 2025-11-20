@@ -1,0 +1,28 @@
+[
+    {
+        "name": "",
+        "date": "",
+        "project": "",
+        "tasks": "",
+        "hours": "",
+        "status": "Completed",
+        "challenges": "",
+        "need_help": "No",
+        "help_details": "",
+        "productivity": "",
+        "notes": ""
+    },
+    {
+        "name": "pheladi",
+        "date": "2025-11-18",
+        "project": "web",
+        "tasks": "no",
+        "hours": "1.75",
+        "status": "Completed",
+        "challenges": "hgj",
+        "need_help": "No",
+        "help_details": "",
+        "productivity": "1",
+        "notes": ""
+    }
+]
