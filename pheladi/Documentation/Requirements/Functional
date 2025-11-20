@@ -1,0 +1,148 @@
+Introduction
+
+Purpose
+This document defines the complete requirements for the Parent Child Application Form, where parents enter full details about their child and upload supporting documents. The system stores all application information in a JSON file instead of a database. The system must be developed using html and php.
+
+Scope
+The system must allow the parents to:
+Enter child and parent details.
+Upload required supporting documents.
+Submit an application.
+The system will not use database to store files but will use JSON for storage.
+
+Functional Requirements
+1.1 Child Information required fields:
+Child Full Name
+Date of Birth
+Gender
+Grade Applying For
+Residential Address
+
+Grade Categories
+Parents must select from the following options:
+Category	Age Range
+Infants	        6 – 12 months
+Toddlers	1 – 3 years
+Playgroup	3 – 4 years
+Pre-School	4 – 5 years
+
+Selection Method
+The field must be a dropdown menu or radio buttons.
+The system must validate that the child’s age matches the selected category.
+
+Default Behavior
+Dropdown should display “Select Category” by default.
+Other categories should be disabled if the age does not match.
+
+1.2 Parent Information required fields:
+Parent Full Name
+Relationship to Child
+Email Address
+Phone Number
+Residential Address
+
+Validation:
+Email must be a valid format.
+Phone number must match a valid number pattern.
+
+1.3 Supporting Documents Upload:
+Parents must upload the following:
+Birth Certificate
+Parent/Guardian ID
+
+Validation:
+Allowed formats: PDF, JPG, PNG
+Max size: 2MB per file
+Multiple upload attempts allowed
+System must show a preview if document is an image
+System must reject invalid file types
+System must show error messages for failed uploads
+
+1.4 Submission Requirements:
+Upon submitting the form:
+All fields must be validated.
+All documents must be uploaded.
+Application will only save if validation passes.
+Application status defaults to "pending".
+A success message must be displayed after submission and parent must view summary of submission.
+
+1.5 JSON File Handling
+New applications must not overwrite existing applications.
+New object must be appended per application.
+JSON file must remain well-structured and readable.
+
+1.6 Validation Requirements
+All required fields must be completed
+Email must include “@” and valid domain
+Phone number must be numeric and properly formatted
+Date of birth cannot be a future date
+Grade must be selected
+Check file type before upload
+Check file size before upload
+Show real-time error messages
+
+Page Layout of the admission page
+
+================================================================================
+                        SCHOOL ADMISSION FORM
+================================================================================
+
+SECTION 1: CHILD DETAILS
+--------------------------------------------------------------------------------
+[Child Full Name:        ____________________________]  *Required
+[Date of Birth:          ____/____/________]          *Required
+[Gender:                 ( ) Male   ( ) Female   ( ) Other]  *Required
+[Grade Applying For:     ⬇ Select Category *]        *Required
+   - Infants (6-12 months)
+   - Toddlers (1-3 years)
+   - Playgroup (3-4 years)
+   - Pre-School (4-5 years)
+[Home Address:           ____________________________]  *Required
+[Previous School:        ____________________________]  (Optional)
+
+* Notes:
+- Grade category must match DOB.
+- If mismatch occurs, show error: "Selected category does not match child’s age."
+
+--------------------------------------------------------------------------------
+SECTION 2: PARENT / GUARDIAN DETAILS
+--------------------------------------------------------------------------------
+[Parent Full Name:       ____________________________]  *Required
+[Relationship to Child: ____________________________]  *Required
+[Email Address:          ____________________________]  *Required, must be valid email
+[Phone Number:           ____________________________]  *Required, numeric
+[Home Address:           ____________________________]  *Required
+
+* Notes:
+- All required fields marked with "*".
+- Email and phone must be validated before submission.
+
+--------------------------------------------------------------------------------
+SECTION 3: UPLOAD SUPPORTING DOCUMENTS
+--------------------------------------------------------------------------------
+[Child ID / Birth Certificate:         [Choose File]]  *Required
+[Parent ID:                           [Choose File]]  *Required
+[Proof of Residence:                   [Choose File]]  *Required
+[Proof of Registration / Application: [Choose File]]  *Required
+
+* Notes:
+- Allowed file types: PDF, JPG, PNG
+- Max size: 2MB per file
+- Preview image files if possible
+- Validation error shown for invalid files
+
+--------------------------------------------------------------------------------
+SECTION 4: FORM VALIDATION AND SUBMISSION
+--------------------------------------------------------------------------------
+[Validation Errors Display Area:      __________________]
+* Real-time error messages for missing fields or invalid files
+
+[Submit Button:                        [SUBMIT APPLICATION]]
+
+* Notes:
+- Submit button disabled until all validations pass
+- After submission:
+    - Save data in JSON format
+    - Assign unique Application ID
+    - Status defaults to "Pending"
+    - Show confirmation message with Application ID and summary
