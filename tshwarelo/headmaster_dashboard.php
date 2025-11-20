@@ -92,12 +92,17 @@ $is_logged_in = true;
     
     <div class="navbar">
         <span class="navbar-title">Humulani Pre School</span>
-        <div class="navbar-links">
-            <a href="index.php">Home</a> 
-            <a href="about.php">About Us</a>
-            <a href="gallery.php">Gallery</a>
-            <a href="admission.php">Admission</a>
-            <a href="contact.php">Contact</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="about.php">About Us</a></li>
+            <li><a href="gallery.php">Gallery</a></li>
+            <li><a href="admission.php">Admission</a></li>
+            <li><a href="contact.php">Contact</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+    </nav>
             
             <?php if ($is_logged_in): ?>
                 <a href="headmaster_dashboard.php?action=logout">Logout</a>
