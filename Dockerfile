@@ -1,4 +1,13 @@
 FROM php:8.2-apache
+
+# Copy project files to the Apache root
 COPY ampfarisaho /var/www/html/
-EXPOSE 80
-RUN docker-php-ext-install mysqli
+
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
+
+
+# Enable Apache rewrite
+RUN a2enmod rewrite
+
+
