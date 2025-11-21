@@ -1,13 +1,10 @@
 FROM php:8.2-apache
 
-# Copy project files to the Apache root
+
+RUN docker-php-ext-install pdo pdo_mysql
+
+
 COPY ampfarisaho /var/www/html/
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
 
-
-# Enable Apache rewrite
-RUN a2enmod rewrite
-
-
+RUN chmod -R 777 /var/www/html/data /var/www/html/uploads
