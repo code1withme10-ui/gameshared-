@@ -1,0 +1,44 @@
+TEST DOCUMENTATION: Parent Application Submission.
+Project: Admission page.
+Date: 21 November 2025
+
+Test Plan Overview
+Purpose:
+To ensure that the parent can successfully submit child and parent details, upload supporting documents, and store the application in JSON format with proper validation.
+
+Test Types:
+Functional testing
+Validation testing
+Usability testing
+
+Test Cases
+Parent and Child details form
+
+Test-ID	Test Scenario	                Test steps							Results
+TC01	Enter valid child details	Fill in name, DOB, gender, grade				Fields accept input and no errors appear
+TC02	Enter valid parent details	Fill in parent name, relationship, email, phone, address	Fields accept input and no errors appear
+TC03	Grade category matches age	Enter DOB 2022-03-01, select “Toddlers”				System accepts selection, no error
+TC04	Grade category mismatch	        Enter DOB 2023-01-01, select “Playgroup”			System shows error: “category does not match child’s age”
+
+Document Uploading
+
+Test-ID	Test Scenario	                Test steps	                                                Results
+TC05	Upload valid document		Upload childbirth certificate				        System accepts files, shows preview for images
+TC06	Upload valid document	        Upload parent/guardian ID					System accepts file, shows preview for images
+TC07	Upload invalid file type	Upload .exe or .txt file					System rejects file, shows error
+TC08	Upload file exceeding 2MB	Upload large PDF						System rejects file, shows error
+
+Submission
+
+Test-ID	Test Scenario	                                Test steps	                                Results
+TC09	Submit application with all valid inputs	Fill all required fields and upload documents	JSON file updated, status = “Pending”, confirmation displayed
+TC10	Submit application with missing fields	        Leave required field blank	                System shows error, form not submitted
+TC11	Submit application with missing documents	Skip uploading one required document	        System shows error, form not submitted
+
+Validation testing
+Validation Test Cases
+Email field: Must accept only valid email formats.
+Phone field: Must accept only numeric characters, valid length.
+DOB field: Must not accept future dates.
+Grade category: Must match calculated age from DOB.
+Document uploads: Validate file type, size, and optional preview.
