@@ -16,5 +16,23 @@
         "race": "White",
         "gender": "Female",
         "status": "Approved"
+    },
+    {
+        "parent": "Arthur Mathagu",
+        "name": "John",
+        "surname": "Silver",
+        "age": "2",
+        "race": "White",
+        "gender": "Male",
+        "status": "Declined"
+    },
+    {
+        "parent": "Arthur Mathagu",
+        "name": "Randy",
+        "surname": "Brooks",
+        "age": "3",
+        "race": "White",
+        "gender": "Male",
+        "status": "Approved"
     }
 ]
