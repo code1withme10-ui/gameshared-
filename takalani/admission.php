@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Start session to potentially retrieve logged-in user data (though not strictly required by the prompt)
+// Start session to potentially retrieve logged-in user data
 session_start();
 
 // Define the file path for JSON storage and file upload directory
@@ -12,7 +12,11 @@ $uploadDir = __DIR__ . '/uploads/';
 
 // Ensure the upload directory exists
 if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0777, true);
+    // Attempt to create the directory with full permissions recursively
+    if (!mkdir($uploadDir, 0777, true)) {
+        // Fallback or error handling if directory creation fails
+        die("Fatal Error: Failed to create upload directory.");
+    }
 }
 
 // Load existing admissions data
@@ -24,21 +28,21 @@ $success = "";
 $error = "";
 $submissionSummary = null; // To store and display the summary after successful submission
 
-// Define Grade Categories for consistency
+// Define Grade Categories (Age Ranges for validation)
 $gradeCategories = [
-    'Infants' => ['min' => 0.5, 'max' => 1, 'label' => 'Infants (6-12 months)'], // 6/12 = 0.5 years
+    // Age in years: 6/12 = 0.5, 12/12 = 1.0, etc.
+    'Infants' => ['min' => 0.5, 'max' => 1, 'label' => 'Infants (6-12 months)'],
     'Toddlers' => ['min' => 1, 'max' => 3, 'label' => 'Toddlers (1-3 years)'],
     'Playgroup' => ['min' => 3, 'max' => 4, 'label' => 'Playgroup (3-4 years)'],
     'Pre-School' => ['min' => 4, 'max' => 5, 'label' => 'Pre-School (4-5 years)'],
 ];
 
-// PHP Age Calculation Function (in years)
+// PHP Age Calculation Function (returns age in years with fraction)
 function calculateAge($dob) {
     if (empty($dob)) return 0;
     $birthDate = new DateTime($dob);
     $today = new DateTime();
     $interval = $today->diff($birthDate);
-    // Return age in years, including a fraction for months
     return $interval->y + ($interval->m / 12);
 }
 
@@ -54,15 +58,19 @@ function isAgeInGradeCategory($ageInYears, $categoryKey, $categories) {
 // PHP File Upload and Validation Function
 function handleFileUpload($fileInputName, $uploadDir, &$errors) {
     if (!isset($_FILES[$fileInputName])) {
-        $errors[] = "Required document '$fileInputName' is missing.";
         return false;
     }
 
     $file = $_FILES[$fileInputName];
 
-    // Check for upload errors
+    // REQUIRED FILE CHECK (Returns false if no file selected)
+    if ($file['error'] === UPLOAD_ERR_NO_FILE) {
+         return false;
+    }
+
+    // Check for other upload errors
     if ($file['error'] !== UPLOAD_ERR_OK) {
-        $errors[] = "File upload error for $fileInputName: " . $file['error'];
+        $errors[] = "File upload error for $fileInputName: Code " . $file['error'];
         return false;
     }
 
@@ -73,18 +81,18 @@ function handleFileUpload($fileInputName, $uploadDir, &$errors) {
         return false;
     }
 
-    // Validation: Allowed formats
+    // Validation: Allowed formats (PDF, JPG, PNG)
     $allowedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
-    $fileType = mime_content_type($file['tmp_name']); // A more reliable way to check MIME type
-    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    // Use mime_content_type for reliable check
+    $fileType = (function_exists('mime_content_type')) ? mime_content_type($file['tmp_name']) : $file['type'];
     
-    // Fallback: Check extension if mime_content_type is not working/disabled
-    if (!in_array($fileType, $allowedTypes) && !in_array('image/' . $extension, $allowedTypes) && !in_array('application/' . $extension, $allowedTypes)) {
-         $errors[] = "$fileInputName has an invalid file type. Only PDF, JPG, or PNG are allowed.";
+    if (!in_array($fileType, $allowedTypes)) {
+         $errors[] = "$fileInputName has an invalid file type ('$fileType'). Only PDF, JPG, or PNG are allowed.";
         return false;
     }
     
     // Generate a unique filename and move the file
+    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     $fileName = uniqid($fileInputName . '_', true) . '.' . $extension;
     $destination = $uploadDir . $fileName;
 
@@ -95,8 +103,14 @@ function handleFileUpload($fileInputName, $uploadDir, &$errors) {
         return false;
     }
 }
-
 // --- Submission Handling ---
+$documentFields = [
+    'childIDBirthCertificate' => 'Child ID / Birth Certificate',
+    'parentID' => 'Parent ID',
+    'proofOfResidence' => 'Proof of Residence',
+    'proofOfRegistration' => 'Proof of Registration / Application',
+];
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $validationErrors = [];
     $applicationData = [];
@@ -115,12 +129,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($gradeApplyingFor) || $gradeApplyingFor === 'Select Category') $validationErrors[] = "Grade Applying For is required.";
     if (empty($childResidentialAddress)) $validationErrors[] = "Child Residential Address is required.";
     
-    // DOB cannot be a future date
+    // Validation: DOB cannot be a future date
     if (!empty($dob) && strtotime($dob) > time()) {
         $validationErrors[] = "Date of Birth cannot be a future date.";
     }
 
-    // Grade Category Validation (Age matching)
+    // Validation: Grade Category Validation (Age matching)
+    $ageInYears = 0;
     if (!empty($dob) && !empty($gradeApplyingFor) && $gradeApplyingFor !== 'Select Category') {
         $ageInYears = calculateAge($dob);
         if (!isAgeInGradeCategory($ageInYears, $gradeApplyingFor, $gradeCategories)) {
@@ -141,39 +156,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($phoneNumber)) $validationErrors[] = "Phone Number is required.";
     if (empty($parentResidentialAddress)) $validationErrors[] = "Parent Residential Address is required.";
 
-    // Email validation
+    // Validation: Email format
     if (!empty($emailAddress) && !filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
         $validationErrors[] = "Email Address must be a valid format.";
     }
 
-    // Phone number validation (simple numeric check)
-    $cleanPhoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber);
-    if (!empty($phoneNumber) && !preg_match('/^[0-9\s\-\+\(\)]+$/', $phoneNumber)) { // Basic pattern validation
+    // Validation: Phone number format
+    if (!empty($phoneNumber) && !preg_match('/^[0-9\s\-\+\(\)]+$/', $phoneNumber)) { // Allows numbers and common formatting symbols
         $validationErrors[] = "Phone Number must be numeric and properly formatted.";
     }
 
     // 3. Supporting Documents Upload and Validation
     $uploadedFiles = [];
     
-    // File upload requirements: Birth Certificate, Parent/Guardian ID. 
-    // The page layout lists 4: Child ID/Birth Certificate, Parent ID, Proof of Residence, Proof of Registration.
-    // We will follow the Page Layout for completeness.
-    $documentFields = [
-        'childIDBirthCertificate' => 'Child ID / Birth Certificate',
-        'parentID' => 'Parent ID',
-        'proofOfResidence' => 'Proof of Residence',
-        'proofOfRegistration' => 'Proof of Registration / Application',
-    ];
-
     foreach ($documentFields as $fieldKey => $fieldName) {
         $fileName = handleFileUpload($fieldKey, $uploadDir, $validationErrors);
         if ($fileName) {
             $uploadedFiles[$fieldKey] = $fileName;
         } else {
-             // If errors occurred, they were added inside handleFileUpload. 
-             // We still check if a required file is missing (no file selected or moved).
+             // Check if a required file is missing (no file selected or moved).
             if(!isset($_FILES[$fieldKey]) || $_FILES[$fieldKey]['error'] == UPLOAD_ERR_NO_FILE) {
-                 $validationErrors[] = "$fieldName upload is required.";
+                // Ensure we only mark files as required if there are no other validation errors yet (to prioritize specific file errors)
+                if (empty(array_filter($validationErrors, function($e) use ($fieldName) { return strpos($e, $fieldName) !== false; }))) {
+                    $validationErrors[] = "$fieldName upload is required.";
+                }
             }
         }
     }
@@ -183,7 +189,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $applicationID = uniqid("APP_");
         $newAdmission = [
             "applicationID" => $applicationID,
-            "status" => "pending",
+            "status" => "pending", // Default status
             "timestamp" => date("Y-m-d H:i:s"),
             "child" => [
                 "fullName" => $childFullName,
@@ -204,20 +210,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "documents" => $uploadedFiles,
         ];
 
-        // Append to existing array
+        // Append to existing array and save
         $admissions[] = $newAdmission;
 
-        // Save data to JSON file
         if (file_put_contents($admissionFile, json_encode($admissions, JSON_PRETTY_PRINT))) {
             $success = "✅ Application submitted successfully! Your Application ID is **{$applicationID}**.";
             $submissionSummary = $newAdmission;
-            // Clear POST to prevent resubmission on refresh
+            // Clear POST data to prevent resubmission on refresh
             $_POST = array(); 
         } else {
+            // Cleanup uploaded files if JSON save failed
+            foreach ($uploadedFiles as $filename) {
+                @unlink($uploadDir . $filename);
+            }
             $error = "⚠ Unable to save application data. Please try again.";
         }
     } else {
-        $error = "❌ Submission failed due to " . count($validationErrors) . " error(s). Please review the form.";
+        $error = "❌ Submission failed due to " . count($validationErrors) . " error(s)". (count($validationErrors) > 0 ? ": <br><ul><li>".implode("</li><li>", $validationErrors)."</li></ul>" : "");
     }
 }
 ?>
@@ -226,30 +235,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <title>SCHOOL ADMISSION FORM</title>
-    <style>
-        /* Minimalist styles for structure - you should use a separate CSS file */
-        body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; margin: 0; }
-        main { max-width: 800px; margin: 30px auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        h1, h2, h3 { text-align: center; color: #007bff; }
-        .section { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select, textarea { 
-            width: 100%; padding: 10px; margin: 5px 0 10px 0; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; 
-        }
-        button[type="submit"] { background: #28a745; color: white; font-weight: bold; border: none; padding: 15px; cursor: pointer; width: 100%; border-radius: 5px; }
-        button[type="submit"]:disabled { background: #6c757d; cursor: not-allowed; }
-        .error-message { color: red; font-size: 0.9em; margin-top: -10px; margin-bottom: 10px; }
-        .message.success { color: green; font-weight: bold; }
-        .message.error { color: red; font-weight: bold; }
-        .validation-errors { color: red; border: 1px solid red; padding: 10px; margin-bottom: 20px; border-radius: 5px; }
-        .summary-box { border: 2px solid #007bff; padding: 20px; margin-top: 20px; border-radius: 8px; background: #e9f5ff; }
-        .summary-box p { margin: 5px 0; }
-        .file-preview { margin-top: 10px; max-width: 100%; height: auto; border: 1px solid #ccc; }
-        .file-upload-block { border: 1px dashed #ccc; padding: 10px; margin-bottom: 10px; }
-    </style>
+    <link rel="stylesheet" href="styles.css"> 
 </head>
 <body>
+    
+    <?php require_once 'menu-bar.php'; ?> 
+
     <main>
         <h1>SCHOOL ADMISSION FORM</h1>
         <hr>
@@ -282,7 +273,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <?php if ($error): ?>
             <div class="message error"><?= $error ?></div>
-            <?php if (!empty($validationErrors)): ?>
+            <?php if (strpos($error, '<ul>') === false && !empty($validationErrors)): ?> 
                 <div class="validation-errors">
                     <p>Please fix the following errors:</p>
                     <ul>
@@ -295,6 +286,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <?php endif; ?>
 
         <form method="POST" enctype="multipart/form-data" id="admissionForm">
+            
             <div class="section">
                 <h2>SECTION 1: CHILD DETAILS</h2>
                 <hr>
@@ -302,23 +294,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="form-group">
                     <label for="childFullName">Child Full Name *</label>
                     <input type="text" id="childFullName" name="childFullName" required 
-                           value="<?= htmlspecialchars($_POST['childFullName'] ?? '') ?>" oninput="validateField(this)">
+                               value="<?= htmlspecialchars($_POST['childFullName'] ?? '') ?>" oninput="validateField(this)">
                     <div id="error-childFullName" class="error-message"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="dob">Date of Birth *</label>
                     <input type="date" id="dob" name="dob" required 
-                           value="<?= htmlspecialchars($_POST['dob'] ?? '') ?>" onchange="validateDOB(this); validateGradeCategory()">
+                               value="<?= htmlspecialchars($_POST['dob'] ?? '') ?>" onchange="validateDOB(this); validateGradeCategory(); checkFormValidity();">
                     <div id="error-dob" class="error-message"></div>
                 </div>
 
                 <div class="form-group">
                     <label>Gender *</label>
-                    <div>
-                        <input type="radio" id="genderMale" name="gender" value="Male" required onclick="validateField(this)"> <label for="genderMale" style="display:inline;">Male</label>
-                        <input type="radio" id="genderFemale" name="gender" value="Female" onclick="validateField(this)"> <label for="genderFemale" style="display:inline;">Female</label>
-                        <input type="radio" id="genderOther" name="gender" value="Other" onclick="validateField(this)"> <label for="genderOther" style="display:inline;">Other</label>
+                    <div class="radio-group">
+                        <input type="radio" id="genderMale" name="gender" value="Male" required <?= (($_POST['gender'] ?? '') === 'Male') ? 'checked' : '' ?> onclick="validateField(this); checkFormValidity()"> <label for="genderMale" style="display:inline;">Male</label>
+                        <input type="radio" id="genderFemale" name="gender" value="Female" <?= (($_POST['gender'] ?? '') === 'Female') ? 'checked' : '' ?> onclick="validateField(this); checkFormValidity()"> <label for="genderFemale" style="display:inline;">Female</label>
+                        <input type="radio" id="genderOther" name="gender" value="Other" <?= (($_POST['gender'] ?? '') === 'Other') ? 'checked' : '' ?> onclick="validateField(this); checkFormValidity()"> <label for="genderOther" style="display:inline;">Other</label>
                     </div>
                     <div id="error-gender" class="error-message"></div>
                 </div>
@@ -326,14 +318,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="form-group">
                     <label for="gradeApplyingFor">Grade Applying For *</label>
                     <select id="gradeApplyingFor" name="gradeApplyingFor" required 
-                            onchange="validateGradeCategory()">
+                                onchange="validateGradeCategory(); checkFormValidity()">
                         <option value="Select Category">⬇ Select Category *</option>
                         <?php foreach ($gradeCategories as $key => $details): ?>
                             <option value="<?= $key ?>" 
-                                    data-min="<?= $details['min'] ?>" 
-                                    data-max="<?= $details['max'] ?>"
-                                    <?= (($_POST['gradeApplyingFor'] ?? '') === $key) ? 'selected' : '' ?>
-                                    ><?= $details['label'] ?></option>
+                                        data-min="<?= $details['min'] ?>" 
+                                        data-max="<?= $details['max'] ?>"
+                                        <?= (($_POST['gradeApplyingFor'] ?? '') === $key) ? 'selected' : '' ?>
+                                        ><?= $details['label'] ?></option>
                         <?php endforeach; ?>
                     </select>
                     <div id="error-gradeApplyingFor" class="error-message"></div>
@@ -349,7 +341,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="form-group">
                     <label for="previousSchool">Previous School (Optional)</label>
                     <input type="text" id="previousSchool" name="previousSchool" 
-                           value="<?= htmlspecialchars($_POST['previousSchool'] ?? '') ?>">
+                               value="<?= htmlspecialchars($_POST['previousSchool'] ?? '') ?>">
                 </div>
             </div>
 
@@ -360,28 +352,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="form-group">
                     <label for="parentFullName">Parent Full Name *</label>
                     <input type="text" id="parentFullName" name="parentFullName" required 
-                           value="<?= htmlspecialchars($_POST['parentFullName'] ?? '') ?>" oninput="validateField(this)">
+                               value="<?= htmlspecialchars($_POST['parentFullName'] ?? '') ?>" oninput="validateField(this)">
                     <div id="error-parentFullName" class="error-message"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="relationshipToChild">Relationship to Child *</label>
                     <input type="text" id="relationshipToChild" name="relationshipToChild" required 
-                           value="<?= htmlspecialchars($_POST['relationshipToChild'] ?? '') ?>" oninput="validateField(this)">
+                               value="<?= htmlspecialchars($_POST['relationshipToChild'] ?? '') ?>" oninput="validateField(this)">
                     <div id="error-relationshipToChild" class="error-message"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="emailAddress">Email Address *</label>
                     <input type="email" id="emailAddress" name="emailAddress" required 
-                           value="<?= htmlspecialchars($_POST['emailAddress'] ?? '') ?>" oninput="validateEmail(this)">
+                               value="<?= htmlspecialchars($_POST['emailAddress'] ?? '') ?>" oninput="validateEmail(this)">
                     <div id="error-emailAddress" class="error-message"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="phoneNumber">Phone Number *</label>
                     <input type="tel" id="phoneNumber" name="phoneNumber" required 
-                           value="<?= htmlspecialchars($_POST['phoneNumber'] ?? '') ?>" oninput="validatePhone(this)">
+                               value="<?= htmlspecialchars($_POST['phoneNumber'] ?? '') ?>" oninput="validatePhone(this)">
                     <div id="error-phoneNumber" class="error-message"></div>
                 </div>
 
@@ -400,7 +392,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="form-group file-upload-block">
                     <label for="childIDBirthCertificate">Child ID / Birth Certificate *</label>
                     <input type="file" id="childIDBirthCertificate" name="childIDBirthCertificate" required 
-                           accept=".pdf, .jpg, .jpeg, .png" onchange="validateFile(this)">
+                               accept=".pdf, .jpg, .jpeg, .png" onchange="validateFile(this)">
                     <div id="error-childIDBirthCertificate" class="error-message"></div>
                     <img id="preview-childIDBirthCertificate" class="file-preview" style="display:none;">
                 </div>
@@ -408,7 +400,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="form-group file-upload-block">
                     <label for="parentID">Parent ID *</label>
                     <input type="file" id="parentID" name="parentID" required 
-                           accept=".pdf, .jpg, .jpeg, .png" onchange="validateFile(this)">
+                               accept=".pdf, .jpg, .jpeg, .png" onchange="validateFile(this)">
                     <div id="error-parentID" class="error-message"></div>
                     <img id="preview-parentID" class="file-preview" style="display:none;">
                 </div>
@@ -416,15 +408,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="form-group file-upload-block">
                     <label for="proofOfResidence">Proof of Residence *</label>
                     <input type="file" id="proofOfResidence" name="proofOfResidence" required 
-                           accept=".pdf, .jpg, .jpeg, .png" onchange="validateFile(this)">
+                               accept=".pdf, .jpg, .jpeg, .png" onchange="validateFile(this)">
                     <div id="error-proofOfResidence" class="error-message"></div>
                     <img id="preview-proofOfResidence" class="file-preview" style="display:none;">
                 </div>
                 
-                 <div class="form-group file-upload-block">
+                <div class="form-group file-upload-block">
                     <label for="proofOfRegistration">Proof of Registration / Application *</label>
                     <input type="file" id="proofOfRegistration" name="proofOfRegistration" required 
-                           accept=".pdf, .jpg, .jpeg, .png" onchange="validateFile(this)">
+                               accept=".pdf, .jpg, .jpeg, .png" onchange="validateFile(this)">
                     <div id="error-proofOfRegistration" class="error-message"></div>
                     <img id="preview-proofOfRegistration" class="file-preview" style="display:none;">
                 </div>
@@ -442,7 +434,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </form>
     </main>
 
+    <?php include 'footer.php'; ?>
+
     <script>
+        // JS CONSTANTS (Mirrored from PHP for client-side speed)
         const GRADE_CATEGORIES = <?= json_encode($gradeCategories) ?>;
         const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
         const ALLOWED_MIME_TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
@@ -453,11 +448,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Initial check on load
             checkFormValidity();
-            // Attach event listeners for initial validation
             document.getElementById('admissionForm').addEventListener('input', checkFormValidity);
             document.getElementById('admissionForm').addEventListener('change', checkFormValidity);
+            
+            // Re-attach listeners for radio/files
+            document.getElementsByName('gender').forEach(radio => {
+                radio.addEventListener('change', checkFormValidity);
+            });
+            document.querySelectorAll('input[type="file"]').forEach(fileInput => {
+                fileInput.addEventListener('change', checkFormValidity);
+            });
         });
 
         function calculateAgeInYears(dobString) {
@@ -465,15 +466,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             const today = new Date();
             let age = today.getFullYear() - birthDate.getFullYear();
             const m = today.getMonth() - birthDate.getMonth();
-            // Add fractional part for months/days
-            return age + (m + (today.getDate() - birthDate.getDate()) / 30.44) / 12;
+            return age + (m + (today.getDate() - birthDate.getDate()) / 30.44) / 12; // Approx. months/days fraction
         }
         
         // --- Real-Time Validation Functions ---
         function validateField(input) {
             const errorElement = document.getElementById(`error-${input.id || input.name}`);
-            if (input.value.trim() === '' || (input.type === 'radio' && !document.querySelector(`input[name="${input.name}"]:checked`))) {
-                errorElement.textContent = `${input.placeholder || input.name.replace(/([A-Z])/g, ' $1').trim()} is required.`;
+            let isChecked = true;
+
+            if (input.type === 'radio') {
+                isChecked = document.querySelector(`input[name="${input.name}"]:checked`);
+            }
+            
+            if (input.required && (input.value.trim() === '' || !isChecked)) {
+                errorElement.textContent = `This field is required.`;
+                return false;
             } else {
                 errorElement.textContent = '';
             }
@@ -483,7 +490,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         function validateEmail(input) {
             const isValid = validateField(input);
             const errorElement = document.getElementById('error-emailAddress');
-            if (isValid && !input.value.includes('@') || !input.value.includes('.')) {
+            if (isValid && (!input.value.includes('@') || !input.value.includes('.'))) {
                 errorElement.textContent = 'Email must include "@" and a valid domain.';
                 return false;
             }
@@ -493,7 +500,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         function validatePhone(input) {
             const isValid = validateField(input);
             const errorElement = document.getElementById('error-phoneNumber');
-            // Basic pattern: allows numbers, spaces, +, -, ()
             const phonePattern = /^[0-9\s\-\+\(\)]+$/;
             if (isValid && !phonePattern.test(input.value)) {
                 errorElement.textContent = 'Phone number must be numeric and properly formatted.';
@@ -517,7 +523,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             const gradeSelect = document.getElementById('gradeApplyingFor');
             const errorElement = document.getElementById('error-gradeApplyingFor');
             
-            // Clear existing error and disable states
             errorElement.textContent = '';
             gradeSelect.querySelectorAll('option').forEach(opt => {
                 if (opt.value !== 'Select Category') {
@@ -529,38 +534,43 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 const ageInYears = calculateAgeInYears(dobInput.value);
                 let selectedCategoryMatches = true;
 
-                // 1. Disable categories that don't match the age
+                // Disable categories that don't match the age
                 gradeSelect.querySelectorAll('option').forEach(opt => {
                     if (opt.value !== 'Select Category') {
                         const min = parseFloat(opt.dataset.min);
                         const max = parseFloat(opt.dataset.max);
                         
-                        // Use a small tolerance for floating point comparison
-                        if (ageInYears < min || ageInYears >= max + 0.0001) { 
+                        if (ageInYears < min - 0.0001 || ageInYears >= max + 0.0001) { 
                             opt.disabled = true;
                         }
 
-                        // 2. Check if the currently selected category is valid
+                        // Check if the currently selected category is invalid
                         if (opt.selected && opt.value !== 'Select Category' && opt.disabled) {
                             errorElement.textContent = "Selected category does not match child’s age.";
                             selectedCategoryMatches = false;
                         }
                     }
                 });
-                
+
                 if (gradeSelect.value !== 'Select Category' && !selectedCategoryMatches) {
-                    // Force reset if invalid category was pre-selected
                     gradeSelect.value = 'Select Category'; 
+                    errorElement.textContent = "The previously selected grade category was invalid for the child's age and has been reset. Please choose a new one.";
+                    return false;
+                }
+                
+                // If DOB is valid but no category is selected
+                if (gradeSelect.value === 'Select Category') {
+                    errorElement.textContent = 'Grade Applying For is required.';
+                    return false;
                 }
                 
                 return errorElement.textContent === '';
             } else {
                 if(gradeSelect.value !== 'Select Category') {
-                    errorElement.textContent = 'Please select a Date of Birth first to validate the Grade Category.';
+                    errorElement.textContent = 'Please select a Date of Birth first.';
                     return false;
                 }
             }
-            
             return gradeSelect.value !== 'Select Category';
         }
 
@@ -571,25 +581,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             previewImage.style.display = 'none';
             previewImage.src = '';
 
-            if (!input.files.length) {
-                // Not strictly an error unless required, but good for real-time validation
+            if (input.required && !input.files.length) {
                 errorElement.textContent = `${input.id.replace(/([A-Z])/g, ' $1').trim()} is required.`;
                 return false;
             }
+
+            if (!input.files.length) return true; // File is not required or no file selected
 
             const file = input.files[0];
 
             // Size check
             if (file.size > MAX_FILE_SIZE) {
                 errorElement.textContent = `File size (${(file.size / (1024 * 1024)).toFixed(2)}MB) exceeds 2MB limit.`;
-                input.value = ''; // Clear file input
+                input.value = '';
                 return false;
             }
 
-            // Type check (Client-side MIME type check - less secure than server, but provides quick feedback)
-            if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+            // Type check 
+            if (file.type && !ALLOWED_MIME_TYPES.includes(file.type)) {
                 errorElement.textContent = `Invalid file type: ${file.type}. Only PDF, JPG, PNG allowed.`;
-                input.value = ''; // Clear file input
+                input.value = '';
                 return false;
             }
             
@@ -612,7 +623,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             let allValid = true;
             let totalErrors = [];
 
-            // 1. Validate all required input fields
             REQUIRED_FIELDS.forEach(id => {
                 const input = document.getElementById(id);
                 if (input) {
@@ -626,21 +636,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     } else if (input.type === 'select-one') {
                          isValid = validateGradeCategory();
                     } else if (input.type === 'file') {
-                        // File check: just ensure file is selected and passes client-side validation
-                        if(input.files.length === 0) {
-                            document.getElementById(`error-${input.id}`).textContent = `${input.id.replace(/([A-Z])/g, ' $1').trim()} is required.`;
-                            isValid = false;
-                        } else {
-                           isValid = validateFile(input);
-                        }
-                    } else if (input.type === 'radio') {
-                         // Separate logic for radio buttons
-                         isValid = document.querySelector(`input[name="${input.name}"]:checked`) !== null;
-                         if (!isValid) {
-                            document.getElementById(`error-${input.name}`).textContent = `Gender is required.`;
-                         } else {
-                            document.getElementById(`error-${input.name}`).textContent = ``;
-                         }
+                         isValid = validateFile(input);
                     } else {
                         isValid = validateField(input);
                     }
@@ -651,6 +647,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         if (errorElement && errorElement.textContent) {
                             totalErrors.push(errorElement.textContent);
                         }
+                    }
+                } else if (id === 'gender') {
+                    const genderRadio = document.querySelector('input[name="gender"]:checked');
+                    isValid = genderRadio !== null;
+                    const errorElement = document.getElementById(`error-gender`);
+                    if (!isValid) {
+                        errorElement.textContent = `Gender is required.`;
+                        allValid = false;
+                        totalErrors.push(errorElement.textContent);
+                    } else {
+                        errorElement.textContent = ``;
                     }
                 }
             });
@@ -666,14 +673,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             } else {
                 submitBtn.disabled = true;
                 if (totalErrors.length > 0) {
+                    const uniqueErrors = [...new Set(totalErrors)];
                     errorDisplay.style.display = 'block';
-                    errorDisplay.innerHTML = '<p>Please fix the following errors:</p><ul>' + totalErrors.map(err => `<li>${err}</li>`).join('') + '</ul>';
+                    errorDisplay.innerHTML = `<p><strong>${uniqueErrors.length} required fields need attention:</strong></p><ul>` + uniqueErrors.map(err => `<li>${err}</li>`).join('') + '</ul>';
                 } else {
                     errorDisplay.style.display = 'none';
                     errorDisplay.innerHTML = '';
                 }
             }
         }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+             validateDOB(document.getElementById('dob'));
+             validateGradeCategory();
+             checkFormValidity();
+        });
+        
     </script>
 </body>
 </html>
