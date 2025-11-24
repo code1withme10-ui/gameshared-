@@ -8,3 +8,7 @@ COPY ampfarisaho /var/www/html/
 
 
 RUN chmod -R 777 /var/www/html/data /var/www/html/uploads
+
+RUN a2enmod rewrite
+
+EXPOSE 80
