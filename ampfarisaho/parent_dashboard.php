@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 include "includes/auth.php";
 requireParentLogin(); // ensures $_SESSION['parent'] is set
 include "includes/functions.php";

@@ -6,5 +6,5 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - .:/var/www/html
+      - ./ampfarisaho:/var/www/html
     container_name: sunshine_preschool_app

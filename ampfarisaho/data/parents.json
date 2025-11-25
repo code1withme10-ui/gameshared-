@@ -1,1 +1,20 @@
-[]
+[
+    {
+        "username": "Ampfarisaho2003",
+        "password": "Mathagu",
+        "email": "mathaguampfarisaho@gmail.com",
+        "full_name": "Ampfarisaho Arthur Mathagu",
+        "phone": "0765406436",
+        "relationship": "Father",
+        "address": "Limpopo, Tshakhuma, 0951, House 159"
+    },
+    {
+        "username": "Mathagu20",
+        "password": "Arthur",
+        "email": "takalanimusubi@gmail.com",
+        "full_name": "Takalani Musubi",
+        "phone": "0765406436",
+        "relationship": "Mother",
+        "address": "Limpopo, Giyani, Musubi st, House No 56"
+    }
+]
