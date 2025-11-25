@@ -11,3 +11,33 @@ backup
 nbproject/
 data/*
 backup/*
+# Composer dependencies
+/vendor/
+
+# Composer lock file (optional - some teams commit this)
+# composer.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/project files
+.idea/
+.vscode/
+nbproject/
+
+# Logs and cache
+*.log
+cache/
+tmp/
+
+# PHPUnit cache
+.phpunit.result.cache
+
+# Environment files
+.env
+.env.local
+.env.*
+backup/*
+ampfarisaho/composer.lock
+composer.lock
