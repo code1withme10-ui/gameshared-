@@ -7,3 +7,4 @@ class Math {
         return $a + $b;
     }
 }
+
