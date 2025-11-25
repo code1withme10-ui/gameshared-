@@ -1,0 +1,30 @@
+VHUTAMBO EDU WEEKLY REPORT
+REPORTING PERIOD: 17-21 NOVEMBER 2025
+PREPARED BY: PHELADI NCHABELENG
+PROJECT: WEBSITE UPDATE
+PLATFORM: GOOGLE MEET
+
+
+Summary of the week:
+During the week our focus was on updating the existing website. The admission page was being updated.
+
+Analysis Work Done:
+Gathered new requirements.
+Created requirements document.
+Created a testing document.
+
+Developers Work Done:
+Performed code reviews.
+Added new feature to the admission page.
+Pushed commits to the repository
+
+Tasks in Progress:
+Updating the admission page by adding features such as upload document and selecting the grade.
+Status: Ongoing
+
+Challenges:
+Structuring the requirements clear.
+The function file on php
+
+Plan for next week:
+Task submission and review.

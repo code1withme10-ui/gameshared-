@@ -1,30 +1,24 @@
 [
     {
-        "parent": "Ampfarisaho",
-        "name": "Talifhani",
-        "surname": "Mathagu",
-        "age": "2",
-        "race": "Black",
+        "parent_username": "Ampfarisaho2003",
+        "child_name": "Siyabonga Mathagu",
+        "dob": "2023-02-13",
         "gender": "Male",
+        "grade_category": "Toddlers",
+        "address": "Limpopo, Tshakhuma, 0951, House 159",
+        "birth_certificate": "uploads\/Ampfarisaho2003\/birth_cert_1763973801_Monthly Timesheet (1)15-SEP TO 20 SEP.pdf",
+        "parent_id": "uploads\/Ampfarisaho2003\/parent_id_1763973801_WhatsApp Image 2025-10-28 at 14.47.08.jpeg",
         "status": "Approved"
     },
     {
-
-        "parent": "Pheladi30",
-        "name": "Fortune ",
-        "surname": "Nchabeleng",
-        "age": "6",
-        "race": "Black",
-        "gender": "Male",        "status": "Awaiting approval"
-
-
-        "parent": "Takalani Musubi",
-        "name": "Zwothe",
-        "surname": "Musubi",
-        "age": "3",
-        "race": "White",
-        "gender": "Female",
+        "parent_username": "Mathagu20",
+        "child_name": "Joshua Musubi",
+        "dob": "2022-03-16",
+        "gender": "Male",
+        "grade_category": "Playgroup",
+        "address": "Limpopo, Giyani, Musubi st, House No 56",
+        "birth_certificate": "uploads\/Mathagu20\/birth_cert_1763980320_WhatsApp Image 2025-11-11 at 15.06.12_050bdfda.jpg",
+        "parent_id": "uploads\/Mathagu20\/parent_id_1763980321_Mathagu AA OCT-NOV Monthly Timesheet 2025.pdf",
         "status": "Approved"
- f04b59382c9a113004e17730b6499d18846def7b
     }
 ]

@@ -1,21 +1,10 @@
-<<<<<<< HEAD
 version: '3.8'
 
 services:
   sunshine-preschool:
     build: .
-=======
-services:
-  web:
-    build: .
-    container_name: tshwane_preschool
->>>>>>> whole-project-update
     ports:
       - "8080:80"
     volumes:
-      - .:/var/www/html
-<<<<<<< HEAD
+      - ./ampfarisaho:/var/www/html
     container_name: sunshine_preschool_app
-=======
-    restart: always
->>>>>>> whole-project-update
