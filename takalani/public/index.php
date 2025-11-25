@@ -131,7 +131,7 @@ echo "&lt;p&gt;Edit your files in ../app and ../views&lt;/p&gt;";
         </ul>
     </div>
 
-    <h2 style="text-align:center;">Happy coding, future software engineer! 💻✨</h2>
+ 
 
 </div>
 

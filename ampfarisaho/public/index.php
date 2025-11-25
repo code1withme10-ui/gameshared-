@@ -118,7 +118,7 @@ echo "&lt;p&gt;Edit your files in ../app and ../views&lt;/p&gt;";
             <li>Use Composer autoloading via <code>require ../vendor/autoload.php</code>.</li>
             <li>Follow modular folder separation (Controllers, Models, Views).</li>
         </ul>
-        <p>✨ As you grow, this structure prepares you perfectly for full Laravel development.</p>
+        <p>✨ As you grow, this structure prepares you perfectly for common development platforms/frameworks.</p>
     </div>
 
     <div class="card">
