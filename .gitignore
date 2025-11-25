@@ -25,3 +25,6 @@ tmp/
 .env
 .env.local
 .env.*
+backup/*
+ampfarisaho/composer.lock
+composer.lock
