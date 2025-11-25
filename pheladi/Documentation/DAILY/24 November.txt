@@ -1,0 +1,21 @@
+VHUTAMBO EDU WEEKLY REPORT
+REPORTING PERIOD: 24 NOVEMBER 2025
+PREPARED BY: PHELADI NCHABELENG
+PROJECT: WEBSITE CREATION
+PLATFORM: GOOGLE MEET
+ATTENDANCE: 
+Takalani Musubi
+Tshwarelo Ndlovu
+Ampfarisaho Mathagu
+Thato Mohlala
+
+AGENDA:
+New feature submission.
+Testing of the feature.
+
+DISCUSSION:
+The developers submitted their task for adding a new feature to an existing. The feature was reviewed for functionality.
+The developing team were brief on the unit testing in php and it's importance in testing a feature.
+
+NEXT MEETING:
+25/11/2025

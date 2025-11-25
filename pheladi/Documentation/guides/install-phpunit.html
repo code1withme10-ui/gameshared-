@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PHPUnit Testing Guide for Junior Developers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="stylesheet"
+          href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>                                                            
+        body { font-family: Arial, sans-serif; }
+        pre, code { 
+            background: #000;
+            color: #fff;
+            padding: 12px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+        h2 { margin-top: 32px; }
+        .highlight { background: #ffefcc; padding: 8px; border-left: 4px solid #ff9800; }
+    </style>
+</head>
+
+<body class="w3-padding">
+
+<header class="w3-center w3-margin-bottom">
+    <h1>PHPUnit Testing Guide</h1>
+    <p>Beginner-friendly guide for Windows + Git Bash developers</p>
+</header>
+
+
+<!-- INTRO -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>1. Introduction</h2>
+    <p>
+        This guide introduces you to <b>PHPUnit testing</b>, a framework used to automate the testing of PHP code.
+        It helps you avoid repetitive manual testing and ensures consistent results.
+    </p>
+
+    <div class="highlight">
+        <b>IMPORTANT:</b>  
+        Throughout this guide, replace <b>mpho</b> with <b>your own name</b> in the folder path.  
+        Example: <code>/var/www/gameshared/mpho/</code><br><br>
+         
+    </div>
+
+    <p>This guide assumes:</p>
+    <ul>
+        <li>You are using <b>Windows</b></li>
+        <li>You are using <b>Git Bash</b></li>
+        <li>Your working folder is in: <code>/var/www/gameshared/&lt;yourName&gt;/</code></li>
+    </ul>
+</section>
+
+
+<!-- DIRECTORY STRUCTURE -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>2. Confirm Your Directory Structure ✔</h2>
+
+    <div class="highlight">
+        Reminder: Replace <b>mpho</b> with <b>your own name</b>.
+    </div>
+
+    <pre>
+/var/www/
+└── gameshared/
+    └── yourName/   ← replace this with YOUR name
+        ├── composer.json
+        ├── vendor/
+        ├── src/
+        │   └── Math.php
+        ├── include/
+        │   └── auth/
+        │       └── login.php
+        └── tests/
+            └── example/
+                ├── MathTest.php
+                └── LoginTest.php
+    </pre>
+
+    <p>If this structure matches, you are ready to continue! 🎉</p>
+</section>
+
+
+<!-- COMPOSER INIT -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>3. Initialize Composer in Your Project</h2>
+
+    <div class="highlight">
+        Use <code>/var/www/gameshared/mpho/</code>.  
+        Do NOT leave it as mpho.
+    </div>
+
+    <pre>
+cd /var/www/gameshared/mpho
+composer init
+    </pre>
+</section>
+
+
+<!-- INSTALL PHPUNIT -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>4. Install PHPUnit Globally 🌍</h2>
+
+    <pre>
+composer global require phpunit/phpunit
+    </pre>
+
+    <h3>Add PHPUnit to Windows PATH</h3>
+
+    <p>Steps:</p>
+    <ol>
+        <li>Press the Windows key → search for <b>Environment Variables</b></li>
+        <li>Select <b>Edit the system environment variables</b></li>
+        <li>Click <b>Environment Variables</b></li>
+        <li>Under <b>User variables</b>, click <b>Path</b></li>
+        <li>Click <b>Edit → New</b></li>
+        <li>Add:</li>
+    </ol>
+
+    <pre>
+%USERPROFILE%\AppData\Roaming\Composer\vendor\bin
+    </pre>
+
+    <p>Reload Git Bash:</p>
+
+    <pre>
+source ~/.bashrc
+    </pre>
+
+    <p>Verify:</p>
+
+    <pre>
+phpunit --version
+    </pre>
+</section>
+
+
+<!-- FIRST TEST -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>5. Create Your First PHPUnit Test 🎯</h2>
+
+    <div class="highlight">
+        Reminder: Replace <b>mpho</b> with <b>your own name</b>.
+    </div>
+
+    <h3>File: <code>/var/www/gameshared/mpho/src/Math.php</code></h3>
+    <pre>
+// /src/Math.php
+&lt;?php
+// Simple Math class 😊
+class Math {
+
+    // Adds two numbers ➕
+    public function add($a, $b) {
+        return $a + $b;
+    }
+}
+    </pre>
+
+    <h3>File: <code>/var/www/gameshared/mpho/tests/example/MathTest.php</code></h3>
+    <pre>
+// /tests/example/MathTest.php
+&lt;?php
+use PHPUnit\Framework\TestCase;
+
+// Load the file we are testing
+require_once __DIR__ . '/../../src/Math.php';
+
+class MathTest extends TestCase {
+
+    public function testAddition() {
+
+        echo "\n🧪 Running MathTest::testAddition...\n";
+
+        $math = new Math();
+        $result = $math->add(2, 3);
+
+        echo "➡️  Asserting that 2 + 3 = 5...\n";
+
+        $this->assertEquals(5, $result);
+    }
+}
+    </pre>
+
+    <h3>Run your test:</h3>
+    <pre>
+cd /var/www/gameshared/mpho
+phpunit tests/example/MathTest.php
+    </pre>
+</section>
+
+
+<!-- LOGIN TEST -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>6. Example: Testing a Simple Login Function 🔐</h2>
+
+    <div class="highlight">
+        Reminder: Replace <b>mpho</b> with <b>your own name</b>.
+    </div>
+
+    <h3>File: <code>/var/www/gameshared/mpho/include/auth/login.php</code></h3>
+
+    <pre>
+// /include/auth/login.php
+&lt;?php
+
+// Simple login function for demonstration 😊
+function login($username, $password) {
+
+    echo "\n👀 login() function called...";
+    echo "\nChecking credentials...\n";
+
+    $validUser = "admin";     // hard-coded username
+    $validPass = "1234";      // hard-coded password
+
+    return ($username === $validUser && $password === $validPass);
+}
+    </pre>
+
+    <h3>File: <code>/var/www/gameshared/mpho/tests/example/LoginTest.php</code></h3>
+
+    <pre>
+// /tests/example/LoginTest.php
+&lt;?php
+use PHPUnit\Framework\TestCase;
+
+// Load login.php
+require_once __DIR__ . '/../../include/auth/login.php';
+
+class LoginTest extends TestCase {
+
+    public function testValidLogin() {
+
+        echo "\n🧪 Starting LoginTest::testValidLogin...";
+        echo "\nNow asserting if username and password are correct... 🔍\n";
+
+        $this->assertTrue(login("admin", "1234"));
+    }
+
+    public function testInvalidLogin() {
+
+        echo "\n🧪 Starting LoginTest::testInvalidLogin...";
+        echo "\nNow asserting invalid login attempt... ❌\n";
+
+        $this->assertFalse(login("wrong", "nope"));
+    }
+}
+    </pre>
+
+    <h3>Run LoginTest:</h3>
+    <pre>
+phpunit tests/example/LoginTest.php
+    </pre>
+</section>
+
+
+<!-- XAMPP FIX -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>7. Fixing XAMPP PHPUnit Conflicts ⚠️</h2>
+
+    <p>If your system tries to run the OLD PHPUnit from XAMPP:</p>
+
+    <pre>
+C:/xampp/php/phpunit
+    </pre>
+
+    <p>You may see errors like:</p>
+
+    <pre>
+"continue" targeting switch...
+Call to undefined function each()
+    </pre>
+
+    <h3>Check which phpunit is being used</h3>
+    <pre>where phpunit</pre>
+
+    <h3>Remove XAMPP PHPUnit from PATH</h3>
+    <pre>
+C:\xampp\php\phpunit
+C:\xampp\php\pear
+    </pre>
+
+    <h3>Clear Git Bash cache</h3>
+    <pre>hash -r</pre>
+
+    <h3>Verify again</h3>
+    <pre>phpunit --version</pre>
+
+    <p>You should now see the Composer-installed PHPUnit 🎉</p>
+</section>
+
+
+<footer class="w3-center w3-padding">
+    <p>End of Guide — Happy Coding & Happy Testing! 🚀</p>
+</footer>
+
+</body>
+</html>

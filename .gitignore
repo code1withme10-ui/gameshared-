@@ -1,3 +1,16 @@
+# Ignore NetBeans project files
+/nbproject/private/
+nbproject/*
+
+# (Optional) ignore build artifacts, logs, or temp files
+*.log
+*.tmp
+*.bak
+public/sites_list.html
+backup
+nbproject/
+data/*
+backup/*
 # Composer dependencies
 /vendor/
 
@@ -25,3 +38,6 @@ tmp/
 .env
 .env.local
 .env.*
+backup/*
+ampfarisaho/composer.lock
+composer.lock

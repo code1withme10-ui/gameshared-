@@ -1,0 +1,8 @@
+{
+    "name": "vhutambo/creache",
+    "description": "This application is create by vhutambo to support  creche transformation to digital age",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    }
+}
