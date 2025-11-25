@@ -1,10 +1,48 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  sunshine-preschool:
+  php-dev:
     build: .
+    container_name: php-dev
     ports:
-      - "8080:80"
+      - "8040:8040"
+      - "8041:8041"
+      - "8042:8042"
+      - "8043:8043"
+      - "8044:8044"
+      - "8045:8045"
     volumes:
-      - ./ampfarisaho:/var/www/html
-    container_name: sunshine_preschool_app
+      - .:/var/www
+    command: |
+      bash -c "
+        php -S 0.0.0.0:8040 -t /var/www/ &
+        php -S 0.0.0.0:8041 -t /var/www/public &
+        php -S 0.0.0.0:8042 -t /var/www/tshwarelo/public &
+        php -S 0.0.0.0:8043 -t /var/www/thato/public &
+        php -S 0.0.0.0:8044 -t /var/www/pheladi/public &
+        php -S 0.0.0.0:8045 -t /var/www/takalani/public &
+        php -S 0.0.0.0:8046 -t /var/www/ampfarisaho/public &
+        wait
+      "
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: happy_kids_db
+      MYSQL_USER: happy_kids_user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+

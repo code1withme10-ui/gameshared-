@@ -1,30 +1,13 @@
-# Composer dependencies
-/vendor/
+# Ignore NetBeans project files
+/nbproject/private/
+nbproject/*
 
-# Composer lock file (optional - some teams commit this)
-# composer.lock
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# IDE/project files
-.idea/
-.vscode/
-nbproject/
-
-# Logs and cache
+# (Optional) ignore build artifacts, logs, or temp files
 *.log
-cache/
-tmp/
-
-# PHPUnit cache
-.phpunit.result.cache
-
-# Environment files
-.env
-.env.local
-.env.*
+*.tmp
+*.bak
+public/sites_list.html
+backup
+nbproject/
+data/*
 backup/*
-ampfarisaho/composer.lock
-composer.lock
