@@ -47,6 +47,7 @@ get_free_port() {
 get_site_info() {
   local folder=$1
   local info_file="$folder/$SITE_INFO_FILE"
+
   if [[ -f "$info_file" ]]; then
     # Expected format: Name|relative_wwwroot|Description
     cat "$info_file"
@@ -154,6 +155,7 @@ local sites=(
     [[ -d "$dir/public" ]] || continue
     local info
     info=$(get_site_info "$dir")
+ 
     [[ -z "$info" ]] && continue
     sites+=("$info")
   done
