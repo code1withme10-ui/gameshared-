@@ -1,0 +1,193 @@
+[
+    {
+        "id": "user-6914ca57b2890",
+        "parentName": "Taki",
+        "email": "Takalani101@gmail.com",
+        "password": "123456",
+        "children": [
+            {
+                "childId": "child-6914ca57b28dd",
+                "name": "TakiJr",
+                "age": 1,
+                "gender": "Male",
+                "reports": [],
+                "status": "admitted"
+            },
+            {
+                "childId": "child-6914eebf90462",
+                "name": "Taki Princess",
+                "age": 4,
+                "gender": "Female",
+                "reports": [],
+                "status": "rejected"
+            },
+            {
+                "childId": "child-69150356b3759",
+                "name": "Taki Prince",
+                "age": 3,
+                "gender": "Male",
+                "reports": [],
+                "status": "pending"
+            }
+        ]
+    },
+    {
+        "id": "user-headmaster",
+        "parentName": "Headmaster Admin",
+        "email": "headmaster@creche.com",
+        "password": "admin",
+        "children": [],
+        "role": "headmaster"
+    },
+    {
+        "id": "user-691c3aa3d5a12",
+        "parentName": "Tlharihani",
+        "email": "Tlharihani@gmail.com",
+        "password": "123456",
+        "children": [
+            {
+                "childId": "child-691c3aa3d5c85",
+                "name": "Millan",
+                "age": 2,
+                "gender": "Male",
+                "reports": [],
+                "status": "pending"
+            },
+            {
+                "childId": "child-691c3ad11e27b",
+                "name": "Rose",
+                "age": 2,
+                "gender": "Female",
+                "reports": [],
+                "status": "pending"
+            }
+        ]
+    },
+    {
+        "id": "user-691ed79c98cae",
+        "parentName": "Vumbiwa",
+        "email": "vumbiwa@gmail.com",
+        "password": "123456",
+        "children": [
+            {
+                "childId": "child-691ed79c98cc0",
+                "name": "London",
+                "age": 4,
+                "gender": "Male",
+                "reports": [],
+                "status": "admitted"
+            }
+        ]
+    },
+    {
+        "id": "user-692043ab26f6e",
+        "parentName": "Mbambu",
+        "email": "mbambu@gmail.com",
+        "password": "123456",
+        "children": [
+            {
+                "childId": "child-692043ab27144",
+                "name": "MbambuJR",
+                "dob": "2023-02-07",
+                "age": 2,
+                "gender": "Male",
+                "grade": "Playgroup",
+                "documents": {
+                    "birthCert": "uploads\/fee_structure_2026 (7).pdf",
+                    "parentID": "uploads\/fee_structure_2026 (6).pdf"
+                },
+                "status": "admitted"
+            }
+        ]
+    },
+    {
+        "id": "user-69204bd3353e7",
+        "parentName": "Matima",
+        "relationship": "Father",
+        "email": "matima@gmail.com",
+        "phone": "0792556398",
+        "address": "149 Johnston Street Sunnyside Pretoria",
+        "password": "123456",
+        "children": [
+            {
+                "childId": "child-69204bd33541f",
+                "name": "MatimaJR",
+                "dob": "2023-03-01",
+                "age": 2,
+                "gender": "Male",
+                "grade": "Playgroup",
+                "allergies": "N\/A",
+                "medications": "N\/A",
+                "documents": {
+                    "birthCert": "uploads\/fee_structure_2026 (6).pdf",
+                    "parentID": "uploads\/fee_structure_2026 (7).pdf"
+                },
+                "status": "rejected"
+            },
+            {
+                "childId": "child-6920504642fa3",
+                "name": "Mata",
+                "dob": "2021-01-21",
+                "age": 4,
+                "gender": "Female",
+                "grade": "Toddlers",
+                "allergies": "milk",
+                "medications": "Antibiotics",
+                "reports": [],
+                "status": "admitted"
+            }
+        ]
+    },
+    {
+        "id": "user-69242a7504650",
+        "parentName": "Rasta",
+        "relationship": "Father",
+        "email": "rasta@gmail.com",
+        "phone": "0792556398",
+        "address": "149 Johnston Street Sunnyside Pretoria",
+        "password": "123456",
+        "children": [
+            {
+                "childId": "child-69242a75046e8",
+                "name": "RastaJR",
+                "dob": "2023-02-01",
+                "age": 2,
+                "gender": "Male",
+                "grade": "Toddlers",
+                "allergies": "N\/A",
+                "medications": "N\/A",
+                "documents": {
+                    "birthCert": "uploads\/BIRTH CERTIFICATE FOR CHILD.pdf",
+                    "parentID": "uploads\/BIRTH CERTIFICATE FOR PARENT.pdf"
+                },
+                "status": "Pending"
+            }
+        ]
+    },
+    {
+        "id": "user-69243a060eb62",
+        "parentName": "Thatho",
+        "relationship": "Father",
+        "email": "Thato@gmail.com",
+        "phone": "0608726842",
+        "address": "149 Johnston Street",
+        "password": "123456",
+        "children": [
+            {
+                "childId": "child-69243a060ebd5",
+                "name": "ThatoJr",
+                "dob": "2023-06-06",
+                "age": 2,
+                "gender": "Male",
+                "grade": "Toddlers",
+                "allergies": "None",
+                "medications": "None",
+                "documents": {
+                    "birthCert": "uploads\/BIRTH CERTIFICATE FOR CHILD.pdf",
+                    "parentID": "uploads\/BIRTH CERTIFICATE FOR PARENT.pdf"
+                },
+                "status": "admitted"
+            }
+        ]
+    }
+]

@@ -1,0 +1,4 @@
+Now run the replacement command, paste the code, and save:
+
+```bash
+docker exec -i creche-app sh -c 'cat > /var/www/html/.htaccess'

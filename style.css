@@ -1,0 +1,244 @@
+/* style.css */
+
+/* --- General Body Styling --- */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Page Container for central content area */
+.page-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* --- Navigation Bar (Horizontal) --- */
+.navbar {
+    background-color: #1e90ff; /* 🔵 CHANGED FROM BLACK (#333) TO BLUE */
+    padding: 12px 0;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 6px 12px;
+    transition: 0.3s;
+}
+
+.navbar ul li a:hover {
+    background-color: #FF8C00; /* Orange background */
+    border-radius: 5px;
+}
+
+/* --- Heading Styles --- */
+h1 {
+    color: #333;
+    font-size: 2.2em;
+    padding-bottom: 5px;
+    border-bottom: 3px solid #FF8C00; /* Orange underline */
+    margin-bottom: 30px;
+}
+h2 {
+    color: #333;
+    font-size: 1.5em;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-top: 20px;
+}
+
+/* --- Form and Input Styling --- */
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin-bottom: 20px;
+    border-left: 5px solid #4CAF50;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* --- Button Styling --- */
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* --- Dashboard Specific Styling (Child Cards) --- */
+#childrenList div {
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border-left: 5px solid #2196F3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#childrenList h4 {
+    color: #2196F3; 
+    border-bottom: 1px dashed #e0e0e0;
+    padding-bottom: 5px;
+}
+
+#childrenList ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#childrenList li {
+    background: #f9f9f9;
+    padding: 8px;
+    border-left: 4px solid #ccc;
+    margin-bottom: 5px;
+}
+
+/* --- Message Styling (Success/Error) --- */
+p[style*="color: green"], .status-message-success { 
+    background-color: #e6ffe6;
+    border: 1px solid #4CAF50;
+    padding: 10px;
+    border-radius: 4px;
+    color: #4CAF50 !important;
+}
+
+p[style*="color: red"], .status-message-error { 
+    background-color: #ffe6e6;
+    border: 1px solid #f44336;
+    padding: 10px;
+    border-radius: 4px;
+    color: #f44336 !important;
+}
+
+/* --- Admission Status Styling --- */
+.status-pending { color: orange; font-weight: bold; }
+.status-admitted { color: green; font-weight: bold; }
+.status-rejected { color: red; font-weight: bold; }
+
+/* --- Admin Table Styling --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+th, td {
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+}
+
+table button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    color: white;
+}
+table button[value="admit"] { background-color: #4CAF50; }
+table button[value="reject"] { background-color: #f44336; }
+
+/* --- About Page Specific Classes --- */
+.about-section {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    border-left: 5px solid #008000;
+}
+
+.founder-box {
+    display: flex;
+    align-items: center;
+    background-color: #f0f8ff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.founder-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: cover;
+    border: 4px solid #47b3ff;
+}
+
+.sponsor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.sponsor-logo {
+    width: 100%;
+    height: auto;
+    max-width: 150px;
+    filter: grayscale(80%);
+    opacity: 0.8;
+    transition: filter 0.3s, opacity 0.3s;
+}
+
+.sponsor-logo:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+.navbar .logo {
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+}
