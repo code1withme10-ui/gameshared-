@@ -1,10 +1,7 @@
 <?php
 include __DIR__ . "/includes/auth.php";
 
-// Clear session and logout
 logout();
-
-// Redirect to login page
-header("Location: login.php");
+header("Location: index.php?page=login");
 exit;
 

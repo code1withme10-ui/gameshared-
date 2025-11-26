@@ -1,32 +1,16 @@
 <?php
-// Always load functions with correct absolute path
-include __DIR__ . '/includes/functions.php';
+include __DIR__ . "/includes/functions.php";
 
-// Show menu bar at the top
-include __DIR__ . '/includes/menu-bar.php';
+$errors = [];
+$success_message = "";
 
-// Include CSS (correct path!)
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="/public/css/style.css">
-</head>
-<body>
-
-<div class="container">
-    <h2>Parent & Child Admission</h2>
-
-<?php
-if ($_POST) {
-    $errors = [];
-
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // Validate email
     if (!filter_var($_POST['parent_email'], FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Invalid email format.";
     }
 
-    // Validate phone (10 digits)
+    // Validate phone
     if (!preg_match("/^[0-9]{10}$/", $_POST['parent_phone'])) {
         $errors[] = "Phone number must be 10 digits.";
     }
@@ -36,11 +20,10 @@ if ($_POST) {
         $errors[] = "Username and Password are required.";
     }
 
-    // Validate uploads
+    // Validate documents
     $allowed_ext = ["pdf","jpg","jpeg","png"];
     foreach (["birth_cert","parent_id"] as $file) {
-
-        if ($_FILES[$file]["error"] !== 0) {
+        if (!isset($_FILES[$file]) || $_FILES[$file]["error"] !== 0) {
             $errors[] = "Missing required document: $file";
         } else {
             $ext = strtolower(pathinfo($_FILES[$file]["name"], PATHINFO_EXTENSION));
@@ -53,31 +36,21 @@ if ($_POST) {
         }
     }
 
-    // Show errors if any
-    if (!empty($errors)) {
-        echo "<div class='error-box'>";
-        foreach ($errors as $e) {
-            echo "<p style='color:red; font-weight:bold;'>$e</p>";
-        }
-        echo "</div>";
-    } else {
-
-        // Load JSON files
+    if (empty($errors)) {
+        // Load existing JSON
         $parents = readJSON(__DIR__ . "/data/parents.json");
         $children = readJSON(__DIR__ . "/data/children.json");
 
-        // Upload folder
         $upload_dir = __DIR__ . "/uploads/" . $_POST['parent_username'] . "/";
         if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
 
-        // Save files
         $birth_cert_file = $upload_dir . "birth_cert_" . time() . "_" . $_FILES['birth_cert']['name'];
         move_uploaded_file($_FILES['birth_cert']['tmp_name'], $birth_cert_file);
 
         $parent_id_file = $upload_dir . "parent_id_" . time() . "_" . $_FILES['parent_id']['name'];
         move_uploaded_file($_FILES['parent_id']['tmp_name'], $parent_id_file);
 
-        // Save parent data
+        // Save parent info
         $parents[] = [
             "username" => $_POST['parent_username'],
             "password" => $_POST['parent_password'],
@@ -89,7 +62,7 @@ if ($_POST) {
         ];
         writeJSON(__DIR__ . "/data/parents.json", $parents);
 
-        // Save child data
+        // Save child info
         $children[] = [
             "parent_username" => $_POST['parent_username'],
             "child_name" => $_POST['child_name'],
@@ -103,13 +76,26 @@ if ($_POST) {
         ];
         writeJSON(__DIR__ . "/data/children.json", $children);
 
-        echo "<p style='color:green; font-weight:bold;'>Admission submitted successfully! You may now log in.</p>";
+        $success_message = "Admission submitted successfully! You may now log in.";
     }
 }
 ?>
 
-    <form method="POST" enctype="multipart/form-data">
+<link rel="stylesheet" href="public/css/style.css">
+<?php include __DIR__ . "/includes/menu-bar.php"; ?>
 
+<div class="container">
+    <h2>Parent & Child Admission</h2>
+
+    <?php foreach ($errors as $e): ?>
+        <p style="color:red; font-weight:bold;"><?= htmlspecialchars($e) ?></p>
+    <?php endforeach; ?>
+
+    <?php if ($success_message): ?>
+        <p style="color:green; font-weight:bold;"><?= htmlspecialchars($success_message) ?></p>
+    <?php endif; ?>
+
+    <form method="POST" enctype="multipart/form-data">
         <h3>Create Parent Login</h3>
         <input name="parent_username" placeholder="Create Username" required><br><br>
         <input name="parent_password" type="password" placeholder="Create Password" required><br><br>
@@ -123,7 +109,6 @@ if ($_POST) {
 
         <h3>Child Information</h3>
         <input name="child_name" placeholder="Child Full Name" required><br><br>
-
         <label>Date of Birth</label><br>
         <input type="date" name="child_dob" required><br><br>
 
@@ -154,8 +139,5 @@ if ($_POST) {
 
         <button class="button">Submit Application</button>
     </form>
-
 </div>
 
-</body>
-</html>

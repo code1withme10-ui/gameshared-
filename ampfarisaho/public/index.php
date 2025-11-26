@@ -1,29 +1,25 @@
 <?php
-// Load Composer autoload
-require __DIR__ . '/../vendor/autoload.php';
+// public/index.php
+$page = $_GET['page'] ?? 'home';
 
-// Include your menu bar
-include __DIR__ . '/../includes/menu-bar.php';
-?>
+$pages = [
+    'home' => __DIR__ . '/../home.php',
+    'login' => __DIR__ . '/../login.php',
+    'logout' => __DIR__ . '/../logout.php',
+    'admission' => __DIR__ . '/../admission.php',
+    'about' => __DIR__ . '/../about.php',
+    'progress_report' => __DIR__ . '/../progress_report.php',
+    'parent_dashboard' => __DIR__ . '/../parent_dashboard.php',
+    'headmaster_dashboard' => __DIR__ . '/../headmaster_dashboard.php',
+    'gallery' => __DIR__ . '/../gallery.php',
+    'code_of_conduct' => __DIR__ . '/../code_of_conduct.php',
+    'help' => __DIR__ . '/../help.php'
+];
 
-<!-- Correct CSS path -->
-<link rel="stylesheet" href="css/style.css">
+if (isset($pages[$page]) && file_exists($pages[$page])) {
+    include $pages[$page];
+} else {
+    http_response_code(404);
+    echo "<h1>404 - Page Not Found</h1>";
+}
 
-<div class="container">
-    <h1>Welcome to Sunshine Preschool</h1>
-    <p>
-        Sunshine Preschool provides a safe, nurturing space for your child's early development.
-        Explore our website using the guide below.
-    </p>
-
-    <h2>User Guide</h2>
-    <ul>
-        <li>Read about us in the <b>About</b> page.</li>
-        <li>View images in the <b>Gallery</b>.</li>
-        <li>Learn rules in <b>Code of Conduct</b>.</li>
-        <li>Register using <b>Admission</b>.</li>
-        <li>Login as a parent in <b>Parent Login</b>.</li>
-        <li>Headmaster login in <b>Headmaster Login</b>.</li>
-        <li>View approved children's progress in <b>Progress Report</b>.</li>
-    </ul>
-</div>

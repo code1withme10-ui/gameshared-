@@ -1,15 +1,10 @@
 <?php
 session_start();
 include __DIR__ . "/includes/functions.php";
+include __DIR__ . "/includes/auth.php";
 
-// Load JSON files
 $parents = readJSON(__DIR__ . "/data/parents.json");
 $headmaster = readJSON(__DIR__ . "/data/headmaster.json");
-
-// Ensure $parents is always an array
-if (!is_array($parents)) {
-    $parents = [];
-}
 
 $error = "";
 
@@ -17,23 +12,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    // ----- HEADMASTER LOGIN -----
-    if (isset($headmaster['username'], $headmaster['password'])) {
-        if ($username === $headmaster['username'] && $password === $headmaster['password']) {
-            $_SESSION['headmaster'] = $username;
-            header("Location: headmaster_dashboard.php");
-            exit;
-        }
+    // Headmaster login
+    if (isset($headmaster['username'], $headmaster['password']) &&
+        $username === $headmaster['username'] && $password === $headmaster['password']) {
+        $_SESSION['headmaster'] = $username;
+        header("Location: index.php?page=headmaster_dashboard");
+        exit;
     }
 
-    // ----- PARENT LOGIN -----
+    // Parent login
     foreach ($parents as $p) {
-        if (isset($p['username'], $p['password'])) {
-            if ($p['username'] === $username && $p['password'] === $password) {
-                $_SESSION['parent'] = $username;
-                header("Location: parent_dashboard.php");
-                exit;
-            }
+        if (isset($p['username'], $p['password']) &&
+            $p['username'] === $username && $p['password'] === $password) {
+            $_SESSION['parent'] = $username;
+            header("Location: index.php?page=parent_dashboard");
+            exit;
         }
     }
 
@@ -41,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 
-<link rel="stylesheet" href="/public/css/style.css">
+<link rel="stylesheet" href="public/css/style.css">
 <?php include __DIR__ . "/includes/menu-bar.php"; ?>
 
 <div class="container">
