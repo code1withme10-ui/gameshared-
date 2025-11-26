@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="public/css/style.css">
-<?php include "includes/menu-bar.php"; ?>
+<link rel="stylesheet" href="/public/css/style.css">
+<?php include __DIR__ . '/includes/menu-bar.php'; ?>
 
 <div class="container">
     <h2>Code of Conduct</h2>

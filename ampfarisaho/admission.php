@@ -1,7 +1,23 @@
-<link rel="stylesheet" href="public/css/style.css">
 <?php
-include "includes/functions.php";
+// Always load functions with correct absolute path
+include __DIR__ . '/includes/functions.php';
 
+// Show menu bar at the top
+include __DIR__ . '/includes/menu-bar.php';
+
+// Include CSS (correct path!)
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Parent & Child Admission</h2>
+
+<?php
 if ($_POST) {
     $errors = [];
 
@@ -10,19 +26,20 @@ if ($_POST) {
         $errors[] = "Invalid email format.";
     }
 
-    // Validate phone
+    // Validate phone (10 digits)
     if (!preg_match("/^[0-9]{10}$/", $_POST['parent_phone'])) {
         $errors[] = "Phone number must be 10 digits.";
     }
 
-    // Validate required login fields
+    // Validate login fields
     if (empty($_POST['parent_username']) || empty($_POST['parent_password'])) {
         $errors[] = "Username and Password are required.";
     }
 
-    // Validate documents
+    // Validate uploads
     $allowed_ext = ["pdf","jpg","jpeg","png"];
     foreach (["birth_cert","parent_id"] as $file) {
+
         if ($_FILES[$file]["error"] !== 0) {
             $errors[] = "Missing required document: $file";
         } else {
@@ -36,28 +53,31 @@ if ($_POST) {
         }
     }
 
+    // Show errors if any
     if (!empty($errors)) {
+        echo "<div class='error-box'>";
         foreach ($errors as $e) {
             echo "<p style='color:red; font-weight:bold;'>$e</p>";
         }
+        echo "</div>";
     } else {
 
         // Load JSON files
-        $parents = readJSON("data/parents.json");
-        $children = readJSON("data/children.json");
+        $parents = readJSON(__DIR__ . "/data/parents.json");
+        $children = readJSON(__DIR__ . "/data/children.json");
 
-        // Ensure parent folder exists
-        $upload_dir = "uploads/" . $_POST['parent_username'] . "/";
+        // Upload folder
+        $upload_dir = __DIR__ . "/uploads/" . $_POST['parent_username'] . "/";
         if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
 
-        // Save uploaded files
+        // Save files
         $birth_cert_file = $upload_dir . "birth_cert_" . time() . "_" . $_FILES['birth_cert']['name'];
         move_uploaded_file($_FILES['birth_cert']['tmp_name'], $birth_cert_file);
 
         $parent_id_file = $upload_dir . "parent_id_" . time() . "_" . $_FILES['parent_id']['name'];
         move_uploaded_file($_FILES['parent_id']['tmp_name'], $parent_id_file);
 
-        // Save parent to JSON
+        // Save parent data
         $parents[] = [
             "username" => $_POST['parent_username'],
             "password" => $_POST['parent_password'],
@@ -67,9 +87,9 @@ if ($_POST) {
             "relationship" => $_POST['parent_relationship'],
             "address" => $_POST['parent_address']
         ];
-        writeJSON("data/parents.json", $parents);
+        writeJSON(__DIR__ . "/data/parents.json", $parents);
 
-        // Save child to JSON
+        // Save child data
         $children[] = [
             "parent_username" => $_POST['parent_username'],
             "child_name" => $_POST['child_name'],
@@ -81,17 +101,12 @@ if ($_POST) {
             "parent_id" => $parent_id_file,
             "status" => "Awaiting approval"
         ];
-        writeJSON("data/children.json", $children);
+        writeJSON(__DIR__ . "/data/children.json", $children);
 
         echo "<p style='color:green; font-weight:bold;'>Admission submitted successfully! You may now log in.</p>";
     }
 }
 ?>
-
-<?php include "includes/menu-bar.php"; ?>
-
-<div class="container">
-    <h2>Parent & Child Admission</h2>
 
     <form method="POST" enctype="multipart/form-data">
 
@@ -139,4 +154,8 @@ if ($_POST) {
 
         <button class="button">Submit Application</button>
     </form>
+
 </div>
+
+</body>
+</html>

@@ -1,12 +1,18 @@
+<?php
+// Load Composer autoload
 require __DIR__ . '/../vendor/autoload.php';
 
-<link rel="stylesheet" href="public/css/style.css">
-<?php include "includes/menu-bar.php"; ?>
+// Include your menu bar
+include __DIR__ . '/../includes/menu-bar.php';
+?>
+
+<!-- Correct CSS path -->
+<link rel="stylesheet" href="css/style.css">
 
 <div class="container">
     <h1>Welcome to Sunshine Preschool</h1>
     <p>
-        Sunshine Preschool provides a safe, nurturing space for your child's early development.  
+        Sunshine Preschool provides a safe, nurturing space for your child's early development.
         Explore our website using the guide below.
     </p>
 

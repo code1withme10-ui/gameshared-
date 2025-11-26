@@ -1,16 +1,16 @@
 <?php
-//session_start();
-include "includes/auth.php";
-requireParentLogin(); // ensures $_SESSION['parent'] is set
-include "includes/functions.php";
+include __DIR__ . "/includes/auth.php";
+requireParentLogin();
+include __DIR__ . "/includes/functions.php";
 
 // Load JSON files
-$parents = readJSON("data/parents.json");
-$children = readJSON("data/children.json");
+$parents = readJSON(__DIR__ . "/data/parents.json");
+$children = readJSON(__DIR__ . "/data/children.json");
 
 // Logged-in parent info
-$parent_username = $_SESSION['parent'] ?? '';
+$parent_username = $_SESSION['parent'];
 $parent_info = null;
+
 foreach ($parents as $p) {
     if (isset($p['username']) && $p['username'] === $parent_username) {
         $parent_info = $p;
@@ -18,43 +18,58 @@ foreach ($parents as $p) {
     }
 }
 
-// Handle new child submission from dashboard
-if ($_POST && isset($_POST['new_child'])) {
+// Handle new child submission
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['new_child'])) {
+
     $errors = [];
 
-    // Validate required fields
-    if (empty($_POST['child_name']) || empty($_POST['child_dob']) || empty($_POST['child_gender']) || empty($_POST['grade_category']) || empty($_POST['child_address'])) {
+    // Required fields
+    if (
+        empty($_POST['child_name']) || empty($_POST['child_dob']) ||
+        empty($_POST['child_gender']) || empty($_POST['grade_category']) ||
+        empty($_POST['child_address'])
+    ) {
         $errors[] = "All child fields are required.";
     }
 
     // Validate documents
-    $allowed_ext = ["pdf","jpg","jpeg","png"];
-    foreach (["birth_cert","parent_id"] as $file) {
-        if ($_FILES[$file]["error"] !== 0) {
+    $allowed_ext = ["pdf", "jpg", "jpeg", "png"];
+    foreach (["birth_cert", "parent_id"] as $file) {
+
+        if (!isset($_FILES[$file]) || $_FILES[$file]["error"] !== 0) {
             $errors[] = "Missing required document: $file";
-        } else {
-            $ext = strtolower(pathinfo($_FILES[$file]["name"], PATHINFO_EXTENSION));
-            if (!in_array($ext, $allowed_ext)) {
-                $errors[] = "Invalid file type for $file.";
-            }
-            if ($_FILES[$file]["size"] > 2*1024*1024) {
-                $errors[] = "$file exceeds 2MB.";
-            }
+            continue;
+        }
+
+        $ext = strtolower(pathinfo($_FILES[$file]["name"], PATHINFO_EXTENSION));
+
+        if (!in_array($ext, $allowed_ext)) {
+            $errors[] = "Invalid file type for $file.";
+        }
+
+        if ($_FILES[$file]["size"] > 2 * 1024 * 1024) {
+            $errors[] = "$file exceeds 2MB.";
         }
     }
 
+    // If no errors → save files & child data
     if (empty($errors)) {
-        // Save uploaded files
-        $upload_dir = "uploads/" . $parent_username . "/";
+
+        // Upload directory
+        $upload_dir = __DIR__ . "/uploads/" . $parent_username . "/";
+        $url_dir = "uploads/" . $parent_username . "/";
+
         if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
 
-        $birth_cert_file = $upload_dir . "birth_cert_" . time() . "_" . $_FILES['birth_cert']['name'];
-        move_uploaded_file($_FILES['birth_cert']['tmp_name'], $birth_cert_file);
+        // Save birth certificate
+        $birth_cert_file = $url_dir . "birth_cert_" . time() . "_" . basename($_FILES['birth_cert']['name']);
+        move_uploaded_file($_FILES['birth_cert']['tmp_name'], __DIR__ . "/" . $birth_cert_file);
 
-        $parent_id_file = $upload_dir . "parent_id_" . time() . "_" . $_FILES['parent_id']['name'];
-        move_uploaded_file($_FILES['parent_id']['tmp_name'], $parent_id_file);
+        // Save parent ID
+        $parent_id_file = $url_dir . "parent_id_" . time() . "_" . basename($_FILES['parent_id']['name']);
+        move_uploaded_file($_FILES['parent_id']['tmp_name'], __DIR__ . "/" . $parent_id_file);
 
-        // Save child to JSON
+        // Add child to JSON
         $children[] = [
             "parent_username" => $parent_username,
             "child_name" => $_POST['child_name'],
@@ -67,25 +82,28 @@ if ($_POST && isset($_POST['new_child'])) {
             "status" => "Awaiting approval"
         ];
 
-        writeJSON("data/children.json", $children);
-        $success_message = "New child application submitted successfully!";
+        writeJSON(__DIR__ . "/data/children.json", $children);
+
+        // Prevent duplicate form resubmission
+        header("Location: parent_dashboard.php?success=1");
+        exit();
     }
 }
 
-// Find children for this parent
-$my_children = [];
-foreach ($children as $c) {
-    if (isset($c['parent_username']) && $c['parent_username'] === $parent_username) {
-        $my_children[] = $c;
-    }
-}
+// Find children belonging to this parent
+$my_children = array_filter($children, fn($c) =>
+    isset($c['parent_username']) && $c['parent_username'] === $parent_username
+);
 ?>
-<link rel="stylesheet" href="public/css/style.css">
-<?php include "includes/menu-bar.php"; ?>
+
+<link rel="stylesheet" href="/public/css/style.css">
+<?php include __DIR__ . "/includes/menu-bar.php"; ?>
 
 <div class="container">
+
     <h2>Parent Dashboard</h2>
 
+    <!-- Parent Profile -->
     <?php if ($parent_info): ?>
         <h3>Your Profile</h3>
         <p><b>Full Name:</b> <?= htmlspecialchars($parent_info['full_name']) ?></p>
@@ -95,6 +113,21 @@ foreach ($children as $c) {
         <p><b>Address:</b> <?= htmlspecialchars($parent_info['address']) ?></p>
     <?php endif; ?>
 
+
+    <!-- Success Message -->
+    <?php if (isset($_GET['success'])): ?>
+        <p style="color:green; font-weight:bold;">New child application submitted successfully!</p>
+    <?php endif; ?>
+
+    <!-- Error Messages -->
+    <?php if (!empty($errors)): ?>
+        <?php foreach ($errors as $e): ?>
+            <p style="color:red; font-weight:bold;"><?= htmlspecialchars($e) ?></p>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+
+    <!-- Child List -->
     <h3>Your Child(ren)</h3>
 
     <?php if (empty($my_children)): ?>
@@ -103,46 +136,47 @@ foreach ($children as $c) {
         <?php foreach ($my_children as $child): ?>
             <div class="card" style="padding:15px; margin-bottom:15px; border:1px solid #ccc; border-radius:8px; background:#fafafa;">
                 <h4><?= htmlspecialchars($child['child_name']) ?></h4>
+
                 <p><b>Date of Birth:</b> <?= htmlspecialchars($child['dob']) ?></p>
                 <p><b>Gender:</b> <?= htmlspecialchars($child['gender']) ?></p>
                 <p><b>Grade Category:</b> <?= htmlspecialchars($child['grade_category']) ?></p>
                 <p><b>Address:</b> <?= htmlspecialchars($child['address']) ?></p>
-                <p><b>Status:</b> 
-                    <span style="font-weight:bold; color:<?= $child['status']=='Approved'?'green':($child['status']=='Declined'?'red':'orange') ?>">
+
+                <p><b>Status:</b>
+                    <span style="font-weight:bold; color:
+                        <?= $child['status']=='Approved' ? 'green' :
+                           ($child['status']=='Declined' ? 'red' : 'orange') ?>;">
                         <?= htmlspecialchars($child['status']) ?>
                     </span>
                 </p>
+
                 <p><b>Documents:</b><br>
-                    <a href="<?= htmlspecialchars($child['birth_certificate']) ?>" target="_blank">Birth Certificate</a><br>
-                    <a href="<?= htmlspecialchars($child['parent_id']) ?>" target="_blank">Parent/Guardian ID</a>
+                    <a href="/<?= htmlspecialchars($child['birth_certificate']) ?>" target="_blank">Birth Certificate</a><br>
+                    <a href="/<?= htmlspecialchars($child['parent_id']) ?>" target="_blank">Parent/Guardian ID</a>
                 </p>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <h3>Add New Child</h3>
-    <?php if (!empty($errors)): ?>
-        <?php foreach($errors as $e): ?>
-            <p style="color:red; font-weight:bold;"><?= $e ?></p>
-        <?php endforeach; ?>
-    <?php endif; ?>
 
-    <?php if (!empty($success_message)): ?>
-        <p style="color:green; font-weight:bold;"><?= $success_message ?></p>
-    <?php endif; ?>
+    <!-- Add Child Form -->
+    <h3>Add New Child</h3>
 
     <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="new_child" value="1">
 
         <input name="child_name" placeholder="Child Full Name" required><br><br>
+
         <label>Date of Birth</label><br>
         <input type="date" name="child_dob" required><br><br>
+
         <label>Gender</label><br>
         <select name="child_gender" required>
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
         </select><br><br>
+
         <label>Grade Category</label><br>
         <select name="grade_category" required>
             <option value="">Select Category</option>
@@ -151,11 +185,14 @@ foreach ($children as $c) {
             <option value="Playgroup">Playgroup (3–4 years)</option>
             <option value="Pre-School">Pre-School (4–5 years)</option>
         </select><br><br>
+
         <input name="child_address" placeholder="Child Residential Address" required><br><br>
 
         <h4>Upload Documents</h4>
+
         <label>Birth Certificate (PDF/JPG/PNG, ≤2MB)</label><br>
         <input type="file" name="birth_cert" accept=".pdf,.jpg,.jpeg,.png" required><br><br>
+
         <label>Parent/Guardian ID (PDF/JPG/PNG, ≤2MB)</label><br>
         <input type="file" name="parent_id" accept=".pdf,.jpg,.jpeg,.png" required><br><br>
 
