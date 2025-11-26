@@ -1,0 +1,32 @@
+[
+  {
+    "id": "challenge-001",
+    "content": "Refactor one messy function today without changing behavior.",
+    "category": "mini-challenges",
+    "effort": "low"
+  },
+  {
+    "id": "challenge-002",
+    "content": "Explain a complex piece of code in three sentences. If you can’t, simplify it.",
+    "category": "mini-challenges",
+    "effort": "medium"
+  },
+  {
+    "id": "challenge-003",
+    "content": "Write a unit test for a function that currently has none.",
+    "category": "mini-challenges",
+    "effort": "medium"
+  },
+  {
+    "id": "challenge-004",
+    "content": "Try to optimize a function without changing its outputs.",
+    "category": "mini-challenges",
+    "effort": "medium"
+  },
+  {
+    "id": "challenge-005",
+    "content": "Document a tricky function in your codebase for future developers.",
+    "category": "mini-challenges",
+    "effort": "low"
+  }
+]

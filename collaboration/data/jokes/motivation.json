@@ -1,0 +1,29 @@
+[
+  {
+    "id": "motivation-001",
+    "content": "Every senior developer was once a beginner who didn’t give up.",
+    "category": "motivation",
+    "tone": "uplifting"
+  },
+  {
+    "id": "motivation-002",
+    "content": "You don’t need to be perfect. You just need to be a little better than yesterday.",
+    "category": "motivation"
+  },
+  {
+    "id": "motivation-003",
+    "content": "Mistakes are proof that you are trying. Keep coding!",
+    "category": "motivation",
+    "tone": "encouraging"
+  },
+  {
+    "id": "motivation-004",
+    "content": "Learning to code is a journey, not a sprint. 🌱",
+    "category": "motivation"
+  },
+  {
+    "id": "motivation-005",
+    "content": "Consistency beats intensity. Code a little every day.",
+    "category": "motivation"
+  }
+]

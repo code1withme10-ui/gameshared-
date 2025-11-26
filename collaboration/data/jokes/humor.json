@@ -1,0 +1,27 @@
+[
+  {
+    "id": "humor-001",
+    "content": "Why do developers hate nature? Too many bugs.",
+    "category": "humor"
+  },
+  {
+    "id": "humor-002",
+    "content": "Intern: 'It works!' Senior dev: 'Did you test it?' Intern: '…Define test?'",
+    "category": "humor"
+  },
+  {
+    "id": "humor-003",
+    "content": "Debugging: Being the detective in a crime movie where you are also the murderer.",
+    "category": "humor"
+  },
+  {
+    "id": "humor-004",
+    "content": "Junior devs think version control is optional. 😬",
+    "category": "humor"
+  },
+  {
+    "id": "humor-005",
+    "content": "Code review comment: 'I have no idea what this does.' — the honest truth.",
+    "category": "humor"
+  }
+]

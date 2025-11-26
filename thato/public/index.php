@@ -131,7 +131,7 @@ echo "&lt;p&gt;Edit your files in ../app and ../views&lt;/p&gt;";
         </ul>
     </div>
 
-  
+ 
 
 </div>
 
