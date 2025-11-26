@@ -49,7 +49,8 @@ get_site_info() {
   local info_file="$folder/$SITE_INFO_FILE"
   if [[ -f "$info_file" ]]; then
     # Expected format: Name|relative_wwwroot|Description
-    cat "$info_file"
+    # Output file but ignore blank or whitespace-only line
+    cat "$info_file" | grep -v '^[[:space:]]*$'
   else
     echo ""  # No info file = skip this folder
   fi
@@ -173,7 +174,7 @@ generate_html_fragment() {
   2. Inside it, create a 'public/' folder for your PHP app.
   3. Add a config/auto-site-list-info.txt file with this format:
        Site Name|relative/path/to/public|Description text
-  4. Run ./start_sites.sh again.
+  4. Run ./start_sites.sh again   or  quick-view.sh
 -->
 <ul>
 $html_list
@@ -274,7 +275,7 @@ main() {
     echo "-------------------------------------------------------"
 
     COMMANDS+="php -S 0.0.0.0:${PORT} -t \"$WWWROOT\" &"$'\n'
-    HTML_LIST+="    <li><a href=\"http://localhost:${PORT}\" target=\"_blank\">${NAME}</a> - <small>${META}</small></li>"
+    HTML_LIST+="    <li class="portal-wwwroot"><a href=\"http://localhost:${PORT}\"  data-port=\"${PORT}\" data-wwwroot=\"${WWWROOT}\"  data-name=\"${Name}\"  target=\"_blank\">${NAME}</a> - <small>${META}</small></li>"
     TABLE_LINES+="$NAME|$PORT|$META"$'\n'
 
     if [[ -z "$FIRST_PORT" ]]; then

@@ -23,7 +23,7 @@ $developers = [
         "name" => "thato",
         "role" => "Full Stack Engineer",
         "photo" => "https://via.placeholder.com/150",
-        "portfolio" => "tshwarelo/"
+        "portfolio" => "thato/"
     ]
     
 ];

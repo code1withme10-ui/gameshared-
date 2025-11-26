@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="style.css">
 
 <nav>
     <a href="index.php">Home</a>
