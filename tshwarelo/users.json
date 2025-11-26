@@ -27,7 +27,7 @@
                 "age": 3,
                 "gender": "Male",
                 "reports": [],
-                "status": "pending"
+                "status": "rejected"
             }
         ]
     },
@@ -51,7 +51,7 @@
                 "age": 2,
                 "gender": "Male",
                 "reports": [],
-                "status": "pending"
+                "status": "admitted"
             },
             {
                 "childId": "child-691c3ad11e27b",
@@ -59,8 +59,56 @@
                 "age": 2,
                 "gender": "Female",
                 "reports": [],
-                "status": "pending"
+                "status": "rejected"
             }
         ]
+    },
+    {
+        "applicationID": "APP-6925c15738d52",
+        "status": "Pending",
+        "parent": {
+            "name": "JujuPa",
+            "relationship": "Father",
+            "email": "juju@gmai.com",
+            "password": "123456",
+            "phone": "0792556398",
+            "address": "149 Johnston Street Sunnyside Pretoria"
+        },
+        "child": {
+            "name": "Juju",
+            "dob": "2023-06-25",
+            "gender": "Male",
+            "grade": "Toddlers",
+            "ageMonths": 29,
+            "address": "149 Johnston Street Sunnyside Pretoria"
+        },
+        "documents": {
+            "birthCertificate": "birth_6925c15728a4b.pdf",
+            "parentID": "id_6925c1572d64f.pdf"
+        }
+    },
+    {
+        "applicationID": "APP-6925c2d066d13",
+        "status": "Pending",
+        "parent": {
+            "name": "Zitha",
+            "relationship": "Father",
+            "email": "zitha@gmail.com",
+            "password": "123456",
+            "phone": "0792556392",
+            "address": "149 Johnston Street Sunnyside Pretoria"
+        },
+        "child": {
+            "name": "Papaxi",
+            "dob": "2025-01-13",
+            "gender": "Male",
+            "grade": "Infants",
+            "ageMonths": 10,
+            "address": "149 Johnston Street Sunnyside Pretoria"
+        },
+        "documents": {
+            "birthCertificate": "birth_6925c2d058e00.pdf",
+            "parentID": "id_6925c2d05d7ab.pdf"
+        }
     }
 ]

@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  sunshine-preschool:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./ampfarisaho:/var/www/html
+    container_name: sunshine_preschool_app

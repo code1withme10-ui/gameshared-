@@ -1,86 +1,75 @@
 <?php
 session_start();
-$data_file = 'users.json'; // The file where all user data is stored
+$data_file = "users.json";
 
-// ----------------------------------------------------
-// Functions to read/write JSON data
-// ----------------------------------------------------
+// -------------------- Load Users --------------------
 function get_users($file) {
-    if (!file_exists($file) || filesize($file) == 0) {
-        return [];
-    }
-    
+    if (!file_exists($file) || filesize($file) == 0) return [];
     $data = json_decode(file_get_contents($file), true);
-    
-    if (!is_array($data)) {
-        return [];
-    }
-    
-    return $data;
-}
-// ----------------------------------------------------
-
-// Check if user is already logged in
-if (isset($_SESSION['user_email'])) {
-    if ($_SESSION['role'] === 'headmaster') {
-        header('Location: headmaster_dashboard.php');
-    } else {
-        header('Location: dashboard.php');
-    }
-    exit;
+    return is_array($data) ? $data : [];
 }
 
-$message = '';
+$message = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
+// -------------------- If form submitted --------------------
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
 
     $users = get_users($data_file);
     $loggedIn = false;
 
-    // Find the user and check credentials
     foreach ($users as $user) {
-        if ($user['email'] === $email && $user['password'] === $password) {
-            // Success! Store user info and their role in the session
-            $_SESSION['user_email'] = $user['email'];
-            $_SESSION['parent_name'] = $user['parentName'];
-            $_SESSION['role'] = $user['role'] ?? 'parent'; // Default to 'parent' if role is missing
-            $loggedIn = true;
-            break;
+
+        // ---------- Skip Admission Applications ----------
+        if (isset($user['applicationID'])) {
+            continue;
+        }
+
+        // ---------- Headmaster Login ----------
+        if (isset($user['role']) && $user['role'] === 'headmaster') {
+            if ($user['email'] === $email && $user['password'] === $password) {
+
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['role'] = "headmaster";
+                $_SESSION['name'] = $user['parentName'];
+
+                header("Location: headmaster_dashboard.php");
+                exit();
+            }
+        }
+
+        // ---------- Parent Login ----------
+        if (isset($user['email'], $user['password'], $user['parentName'])) {
+            if ($user['email'] === $email && $user['password'] === $password) {
+
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['role'] = "parent";
+                $_SESSION['name'] = $user['parentName'];
+
+                header("Location: dashboard.php");
+                exit();
+            }
         }
     }
 
-    if ($loggedIn) {
-        // Redirect based on the user's role
-        if ($_SESSION['role'] === 'headmaster') {
-            header('Location: headmaster_dashboard.php');
-        } else {
-            header('Location: dashboard.php');
-        }
-        exit;
-    } else {
-        $message = '<p style="color: red;">Invalid email or password. Please try again.</p>';
-    }
+    // If no match found
+    $message = "<p style='color:red;'>Invalid email or password.</p>";
 }
-
-// PHP logic to check login status for the navbar
-$is_logged_in = isset($_SESSION['user_email']);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="style.css"> 
+    <title>Login - Humulani Pre School</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-    <div class="navbar">
-        <span class="navbar-title">Humulani Pre School</span>
-    <!-- Navigation -->
-    <nav class="navbar">
+
+<!-- NAVIGATION BAR -->
+<div class="navbar">
+    <span class="navbar-title">Humulani Pre School</span>
+    <nav>
         <ul>
             <li><a href="index.php">Home</a></li>
             <li><a href="about.php">About Us</a></li>
@@ -90,35 +79,29 @@ $is_logged_in = isset($_SESSION['user_email']);
             <li><a href="login.php">Login</a></li>
         </ul>
     </nav>
+</div>
 
-            <?php if ($is_logged_in): ?>
-                <a href="dashboard.php?action=logout">Logout</a>
-            <?php else: ?>
-                <a href="login.php">Login</a>
-            <?php endif; ?>
-        </div>
-    </div>
-    <div class="page-container">
-        <h1>Login</h1>
+<div class="page-container">
 
-        <?php echo $message; ?>
+    <h1>Login</h1>
+    <?php echo $message; ?>
 
-        <form method="POST" action="login.php">
-            <label for="email">Email (Username):</label>
-            <input type="email" id="email" name="email" required><br><br>
+    <form method="POST" action="">
+        <label>Email (Username):</label>
+        <input type="email" name="email" required><br><br>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
+        <label>Password:</label>
+        <input type="password" name="password" required><br><br>
 
-            <button type="submit">Login</button>
-        </form>
+        <button type="submit">Login</button>
+    </form>
 
-        <p>Don't have an account? <a href="admission.php">Register here</a></p>
-            </div>
+</div>
 
-        <footer>
-            <p>&copy; 2026 Humulani Pre School</p>
-        </footer>
-    </div>
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 Humulani Pre School</p>
+</footer>
+
 </body>
 </html>

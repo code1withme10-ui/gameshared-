@@ -1,192 +1,201 @@
 <?php
 session_start();
-$data_file = 'users.json'; // The file where all user data is stored
 
-// ----------------------------------------------------
-// Functions to read/write JSON data (Since helpers were removed)
-// ----------------------------------------------------
+$data_file = "users.json";
+
+// Load all users
 function get_users($file) {
-    if (!file_exists($file) || filesize($file) == 0) {
-        return [];
-    }
-    $data = json_decode(file_get_contents($file), true);
-    if (!is_array($data)) {
-        return [];
-    }
-    return $data;
+    if (!file_exists($file) || filesize($file) == 0) return [];
+    return json_decode(file_get_contents($file), true);
 }
 
-function save_users($file, $users) {
-    file_put_contents($file, json_encode($users, JSON_PRETTY_PRINT));
-}
-
-function find_current_user_data($users, $email) {
-    foreach ($users as $index => $user) {
-        if ($user['email'] === $email) {
-            return [
-                'user' => $user,
-                'index' => $index
-            ];
-        }
-    }
-    return null;
-}
-// ----------------------------------------------------
-
-// --- Security Check: Ensure user is logged in AND is not the Headmaster ---
-if (!isset($_SESSION['user_email']) || (isset($_SESSION['role']) && $_SESSION['role'] === 'headmaster')) {
-    header('Location: login.php');
-    exit;
+function save_users($file, $data) {
+    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
 }
 
 $users = get_users($data_file);
-$current_user_data = find_current_user_data($users, $_SESSION['user_email']);
 
-if (!$current_user_data) {
-    session_destroy();
-    header('Location: login.php');
-    exit;
+// Not logged in
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit();
 }
 
-$current_user_index = $current_user_data['index'];
-$current_user = $current_user_data['user'];
+$current_email = $_SESSION['email'];
+$isHeadmaster = isset($_SESSION["role"]) && $_SESSION["role"] === "headmaster";
 
-$message = '';
+$current_user_key = null;
+$current_user = null;
 
-// --- Handle Add Child Form Submission ---
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['addChild'])) {
-    $newChildName = $_POST['newChildName'] ?? '';
-    $newAge = $_POST['newAge'] ?? 0;
-    $newGender = $_POST['newGender'] ?? '';
-
-    if ($current_user) {
-        $new_child = [
-            'childId' => uniqid('child-'),
-            'name' => $newChildName,
-            'age' => (int)$newAge,
-            'gender' => $newGender,
-            'reports' => [],
-            'status' => 'pending' // New child also starts as pending
-        ];
-
-        // Add the new child to the current user's array in the main $users structure
-        $users[$current_user_index]['children'][] = $new_child;
-        save_users($data_file, $users); // Save the entire array back
-        
-        $message = '<p style="color: green;">' . htmlspecialchars($newChildName) . ' has been successfully added! Admission status is Pending.</p>';
-        // IMPORTANT: Re-fetch the updated user object for display
-        $current_user = $users[$current_user_index]; 
+if (!$isHeadmaster) {
+    foreach ($users as $k => $u) {
+        if ($u["parent"]["email"] === $current_email) {
+            $current_user = $u;
+            $current_user_key = $k;
+            break;
+        }
     }
 }
 
-// --- Handle Logout ---
-if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-    session_destroy();
-    header('Location: login.php');
-    exit;
-}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addChild']) && !$isHeadmaster) {
 
-// PHP logic to check login status for the navbar
-$is_logged_in = isset($_SESSION['user_email']);
+    $childName = $_POST['newChildName'];
+    $dob = $_POST['dob'];
+    $gender = $_POST['gender'];
+    $grade = $_POST['grade'];
+    $address = $current_user["parent"]["address"];
+
+    // Upload birth certificate
+    if (!isset($_FILES['birthCert']) || $_FILES['birthCert']['error'] !== 0) {
+        die("Birth certificate is required.");
+    }
+
+    $ext = pathinfo($_FILES['birthCert']['name'], PATHINFO_EXTENSION);
+    $fileName = "birth_" . uniqid() . "." . $ext;
+    $uploadPath = "uploads/" . $fileName;
+    move_uploaded_file($_FILES['birthCert']['tmp_name'], $uploadPath);
+
+    // Calculate age in months
+    $birthDate = new DateTime($dob);
+    $today = new DateTime();
+    $ageInterval = $today->diff($birthDate);
+    $ageMonths = ($ageInterval->y * 12) + $ageInterval->m;
+
+    // Save child
+    $users[$current_user_key]["children"][] = [
+        "name" => $childName,
+        "dob" => $dob,
+        "gender" => $gender,
+        "grade" => $grade,
+        "address" => $address,
+        "ageMonths" => $ageMonths,
+        "birthCertificate" => $fileName
+    ];
+
+    save_users($data_file, $users);
+
+    header("Location: dashboard.php?child_added=1");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Parent Dashboard</title>
-    <link rel="stylesheet" href="style.css"> 
+    <title>Dashboard - Humulani Pre School</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-    <div class="navbar">
-        <span class="navbar-title">Humulani Pre School</span>
-     <!-- Navigation -->
-    <nav class="navbar">
-        <ul>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="container">
+        <ul class="nav-links">
             <li><a href="index.php">Home</a></li>
             <li><a href="about.php">About Us</a></li>
             <li><a href="gallery.php">Gallery</a></li>
             <li><a href="admission.php">Admission</a></li>
             <li><a href="contact.php">Contact</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="login.php">Login</a></li>
         </ul>
-    </nav> 
-            <?php if ($is_logged_in): ?>
-                <a href="dashboard.php?action=logout">Logout</a>
-            <?php else: ?>
-                <a href="login.php">Login</a>
-            <?php endif; ?>
-        </div>
     </div>
-    <div class="page-container">
-        <h1>Welcome, <?php echo htmlspecialchars($_SESSION['parent_name'] ?? 'Parent'); ?>!</h1>
+</nav>
 
-        <hr>
-        <?php echo $message; ?>
-        <h2>Your Children</h2>
-        
-        <div id="childrenList">
-            <?php if ($current_user && !empty($current_user['children'])): ?>
-                <?php foreach ($current_user['children'] as $child): ?>
-                    <div>
-                        <h3>Child: <?php echo htmlspecialchars($child['name']); ?></h3>
-                        <p>Age: <?php echo htmlspecialchars($child['age']); ?></p>
-                        <p>Gender: <?php echo htmlspecialchars($child['gender']); ?></p>
-                        
-                        <p>
-                            <strong>Admission Status:</strong> 
-                            <span class="status-<?php echo strtolower($child['status'] ?? 'pending'); ?>">
-                                <?php echo htmlspecialchars(ucfirst($child['status'] ?? 'Pending')); ?>
-                            </span>
-                        </p>
+<div class="container">
+    <h1>
+        Welcome,
+        <?php echo $isHeadmaster ? "Headmaster" : htmlspecialchars($current_user["parent"]["name"]); ?>
+    </h1>
 
-                        <h4>Reports:</h4>
-                        <?php if (!empty($child['reports'])): ?>
-                            <ul>
-                                <?php foreach ($child['reports'] as $report): ?>
-                                    <li>
-                                        <strong>Date: <?php echo htmlspecialchars($report['date'] ?? 'N/A'); ?></strong> | 
-                                        Grade: <?php echo htmlspecialchars($report['grade'] ?? 'N/A'); ?> | 
-                                        Notes: <?php echo htmlspecialchars($report['notes'] ?? 'No notes.'); ?>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php else: ?>
-                            <p>No reports available yet.</p>
-                        <?php endif; ?>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>You have not registered any children yet. Use the form below to add your first child.</p>
-            <?php endif; ?>
-        </div>
+    <hr>
 
-        <hr>
+<?php if (!$isHeadmaster): ?>
 
-        <h2>Add Another Child</h2>
-        <form method="POST" action="dashboard.php">
-            <input type="hidden" name="addChild" value="1">
-            <label for="newChildName">Child's Name:</label>
-            <input type="text" id="newChildName" name="newChildName" required><br><br>
+    <h2>Your Registered Children</h2>
 
-            <label for="newAge">Age:</label>
-            <input type="number" id="newAge" name="newAge" min="1" max="6" required><br><br>
+    <?php if (!empty($current_user["children"])): ?>
+        <ul>
+            <?php foreach ($current_user["children"] as $child): ?>
+                <li>
+                    <strong><?php echo htmlspecialchars($child["name"]); ?></strong><br>
+                    Gender: <?php echo $child["gender"]; ?><br>
+                    Grade: <?php echo $child["grade"]; ?><br>
+                    DOB: <?php echo $child["dob"]; ?><br>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p>No registered children yet.</p>
+    <?php endif; ?>
 
-            <label for="newGender">Gender:</label>
-            <select id="newGender" name="newGender" required>
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select><br><br>
+    <hr>
 
-            <button type="submit">Add Child</button>
-        </form>
-            </div>
+    <h2>Add Another Child</h2>
 
-        <footer>
-            <p>&copy; 2026 Humulani Pre School</p>
-        </footer>
-    </div>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="addChild" value="1">
+
+        <label>Full Name:</label>
+        <input type="text" name="newChildName" required><br><br>
+
+        <label>Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required><br><br>
+
+        <label>Gender:</label><br>
+        <label class="radio"><input type="radio" name="gender" value="Male" required> Male</label>
+        <label class="radio"><input type="radio" name="gender" value="Female" required> Female</label>
+        <br><br>
+
+        <label>Grade Applying For:</label>
+        <select id="grade" name="grade" required>
+            <option value="">Select Category</option>
+            <option value="Infants">Infants (6–12 months)</option>
+            <option value="Toddlers">Toddlers (1–3 years)</option>
+            <option value="Playgroup">Playgroup (3–4 years)</option>
+            <option value="Pre-School">Pre-School (4–5 years)</option>
+        </select>
+        <br><br>
+
+        <label>Birth Certificate:</label>
+        <input type="file" name="birthCert" accept=".pdf,.jpg,.jpeg,.png" required><br><br>
+
+        <button type="submit">Add Child</button>
+    </form>
+
+<?php endif; ?>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 Humulani Pre School</p>
+</footer>
+
+<script>
+function calculateAge(dob) {
+    const today = new Date();
+    const birth = new Date(dob);
+    let years = today.getFullYear() - birth.getFullYear();
+    let months = today.getMonth() - birth.getMonth();
+    if (months < 0) { years--; months += 12; }
+    return { years, months };
+}
+
+document.getElementById("dob").addEventListener("change", function() {
+    const age = calculateAge(this.value);
+    const grade = document.getElementById("grade");
+    const options = grade.options;
+
+    for (let i = 0; i < options.length; i++) options[i].disabled = false;
+
+    if (!(age.years === 0 && age.months >= 6 && age.months <= 12)) options[1].disabled = true;
+    if (!(age.years >= 1 && age.years <= 3)) options[2].disabled = true;
+    if (!(age.years >= 3 && age.years <= 4)) options[3].disabled = true;
+    if (!(age.years >= 4 && age.years <= 5)) options[4].disabled = true;
+
+    grade.value = "";
+});
+</script>
+
 </body>
 </html>
