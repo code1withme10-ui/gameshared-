@@ -41,3 +41,4 @@ tmp/
 backup/*
 ampfarisaho/composer.lock
 composer.lock
+collaboration/storage/content_history.json

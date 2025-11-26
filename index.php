@@ -27,6 +27,40 @@ $developers = [
     ]
     
 ];
+function safe_get_remote_html($url) {
+    // Allow only local trusted URLs
+    $allowedHosts = ['localhost', '127.0.0.1'];
+
+    $parsed = parse_url($url);
+
+    if (!in_array($parsed['host'] ?? '', $allowedHosts)) {
+        return "<p style='color:red;'>Security error: Host not allowed.</p>";
+    }
+
+    $ch = curl_init($url);
+
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_TIMEOUT => 3,          // prevents hanging
+        CURLOPT_CONNECTTIMEOUT => 2,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false
+    ]);
+
+    $response = curl_exec($ch);
+    $err      = curl_error($ch);
+    $status   = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($err || $status !== 200) {
+        return "<p style='color:red;'>Couldn't load content (HTTP $status)</p>";
+    }
+
+    return $response;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -77,9 +111,18 @@ $developers = [
             </div>
         </div>
     <?php endforeach; ?>
+    <div class="w3-third w3-margin-bottom">
+                    <div class="w3-card w3-white w3-center team-member w3-padding-16">
+        <?php
+        echo safe_get_remote_html('http://localhost:8041/');
+        ?>
+    </div>                    
+    </div>
 </div>
 <?php
 require_once './public/sites_list.html';
+
+
 ?>
 <!-- Footer -->
 <footer class="w3-center w3-padding-32 w3-blue">

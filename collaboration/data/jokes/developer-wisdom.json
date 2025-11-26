@@ -1,0 +1,29 @@
+[
+  {
+    "id": "wisdom-001",
+    "content": "Debugging: Being the detective in a crime movie where you are also the murderer.",
+    "category": "developer-wisdom",
+    "source": "Unknown"
+  },
+  {
+    "id": "wisdom-002",
+    "content": "Clean code is what you write for people, not machines.",
+    "category": "developer-wisdom"
+  },
+  {
+    "id": "wisdom-003",
+    "content": "If it works, it might break tomorrow. Always test.",
+    "category": "developer-wisdom"
+  },
+  {
+    "id": "wisdom-004",
+    "content": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+    "category": "developer-wisdom",
+    "source": "Martin Fowler"
+  },
+  {
+    "id": "wisdom-005",
+    "content": "Refactoring is like cleaning your room: unpleasant but necessary.",
+    "category": "developer-wisdom"
+  }
+]
