@@ -1,0 +1,13 @@
+[
+  {"id":"auto-001","content":"If you run a task more than twice, automate it.","category":"automation-wisdom"},
+  {"id":"auto-002","content":"Let CI pipelines catch mistakes before your team does.","category":"automation-wisdom"},
+  {"id":"auto-003","content":"Automated tests don’t judge you — they just save you.","category":"automation-wisdom"},
+  {"id":"auto-004","content":"A well-named script is worth ten pages of documentation.","category":"automation-wisdom"},
+  {"id":"auto-005","content":"Cron jobs are like gremlins — feed them responsibly.","category":"automation-wisdom"},
+  {"id":"auto-006","content":"Treat your CI bot with respect. It controls your fate.","category":"automation-wisdom"},
+  {"id":"auto-007","content":"Automate deployment so no one deploys on Friday at 4pm again.","category":"automation-wisdom"},
+  {"id":"auto-008","content":"Pipelines fail loudly so your system doesn't fail silently.","category":"automation-wisdom"},
+  {"id":"auto-009","content":"Your future self will thank you for that automation script.","category":"automation-wisdom"},
+  {"id":"auto-010","content":"A pipeline that’s too quiet is suspicious.","category":"automation-wisdom"}
+]
+

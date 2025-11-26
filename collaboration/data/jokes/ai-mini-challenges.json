@@ -1,0 +1,54 @@
+[
+  {
+    "id":"ai-challenge-001",
+    "content":"Ask an AI to explain a piece of code in extremely simple language — then rewrite it more clearly.",
+    "category":"ai-mini-challenges",
+    "hint":"Use ‘Explain like I’m five’ prompting."
+  },
+  {
+    "id":"ai-challenge-002",
+    "content":"Generate two different solutions from an AI and compare which one is more maintainable.",
+    "category":"ai-mini-challenges"
+  },
+  {
+    "id":"ai-challenge-003",
+    "content":"Give an AI a vague prompt. See what assumptions it makes. Use that to learn better prompting.",
+    "category":"ai-mini-challenges"
+  },
+  {
+    "id":"ai-challenge-004",
+    "content":"Ask AI to propose 3 refactor ideas for your latest code commit.",
+    "category":"ai-mini-challenges"
+  },
+  {
+    "id":"ai-challenge-005",
+    "content":"Give the AI a buggy snippet. See if you can beat its debugging time.",
+    "category":"ai-mini-challenges"
+  },
+  {
+    "id":"ai-challenge-006",
+    "content":"Ask an AI to rewrite code in a style guide of your choice.",
+    "category":"ai-mini-challenges"
+  },
+  {
+    "id":"ai-challenge-007",
+    "content":"Use AI to generate test cases — then write one manually that it missed.",
+    "category":"ai-mini-challenges"
+  },
+  {
+    "id":"ai-challenge-008",
+    "content":"Generate documentation using AI, then fix inaccuracies it makes.",
+    "category":"ai-mini-challenges"
+  },
+  {
+    "id":"ai-challenge-009",
+    "content":"Use an AI to simplify a deeply nested function. Compare readability.",
+    "category":"ai-mini-challenges"
+  },
+  {
+    "id":"ai-challenge-010",
+    "content":"Ask AI to propose folder structures for your next project — pick your favorite.",
+    "category":"ai-mini-challenges"
+  }
+]
+

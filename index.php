@@ -97,6 +97,7 @@ function safe_get_remote_html($url) {
                     <div  stule="height: 250px;" class="w3-card w3-white w3-center team-member w3-padding-16">
         <?php
         echo safe_get_remote_html('http://localhost:8041/');
+        echo safe_get_remote_html('http://localhost:8041/');
         ?>
     </div>                    
     </div>
