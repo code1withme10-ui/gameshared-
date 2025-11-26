@@ -41,4 +41,9 @@ tmp/
 backup/*
 ampfarisaho/composer.lock
 composer.lock
+collaboration/doc/
 collaboration/storage/content_history.json
+public/sites_list.html
+.gitignore_bak
+index_org.php
+

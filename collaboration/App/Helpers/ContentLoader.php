@@ -12,49 +12,62 @@ class ContentLoader
         $this->jokesPath = rtrim($jokesPath, "/") . "/";
         $this->history = $history;
     }
+public function getRandomContent()
+{
+    $files = glob($this->jokesPath . "*.json");
 
-    public function getRandomContent()
-    {
-        $files = glob($this->jokesPath . "*.json");
+    if (empty($files)) {
+        return $this->fallbackItem("No joke files found.");
+    }
 
-        if (empty($files)) {
-            return [
-                "id" => "error-000",
-                "content" => "⚠️ No joke files found in data/jokes/",
-                "category" => "system"
-            ];
-        }
+    $recent = $this->history->getRecent();
 
-        // Pick random category file
+    // Try up to 5 times
+    for ($i = 0; $i < 5; $i++) {
         $file = $files[array_rand($files)];
         $items = json_decode(file_get_contents($file), true);
 
-        if (!is_array($items)) {
-            return [
-                "id" => "error-001",
-                "content" => "⚠️ Invalid JSON format in: " . basename($file),
-                "category" => "system"
-            ];
+        if (!is_array($items) || empty($items)) {
+            continue; // Retry
         }
 
-        // Filter out last 20 used items
-        $recent = $this->history->getRecent();
+        // Filter out the recent IDs
         $available = array_filter($items, fn($item) =>
-            !in_array($item["id"], $recent)
+            isset($item["id"]) && !in_array($item["id"], $recent)
         );
 
-        // If everything was shown, allow all again
         if (empty($available)) {
+            // If all items used recently, reset and retry
             $available = $items;
         }
 
-        // Pick random entry
+        // Random successful selection
         $selected = $available[array_rand($available)];
 
-        // Store ID in history
+        // Validate required fields
+        if (empty($selected["id"]) || empty($selected["content"])) {
+            continue; // Retry
+        }
+
+        // Save ID in history
         $this->history->add($selected["id"]);
 
         return $selected;
     }
+
+    // If all retries fail — return fallback item
+    return $this->fallbackItem("Unable to load content after multiple attempts.");
+}
+
+private function fallbackItem($message)
+{
+    return [
+        "id" => "fallback-" . uniqid(),
+        "content" => "⚠️ " . $message,
+        "category" => "system",
+        "fallback" => true
+    ];
+}
+
 }
 

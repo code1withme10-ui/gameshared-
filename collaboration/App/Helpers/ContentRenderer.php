@@ -13,20 +13,24 @@ class ContentRenderer
     }
 
     public function render(array $item)
-    {
-        $category = $item["category"] ?? "default";
-        $file = $this->templatePath . $category . ".php";
+{
+    $category = $item["category"] ?? "default";
+    $file = $this->templatePath . $category . ".php";
 
-        // Fallback template
-        if (!file_exists($file)) {
-            $file = $this->templatePath . "default.php";
-        }
-
-        // Make content available to template
-        $content = $item;
-
-        ob_start();
-        include $file;
-        return ob_get_clean();
+    if (!file_exists($file)) {
+        $file = $this->templatePath . "default.php";
     }
+
+    // render template
+    ob_start();
+    include $file;
+    $output = trim(ob_get_clean());
+
+    if (empty($output)) {
+        return "<div class='content-card system'>⚠️ Empty template output for category <b>{$category}</b>.</div>";
+    }
+
+    return $output;
+}
+
 }
