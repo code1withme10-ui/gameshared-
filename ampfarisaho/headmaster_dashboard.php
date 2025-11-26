@@ -33,7 +33,7 @@ function getParentInfo($parents, $username) {
     return null;
 }
 ?>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="public/css/style.css">
 <?php include "includes/menu-bar.php"; ?>
 
 <div class="container">
