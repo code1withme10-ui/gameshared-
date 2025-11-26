@@ -1,0 +1,13 @@
+[
+  {"id":"ai-humor-001","content":"My AI assistant suggested adding a semicolon to a Python file. I think it's been hanging out with Java too much.","category":"ai-humor"},
+  {"id":"ai-humor-002","content":"AI: 'I fixed your bug!' *introduces three new bugs*","category":"ai-humor"},
+  {"id":"ai-humor-003","content":"Intern: 'ChatGPT wrote my code.' ChatGPT: 'The intern wrote my prompt.'","category":"ai-humor"},
+  {"id":"ai-humor-004","content":"AI pair programmer: 'I don't think that's optimal.' Me: 'Bro… YOU wrote it.'","category":"ai-humor"},
+  {"id":"ai-humor-005","content":"When the AI says 'As an AI language model' you know it's about to refuse to do something fun.","category":"ai-humor"},
+  {"id":"ai-humor-006","content":"AI apologized for hallucinating. That's how I knew it *really* hallucinated.","category":"ai-humor"},
+  {"id":"ai-humor-007","content":"Copilot wrote a whole function. I spent 2 hours debugging why it confidently lied.","category":"ai-humor"},
+  {"id":"ai-humor-008","content":"AI: 'I'm 100% certain.' Developer: *panic intensifies*","category":"ai-humor"},
+  {"id":"ai-humor-009","content":"If your AI recommends using StackOverflow, that's the AI version of giving up.","category":"ai-humor"},
+  {"id":"ai-humor-010","content":"My AI wrote a joke about itself, then asked for feedback. We're doomed.","category":"ai-humor"}
+]
+

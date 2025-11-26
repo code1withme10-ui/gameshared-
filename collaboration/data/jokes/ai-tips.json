@@ -1,0 +1,56 @@
+[
+  {
+    "id":"ai-tip-001",
+    "content":"Always validate AI-generated code — it writes fast, but doesn’t always write right.",
+    "category":"ai-tips",
+    "lesson":"Trust but verify"
+  },
+  {
+    "id":"ai-tip-002",
+    "content":"When prompting an AI, describe the *context*, not just the task.",
+    "category":"ai-tips",
+    "lesson":"Good prompts = better output"
+  },
+  {
+    "id":"ai-tip-003",
+    "content":"Never copy-paste AI code directly into production. Ever.",
+    "category":"ai-tips",
+    "lesson":"Review everything"
+  },
+  {
+    "id":"ai-tip-004",
+    "content":"Use AI for boilerplate, but keep logic and architecture human-driven.",
+    "category":"ai-tips"
+  },
+  {
+    "id":"ai-tip-005",
+    "content":"Break big prompts into smaller steps — AI thinks better interactively.",
+    "category":"ai-tips"
+  },
+  {
+    "id":"ai-tip-006",
+    "content":"If the AI sounds overly confident, triple-check the result.",
+    "category":"ai-tips"
+  },
+  {
+    "id":"ai-tip-007",
+    "content":"Treat AI like an intern: helpful, fast, sometimes wrong.",
+    "category":"ai-tips"
+  },
+  {
+    "id":"ai-tip-008",
+    "content":"Use AI to explain unfamiliar code — even your own from last year.",
+    "category":"ai-tips"
+  },
+  {
+    "id":"ai-tip-009",
+    "content":"AI can draft documentation, but you must verify accuracy.",
+    "category":"ai-tips"
+  },
+  {
+    "id":"ai-tip-010",
+    "content":"Use AI diff reviewers to catch mistakes when you’re tired.",
+    "category":"ai-tips"
+  }
+]
+
