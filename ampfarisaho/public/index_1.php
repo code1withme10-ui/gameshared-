@@ -1,3 +1,5 @@
+require __DIR__ . '/../vendor/autoload.php';
+
 <link rel="stylesheet" href="css/style.css">
 <?php include "includes/menu-bar.php"; ?>
 
