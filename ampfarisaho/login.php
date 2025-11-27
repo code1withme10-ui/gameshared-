@@ -1,59 +1,54 @@
 <?php
 session_start();
-include "includes/functions.php";
+include __DIR__ . "/includes/functions.php";
+include __DIR__ . "/includes/auth.php";
 
-$parents = readJSON("data/parents.json");
-$headmaster = readJSON("data/headmaster.json");
+$parents = readJSON(__DIR__ . "/data/parents.json");
+$headmaster = readJSON(__DIR__ . "/data/headmaster.json");
 
 $error = "";
 
-// Ensure $parents is always an array
-if (!is_array($parents)) {
-    $parents = [];
-}
-
-if ($_POST) {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    // ----- HEADMASTER LOGIN -----
-    if (isset($headmaster['username'], $headmaster['password'])) {
-        if ($username === $headmaster['username'] && $password === $headmaster['password']) {
-            $_SESSION['headmaster'] = $username;
-            header("Location: headmaster_dashboard.php");
-            exit;
-        }
+    // Headmaster login
+    if (isset($headmaster['username'], $headmaster['password']) &&
+        $username === $headmaster['username'] && $password === $headmaster['password']) {
+        $_SESSION['headmaster'] = $username;
+        header("Location: index.php?page=headmaster_dashboard");
+        exit;
     }
 
-    // ----- PARENT LOGIN -----
-    $found = false;
+    // Parent login
     foreach ($parents as $p) {
-        if (isset($p['username'], $p['password'])) {
-            if ($p['username'] === $username && $p['password'] === $password) {
-                $_SESSION['parent'] = $username;
-                header("Location: parent_dashboard.php");
-                exit;
-            }
+        if (isset($p['username'], $p['password']) &&
+            $p['username'] === $username && $p['password'] === $password) {
+            $_SESSION['parent'] = $username;
+            header("Location: index.php?page=parent_dashboard");
+            exit;
         }
     }
 
     $error = "Invalid username or password.";
 }
 ?>
-<link rel="stylesheet" href="css/style.css">
-<?php include "includes/menu-bar.php"; ?>
+
+<link rel="stylesheet" href="public/css/style.css">
+<?php include __DIR__ . "/includes/menu-bar.php"; ?>
 
 <div class="container">
     <h2>Login</h2>
     <p>Parents and Headmaster login using <strong>Username + Password</strong>.</p>
 
     <?php if (!empty($error)): ?>
-        <p style="color:red; font-weight:bold;"><?= $error ?></p>
+        <p style="color:red; font-weight:bold;"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
 
     <form method="POST">
-        <input name="username" placeholder="Username" required><br><br>
+        <input type="text" name="username" placeholder="Username" required><br><br>
         <input type="password" name="password" placeholder="Password" required><br><br>
         <button class="button">Login</button>
     </form>
 </div>
+

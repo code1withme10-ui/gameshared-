@@ -1,6 +1,7 @@
 <?php
-include "includes/auth.php";
+include __DIR__ . "/includes/auth.php";
+
 logout();
-header("Location: login.php");
+header("Location: index.php?page=login");
 exit;
-?>
+
