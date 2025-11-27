@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 }
 ?>
 
-<link rel="stylesheet" href="public/css/style.css">
+<link rel="stylesheet" href="css/style.css">
 <?php include __DIR__ . "/includes/menu-bar.php"; ?>
 
 <div class="container">

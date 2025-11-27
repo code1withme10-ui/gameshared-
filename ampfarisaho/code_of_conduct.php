@@ -1,7 +1,7 @@
 <?php
 // No login required for this page, but you can add requireParentLogin() if needed
 ?>
-<link rel="stylesheet" href="public/css/style.css">
+<link rel="stylesheet" href="css/style.css">
 <?php include __DIR__ . '/includes/menu-bar.php'; ?>
 
 <div class="container">
