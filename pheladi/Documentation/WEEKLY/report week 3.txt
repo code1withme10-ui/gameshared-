@@ -1,0 +1,19 @@
+VHUTAMBO EDU WEEKLY REPORT
+REPORTING PERIOD: 24 NOVEMBER – 28 NOVEMBER 2025
+PREPARED BY: PHELADI NCHABELENG
+PROJECT: WEBSITE CREATION
+
+SUMMARY
+During the week of 24 November to 28 November, the team submitted their task which were given to them. The task was that they add a new feature on the existing website. The feature was the documents uploading. After the submission was the taken through the unit testing in php.
+
+ 1.	PROGRESS THIS WEEK
+•	Task to add feature was completed and tested.
+•	The developing were taught on unit testing in php.
+•	The team were taught to separate public (front-end folders) from personal 	(Back-end folders).
+•	The team were given documents with instructions on how to install and execute unit 	testing in php.
+
+2.	TASKS PLANNED FOR NEXT WEEK
+•	A scrum among the team to discuss the unit testing concept and address any   	challenges.
+
+SUMMARY COMMENTS
+There were a slacking among the team when coming to team work.
