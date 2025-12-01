@@ -3,7 +3,11 @@
     <type>org.netbeans.modules.php.project</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
+<<<<<<< HEAD
+            <name>PhpProject1</name>
+=======
             <name>gameshared</name>
+>>>>>>> fd948f9b5b51435f5d3ac23388609963063976ce
         </data>
     </configuration>
 </project>

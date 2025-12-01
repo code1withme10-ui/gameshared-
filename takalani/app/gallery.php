@@ -1,8 +1,8 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+     
 }
-require_once 'menu-bar.php';
+require_once "../app/menu-bar.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

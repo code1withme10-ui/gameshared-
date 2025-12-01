@@ -1,0 +1,48 @@
+[
+    {
+        "username": "takalanimusubi",
+        "role": "parent",
+        "parentName": "Promise",
+        "parentSurname": "KUBAYI",
+        "parentAddress": "Mbokota",
+        "childName": "Takalani",
+        "childSurname": "Musubi",
+        "childGender": "Male",
+        "childAge": "5",
+        "contact": "0760261277",
+        "email": "khodanimakhado07@gmail.com",
+        "medical": "nano",
+        "password": "$2y$10$TOA9HJMWzw2rjHvj7CPeye6sHECW8SnGl6MEXXRXLDJaQWpPRs5eO"
+    },
+    {
+        "username": "takalanimusubii",
+        "role": "parent",
+        "parentName": "Promise",
+        "parentSurname": "singi",
+        "parentAddress": "Mbokota",
+        "childName": "Takalani",
+        "childSurname": "Musubii",
+        "childGender": "Male",
+        "childAge": "5",
+        "contact": "0760261277",
+        "email": "khodanimakhado07@gmail.com",
+        "medical": "n",
+        "password": "$2y$10$HP1wWuty1Fh3LM4jKMHTzu3iotFt2Wyw2M5XV9Oxf9ctveDBTbvki"
+    },
+    {
+        "username": "xinavetisopourlitemboweni",
+        "password": "$2y$10$fhBVAINUKYvRvoop3dOBNeF4ImhSJ5KNbC2Zww132UOQbwJRxRVx6",
+        "role": "parent",
+        "parentName": "Xinavetiso  Pourlite",
+        "parentSurname": "mboweni",
+        "parentAddress": "LIMPOPO",
+        "email": "Xinavetisopolite@gmail.com",
+        "contact": "0637648896",
+        "childName": "Xinavetiso  Pourlite",
+        "childSurname": "mboweni",
+        "childGender": "Female",
+        "childAge": "8",
+        "medical": "n",
+        "registrationDate": "2025-12-01 10:26:52"
+    }
+]

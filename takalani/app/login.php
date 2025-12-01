@@ -1,6 +1,11 @@
 <?php
-session_start();
+ 
 require_once 'functions.php'; // Use your helper functions
+
+// CRITICAL FIX: Robust session start (required because this is a primary page)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // $headmastersFile and $usersFile are no longer needed, using constants from functions.php
 
@@ -19,16 +24,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($user) {
         if (password_verify($password, $user["password"])) {
             
+            // Session is already started at the top
             $_SESSION["user"] = [
                 "username"      => $user["username"],
                 "role"          => $user["role"] ?? "parent", // Default to parent
                 "parentName"    => $user["parentName"] ?? "",
                 "parentSurname" => $user["parentSurname"] ?? "",
-                "email"         => $user["email"] ?? "",
+                "email"]         => $user["email"] ?? "",
                 "phone"         => $user["contact"] ?? ""
             ];
 
-            header("Location: parent.php");
+            // CRITICAL FIX: Redirect to router-friendly clean URL /parent
+            header("Location: /parent");
             exit();
         }
     }
@@ -46,7 +53,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
 
-<?php require_once 'menu-bar.php'; ?>
+<?php 
+// SYNTAX FIX: Corrected mismatched quote: '../app/menu-bar.php' changed to "../app/menu-bar.php"
+require_once "../app/menu-bar.php"; 
+?>
 
 <main style="text-align:center; margin-top:40px;">
     <h2>Parent Login</h2>
@@ -65,9 +75,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <button type="submit">Login</button>
     </form>
 
-    <p style="margin-top:10px;">Don't have an account? <a href="registration.php">Register here</a></p>
-    <p style="margin-top:20px;"><a href="headmaster-login.php">Are you a Headmaster? Login here.</a></p>
+    <p style="margin-top:10px;">
+        Don't have an account? <a href="registration.php">Register here</a>
+    </p>
+    <p style="margin-top:10px;">
+        Are you a Headmaster? <a href="headmaster-login.php">Login here</a>
+    </p>
 </main>
 
+<?php 
+    if (file_exists('footer.php')) {
+        include 'footer.php'; 
+    }
+?>
 </body>
 </html>

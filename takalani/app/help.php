@@ -1,5 +1,5 @@
 <?php
-session_start();
+ 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,7 @@ session_start();
 
 <?php
 // Include the existing menu bar for navigation
-require_once 'menu-bar.php';
+require_once "../app/menu-bar.php";
 ?>
 
 <main style="text-align:center; margin-top:50px;">
@@ -28,8 +28,8 @@ require_once 'menu-bar.php';
     <section style="margin-top:30px;">
         <h3>💡 Common Questions</h3>
         <ul style="list-style:none; padding:0;">
-            <li>• How do I register? — Go to the <a href="registration.php">Registration Page</a>.</li>
-            <li>• How do I log in? — Visit the <a href="login.php">Login Page</a>.</li>
+            <li>• How do I register? — Go to the <a href="/registration">Registration Page</a>.</li>
+            <li>• How do I log in? — Visit the <a href="/login">Login Page</a>.</li>
             <li>• I forgot my password — Contact the school administrator.</li>
         </ul>
     </section>
