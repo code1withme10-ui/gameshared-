@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+     
 }
 ?>
 <!DOCTYPE html>
@@ -11,7 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <?php require_once 'menu-bar.php'; ?>
+  <?php require_once "../app/menu-bar.php"; ?>
 
   <main style="max-width:800px; margin:50px auto; text-align:center;">
     <h2>About SubixStar Pre-School</h2>

@@ -1,5 +1,5 @@
 <?php
-session_start();
+ 
 if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'parent') {
   header('Location: login.php');
   exit();
@@ -10,7 +10,7 @@ if (!$childId) {
   die('Child ID is required.');
 }
 
-$admissionFile = __DIR__ . '/admissions.json';
+$admissionFile = __DIR__ . '/../data/admissions.json';
 $admissions = file_exists($admissionFile) ? json_decode(file_get_contents($admissionFile), true) : [];
 
 $childData = null;
@@ -48,7 +48,7 @@ $progressData = [
   </style>
 </head>
 <body>
-<?php require_once 'menu-bar.php'; ?>
+<?php require_once "../app/menu-bar.php"; ?>
 <main>
   <h2>Progress Report</h2>
   <div class="info">
@@ -63,7 +63,7 @@ $progressData = [
   <p><strong>Learning:</strong> <?= htmlspecialchars($progressData['learning']) ?></p>
   <p><strong>Teacher Notes:</strong> <?= htmlspecialchars($progressData['teacherNotes']) ?></p>
 
-  <a href="parent.php" class="button">← Back to My Children</a>
+  <a href="/parent" class="button">← Back to My Children</a>
 </main>
 
 <?php include 'footer.php'; ?>

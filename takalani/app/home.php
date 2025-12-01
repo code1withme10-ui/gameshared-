@@ -1,5 +1,13 @@
 <?php
-session_start();
+ 
+// CRITICAL FIX: Robust session start (required because this is a primary page)
+if (session_id() === '') {
+    session_start();
+}
+// Set up error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +19,10 @@ session_start();
 </head>
 <body>
 
-<?php require_once 'menu-bar.php'; ?>
+<?php 
+// FIX: Changed mismatched quote to double quote: "../app/menu-bar.php"
+require_once "../app/menu-bar.php"; 
+?>
 
 <main class="home-container">
     <h1>Welcome to SubixStar Pre-School</h1>
@@ -39,12 +50,12 @@ session_start();
                 <p><strong>Phone:</strong> <?= htmlspecialchars($phone) ?></p>
             <?php endif; ?>
 
-            <p><a href="logout.php" class="button rainbow-btn">Logout</a></p>
+            <p><a href="/logout" class="button rainbow-btn">Logout</a></p>
         </div>
     <?php else: ?>
         <p class="welcome-text">
-            Welcome! Please <a href="login.php" class="rainbow-link">Login</a> or 
-            <a href="registration.php" class="rainbow-link">Register</a> to continue.
+            Welcome! Please <a href="/login" class="rainbow-link">Login</a> or 
+            <a href="/registration" class="rainbow-link">Register</a> to continue.
         </p>
        
     <?php endif; ?>
@@ -57,7 +68,10 @@ session_start();
     <p><strong>Email:</strong> takalanimusubi117@gmail.com</p>
 </section>
 
-<?php include 'footer.php'; ?>
+<?php 
+// FIX: Corrected path to include '../app/footer.php' 
+include '../app/footer.php'; 
+?>
 
 </body>
 </html>
