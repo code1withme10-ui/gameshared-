@@ -61,7 +61,7 @@ if (!empty($admissions)) {
 <html>
 <head>
     <title>Headmaster Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
 </head>
 <body>
 

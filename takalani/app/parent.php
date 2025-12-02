@@ -84,7 +84,7 @@ usort($myAdmissions, function($a, $b) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guardian Portal - SubixStar Pre-School</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
     <style>
         .status-Pending { background-color: #ffc107; color: #333; }
         .status-Admitted { background-color: #28a745; color: white; }

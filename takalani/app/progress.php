@@ -37,7 +37,7 @@ $progressData = [
 <head>
   <meta charset="UTF-8">
   <title>Child Progress - SubixStar Pre-School</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="public/css/styles.css">
   <style>
     main { max-width: 700px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
     h2 { color: #2c3e50; text-align: center; }

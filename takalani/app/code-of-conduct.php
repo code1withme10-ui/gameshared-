@@ -9,7 +9,7 @@ require_once "../app/menu-bar.php";
 <head>
     <meta charset="UTF-8" />
     <title>Code of Conduct</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="public/css/styles.css" />
 </head>
 <body>
     <main>

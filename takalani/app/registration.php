@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8" />
     <title>Registration - SubixStar Pre-School</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="public/css/styles.css" />
 </head>
 <body>
 <?php require_once "../app/menu-bar.php"; ?>
