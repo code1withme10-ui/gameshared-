@@ -220,7 +220,7 @@ $defaultParent = [
 <head>
     <meta charset="UTF-8">
     <title>Admission Application</title>
-    <link rel="stylesheet" href="public/css/styles.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
     <style>
         .child-section { 
             border: 1px solid #ddd; 

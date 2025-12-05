@@ -21,13 +21,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($user && password_verify($password, $user['password'])) {
         
+        // --- CRITICAL FIX FOR SESSION OVERLAP ---
+        // Clear all previous session data (e.g., from a Parent login)
+        $_SESSION = [];
+        session_destroy();
+        
+        // Restart the session to assign a new session ID to the new user.
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        // ----------------------------------------
+        
         $_SESSION["user"] = [
             "username" => $user['username'],
             "role" => $user['role']
         ];
         
-        // FIX: Redirect to the file-based dashboard
-        header("Location: headmaster.php");
+        // *** CRITICAL FIX: Use the full root-relative path ***
+        // Assuming headmaster.php is in /takalani/app, replace the path below 
+        // with the correct root-relative path to the file.
+        header("Location: /takalani/app/headmaster.php"); 
         exit();
 
     } else {
@@ -39,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html>
 <head>
     <title>Headmaster Login</title>
-    <link rel="stylesheet" href="public/css/styles.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
 </head>
 <body>
 

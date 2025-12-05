@@ -9,11 +9,10 @@ ini_set('display_errors', 1);
 
 // --- 1. Authorization Check ---
 if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'headmaster') {
-    // FIX: Redirect to the file-based login page
-    header('Location: headmaster-login.php'); 
+    // CRITICAL FIX: Redirect to the router-friendly clean URL /headmaster-login
+    header('Location: /headmaster-login'); 
     exit();
 }
-
 // --- 2. Load Data ---
 // FIX: Simplified data path (Fixes redundant '../data/../data/')
 $admissionFile = __DIR__ . '/../data/admissions.json';
@@ -61,7 +60,7 @@ if (!empty($admissions)) {
 <html>
 <head>
     <title>Headmaster Dashboard</title>
-    <link rel="stylesheet" href="public/css/styles.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
 </head>
 <body>
 
@@ -114,12 +113,12 @@ require_once "../app/menu-bar.php";
                         <td><span class="<?= $statusClass ?>"><?= htmlspecialchars(ucfirst($status)) ?></span></td>
                         <td>
                             <?php if (strtolower($status) === 'pending'): ?>
-                                <form action="update-status.php" method="POST" style="display:inline;">
+                                <form action="/takalani/app/update-status.php" method="POST" style="display:inline;">
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
                                     <input type="hidden" name="status" value="Admitted">
                                     <button type="submit" class="btn btn-admit">✅ Admit</button>
                                 </form>
-                                <form action="update-status.php" method="POST" style="display:inline;">
+                                <form action="/takalani/app/update-status.php" method="POST" style="display:inline;">
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
                                     <input type="hidden" name="status" value="Rejected">
                                     <button type="submit" class="btn btn-reject">❌ Reject</button>

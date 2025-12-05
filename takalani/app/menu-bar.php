@@ -27,11 +27,12 @@ $is_parent = $is_logged_in && $user_role === 'parent';
     <a href="/staff" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Staff</a>
     <a href="/code-of-conduct" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Code of Conduct</a>
     <a href="/help" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Help</a>
-    
+
     <?php if ($is_logged_in): ?>
         <a href="/logout" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Logout</a>
-    <?php else: ?>
-        <a href="/login" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Login</a>
+    <?php elseif (!$is_parent): ?>
+        <a href="/headmaster-login" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Headmaster Login</a>
     <?php endif; ?>
+
   </nav>
 </header>

@@ -15,7 +15,6 @@ if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'parent')
 }
 
 // --- 2. Load and Filter Data ---
-// FIXED: Simplified the data path (Removed redundant '../data/../data/')
 $admissionFile = __DIR__ . '/../data/admissions.json'; 
 $admissions = file_exists($admissionFile)
     ? json_decode(file_get_contents($admissionFile), true)
@@ -30,19 +29,25 @@ $parentName = $_SESSION['user']['parentName'] ?? '';
 $parentEmail = $_SESSION['user']['email'] ?? '';
 $parentEmailLower = strtolower($parentEmail);
 $childAge = $_SESSION['user']['childAge'] ?? 'N/A';
-$childName = $_SESSION['user']['childName'] ?? 'N/A'; // For welcome message
+$childName = $_SESSION['user']['childName'] ?? 'N/A';
 
 // Filter applications for the logged-in parent
 $myAdmissions = [];
 if (!empty($admissions)) {
     foreach ($admissions as $admission) {
-        // Match using the unique parent email and ensure all possible keys are checked
-        $appEmail = $admission['parentEmail'] ?? ($admission['parent']['emailAddress'] ?? null);
-        
-        if ($appEmail !== null && strtolower($appEmail) === $parentEmailLower) {
-            // Check for new notification (for display purposes)
+
+        // ⭐ FIXED: Strong email matching so parent ONLY sees their own applications
+        $appEmail = strtolower(
+            $admission['parentEmail']
+            ?? $admission['parent']['email']
+            ?? $admission['parent']['emailAddress']
+            ?? $admission['email']
+            ?? ''
+        );
+
+        if ($appEmail !== '' && $appEmail === $parentEmailLower) {
             $admission['hasNotification'] = !empty($admission['lastNotification']);
-            $myAdmissions[] = $admission; // Add the application to the list
+            $myAdmissions[] = $admission;
         }
     }
 }
@@ -51,12 +56,10 @@ if (!empty($admissions)) {
 $success = $_GET['success'] ?? '';
 $error = $_GET['error'] ?? '';
 
-// Check if a notification needs to be displayed and provide a dismiss button
+// Notification logic
 $notificationMessage = null;
 $notificationId = null;
 
-// Find the *most recent* notification to display
-// Sort applications by notification time in descending order (most recent first)
 usort($myAdmissions, function($a, $b) {
     $timeA = strtotime($a['notificationAt'] ?? '1970-01-01');
     $timeB = strtotime($b['notificationAt'] ?? '1970-01-01');
@@ -65,18 +68,15 @@ usort($myAdmissions, function($a, $b) {
 
 if (!empty($myAdmissions) && !empty($myAdmissions[0]['lastNotification'])) {
     $notificationMessage = $myAdmissions[0]['lastNotification'];
-    // Use applicationID or 'id' for dismissal
     $notificationId = $myAdmissions[0]['applicationID'] ?? $myAdmissions[0]['id'] ?? null; 
 }
 
-// Re-sort applications chronologically by submission timestamp (oldest first for display)
+// Re-sort for display
 usort($myAdmissions, function($a, $b) {
     $timeA = strtotime($a['timestamp'] ?? '1970-01-01');
     $timeB = strtotime($b['timestamp'] ?? '1970-01-01');
     return $timeA - $timeB; 
 });
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,7 +84,7 @@ usort($myAdmissions, function($a, $b) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guardian Portal - SubixStar Pre-School</title>
-    <link rel="stylesheet" href="public/css/styles.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
     <style>
         .status-Pending { background-color: #ffc107; color: #333; }
         .status-Admitted { background-color: #28a745; color: white; }
@@ -127,10 +127,7 @@ usort($myAdmissions, function($a, $b) {
 </head>
 <body>
 
-<?php 
-// FIX: Changed mismatched quote to double quote: "../app/menu-bar.php"
-require_once "../app/menu-bar.php"; 
-?>
+<?php require_once "../app/menu-bar.php"; ?>
 
 <main style="max-width: 900px; margin: 40px auto; padding: 20px;">
     <h1 style="text-align: center;">Welcome to the Guardian Portal, <?= htmlspecialchars($parentName) ?></h1>
@@ -164,12 +161,12 @@ require_once "../app/menu-bar.php";
         <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
             <thead>
                 <tr style="background-color: #f2f2f2;">
-                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Child Name</th>
-                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Grade</th>
-                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Age (Years)</th>
-                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Status</th>
-                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Date Applied</th>
-                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Action</th>
+                    <th>Child Name</th>
+                    <th>Grade</th>
+                    <th>Age (Years)</th>
+                    <th>Status</th>
+                    <th>Date Applied</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -177,31 +174,25 @@ require_once "../app/menu-bar.php";
                     $status = $a['status'] ?? 'Pending';
                     $statusClass = 'status-' . str_replace(' ', '', ucfirst($status));
                     $applicationId = $a['applicationID'] ?? $a['id'] ?? null;
-                    
-                    // CRITICAL FIX: Safely retrieve child name from flat keys used in admission.php
-                    // Check top level first (for single child form), then check nested 'child', then nested 'children'[0] (for multi-child form)
+
                     $firstName = $a['childFirstName'] ?? ($a['child']['firstName'] ?? ($a['children'][0]['firstName'] ?? ''));
                     $surname = $a['childSurname'] ?? ($a['child']['surname'] ?? ($a['children'][0]['surname'] ?? ''));
-                    
                     $childName = trim($firstName . ' ' . $surname) ?: 'N/A';
-                    
-                    // Safely get grade
+
                     $grade = $a['gradeApplyingFor'] ?? ($a['child']['gradeApplyingFor'] ?? ($a['children'][0]['gradeApplyingFor'] ?? 'N/A'));
-                    
-                    // Safely get age
                     $age = round($a['age'] ?? ($a['child']['ageInYears'] ?? ($a['children'][0]['ageInYears'] ?? 0)), 2);
                 ?>
                     <tr>
-                        <td style="border: 1px solid #ddd; padding: 10px;"><?= htmlspecialchars($childName) ?></td>
-                        <td style="border: 1px solid #ddd; padding: 10px;"><?= htmlspecialchars($grade) ?></td>
-                        <td style="border: 1px solid #ddd; padding: 10px;"><?= htmlspecialchars($age) ?></td>
-                        <td style="border: 1px solid #ddd; padding: 10px;"><span class="status-span <?= $statusClass ?>"><?= htmlspecialchars(ucfirst($status)) ?></span></td>
-                        <td style="border: 1px solid #ddd; padding: 10px;"><?= htmlspecialchars(date('Y-m-d', strtotime($a['timestamp'] ?? 'N/A'))) ?></td>
-                        <td style="border: 1px solid #ddd; padding: 10px;">
+                        <td><?= htmlspecialchars($childName) ?></td>
+                        <td><?= htmlspecialchars($grade) ?></td>
+                        <td><?= htmlspecialchars($age) ?></td>
+                        <td><span class="status-span <?= $statusClass ?>"><?= htmlspecialchars(ucfirst($status)) ?></span></td>
+                        <td><?= htmlspecialchars(date('Y-m-d', strtotime($a['timestamp'] ?? 'N/A'))) ?></td>
+                        <td>
                              <?php if (strtolower($status) === 'admitted' && $applicationId): ?>
                                  <a href="#" style="text-decoration: none; color: #4D96FF; font-weight: bold;">Enrollment Details</a>
                             <?php elseif (!empty($a['lastNotification'])): ?>
-                                🔔 **New Status!**
+                                🔔 New Status!
                             <?php else: ?>
                                 —
                             <?php endif; ?>
@@ -217,10 +208,9 @@ require_once "../app/menu-bar.php";
 </main>
 
 <?php 
-    // Include footer.php only if it exists
-    if (file_exists('footer.php')) {
-        include 'footer.php'; 
-    }
+if (file_exists('footer.php')) {
+    include 'footer.php'; 
+}
 ?>
 </body>
 </html>

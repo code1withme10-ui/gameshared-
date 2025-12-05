@@ -10,7 +10,7 @@ require_once "../app/menu-bar.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Staff - SubixStar Pre-School</title>
-    <link rel="stylesheet" href="public/css/styles.css"> <!-- keep your site-wide styles -->
+    <link rel="stylesheet" href="/public/css/styles.css"> <!-- keep your site-wide styles -->
 </head>
 
 <body>
