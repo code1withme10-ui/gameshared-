@@ -24,13 +24,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($user) {
         if (password_verify($password, $user["password"])) {
             
-            // Session is already started at the top
+            // --- CRITICAL FIX FOR SESSION OVERLAP ---
+            // Clear all previous session data before logging in the new user.
+            $_SESSION = [];
+            session_destroy();
+            
+            // Restart the session to assign a new session ID to the new user.
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            // ----------------------------------------
+
+            // Set the new user's session data
             $_SESSION["user"] = [
                 "username"      => $user["username"],
                 "role"          => $user["role"] ?? "parent", // Default to parent
                 "parentName"    => $user["parentName"] ?? "",
                 "parentSurname" => $user["parentSurname"] ?? "",
-                "email"]         => $user["email"] ?? "",
+                "email"         => $user["email"] ?? "",
                 "phone"         => $user["contact"] ?? ""
             ];
 
@@ -49,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
   <meta charset="utf-8" />
   <title>Login - SubixStar Pre-School</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/public/css/styles.css" />
 </head>
 <body>
 

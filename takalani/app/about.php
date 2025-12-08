@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
   <meta charset="UTF-8">
   <title>About Us - SubixStar Pre-School</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/public/css/styles.css">
 </head>
 <body>
   <?php require_once "../app/menu-bar.php"; ?>

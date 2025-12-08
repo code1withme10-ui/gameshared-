@@ -9,15 +9,14 @@ ini_set('display_errors', 1);
 
 // --- 1. Authorization Check ---
 if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'headmaster') {
-    // FIX: Redirect to file-based login
-    header('Location: headmaster-login.php'); 
+    // CRITICAL FIX: Redirect to the router-friendly clean URL /headmaster-login
+    header('Location: /headmaster-login'); 
     exit();
 }
-
 // --- 2. Input Validation ---
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    // FIX: Redirect to file-based dashboard
-    header('Location: headmaster.php?error=' . urlencode('Invalid request method.'));
+    // CRITICAL FIX 1: Use root-relative path for redirect
+    header('Location: /takalani/app/headmaster.php?error=' . urlencode('Invalid request method.'));
     exit();
 }
 
@@ -25,8 +24,8 @@ $id     = $_POST['id'] ?? null;
 $status = $_POST['status'] ?? null;
 
 if (!$id || !in_array($status, ['Admitted', 'Rejected'])) {
-    // FIX: Redirect to file-based dashboard
-    header('Location: headmaster.php?error=' . urlencode('Missing or invalid application ID or status received.'));
+    // CRITICAL FIX 2: Use root-relative path for redirect
+    header('Location: /takalani/app/headmaster.php?error=' . urlencode('Missing or invalid application ID or status received.'));
     exit();
 }
 
@@ -67,17 +66,17 @@ foreach ($admissions as &$admission) {
 }
 unset($admission); // Break the reference for safety
 
-// --- 4. Save Changes and Redirect ---\n
+// --- 4. Save Changes and Redirect ---
 if ($found) {
     if (file_put_contents($admissionFile, json_encode($admissions, JSON_PRETTY_PRINT))) {
-        // FIX: Redirect to file-based dashboard
-        header('Location: headmaster.php?success=' . urlencode("Application for '{$childName}' successfully set to {$status}."));
+        // CRITICAL FIX 3: Use root-relative path for successful redirect
+        header('Location: /takalani/app/headmaster.php?success=' . urlencode("Application for '{$childName}' successfully set to {$status}."));
     } else {
-        // FIX: Redirect to file-based dashboard and corrected the error message path for clarity
-        header('Location: headmaster.php?error=' . urlencode("Failed to save data to ../data/admissions.json. Check file permissions."));
+        // CRITICAL FIX 4: Use root-relative path for error redirect
+        header('Location: /takalani/app/headmaster.php?error=' . urlencode("Failed to save data to ../data/admissions.json. Check file permissions."));
     }
 } else {
-    // FIX: Redirect to file-based dashboard
-    header('Location: headmaster.php?error=' . urlencode('Application ID not found or data corrupted.'));
+    // CRITICAL FIX 5: Use root-relative path for error redirect
+    header('Location: /takalani/app/headmaster.php?error=' . urlencode('Application ID not found or data corrupted.'));
 }
 exit();

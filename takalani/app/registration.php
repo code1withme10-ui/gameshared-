@@ -72,7 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $users[] = $newUser;
         
         if (file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT))) {
-            $message = "<p style='color:green;'>✅ Registration successful! Your username is <strong>{$username}</strong>. You can now <a href=\"/login\" class=\"rainbow-link\">Login</a>.</p>";
+            // Updated link to match standard file paths if not using a router
+            $message = "<p style='color:green;'>✅ Registration successful! Your username is <strong>{$username}</strong>. You can now <a href=\"login.php\" class=\"rainbow-link\">Login</a>.</p>";
             // Clear POST variables to prevent form resubmission
             $_POST = []; 
         } else {
@@ -86,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8" />
     <title>Registration - SubixStar Pre-School</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/public/css/styles.css" />
 </head>
 <body>
 <?php require_once "../app/menu-bar.php"; ?>
@@ -99,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <?php endif; ?>
 
     <p style="text-align:center; color:#555; margin-bottom: 20px;">
-        Already registered? <a href="/login">Login here</a>.
+        Already registered? <a href="login.php">Login here</a>.
     </p>
 
     <form method="POST">
