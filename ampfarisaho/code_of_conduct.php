@@ -1,5 +1,8 @@
+<?php
+// No login required for this page, but you can add requireParentLogin() if needed
+?>
 <link rel="stylesheet" href="css/style.css">
-<?php include "includes/menu-bar.php"; ?>
+<?php include __DIR__ . '/includes/menu-bar.php'; ?>
 
 <div class="container">
     <h2>Code of Conduct</h2>

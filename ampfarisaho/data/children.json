@@ -20,5 +20,16 @@
         "birth_certificate": "uploads\/Mathagu20\/birth_cert_1763980320_WhatsApp Image 2025-11-11 at 15.06.12_050bdfda.jpg",
         "parent_id": "uploads\/Mathagu20\/parent_id_1763980321_Mathagu AA OCT-NOV Monthly Timesheet 2025.pdf",
         "status": "Approved"
+    },
+    {
+        "parent_username": "pheladi",
+        "child_name": "bianca",
+        "dob": "2023-11-28",
+        "gender": "Female",
+        "grade_category": "Toddlers",
+        "address": "02 mhiri street",
+        "birth_certificate": "C:\\var\\www\\gameshared-\\ampfarisaho\/uploads\/pheladi\/birth_cert_1764317195_WhatsApp Image 2025-11-26 at 11.17.21_b55ea5ce.jpg",
+        "parent_id": "C:\\var\\www\\gameshared-\\ampfarisaho\/uploads\/pheladi\/parent_id_1764317195_WhatsApp Image 2025-11-26 at 11.18.16_0a9549bb.jpg",
+        "status": "Awaiting approval"
     }
 ]

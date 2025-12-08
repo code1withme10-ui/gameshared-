@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /var/www/html
 
 # Copy project files to the Apache document root
-# Assuming 'takalani' is the main directory holding the website files
+# Assuming 'tshwarelo' is the main directory holding the website files
 COPY tshwarelo/ /var/www/html/
 
 # Create the necessary 'uploads' directory

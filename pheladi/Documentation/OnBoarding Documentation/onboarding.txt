@@ -1,0 +1,81 @@
+Creche Website Project – Requirements Gathering
+ Onboarding Guide
+ 1. Purpose of This Onboarding Guide
+ This document will help in understanding the process, expectations,
+ and tools required for gathering requirements from stakeholders for the new creche     website.
+
+ 2. Project Overview
+ The company is developing a website for a creche. The website will include features such as parent
+ and child information management, admissions, notifications, and administrative functionality.
+
+ 3. Stakeholders Involved
+ • Creche Owner / Headmaster
+ • Teachers / Staff
+ • Parents (end users)
+ • Development Team
+ • Project Manager
+
+ 4. Role of a Business Analyst Intern
+ • Facilitate requirement gathering sessions.
+ • Document functional and non functional requirements.
+ • Capture user stories and acceptance criteria.
+ • Clarify requirements with stakeholders.
+ • Ensure requirements are testable and clear.
+
+ 5. Requirements Gathering Approach
+ a. Preparation
+ • Review project background and goals.
+ • Prepare interview questions.
+ • Identify key stakeholders to meet.
+ • Prepare meeting templates (agenda, notes).
+ b. Techniques to Use
+ • Stakeholder interviews.
+ • Workshops / meetings.
+ • User observation (optional).
+ • Studying existing processes.
+ • Reviewing documents provided by the creche. c. Tools to Use
+ • Google Docs / Word (notes and documentation)
+ • Draw.io (process flows)
+ • Jira / GitHub Issues (requirements tracking)
+ • Email / WhatsApp (stakeholder communication)
+
+ 6. Requirements Checklist
+ Functional Requirements:
+ • Parent registration and login.
+ • Child profile management.
+ • Admission request / approval workflow.
+ • Notifications (email/SMS).
+ • Staff dashboard for daily tasks.
+ • Admin panel for managing website content.
+ Non Functional Requirements:
+ • Security and data privacy.
+ • Mobile responsiveness.
+ • Ease of use.
+• Fast loading times.
+
+ 7. Deliverables to Produce
+ • Requirements document (BRD / SRS).
+ • Meeting notes and stakeholder summaries.
+ • Process flow diagrams.
+ • User stories and acceptance criteria.
+ • Requirements traceability matrix.
+
+ 8. First Meeting Agenda Template
+ • Project introduction.
+ • Confirm creche goals and problems.
+ • Understand expectations for the website.
+ • Identify key features needed.
+ • Clarify stakeholders.
+ • Discuss timelines.
+
+ 9. Tips for Successful Requirements Gathering
+ • Ask open ended questions.
+ • Listen carefully and take clear notes.
+ • Confirm understanding by summarizing back to stakeholders.
+ • Avoid assumptions—always verify.
+ • Keep requirements simple, clear, and testable.
+
+ 10. Next Steps After Gathering Requirements
+ • Organize all notes and convert into formal documentation.
+ • Review with stakeholders for approval.
+ • Share approved requirements with the development team

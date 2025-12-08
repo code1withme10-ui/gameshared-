@@ -1,5 +1,5 @@
+<?php include __DIR__ . "/includes/menu-bar.php"; ?>
 <link rel="stylesheet" href="css/style.css">
-<?php include "includes/menu-bar.php"; ?>
 
 <div class="container">
     <h2>History</h2>
@@ -11,3 +11,4 @@
     <h2>Vision</h2>
     <p>To be the region’s leading early childhood development centre.</p>
 </div>
+
