@@ -7,21 +7,9 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <title>Gallery - Humulani Pre School</title>
-    <link rel="stylesheet" href="style.css"> <!-- Use global styles -->
+   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="about.php">About Us</a></li>
-            <li><a href="gallery.php">Gallery</a></li>
-            <li><a href="admission.php">Admission</a></li>
-            <li><a href="contact.php">Contact</a></li>
-            <li><a href="login.php">Login</a></li>
-        </ul>
-    </nav>
 
     <div class="page-container">
         <h1>Photo Gallery of Humulani</h1>

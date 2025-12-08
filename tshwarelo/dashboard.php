@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-$data_file = "users.json";
+$data_file = __DIR__ . '/storage/users.json';
 
-// Load all users
+// --------------------- Functions ---------------------
 function get_users($file) {
     if (!file_exists($file) || filesize($file) == 0) return [];
     return json_decode(file_get_contents($file), true);
@@ -11,6 +11,11 @@ function get_users($file) {
 
 function save_users($file, $data) {
     file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
+}
+
+// Generate unique child ID
+function generate_child_id() {
+    return "child-" . uniqid();
 }
 
 $users = get_users($data_file);
@@ -27,25 +32,44 @@ $isHeadmaster = isset($_SESSION["role"]) && $_SESSION["role"] === "headmaster";
 $current_user_key = null;
 $current_user = null;
 
+// Parent login lookup (supports old + new formats)
 if (!$isHeadmaster) {
     foreach ($users as $k => $u) {
-        if ($u["parent"]["email"] === $current_email) {
+        
+        // Old structure (parentName, email)
+        if (isset($u["email"]) && $u["email"] === $current_email) {
+            $current_user = $u;
+            $current_user_key = $k;
+            break;
+        }
+
+        // New admission structure (parent -> email)
+        if (isset($u["parent"]["email"]) && $u["parent"]["email"] === $current_email) {
             $current_user = $u;
             $current_user_key = $k;
             break;
         }
     }
+
+    // Convert single child into "children" array (for backward support)
+    if ($current_user) {
+        if (isset($current_user['child']) && !isset($current_user['children'])) {
+            $current_user['children'] = [$current_user['child']];
+        } elseif (isset($current_user['child'])) {
+            array_unshift($current_user['children'], $current_user['child']);
+        }
+    }
 }
 
+// --------------------- Add Child ---------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addChild']) && !$isHeadmaster) {
 
     $childName = $_POST['newChildName'];
     $dob = $_POST['dob'];
     $gender = $_POST['gender'];
     $grade = $_POST['grade'];
-    $address = $current_user["parent"]["address"];
+    $address = $current_user["parent"]["address"] ?? ($current_user["address"] ?? "N/A");
 
-    // Upload birth certificate
     if (!isset($_FILES['birthCert']) || $_FILES['birthCert']['error'] !== 0) {
         die("Birth certificate is required.");
     }
@@ -55,27 +79,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addChild']) && !$isHe
     $uploadPath = "uploads/" . $fileName;
     move_uploaded_file($_FILES['birthCert']['tmp_name'], $uploadPath);
 
-    // Calculate age in months
+    // Age calculation
     $birthDate = new DateTime($dob);
     $today = new DateTime();
     $ageInterval = $today->diff($birthDate);
     $ageMonths = ($ageInterval->y * 12) + $ageInterval->m;
 
-    // Save child
-    $users[$current_user_key]["children"][] = [
+    // Ensure children array exists
+    if (!isset($users[$current_user_key]['children'])) {
+        $users[$current_user_key]['children'] = [];
+    }
+
+    // --------------------- ADD CHILD WITH ID ---------------------
+    $users[$current_user_key]['children'][] = [
+        "childId" => generate_child_id(),
         "name" => $childName,
         "dob" => $dob,
         "gender" => $gender,
         "grade" => $grade,
         "address" => $address,
         "ageMonths" => $ageMonths,
-        "birthCertificate" => $fileName
+        "birthCertificate" => $fileName,
+        "status" => "pending"
     ];
 
     save_users($data_file, $users);
 
-    header("Location: dashboard.php?child_added=1");
-    exit();
+    header("Location: index.php?page=dashboard&child_added=1");
+    exit;
 }
 ?>
 
@@ -83,28 +114,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addChild']) && !$isHe
 <html>
 <head>
     <title>Dashboard - Humulani Pre School</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-
-<!-- NAVIGATION BAR -->
-<nav class="navbar">
-    <div class="container">
-        <ul class="nav-links">
-            <li><a href="index.php">Home</a></li>
-            <li><a href="about.php">About Us</a></li>
-            <li><a href="gallery.php">Gallery</a></li>
-            <li><a href="admission.php">Admission</a></li>
-            <li><a href="contact.php">Contact</a></li>
-            <li><a href="login.php">Login</a></li>
-        </ul>
-    </div>
-</nav>
-
 <div class="container">
     <h1>
         Welcome,
-        <?php echo $isHeadmaster ? "Headmaster" : htmlspecialchars($current_user["parent"]["name"]); ?>
+        <?php 
+            if ($isHeadmaster) {
+                echo "Headmaster";
+            } else {
+                echo htmlspecialchars(
+                    $current_user["parentName"] 
+                    ?? ($current_user["parent"]["name"] ?? "Parent")
+                );
+            }
+        ?>
     </h1>
 
     <hr>
@@ -113,14 +138,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addChild']) && !$isHe
 
     <h2>Your Registered Children</h2>
 
-    <?php if (!empty($current_user["children"])): ?>
+    <?php 
+        $children = $current_user["children"] ?? [];
+        if (!empty($children)): 
+    ?>
         <ul>
-            <?php foreach ($current_user["children"] as $child): ?>
+            <?php foreach ($children as $child): ?>
+                <?php 
+                    $cname = htmlspecialchars($child['name'] ?? 'Unknown');
+                    $cgender = htmlspecialchars($child['gender'] ?? 'N/A');
+                    $cgrade = htmlspecialchars($child['grade'] ?? 'N/A');
+                    $cdob = htmlspecialchars($child['dob'] ?? 'N/A');
+
+                    // Status color logic
+                    $rawStatus = strtolower($child['status'] ?? 'pending');
+                    $color = 'yellow';
+
+                    if ($rawStatus === 'admitted' || $rawStatus === 'approved') $color = 'green';
+                    if ($rawStatus === 'rejected') $color = 'red';
+                ?>
                 <li>
-                    <strong><?php echo htmlspecialchars($child["name"]); ?></strong><br>
-                    Gender: <?php echo $child["gender"]; ?><br>
-                    Grade: <?php echo $child["grade"]; ?><br>
-                    DOB: <?php echo $child["dob"]; ?><br>
+                    <strong><?php echo $cname; ?></strong><br>
+                    Gender: <?php echo $cgender; ?><br>
+                    Grade: <?php echo $cgrade; ?><br>
+                    DOB: <?php echo $cdob; ?><br>
+
+                    <!-- Colored Status -->
+                    Status: 
+                    <strong style="color: <?php echo $color; ?>;">
+                        <?php echo ucfirst($rawStatus); ?>
+                    </strong>
+                    <br>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -142,13 +190,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addChild']) && !$isHe
         <input type="date" id="dob" name="dob" required><br><br>
 
         <label>Gender:</label><br>
-        <label class="radio"><input type="radio" name="gender" value="Male" required> Male</label>
-        <label class="radio"><input type="radio" name="gender" value="Female" required> Female</label>
+        <label><input type="radio" name="gender" value="Male" required> Male</label>
+        <label><input type="radio" name="gender" value="Female" required> Female</label>
         <br><br>
 
         <label>Grade Applying For:</label>
         <select id="grade" name="grade" required>
-            <option value="">Select Category</option>
+            <option value="">Select</option>
             <option value="Infants">Infants (6–12 months)</option>
             <option value="Toddlers">Toddlers (1–3 years)</option>
             <option value="Playgroup">Playgroup (3–4 years)</option>
@@ -166,7 +214,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addChild']) && !$isHe
 
 </div>
 
-<!-- FOOTER -->
 <footer>
     <p>© 2026 Humulani Pre School</p>
 </footer>

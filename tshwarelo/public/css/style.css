@@ -245,3 +245,35 @@ table button[value="reject"] { background-color: #f44336; }
 }
 
 }
+/* ======= NAVBAR STYLING ======= */
+
+.main-nav {
+    width: 100%;
+    background: #ffffff;
+    padding: 15px 0;
+    border-bottom: 3px solid #b32d2e;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.nav-container a {
+    text-decoration: none;
+    color: #444;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.nav-container a:hover {
+    color: #b32d2e;
+    letter-spacing: 1px;
+}
+
+.nav-container .logout {
+    color: #b32d2e;
+}
