@@ -1,0 +1,170 @@
+[
+    {
+        "id": "user-headmaster",
+        "role": "headmaster",
+        "name": "Headmaster",
+        "email": "headmaster@creche.com",
+        "password": "admin"
+    },
+    {
+        "applicationID": "APP-aa1e41500c28",
+        "status": "Pending",
+        "parent": {
+            "name": "Edge",
+            "email": "zitha@gmail.com",
+            "password": "123456",
+            "phone": "0792556392",
+            "address": "149 Johnston Street Sunnyside Pretoria"
+        },
+        "children": [
+            {
+                "childId": "child-facf1265c5",
+                "name": "Rio",
+                "dob": "20220122",
+                "gender": "male",
+                "grade": "r",
+                "status": "admitted",
+                "documents": []
+            }
+        ],
+        "documents": []
+    },
+    {
+        "applicationID": "APP-692df0dd3e913",
+        "status": "Pending",
+        "parent": {
+            "name": "Tshwarelo Ndlovu",
+            "relationship": "Father",
+            "email": "tshwarelon8@gmail.com",
+            "password": "123456",
+            "phone": "0792556392",
+            "address": "149 Johnston Street Sunnyside Pretoria"
+        },
+        "children": [
+            {
+                "childId": "child-692df0dd3e91b",
+                "name": "Tshwarelo Ndlovu",
+                "dob": "2023-06-06",
+                "gender": "Male",
+                "grade": "Toddlers",
+                "ageMonths": 29,
+                "address": "149 Johnston Street Sunnyside Pretoria",
+                "status": "rejected",
+                "documents": {
+                    "birthCertificate": "birth_692df0dd062d0.pdf"
+                }
+            },
+            {
+                "childId": "child-692df0dd-mata",
+                "name": "Mata",
+                "dob": "2024-02-05",
+                "gender": "Male",
+                "grade": "Toddlers",
+                "ageMonths": 21,
+                "address": "149 Johnston Street Sunnyside Pretoria",
+                "status": "rejected",
+                "documents": {
+                    "birthCertificate": "birth_692df0fe372a2.pdf"
+                }
+            },
+            {
+                "childId": "child-692df0dd-mara",
+                "name": "Mara",
+                "dob": "2023-02-01",
+                "gender": "Female",
+                "grade": "Toddlers",
+                "ageMonths": 34,
+                "address": "149 Johnston Street Sunnyside Pretoria",
+                "status": "Admitted",
+                "documents": {
+                    "birthCertificate": "birth_692df370c94a0.pdf"
+                }
+            }
+        ],
+        "documents": {
+            "parentID": "id_692df0dd282d5.pdf"
+        }
+    },
+    {
+        "applicationID": "APP-692e74c91dc30",
+        "status": "Pending",
+        "parent": {
+            "name": "Zitha",
+            "relationship": "Father",
+            "email": "papaxi@gmail.com",
+            "password": "123456",
+            "phone": "0792556392",
+            "address": "149 Johnston Street Sunnyside Pretoria"
+        },
+        "children": [
+            {
+                "childId": "child-692e74c91dc44",
+                "name": "Papaxi",
+                "dob": "2022-06-07",
+                "gender": "Male",
+                "grade": "Playgroup",
+                "ageMonths": 41,
+                "address": "149 Johnston Street Sunnyside Pretoria",
+                "status": "admitted",
+                "documents": {
+                    "birthCertificate": "birth_692e74c91c05a.pdf"
+                }
+            },
+            {
+                "childId": "child-692e7f69d90f6",
+                "name": "Taki Prince",
+                "dob": "2021-02-02",
+                "gender": "Male",
+                "grade": "Pre-School",
+                "address": "149 Johnston Street Sunnyside Pretoria",
+                "ageMonths": 58,
+                "birthCertificate": "birth_692e7f69d7f98.pdf",
+                "status": "admitted"
+            },
+            {
+                "childId": "child-692e818b88ea5",
+                "name": "Taki Princess",
+                "dob": "2024-02-28",
+                "gender": "Female",
+                "grade": "Toddlers",
+                "address": "149 Johnston Street Sunnyside Pretoria",
+                "ageMonths": 21,
+                "birthCertificate": "birth_692e818b8862f.pdf",
+                "status": "rejected"
+            }
+        ],
+        "documents": {
+            "parentID": "id_692e74c91ca17.pdf"
+        }
+    },
+    {
+        "applicationID": "APP-693673d5221e0",
+        "status": "Pending",
+        "parent": {
+            "name": "Benjamin",
+            "relationship": "Father",
+            "email": "benjamin@gmail.com",
+            "password": "123456",
+            "phone": "0608726855",
+            "address": "149 Johnston Street Sunnyside Pretoria"
+        },
+        "children": [
+            {
+                "childId": "child-693673d52232b",
+                "name": "BenjiJr",
+                "dob": "2022-02-01",
+                "gender": "Male",
+                "grade": "Playgroup",
+                "ageMonths": 46,
+                "address": "149 Johnston Street Sunnyside Pretoria",
+                "status": "admitted",
+                "documents": {
+                    "birthCertificate": "birth_693673d4e1b21.pdf"
+                }
+            }
+        ],
+        "documents": {
+            "parentID": "id_693673d505a5d.pdf"
+        }
+    }
+]

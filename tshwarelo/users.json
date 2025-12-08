@@ -1,0 +1,18 @@
+[
+    {
+        "id": "user-6926ba46062cd",
+        "parentName": "Pheladi",
+        "email": "pheladimankoane30@gmail.com",
+        "password": "Bas021030@",
+        "children": [
+            {
+                "childId": "child-6926ba4606c97",
+                "name": "bianca",
+                "age": 3,
+                "gender": "Female",
+                "reports": [],
+                "status": "pending"
+            }
+        ]
+    }
+]

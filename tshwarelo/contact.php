@@ -21,21 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Contact Us - Humulani Pre School</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-
-    <!-- Navigation -->
-    <nav class="navbar">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="about.php">About Us</a></li>
-            <li><a href="gallery.php">Gallery</a></li>
-            <li><a href="admission.php">Admission</a></li>
-            <li><a href="contact.php">Contact</a></li>
-            <li><a href="login.php">Login</a></li>
-        </ul>
-    </nav>
 
     <div class="page-container">
         <h1>Get in Touch with Humulani</h1>
