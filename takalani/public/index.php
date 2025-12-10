@@ -2,7 +2,6 @@
 // public/index.php
 
 // 1. Load dependencies
-require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../app/functions.php';
 
 // 2. Load the menu/header (required first to display the page content)
