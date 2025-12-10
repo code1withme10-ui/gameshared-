@@ -20,7 +20,7 @@ tmp/
 
 # PHPUnit cache
 .phpunit.result.cache
-public/sites_list.html
+
 # Environment files
 .env
 .env.local

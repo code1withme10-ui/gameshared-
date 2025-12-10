@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Website Migration Guide – Moving to public/ (wwwroot)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    body { font-family: Arial, sans-serif; padding: 25px; line-height: 1.6; }
+    h1, h2, h3 { color: #333; }
+    pre { background: #000; color: #fff; padding: 12px; border-radius: 6px; overflow-x: auto; }
+    code { background: #eee; padding: 2px 4px; border-radius: 4px; }
+    .note { background: #fff7c4; padding: 12px; border-left: 5px solid #e6b800; margin: 15px 0; }
+    .ok { background: #e7ffe7; padding: 12px; border-left: 5px solid #4CAF50; margin: 15px 0; }
+    .warn { background: #ffe7e7; padding: 12px; border-left: 5px solid #e60000; margin: 15px 0; }
+    ul li { margin-bottom: 8px; }
+</style>
+</head>
+
+<body>
+
+<h1>🌍 Website Migration Guide – Moving Your Site into <code>public/</code> (wwwroot)</h1>
+<p>
+Welcome! 😊  
+This guide helps you convert your old “everything-in-one-folder” website into a modern structure where:
+</p>
+
+<ul>
+<li><strong>public/</strong> = the only folder visible to the browser</li>
+<li>All PHP files stay safely outside public</li>
+<li><code>public/index.php</code> becomes the gateway to your entire website</li>
+<li>Links now use <code>index.php?page=...</code></li>
+<li>CSS/JS/images use simple relative paths like <code>css/style.css</code></li>
+</ul>
+
+<div class="note">
+💡 <b>Good news:</b> This is the same structure used by 
+modern PHP apps.
+</div>
+
+<hr>
+
+<h2>1️⃣ Why public/ Is Important</h2>
+
+<p>Think of your website like a shop:</p>
+
+<pre>
+public/               ← shop window (visible to visitors)
+includes/             ← staff-only room
+data/                 ← storage room
+home.php              ← private pages loaded internally
+login.php             
+gallery.php           
+</pre>
+
+<p>
+👍 Only files the browser must download (CSS, JS, images) go into <code>public/</code>.  
+🔒 All PHP stays outside where the public cannot access it.
+</p>
+
+<div class="ok">This protects your data and keeps your app clean and professional.</div>
+
+<hr>
+
+<h2>2️⃣ Correct Folder Structure</h2>
+<p>Replace <code>&lt;yourName&gt;</code> with your real name.</p>
+
+<pre>
+/var/www/gameshared/&lt;yourName&gt;/
+    public/
+        index.php
+        css/
+        js/
+        images/
+    includes/
+        menu-bar.php
+        auth.php
+        functions.php
+    data/
+        parents.json
+        children.json
+    home.php
+    about.php
+    admission.php
+    login.php
+    logout.php
+    gallery.php
+    help.php
+    parent_dashboard.php
+    headmaster_dashboard.php
+    progress_report.php
+    code_of_conduct.php
+</pre>
+
+<hr>
+
+<h2>3️⃣ How the New Router Works (Very Important!)</h2>
+
+<p>Your website now has ONE entry point:</p>
+
+<pre>public/index.php</pre>
+
+<p>Pages are loaded like this:</p>
+
+<pre>index.php?page=about</pre>
+
+<p>Here is the router:</p>
+
+<pre>
+// /public/index.php
+&lt;?php
+$page = $_GET['page'] ?? 'home';
+
+$pages = [
+    'home' => __DIR__ . '/../home.php',
+    'about' => __DIR__ . '/../about.php',
+    'login' => __DIR__ . '/../login.php',
+    'admission' => __DIR__ . '/../admission.php',
+    'gallery' => __DIR__ . '/../gallery.php',
+    'help' => __DIR__ . '/../help.php',
+    'code_of_conduct' => __DIR__ . '/../code_of_conduct.php',
+];
+    
+if (isset($pages[$page])) {
+    include $pages[$page];
+} else {
+    echo "Page not found.";
+}
+</pre>
+
+<div class="ok">🎉 Your website is now professional and scalable.</div>
+
+<hr>
+
+<h2>4️⃣ Fixing CSS/JS/Image Paths (Relative Paths Still Work!)</h2>
+
+<p>Because <code>index.php</code> lives in <code>public/</code>, this is correct:</p>
+
+<pre>
+&lt;link rel="stylesheet" href="css/style.css"&gt;
+&lt;script src="js/app.js"&gt;&lt;/script&gt;
+&lt;img src="images/logo.png"&gt;
+</pre>
+
+<p>❌ NEVER DO:</p>
+
+<pre>href="public/css/style.css"</pre>
+
+<p>❌ NEVER DO:</p>
+
+<pre>href="../css/style.css"</pre>
+
+<hr>
+
+<h2>5️⃣ Fixing Broken Includes After Moving Files</h2>
+
+<p>Your old code probably looked like this:</p>
+
+<pre>
+require_once 'menu-bar.php';
+</pre>
+
+<p>This breaks after migration because files are no longer in the same folder.</p>
+
+<p>✔ FIX IT USING <code>__DIR__</code>:</p>
+
+<pre>
+// home.php (outside public/)
+require_once __DIR__ . "/includes/menu-bar.php";
+require_once __DIR__ . "/includes/functions.php";
+</pre>
+
+<div class="note">
+👍 <b>Tip:</b> <code>__DIR__</code> tells PHP the exact folder location of the current file.
+</div>
+
+<hr>
+
+<h2>6️⃣ Converting Your Menu Links</h2>
+
+<p>Old links:</p>
+
+<pre>
+&lt;a href="about.php"&gt;About&lt;/a&gt;
+</pre>
+
+<p>New correct links:</p>
+
+<pre>
+&lt;a href="index.php?page=about"&gt;About&lt;/a&gt;
+</pre>
+
+<p>Old logout link:</p>
+
+<pre>
+&lt;a href="logout.php"&gt;Logout&lt;/a&gt;
+</pre>
+
+<p>New logout link:</p>
+
+<pre>
+&lt;a href="index.php?page=logout"&gt;Logout&lt;/a&gt;
+</pre>
+
+<hr>
+
+<h2>
+    7️⃣ Real  Example (Before → After)</h2>
+
+<h3>Before (old structure)</h3>
+<pre>
+&lt;link rel="stylesheet" href="styles.css"&gt;
+&lt;a href="about.php"&gt;About&lt;/a&gt;
+&lt;?php require_once 'menu-bar.php'; ?&gt;
+</pre>
+
+<h3>After (correct structure)</h3>
+<pre>
+// home.php
+&lt;link rel="stylesheet" href="css/style.css"&gt;
+
+&lt;a href="index.php?page=about"&gt;About&lt;/a&gt;
+
+&lt;?php require_once __DIR__ . "/includes/menu-bar.php"; ?&gt;
+</pre>
+
+<hr>
+
+<h2>8️⃣ Example From Your  Code – Fixed Version</h2>
+
+<p>Original:</p>
+
+<pre>
+&lt;link rel="stylesheet" href="styles.css"&gt;
+&lt;?php require_once 'menu-bar.php'; ?&gt;
+&lt;a href="about.php"&gt;About&lt;/a&gt;
+</pre>
+
+<p>Corrected:</p>
+
+<pre>
+// home.php
+&lt;link rel="stylesheet" href="css/style.css"&gt;
+&lt;?php require_once __DIR__ . "/includes/menu-bar.php"; ?&gt;
+&lt;a href="index.php?page=about"&gt;About&lt;/a&gt;
+</pre>
+
+<hr>
+
+<h2>9️⃣ Fix for  Login Pages (Real Example)</h2>
+
+<p>Before:</p>
+
+<pre>
+&lt;link rel="stylesheet" href="style.css"&gt;
+&lt;?php include 'menu-bar.php'; ?&gt;
+</pre>
+
+<p>After moving to public/:</p>
+
+<pre>
+// login.php (outside public/)
+&lt;link rel="stylesheet" href="css/style.css"&gt;
+&lt;?php include __DIR__ . "/includes/menu-bar.php"; ?&gt;
+</pre>
+
+<p>And update redirects:</p>
+
+<pre>
+header("Location: index.php?page=parent_dashboard");
+</pre>
+
+<hr>
+
+<h2>🔟 Debugging Tips (Friendly 😊)</h2>
+
+<ul>
+<li>❗ If CSS disappears → your path is wrong</li>
+<li>❗ If “Page Not Found” → your router array is missing an entry</li>
+<li>❗ If includes break → check <code>__DIR__</code> path</li>
+<li>❗ If images don't show → check <code>public/images/</code></li>
+<li>❗ If the website works on localhost but not on server → wrong absolute paths</li>
+</ul>
+
+<hr>
+
+<h2>✔ Final Migration Checklist</h2>
+
+<ul>
+<li>Move CSS/JS/images into <code>public/</code> 👍</li>
+<li>Keep all PHP files OUTSIDE <code>public/</code> 🔒</li>
+<li>Use <code>css/style.css</code> paths 👍</li>
+<li>Use <code>__DIR__</code> for all includes 👍</li>
+<li>Use <code>index.php?page=name</code> for links 👍</li>
+<li>Update redirects to use router 👍</li>
+<li>Test each page one by one ✔</li>
+</ul>
+
+<div class="ok">
+🎉 Congratulations! Your website is now clean, modern, secure, and easy to maintain.
+</div>
+
+</body>
+</html>
