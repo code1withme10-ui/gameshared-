@@ -1,1 +1,18 @@
-[]
+[
+    {
+        "username": "takalanimusubi",
+        "password": "$2y$10$npCbrmhobqj4YJKEVMatYuhzMmWFFBBYnOtgSLfOstxIhcnlFQnuC",
+        "role": "parent",
+        "parentName": "Promise",
+        "parentSurname": "Kubayi",
+        "parentAddress": "Mbokota",
+        "email": "Kubayiremember48@gmail.com",
+        "contact": "0764628333",
+        "childName": "Takalani",
+        "childSurname": "Musubi",
+        "childGender": "Male",
+        "childAge": "5",
+        "medical": "none",
+        "registrationDate": "2025-12-11 11:35:15"
+    }
+]
