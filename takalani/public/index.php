@@ -2,7 +2,6 @@
 // public/index.php
 
 // 1. Load dependencies
-require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../app/functions.php';
 
 // 2. Load the menu/header (required first to display the page content)
@@ -43,7 +42,4 @@ if (file_exists($file_path)) {
     echo "<p>The requested page: **{$page}.php** could not be found in the **app** directory.</p>";
     echo "<p>Please ensure you ran the Git Bash commands to fix your internal links (a href tags).</p>";
 }
-
-// 6. Load the footer
-require __DIR__ . '/../app/footer.php';
 ?>
