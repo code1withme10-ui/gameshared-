@@ -1,25 +1,49 @@
 <?php
-// public/index.php
+// Autoload controllers (optional if you use Composer)
+spl_autoload_register(function($class) {
+    $file = __DIR__ . '/../app/Http/' . $class . '.php';
+    if(file_exists($file)) require $file;
+});
+
+// Load routes
+require __DIR__ . '/../routes/routes.php';
+
+// Determine requested page
 $page = $_GET['page'] ?? 'home';
 
-$pages = [
-    'home' => __DIR__ . '/../home.php',
-    'login' => __DIR__ . '/../login.php',
-    'logout' => __DIR__ . '/../logout.php',
-    'admission' => __DIR__ . '/../admission.php',
-    'about' => __DIR__ . '/../about.php',
-    'progress_report' => __DIR__ . '/../progress_report.php',
-    'parent_dashboard' => __DIR__ . '/../parent_dashboard.php',
-    'headmaster_dashboard' => __DIR__ . '/../headmaster_dashboard.php',
-    'gallery' => __DIR__ . '/../gallery.php',
-    'code_of_conduct' => __DIR__ . '/../code_of_conduct.php',
-    'help' => __DIR__ . '/../help.php'
-];
+if(isset($routes[$page])) {
+    $route = $routes[$page];
 
-if (isset($pages[$page]) && file_exists($pages[$page])) {
-    include $pages[$page];
+    $viewData = null; // default for static pages
+
+    // If controller is set, instantiate and handle
+    if(isset($route['controller']) && $route['controller']) {
+        $controllerName = $route['controller'];
+        if(class_exists($controllerName)) {
+            $controller = new $controllerName();
+            $controller->handle();
+            $viewData = $controller; // pass controller data to view
+        } else {
+            die("Controller '$controllerName' not found!");
+        }
+    }
+
+    // Make controller accessible as $this in views
+    $thisPage = $viewData;
+
+    // Include view
+    $viewFile = __DIR__ . '/../views/' . $route['view'] . '.php';
+    if(file_exists($viewFile)) {
+        include $viewFile;
+    } else {
+        die("View '{$route['view']}.php' not found!");
+    }
+
 } else {
+    // Page not found
     http_response_code(404);
-    echo "<h1>404 - Page Not Found</h1>";
+    echo "<h1>404 Page Not Found</h1>";
+    echo "<p>The page '{$page}' does not exist.</p>";
 }
+
 
