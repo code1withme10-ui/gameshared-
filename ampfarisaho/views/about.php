@@ -1,4 +1,9 @@
-<?php include __DIR__ . "/includes/menu-bar.php"; ?>
+<?php 
+// Include the menu bar
+include __DIR__ . '/../includes/menu-bar.php'; 
+?>
+
+<!-- Link to CSS in public folder -->
 <link rel="stylesheet" href="css/style.css">
 
 <div class="container">

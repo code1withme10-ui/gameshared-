@@ -1,25 +1,42 @@
 <?php
-// public/index.php
-$page = $_GET['page'] ?? 'home';
+session_start();
 
-$pages = [
-    'home' => __DIR__ . '/../home.php',
-    'login' => __DIR__ . '/../login.php',
-    'logout' => __DIR__ . '/../logout.php',
-    'admission' => __DIR__ . '/../admission.php',
-    'about' => __DIR__ . '/../about.php',
-    'progress_report' => __DIR__ . '/../progress_report.php',
-    'parent_dashboard' => __DIR__ . '/../parent_dashboard.php',
-    'headmaster_dashboard' => __DIR__ . '/../headmaster_dashboard.php',
-    'gallery' => __DIR__ . '/../gallery.php',
-    'code_of_conduct' => __DIR__ . '/../code_of_conduct.php',
-    'help' => __DIR__ . '/../help.php'
-];
+// Autoload app classes
+require_once __DIR__ . '/app/autoload.php';
 
-if (isset($pages[$page]) && file_exists($pages[$page])) {
-    include $pages[$page];
+// Include routes
+require_once __DIR__ . '/routes/routes.php';
+
+// Default page if none provided
+$default_page = 'home';
+
+// Get requested page from query string
+$page = $_GET['page'] ?? $default_page;
+
+// Security: fallback if page not in routes
+if (!isset($routes[$page])) {
+    echo "<h1>404 Not Found</h1><p>The requested page '{$page}' does not exist.</p>";
+    exit;
+}
+
+// Run controller logic if exists
+if (!empty($routes[$page]['controller'])) {
+    $controller_class = $routes[$page]['controller'];
+    if (class_exists($controller_class)) {
+        $controller = new $controller_class();
+        // Optional: handle method per page if needed
+        if (method_exists($controller, 'handle')) {
+            $controller->handle($page);
+        }
+    }
+}
+
+// Include the view
+$view_file = __DIR__ . "/views/{$routes[$page]['view']}.php";
+if (file_exists($view_file)) {
+    include $view_file;
 } else {
-    http_response_code(404);
-    echo "<h1>404 - Page Not Found</h1>";
+    echo "<h1>404 Not Found</h1><p>View file not found for page '{$page}'.</p>";
+    exit;
 }
 

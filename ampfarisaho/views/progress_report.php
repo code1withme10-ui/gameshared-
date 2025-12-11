@@ -1,16 +1,24 @@
 <?php
-include __DIR__ . "/includes/auth.php";
+// Include auth and functions from new structure
+include __DIR__ . '/../includes/auth.php';
 requireParentLogin();
-include __DIR__ . "/includes/functions.php";
+include __DIR__ . '/../includes/functions.php';
 
-$children = readJSON(__DIR__ . "/data/children.json");
-$username = $_SESSION['parent'];
+// Load children JSON
+$children = readJSON(__DIR__ . "/../data/children.json");
+$username = $_SESSION['parent'] ?? '';
 
-$approved_children = array_filter($children, fn($c) => isset($c['parent_username'],$c['status']) && $c['parent_username']===$username && $c['status']==='Approved');
+// Filter only approved children for this parent
+$approved_children = array_filter($children, fn($c) => isset($c['parent_username'], $c['status']) && $c['parent_username'] === $username && $c['status'] === 'Approved');
 ?>
 
+<!-- Link to CSS in public folder -->
 <link rel="stylesheet" href="css/style.css">
-<?php include __DIR__ . "/includes/menu-bar.php"; ?>
+
+<?php 
+// Include menu bar from new structure
+include __DIR__ . '/../includes/menu-bar.php'; 
+?>
 
 <div class="container">
     <h2>Progress Report</h2>
@@ -29,5 +37,6 @@ $approved_children = array_filter($children, fn($c) => isset($c['parent_username
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
+
 
 

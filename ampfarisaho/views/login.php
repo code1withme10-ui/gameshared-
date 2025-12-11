@@ -1,10 +1,13 @@
 <?php
 session_start();
-include __DIR__ . "/includes/functions.php";
-include __DIR__ . "/includes/auth.php";
 
-$parents = readJSON(__DIR__ . "/data/parents.json");
-$headmaster = readJSON(__DIR__ . "/data/headmaster.json");
+// Include functions and auth from the new structure
+include __DIR__ . '/../includes/functions.php';
+include __DIR__ . '/../includes/auth.php';
+
+// Load parent and headmaster data
+$parents = readJSON(__DIR__ . "/../data/parents.json");
+$headmaster = readJSON(__DIR__ . "/../data/headmaster.json");
 
 $error = "";
 
@@ -34,8 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 
+<!-- Link to CSS in public folder -->
 <link rel="stylesheet" href="css/style.css">
-<?php include __DIR__ . "/includes/menu-bar.php"; ?>
+
+<?php 
+// Include menu bar from the new structure
+include __DIR__ . '/../includes/menu-bar.php'; 
+?>
 
 <div class="container">
     <h2>Login</h2>
@@ -51,4 +59,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <button class="button">Login</button>
     </form>
 </div>
+
 

@@ -1,11 +1,12 @@
 <?php
-include __DIR__ . "/includes/auth.php";
+// Include auth and functions from new structure
+include __DIR__ . '/../includes/auth.php';
 requireParentLogin(); // ensures $_SESSION['parent'] is set
-include __DIR__ . "/includes/functions.php";
+include __DIR__ . '/../includes/functions.php';
 
 // Load JSON files
-$parents = readJSON(__DIR__ . "/data/parents.json");
-$children = readJSON(__DIR__ . "/data/children.json");
+$parents = readJSON(__DIR__ . "/../data/parents.json");
+$children = readJSON(__DIR__ . "/../data/children.json");
 
 // Logged-in parent info
 $parent_username = $_SESSION['parent'] ?? '';
@@ -17,7 +18,7 @@ foreach ($parents as $p) {
     }
 }
 
-// Handle new child submission from dashboard
+// Handle new child submission
 $errors = [];
 $success_message = "";
 if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['new_child'])) {
@@ -44,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['new_child'])) {
 
     if (empty($errors)) {
         // Save uploaded files
-        $upload_dir = __DIR__ . "/uploads/" . $parent_username . "/";
+        $upload_dir = __DIR__ . "/../uploads/" . $parent_username . "/";
         if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
 
         $birth_cert_file = $upload_dir . "birth_cert_" . time() . "_" . $_FILES['birth_cert']['name'];
@@ -65,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['new_child'])) {
             "parent_id" => $parent_id_file,
             "status" => "Awaiting approval"
         ];
-        writeJSON(__DIR__ . "/data/children.json", $children);
+        writeJSON(__DIR__ . "/../data/children.json", $children);
         $success_message = "New child application submitted successfully!";
     }
 }
@@ -74,8 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['new_child'])) {
 $my_children = array_filter($children, fn($c) => isset($c['parent_username']) && $c['parent_username'] === $parent_username);
 ?>
 
+<!-- Link to CSS in public folder -->
 <link rel="stylesheet" href="css/style.css">
-<?php include __DIR__ . "/includes/menu-bar.php"; ?>
+
+<?php 
+// Include menu bar from new structure
+include __DIR__ . '/../includes/menu-bar.php'; 
+?>
 
 <div class="container">
     <h2>Parent Dashboard</h2>
@@ -152,4 +158,5 @@ $my_children = array_filter($children, fn($c) => isset($c['parent_username']) &&
         <button class="button">Submit New Child</button>
     </form>
 </div>
+
 

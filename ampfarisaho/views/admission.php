@@ -1,5 +1,6 @@
 <?php
-include __DIR__ . "/includes/functions.php";
+// Include menu-bar from the new views structure
+include __DIR__ . '/../includes/menu-bar.php';
 
 $errors = [];
 $success_message = "";
@@ -38,10 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     if (empty($errors)) {
         // Load existing JSON
-        $parents = readJSON(__DIR__ . "/data/parents.json");
-        $children = readJSON(__DIR__ . "/data/children.json");
+        $parents = readJSON(__DIR__ . "/../data/parents.json");
+        $children = readJSON(__DIR__ . "/../data/children.json");
 
-        $upload_dir = __DIR__ . "/uploads/" . $_POST['parent_username'] . "/";
+        $upload_dir = __DIR__ . "/../uploads/" . $_POST['parent_username'] . "/";
         if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
 
         $birth_cert_file = $upload_dir . "birth_cert_" . time() . "_" . $_FILES['birth_cert']['name'];
@@ -60,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             "relationship" => $_POST['parent_relationship'],
             "address" => $_POST['parent_address']
         ];
-        writeJSON(__DIR__ . "/data/parents.json", $parents);
+        writeJSON(__DIR__ . "/../data/parents.json", $parents);
 
         // Save child info
         $children[] = [
@@ -74,15 +75,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             "parent_id" => $parent_id_file,
             "status" => "Awaiting approval"
         ];
-        writeJSON(__DIR__ . "/data/children.json", $children);
+        writeJSON(__DIR__ . "/../data/children.json", $children);
 
         $success_message = "Admission submitted successfully! You may now log in.";
     }
 }
 ?>
 
+<!-- Link to CSS in public folder -->
 <link rel="stylesheet" href="css/style.css">
-<?php include __DIR__ . "/includes/menu-bar.php"; ?>
 
 <div class="container">
     <h2>Parent & Child Admission</h2>

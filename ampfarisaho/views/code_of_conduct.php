@@ -1,8 +1,15 @@
 <?php
-// No login required for this page, but you can add requireParentLogin() if needed
+// No login required for this page
+// You can add requireParentLogin() if needed
 ?>
+
+<!-- Link to CSS in public folder -->
 <link rel="stylesheet" href="css/style.css">
-<?php include __DIR__ . '/includes/menu-bar.php'; ?>
+
+<?php 
+// Include menu bar from the new structure
+include __DIR__ . '/../includes/menu-bar.php'; 
+?>
 
 <div class="container">
     <h2>Code of Conduct</h2>
@@ -21,3 +28,4 @@
         <li>Communicate concerns early.</li>
     </ul>
 </div>
+
