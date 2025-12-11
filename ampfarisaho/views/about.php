@@ -1,9 +1,4 @@
-<?php 
-// Include the menu bar
-include __DIR__ . '/../includes/menu-bar.php'; 
-?>
-
-<!-- Link to CSS in public folder -->
+<?php include __DIR__ . '/../../includes/menu-bar.php'; ?>
 <link rel="stylesheet" href="css/style.css">
 
 <div class="container">
@@ -16,4 +11,5 @@ include __DIR__ . '/../includes/menu-bar.php';
     <h2>Vision</h2>
     <p>To be the region’s leading early childhood development centre.</p>
 </div>
+
 

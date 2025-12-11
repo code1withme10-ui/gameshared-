@@ -1,42 +1,49 @@
 <?php
-session_start();
+// Autoload controllers (optional if you use Composer)
+spl_autoload_register(function($class) {
+    $file = __DIR__ . '/../app/Http/' . $class . '.php';
+    if(file_exists($file)) require $file;
+});
 
-// Autoload app classes
-require_once __DIR__ . '/app/autoload.php';
+// Load routes
+require __DIR__ . '/../routes/routes.php';
 
-// Include routes
-require_once __DIR__ . '/routes/routes.php';
+// Determine requested page
+$page = $_GET['page'] ?? 'home';
 
-// Default page if none provided
-$default_page = 'home';
+if(isset($routes[$page])) {
+    $route = $routes[$page];
 
-// Get requested page from query string
-$page = $_GET['page'] ?? $default_page;
+    $viewData = null; // default for static pages
 
-// Security: fallback if page not in routes
-if (!isset($routes[$page])) {
-    echo "<h1>404 Not Found</h1><p>The requested page '{$page}' does not exist.</p>";
-    exit;
-}
-
-// Run controller logic if exists
-if (!empty($routes[$page]['controller'])) {
-    $controller_class = $routes[$page]['controller'];
-    if (class_exists($controller_class)) {
-        $controller = new $controller_class();
-        // Optional: handle method per page if needed
-        if (method_exists($controller, 'handle')) {
-            $controller->handle($page);
+    // If controller is set, instantiate and handle
+    if(isset($route['controller']) && $route['controller']) {
+        $controllerName = $route['controller'];
+        if(class_exists($controllerName)) {
+            $controller = new $controllerName();
+            $controller->handle();
+            $viewData = $controller; // pass controller data to view
+        } else {
+            die("Controller '$controllerName' not found!");
         }
     }
+
+    // Make controller accessible as $this in views
+    $thisPage = $viewData;
+
+    // Include view
+    $viewFile = __DIR__ . '/../views/' . $route['view'] . '.php';
+    if(file_exists($viewFile)) {
+        include $viewFile;
+    } else {
+        die("View '{$route['view']}.php' not found!");
+    }
+
+} else {
+    // Page not found
+    http_response_code(404);
+    echo "<h1>404 Page Not Found</h1>";
+    echo "<p>The page '{$page}' does not exist.</p>";
 }
 
-// Include the view
-$view_file = __DIR__ . "/views/{$routes[$page]['view']}.php";
-if (file_exists($view_file)) {
-    include $view_file;
-} else {
-    echo "<h1>404 Not Found</h1><p>View file not found for page '{$page}'.</p>";
-    exit;
-}
 

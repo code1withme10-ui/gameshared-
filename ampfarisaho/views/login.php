@@ -1,56 +1,12 @@
-<?php
-session_start();
-
-// Include functions and auth from the new structure
-include __DIR__ . '/../includes/functions.php';
-include __DIR__ . '/../includes/auth.php';
-
-// Load parent and headmaster data
-$parents = readJSON(__DIR__ . "/../data/parents.json");
-$headmaster = readJSON(__DIR__ . "/../data/headmaster.json");
-
-$error = "";
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
-
-    // Headmaster login
-    if (isset($headmaster['username'], $headmaster['password']) &&
-        $username === $headmaster['username'] && $password === $headmaster['password']) {
-        $_SESSION['headmaster'] = $username;
-        header("Location: index.php?page=headmaster_dashboard");
-        exit;
-    }
-
-    // Parent login
-    foreach ($parents as $p) {
-        if (isset($p['username'], $p['password']) &&
-            $p['username'] === $username && $p['password'] === $password) {
-            $_SESSION['parent'] = $username;
-            header("Location: index.php?page=parent_dashboard");
-            exit;
-        }
-    }
-
-    $error = "Invalid username or password.";
-}
-?>
-
-<!-- Link to CSS in public folder -->
+<?php include __DIR__ . '/../../includes/menu-bar.php'; ?>
 <link rel="stylesheet" href="css/style.css">
-
-<?php 
-// Include menu bar from the new structure
-include __DIR__ . '/../includes/menu-bar.php'; 
-?>
 
 <div class="container">
     <h2>Login</h2>
     <p>Parents and Headmaster login using <strong>Username + Password</strong>.</p>
 
-    <?php if (!empty($error)): ?>
-        <p style="color:red; font-weight:bold;"><?= htmlspecialchars($error) ?></p>
+    <?php if(!empty($this->error)): ?>
+        <p style="color:red; font-weight:bold;"><?= htmlspecialchars($this->error) ?></p>
     <?php endif; ?>
 
     <form method="POST">
@@ -59,5 +15,6 @@ include __DIR__ . '/../includes/menu-bar.php';
         <button class="button">Login</button>
     </form>
 </div>
+
 
 

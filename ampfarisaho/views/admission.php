@@ -1,99 +1,17 @@
-<?php
-// Include menu-bar from the new views structure
-include __DIR__ . '/../includes/menu-bar.php';
-
-$errors = [];
-$success_message = "";
-
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    // Validate email
-    if (!filter_var($_POST['parent_email'], FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Invalid email format.";
-    }
-
-    // Validate phone
-    if (!preg_match("/^[0-9]{10}$/", $_POST['parent_phone'])) {
-        $errors[] = "Phone number must be 10 digits.";
-    }
-
-    // Validate login fields
-    if (empty($_POST['parent_username']) || empty($_POST['parent_password'])) {
-        $errors[] = "Username and Password are required.";
-    }
-
-    // Validate documents
-    $allowed_ext = ["pdf","jpg","jpeg","png"];
-    foreach (["birth_cert","parent_id"] as $file) {
-        if (!isset($_FILES[$file]) || $_FILES[$file]["error"] !== 0) {
-            $errors[] = "Missing required document: $file";
-        } else {
-            $ext = strtolower(pathinfo($_FILES[$file]["name"], PATHINFO_EXTENSION));
-            if (!in_array($ext, $allowed_ext)) {
-                $errors[] = "Invalid file type for $file.";
-            }
-            if ($_FILES[$file]["size"] > 2*1024*1024) {
-                $errors[] = "$file exceeds 2MB.";
-            }
-        }
-    }
-
-    if (empty($errors)) {
-        // Load existing JSON
-        $parents = readJSON(__DIR__ . "/../data/parents.json");
-        $children = readJSON(__DIR__ . "/../data/children.json");
-
-        $upload_dir = __DIR__ . "/../uploads/" . $_POST['parent_username'] . "/";
-        if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
-
-        $birth_cert_file = $upload_dir . "birth_cert_" . time() . "_" . $_FILES['birth_cert']['name'];
-        move_uploaded_file($_FILES['birth_cert']['tmp_name'], $birth_cert_file);
-
-        $parent_id_file = $upload_dir . "parent_id_" . time() . "_" . $_FILES['parent_id']['name'];
-        move_uploaded_file($_FILES['parent_id']['tmp_name'], $parent_id_file);
-
-        // Save parent info
-        $parents[] = [
-            "username" => $_POST['parent_username'],
-            "password" => $_POST['parent_password'],
-            "email" => $_POST['parent_email'],
-            "full_name" => $_POST['parent_name'],
-            "phone" => $_POST['parent_phone'],
-            "relationship" => $_POST['parent_relationship'],
-            "address" => $_POST['parent_address']
-        ];
-        writeJSON(__DIR__ . "/../data/parents.json", $parents);
-
-        // Save child info
-        $children[] = [
-            "parent_username" => $_POST['parent_username'],
-            "child_name" => $_POST['child_name'],
-            "dob" => $_POST['child_dob'],
-            "gender" => $_POST['child_gender'],
-            "grade_category" => $_POST['grade_category'],
-            "address" => $_POST['child_address'],
-            "birth_certificate" => $birth_cert_file,
-            "parent_id" => $parent_id_file,
-            "status" => "Awaiting approval"
-        ];
-        writeJSON(__DIR__ . "/../data/children.json", $children);
-
-        $success_message = "Admission submitted successfully! You may now log in.";
-    }
-}
-?>
-
-<!-- Link to CSS in public folder -->
+<?php include __DIR__ . '/../../includes/menu-bar.php'; ?>
 <link rel="stylesheet" href="css/style.css">
 
 <div class="container">
     <h2>Parent & Child Admission</h2>
 
-    <?php foreach ($errors as $e): ?>
-        <p style="color:red; font-weight:bold;"><?= htmlspecialchars($e) ?></p>
-    <?php endforeach; ?>
+    <?php if (!empty($this->errors)): ?>
+        <?php foreach ($this->errors as $e): ?>
+            <p style="color:red; font-weight:bold;"><?= htmlspecialchars($e) ?></p>
+        <?php endforeach; ?>
+    <?php endif; ?>
 
-    <?php if ($success_message): ?>
-        <p style="color:green; font-weight:bold;"><?= htmlspecialchars($success_message) ?></p>
+    <?php if (!empty($this->success_message)): ?>
+        <p style="color:green; font-weight:bold;"><?= htmlspecialchars($this->success_message) ?></p>
     <?php endif; ?>
 
     <form method="POST" enctype="multipart/form-data">
@@ -112,14 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         <input name="child_name" placeholder="Child Full Name" required><br><br>
         <label>Date of Birth</label><br>
         <input type="date" name="child_dob" required><br><br>
-
         <label>Gender</label><br>
         <select name="child_gender" required>
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
         </select><br><br>
-
         <label>Grade Category</label><br>
         <select name="grade_category" required>
             <option value="">Select Category</option>
@@ -128,17 +44,18 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <option value="Playgroup">Playgroup (3–4 years)</option>
             <option value="Pre-School">Pre-School (4–5 years)</option>
         </select><br><br>
-
         <input name="child_address" placeholder="Child Residential Address" required><br><br>
 
         <h3>Upload Documents</h3>
         <label>Birth Certificate (PDF/JPG/PNG, ≤2MB)</label><br>
         <input type="file" name="birth_cert" accept=".pdf,.jpg,.jpeg,.png" required><br><br>
-
         <label>Parent/Guardian ID (PDF/JPG/PNG, ≤2MB)</label><br>
         <input type="file" name="parent_id" accept=".pdf,.jpg,.jpeg,.png" required><br><br>
 
         <button class="button">Submit Application</button>
     </form>
 </div>
+
+
+
 
