@@ -5,8 +5,13 @@ class LoginController
 
     public function handle()
     {
-        session_start();
+        // Only start session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         require_once __DIR__ . '/../../includes/functions.php';
+        require_once __DIR__ . '/../../includes/auth.php';
 
         $parents = readJSON(__DIR__ . '/../../data/parents.json');
         $headmaster = readJSON(__DIR__ . '/../../data/headmaster.json');
@@ -37,5 +42,6 @@ class LoginController
         }
     }
 }
+
 
 

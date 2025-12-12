@@ -4,7 +4,7 @@
 ?>
 
 <!-- Link to CSS in public folder -->
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="/public/css/style.css">
 
 <?php 
 // Include menu bar from the new structure

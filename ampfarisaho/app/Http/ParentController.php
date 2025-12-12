@@ -8,7 +8,11 @@ class ParentController
 
     public function handle()
     {
-        session_start();
+        // Only start session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         require_once __DIR__ . '/../../includes/functions.php';
         require_once __DIR__ . '/../../includes/auth.php';
 
@@ -82,7 +86,7 @@ class ParentController
             ];
             writeJSON(__DIR__ . '/../../data/children.json', $children);
             $this->success_message = "New child application submitted successfully!";
-            
+
             // Update my_children for immediate display
             $this->my_children = array_filter($children, fn($c) => $c['parent_username'] === $parent_username);
         }

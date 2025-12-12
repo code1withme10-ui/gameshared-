@@ -1,5 +1,6 @@
-<?php include __DIR__ . '/../../includes/menu-bar.php'; ?>
+<?php include __DIR__ . '/../includes/menu-bar.php'; ?>
 <link rel="stylesheet" href="css/style.css">
+
 
 <div class="container">
     <h1>Welcome to Sunshine Preschool</h1>

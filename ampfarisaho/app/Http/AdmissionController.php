@@ -7,7 +7,8 @@ class AdmissionController
     public function handle()
     {
         require_once __DIR__ . '/../../includes/functions.php';
-        if($_SERVER['REQUEST_METHOD'] === "POST") {
+
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $this->processAdmission();
         }
     }
@@ -21,15 +22,20 @@ class AdmissionController
         // Validate parent login fields
         $required_parent = ['parent_username','parent_password','parent_name','parent_relationship','parent_email','parent_phone','parent_address'];
         foreach($required_parent as $f) {
-            if(empty($_POST[$f])) $this->errors[] = "$f is required.";
+            if(empty($_POST[$f])) $this->errors[] = ucfirst(str_replace("_", " ", $f))." is required.";
         }
 
-        if (!filter_var($_POST['parent_email'], FILTER_VALIDATE_EMAIL)) $this->errors[] = "Invalid email format.";
-        if (!preg_match("/^[0-9]{10}$/", $_POST['parent_phone'])) $this->errors[] = "Phone number must be 10 digits.";
+        if(!empty($_POST['parent_email']) && !filter_var($_POST['parent_email'], FILTER_VALIDATE_EMAIL)) {
+            $this->errors[] = "Invalid email format.";
+        }
+
+        if(!empty($_POST['parent_phone']) && !preg_match("/^[0-9]{10}$/", $_POST['parent_phone'])) {
+            $this->errors[] = "Phone number must be 10 digits.";
+        }
 
         // Validate documents
         foreach(["birth_cert","parent_id"] as $file) {
-            if (!isset($_FILES[$file]) || $_FILES[$file]["error"] !== 0) {
+            if(!isset($_FILES[$file]) || $_FILES[$file]["error"] !== 0) {
                 $this->errors[] = "Missing required document: $file";
             } else {
                 $ext = strtolower(pathinfo($_FILES[$file]["name"], PATHINFO_EXTENSION));
@@ -74,9 +80,10 @@ class AdmissionController
             ];
             writeJSON(__DIR__ . '/../../data/children.json', $children);
 
-            $this->success_message = "Admission submitted successfully! You may now log in.";
+            $this->success_message = "Admission submitted successfully! Your child is now awaiting approval.";
         }
     }
 }
+
 
 

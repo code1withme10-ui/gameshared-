@@ -31,5 +31,16 @@
         "birth_certificate": "C:\\var\\www\\gameshared-\\ampfarisaho\/uploads\/pheladi\/birth_cert_1764317195_WhatsApp Image 2025-11-26 at 11.17.21_b55ea5ce.jpg",
         "parent_id": "C:\\var\\www\\gameshared-\\ampfarisaho\/uploads\/pheladi\/parent_id_1764317195_WhatsApp Image 2025-11-26 at 11.18.16_0a9549bb.jpg",
         "status": "Approved"
+    },
+    {
+        "parent_username": "Mathagu",
+        "child_name": "Siyabonga Mathagu",
+        "dob": "2023-02-07",
+        "gender": "Male",
+        "grade_category": "Pre-School",
+        "address": "R524",
+        "birth_certificate": "C:\\Program Files\\Git\\var\\www\\gameshared\\ampfarisaho\\app\\Http\/..\/..\/uploads\/Mathagu\/birth_cert_1765531218_Monthly_Timesheet_01 - 05 Dec.pdf",
+        "parent_id": "C:\\Program Files\\Git\\var\\www\\gameshared\\ampfarisaho\\app\\Http\/..\/..\/uploads\/Mathagu\/parent_id_1765531218_Monthly_Timesheet_01 - 05.pdf",
+        "status": "Awaiting approval"
     }
 ]

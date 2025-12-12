@@ -1,17 +1,21 @@
-<?php include __DIR__ . '/../../includes/menu-bar.php'; ?>
-<link rel="stylesheet" href="css/style.css">
+<?php include __DIR__ . '/../includes/menu-bar.php'; ?>
 
 <div class="container">
     <h2>Parent & Child Admission</h2>
 
-    <?php if (!empty($this->errors)): ?>
-        <?php foreach ($this->errors as $e): ?>
+    <?php 
+        $errors = $thisPage->errors ?? [];
+        $success_message = $thisPage->success_message ?? '';
+    ?>
+
+    <?php if (!empty($errors)): ?>
+        <?php foreach ($errors as $e): ?>
             <p style="color:red; font-weight:bold;"><?= htmlspecialchars($e) ?></p>
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <?php if (!empty($this->success_message)): ?>
-        <p style="color:green; font-weight:bold;"><?= htmlspecialchars($this->success_message) ?></p>
+    <?php if (!empty($success_message)): ?>
+        <p style="color:green; font-weight:bold;"><?= htmlspecialchars($success_message) ?></p>
     <?php endif; ?>
 
     <form method="POST" enctype="multipart/form-data">
@@ -55,6 +59,7 @@
         <button class="button">Submit Application</button>
     </form>
 </div>
+
 
 
 

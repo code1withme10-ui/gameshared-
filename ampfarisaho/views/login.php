@@ -1,12 +1,12 @@
-<?php include __DIR__ . '/../../includes/menu-bar.php'; ?>
+<?php include __DIR__ . '/../includes/menu-bar.php'; ?>
 <link rel="stylesheet" href="css/style.css">
 
 <div class="container">
     <h2>Login</h2>
     <p>Parents and Headmaster login using <strong>Username + Password</strong>.</p>
 
-    <?php if(!empty($this->error)): ?>
-        <p style="color:red; font-weight:bold;"><?= htmlspecialchars($this->error) ?></p>
+    <?php if (!empty($error)): ?>
+        <p style="color:red; font-weight:bold;"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
 
     <form method="POST">
@@ -15,6 +15,7 @@
         <button class="button">Login</button>
     </form>
 </div>
+
 
 
 

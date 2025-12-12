@@ -1,49 +1,37 @@
 <?php
-// Autoload controllers (optional if you use Composer)
-spl_autoload_register(function($class) {
-    $file = __DIR__ . '/../app/Http/' . $class . '.php';
-    if(file_exists($file)) require $file;
-});
-
-// Load routes
+session_start();
 require __DIR__ . '/../routes/routes.php';
 
-// Determine requested page
 $page = $_GET['page'] ?? 'home';
 
-if(isset($routes[$page])) {
+if (isset($routes[$page])) {
     $route = $routes[$page];
 
-    $viewData = null; // default for static pages
-
-    // If controller is set, instantiate and handle
-    if(isset($route['controller']) && $route['controller']) {
+    $controller = null;
+    if (isset($route['controller']) && $route['controller']) {
         $controllerName = $route['controller'];
-        if(class_exists($controllerName)) {
-            $controller = new $controllerName();
-            $controller->handle();
-            $viewData = $controller; // pass controller data to view
-        } else {
-            die("Controller '$controllerName' not found!");
-        }
+        require_once __DIR__ . '/../app/Http/' . $controllerName . '.php';
+        $controller = new $controllerName();
+        $controller->handle();
     }
 
-    // Make controller accessible as $this in views
-    $thisPage = $viewData;
-
-    // Include view
     $viewFile = __DIR__ . '/../views/' . $route['view'] . '.php';
-    if(file_exists($viewFile)) {
+    if (file_exists($viewFile)) {
+        // Pass controller variables to view
+        // Example for ParentController:
+        if ($controller) {
+            $parent_info = $controller->parent_info ?? null;
+            $my_children = $controller->my_children ?? [];
+            $errors = $controller->errors ?? [];
+            $success_message = $controller->success_message ?? '';
+        }
         include $viewFile;
     } else {
         die("View '{$route['view']}.php' not found!");
     }
-
 } else {
-    // Page not found
     http_response_code(404);
     echo "<h1>404 Page Not Found</h1>";
-    echo "<p>The page '{$page}' does not exist.</p>";
 }
 
 

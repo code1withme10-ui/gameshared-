@@ -1,5 +1,5 @@
-<?php include __DIR__ . '/../../includes/menu-bar.php'; ?>
-<link rel="stylesheet" href="css/style.css">
+<?php include __DIR__ . '/../includes/menu-bar.php'; ?>
+<link rel="stylesheet" href="/public/css/style.css">
 
 <div class="container">
     <h2>Progress Report</h2>
