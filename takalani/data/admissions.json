@@ -1,1 +1,140 @@
-[]
+[
+    {
+        "applicationID": "693aa119d7978",
+        "timestamp": "2025-12-11 11:46:49",
+        "status": "Pending",
+        "parent": {
+            "parentFirstName": "Promise",
+            "parentSurname": "Kubayi",
+            "contactNumber": "0764628333",
+            "emailAddress": "Kubayiremember48@gmail.com",
+            "residentialAddress": "MBOKOTA\r\nELIM",
+            "parentIdNumber": "0012245428082",
+            "parentIdDocument": "parent_693aa119d6fd5.pdf"
+        },
+        "children": [
+            {
+                "firstName": "REMEMBER",
+                "surname": "SUPRISE",
+                "dateOfBirth": "2023-03-02",
+                "ageInYears": 2.77,
+                "gender": "Male",
+                "gradeApplyingFor": "Toddlers",
+                "medicalInfo": "none",
+                "childIdDocument": "child_693aa119d3b0b.pdf"
+            },
+            {
+                "firstName": "Xinavetiso  Pourlite",
+                "surname": "mboweni",
+                "dateOfBirth": "2021-01-12",
+                "ageInYears": 4.92,
+                "gender": "Female",
+                "gradeApplyingFor": "Pre-School",
+                "medicalInfo": "none",
+                "childIdDocument": "child_693aa119d558b.pdf"
+            },
+            {
+                "firstName": "Tshifiwa",
+                "surname": "Manavhela",
+                "dateOfBirth": "2025-03-11",
+                "ageInYears": 0.75,
+                "gender": "Male",
+                "gradeApplyingFor": "Infants",
+                "medicalInfo": "none",
+                "childIdDocument": "child_693aa119d6a27.pdf"
+            }
+        ]
+    },
+    {
+        "applicationID": "693ac42cea3c9",
+        "timestamp": "2025-12-11 14:16:28",
+        "status": "Pending",
+        "parent": {
+            "parentFirstName": "Promise",
+            "parentSurname": "Kubayi",
+            "contactNumber": "0764628333",
+            "emailAddress": "Kubayiremember48@gmail.com",
+            "residentialAddress": "Mbokota\r\nelim\r\nmakhado",
+            "parentIdNumber": "0012245428082",
+            "parentIdDocument": "parent_693ac42ce9890.pdf"
+        },
+        "children": [
+            {
+                "firstName": "Tshifiwa",
+                "surname": "Manavhela",
+                "dateOfBirth": "2025-01-01",
+                "ageInYears": 0.94,
+                "gender": "Female",
+                "gradeApplyingFor": "Infants",
+                "medicalInfo": "none",
+                "childIdDocument": "child_693ac42ce7308.pdf"
+            },
+            {
+                "firstName": "Xinavetiso  Pourlite",
+                "surname": "mboweni",
+                "dateOfBirth": "2022-12-01",
+                "ageInYears": 3.03,
+                "gender": "Female",
+                "gradeApplyingFor": "Playgroup",
+                "medicalInfo": "none",
+                "childIdDocument": "child_693ac42ce8e65.pdf"
+            },
+            {
+                "firstName": "Tshifiwa",
+                "surname": "Manavhela",
+                "dateOfBirth": "2025-03-11",
+                "ageInYears": 0.75,
+                "gender": "Male",
+                "gradeApplyingFor": "Infants",
+                "medicalInfo": "none",
+                "childIdDocument": "child_693ac42ce9554.pdf"
+            }
+        ]
+    },
+    {
+        "applicationID": "693ac4ba783cb",
+        "timestamp": "2025-12-11 14:18:50",
+        "status": "Pending",
+        "parent": {
+            "parentFirstName": "Promise",
+            "parentSurname": "Kubayi",
+            "contactNumber": "0764628333",
+            "emailAddress": "Kubayiremember48@gmail.com",
+            "residentialAddress": "Mbokota\r\nelim\r\nmakhado",
+            "parentIdNumber": "0012245428082",
+            "parentIdDocument": "parent_693ac4ba765de.pdf"
+        },
+        "children": [
+            {
+                "firstName": "Tshifiwa",
+                "surname": "Manavhela",
+                "dateOfBirth": "2025-01-01",
+                "ageInYears": 0.94,
+                "gender": "Female",
+                "gradeApplyingFor": "Infants",
+                "medicalInfo": "none",
+                "childIdDocument": "child_693ac4ba7448d.pdf"
+            },
+            {
+                "firstName": "Xinavetiso  Pourlite",
+                "surname": "mboweni",
+                "dateOfBirth": "2022-12-01",
+                "ageInYears": 3.03,
+                "gender": "Female",
+                "gradeApplyingFor": "Playgroup",
+                "medicalInfo": "none",
+                "childIdDocument": "child_693ac4ba748e7.pdf"
+            },
+            {
+                "firstName": "Tshifiwa",
+                "surname": "Manavhela",
+                "dateOfBirth": "2025-03-11",
+                "ageInYears": 0.75,
+                "gender": "Male",
+                "gradeApplyingFor": "Infants",
+                "medicalInfo": "none",
+                "childIdDocument": "child_693ac4ba75536.pdf"
+            }
+        ]
+    }
+]

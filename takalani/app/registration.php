@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <?php endif; ?>
 
     <p style="text-align:center; color:#555; margin-bottom: 20px;">
-        Already registered? <a href="login.php">Login here</a>.
+        Already registered? <a href="login">Login here</a>.
     </p>
 
     <form method="POST">

@@ -204,7 +204,7 @@ usort($myAdmissions, function($a, $b) {
     <?php endif; ?>
 
     <br>
-    <a href="admission.php" class="button" style="display: block; width: 250px; margin: 20px auto; text-align: center; padding: 10px; background-color: #6BCB77; color: white; text-decoration: none; border-radius: 5px;">Apply for New Admission</a>
+    <a href="admission" class="button" style="display: block; width: 250px; margin: 20px auto; text-align: center; padding: 10px; background-color: #6BCB77; color: white; text-decoration: none; border-radius: 5px;">Apply for New Admission</a>
 </main>
 
 <?php 
