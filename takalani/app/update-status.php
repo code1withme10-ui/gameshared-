@@ -16,7 +16,7 @@ if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'headmast
 // --- 2. Input Validation ---
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     // CRITICAL FIX 1: Use root-relative path for redirect
-    header('Location: /takalani/app/headmaster.php?error=' . urlencode('Invalid request method.'));
+    header('Location: /takalani/app/headmaster?error=' . urlencode('Invalid request method.'));
     exit();
 }
 
@@ -25,7 +25,7 @@ $status = $_POST['status'] ?? null;
 
 if (!$id || !in_array($status, ['Admitted', 'Rejected'])) {
     // CRITICAL FIX 2: Use root-relative path for redirect
-    header('Location: /takalani/app/headmaster.php?error=' . urlencode('Missing or invalid application ID or status received.'));
+    header('Location: /takalani/app/headmaster?error=' . urlencode('Missing or invalid application ID or status received.'));
     exit();
 }
 
@@ -70,13 +70,13 @@ unset($admission); // Break the reference for safety
 if ($found) {
     if (file_put_contents($admissionFile, json_encode($admissions, JSON_PRETTY_PRINT))) {
         // CRITICAL FIX 3: Use root-relative path for successful redirect
-        header('Location: /takalani/app/headmaster.php?success=' . urlencode("Application for '{$childName}' successfully set to {$status}."));
+        header('Location: /takalani/app/headmaster?success=' . urlencode("Application for '{$childName}' successfully set to {$status}."));
     } else {
         // CRITICAL FIX 4: Use root-relative path for error redirect
-        header('Location: /takalani/app/headmaster.php?error=' . urlencode("Failed to save data to ../data/admissions.json. Check file permissions."));
+        header('Location: /takalani/app/headmaster?error=' . urlencode("Failed to save data to ../data/admissions.json. Check file permissions."));
     }
 } else {
     // CRITICAL FIX 5: Use root-relative path for error redirect
-    header('Location: /takalani/app/headmaster.php?error=' . urlencode('Application ID not found or data corrupted.'));
+    header('Location: /takalani/app/headmaster?error=' . urlencode('Application ID not found or data corrupted.'));
 }
 exit();

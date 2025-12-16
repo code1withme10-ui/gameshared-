@@ -25,24 +25,37 @@ if ($admissions === null) {
 }
 
 // Parent identifiers
-$parentName = $_SESSION['user']['parentName'] ?? '';
+$parentName = $_SESSION['user']['parentName'] ?? 'Guardian'; // Default to a general name
 $parentEmail = $_SESSION['user']['email'] ?? '';
 $parentEmailLower = strtolower($parentEmail);
-$childAge = $_SESSION['user']['childAge'] ?? 'N/A';
-$childName = $_SESSION['user']['childName'] ?? 'N/A';
+
+// --- CRITICAL FIX: Introduce a helper function to safely retrieve nested data ---
+// This function reliably pulls data using a dot notation (e.g., 'child.firstName')
+function getNestedData($data, $keys, $default = 'N/A') {
+    $value = $data;
+    foreach (explode('.', $keys) as $key) {
+        if (isset($value[$key])) {
+            $value = $value[$key];
+        } else {
+            return $default;
+        }
+    }
+    // Return sanitized value
+    return htmlspecialchars($value);
+}
+// --------------------------------------------------------------------------------
 
 // Filter applications for the logged-in parent
 $myAdmissions = [];
 if (!empty($admissions)) {
-    foreach ($admissions as $admission) {
+    foreach ($admissions as $id => $admission) {
+        // Ensure the ID is available for notification dismissal and display
+        $admission['applicationID'] = $id;
 
         // ⭐ FIXED: Strong email matching so parent ONLY sees their own applications
         $appEmail = strtolower(
-            $admission['parentEmail']
-            ?? $admission['parent']['email']
-            ?? $admission['parent']['emailAddress']
-            ?? $admission['email']
-            ?? ''
+            getNestedData($admission, 'parent.emailAddress', '')
+            ?: getNestedData($admission, 'parentEmail', '') // Fallback to a flat key
         );
 
         if ($appEmail !== '' && $appEmail === $parentEmailLower) {
@@ -56,7 +69,7 @@ if (!empty($admissions)) {
 $success = $_GET['success'] ?? '';
 $error = $_GET['error'] ?? '';
 
-// Notification logic
+// Notification logic: Find the latest notification
 $notificationMessage = null;
 $notificationId = null;
 
@@ -68,10 +81,11 @@ usort($myAdmissions, function($a, $b) {
 
 if (!empty($myAdmissions) && !empty($myAdmissions[0]['lastNotification'])) {
     $notificationMessage = $myAdmissions[0]['lastNotification'];
+    // CRITICAL FIX 2: Ensure we get a valid ID for the form
     $notificationId = $myAdmissions[0]['applicationID'] ?? $myAdmissions[0]['id'] ?? null; 
 }
 
-// Re-sort for display
+// Re-sort for display (oldest first by timestamp)
 usort($myAdmissions, function($a, $b) {
     $timeA = strtotime($a['timestamp'] ?? '1970-01-01');
     $timeB = strtotime($b['timestamp'] ?? '1970-01-01');
@@ -171,33 +185,38 @@ usort($myAdmissions, function($a, $b) {
             </thead>
             <tbody>
                 <?php foreach ($myAdmissions as $a): 
-                    $status = $a['status'] ?? 'Pending';
+                    $status = getNestedData($a, 'status', 'Pending');
                     $statusClass = 'status-' . str_replace(' ', '', ucfirst($status));
                     $applicationId = $a['applicationID'] ?? $a['id'] ?? null;
-
-                    $firstName = $a['childFirstName'] ?? ($a['child']['firstName'] ?? ($a['children'][0]['firstName'] ?? ''));
-                    $surname = $a['childSurname'] ?? ($a['child']['surname'] ?? ($a['children'][0]['surname'] ?? ''));
-                    $childName = trim($firstName . ' ' . $surname) ?: 'N/A';
-
-                    $grade = $a['gradeApplyingFor'] ?? ($a['child']['gradeApplyingFor'] ?? ($a['children'][0]['gradeApplyingFor'] ?? 'N/A'));
-                    $age = round($a['age'] ?? ($a['child']['ageInYears'] ?? ($a['children'][0]['ageInYears'] ?? 0)), 2);
                 ?>
-                    <tr>
-                        <td><?= htmlspecialchars($childName) ?></td>
-                        <td><?= htmlspecialchars($grade) ?></td>
-                        <td><?= htmlspecialchars($age) ?></td>
-                        <td><span class="status-span <?= $statusClass ?>"><?= htmlspecialchars(ucfirst($status)) ?></span></td>
-                        <td><?= htmlspecialchars(date('Y-m-d', strtotime($a['timestamp'] ?? 'N/A'))) ?></td>
-                        <td>
-                             <?php if (strtolower($status) === 'admitted' && $applicationId): ?>
-                                 <a href="#" style="text-decoration: none; color: #4D96FF; font-weight: bold;">Enrollment Details</a>
-                            <?php elseif (!empty($a['lastNotification'])): ?>
-                                🔔 New Status!
-                            <?php else: ?>
-                                —
-                            <?php endif; ?>
-                        </td>
-                    </tr>
+                    <?php 
+                    $children = $a['children'] ?? [];
+                    
+                    // Display a table row for EACH child in the application
+                    foreach ($children as $child): 
+                        // Now use $child array for data
+                        $childName = htmlspecialchars(($child['firstName'] ?? '') . ' ' . ($child['surname'] ?? ''));
+                        $grade = htmlspecialchars($child['gradeApplyingFor'] ?? 'N/A');
+                        $age = htmlspecialchars($child['ageInYears'] ?? 'N/A');
+                        $displayAge = is_numeric($age) ? round((float)$age, 2) : $age;
+                    ?>
+                        <tr>
+                            <td><?= $childName ?></td>
+                            <td><?= $grade ?></td>
+                            <td><?= $displayAge ?></td>
+                            <td><span class="status-span <?= $statusClass ?>"><?= htmlspecialchars(ucfirst($status)) ?></span></td>
+                            <td><?= htmlspecialchars(date('Y-m-d', strtotime($a['timestamp'] ?? 'N/A'))) ?></td>
+                            <td>
+                                 <?php if (strtolower($status) === 'admitted' && $applicationId): ?>
+                                     <a href="#" style="text-decoration: none; color: #4D96FF; font-weight: bold;">Enrollment Details</a>
+                                <?php elseif (!empty($a['lastNotification'])): ?>
+                                    🔔 New Status!
+                                <?php else: ?>
+                                    —
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 <?php endforeach; ?>
             </tbody>
         </table>

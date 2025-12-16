@@ -28,7 +28,7 @@ if ($admissions === null && file_exists($admissionFile)) {
 
 // Function to safely get data, checking nested/flat keys
 function getAdmissionData($admission, $keys, $default = 'N/A') {
-    // Allows getting data like 'child.firstName' or just 'status'
+    // Allows getting data like 'parent.firstName' or just 'status'
     foreach ($keys as $key) {
         if (strpos($key, '.') !== false) {
             list($parentKey, $childKey) = explode('.', $key);
@@ -61,6 +61,8 @@ foreach ($admissions as $id => $data) {
 // Use $admissionsList for the display loop
 $admissions = $admissionsList;
 
+// Get total unique applications (not total children)
+$totalApplications = count($admissions);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,7 +121,7 @@ $admissions = $admissionsList;
 require_once "../app/menu-bar.php"; 
 ?>
 
-<main style="max-width: 1250px; margin: 40px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.1);">
+<main style="max-width: 1250px; margin: 40px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
     <h1 style="text-align: center; color: #007bff;">Headmaster Dashboard</h1>
     <p style="text-align: center;">Welcome, <?= htmlspecialchars($_SESSION['user']['username'] ?? 'Headmaster') ?>. Manage school admissions.</p>
 
@@ -130,7 +132,7 @@ require_once "../app/menu-bar.php";
         <p style="color: green; text-align: center; font-weight: bold;"><?= htmlspecialchars($success) ?></p>
     <?php endif; ?>
 
-    <h2 style="border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-top: 30px;">Admission Applications (<?= count($admissions) ?> Total)</h2>
+    <h2 style="border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-top: 30px;">Admission Applications (<?= $totalApplications ?> Total Applications)</h2>
 
     <?php if (empty($admissions)): ?>
         <p style="text-align: center; padding: 20px; border: 1px dashed #ccc;">No admission applications have been submitted yet.</p>
@@ -152,31 +154,32 @@ require_once "../app/menu-bar.php";
                 <?php foreach ($admissions as $admission): 
                     $id = getAdmissionData($admission, ['applicationID']);
                     $status = getAdmissionData($admission, ['status'], 'Pending');
-                    
-                    // --- FIX: Ensure full names are displayed ---
-                    $childFirstName = getAdmissionData($admission, ['child.firstName']);
-                    $childSurname = getAdmissionData($admission, ['child.surname']);
-                    $childName = "$childFirstName $childSurname";
-                    
-                    $parentName = getAdmissionData($admission, ['parent.parentName']);
-                    $parentSurname = getAdmissionData($admission, ['parent.parentSurname']);
-                    $parentContact = getAdmissionData($admission, ['parent.contact']);
-                    $guardianDisplay = "$parentName $parentSurname ($parentContact)";
-                    
-                    $grade = getAdmissionData($admission, ['child.gradeLabel']);
-                    $age = getAdmissionData($admission, ['child.age']);
-                    $timestamp = getAdmissionData($admission, ['timestamp']);
-                    $childDocument = getAdmissionData($admission, ['child.idDocument']);
-                    
                     $statusClass = 'status-' . strtolower($status);
-                ?>
+                    
+                    // --- Pull Parent data ONCE per application ---
+                    $parentFirstName = getAdmissionData($admission, ['parent.parentFirstName', 'parentFirstName']);
+                    $parentSurname = getAdmissionData($admission, ['parent.parentSurname', 'parentSurname']);
+                    $parentContact = getAdmissionData($admission, ['parent.contactNumber', 'contactNumber']);
+                    $guardianDisplay = trim($parentFirstName . ' ' . $parentSurname) . " (" . $parentContact . ")";
+                    $timestamp = getAdmissionData($admission, ['timestamp']);
+                    
+                    // 🚨 CRITICAL FIX: Loop through all children in the admission record
+                    $children = $admission['children'] ?? [];
+                    foreach ($children as $child):
+                        // Now use the $child array for data
+                        $childName = htmlspecialchars(($child['firstName'] ?? '') . ' ' . ($child['surname'] ?? ''));
+                        $grade = htmlspecialchars($child['gradeApplyingFor'] ?? 'N/A');
+                        $age = htmlspecialchars($child['ageInYears'] ?? 'N/A');
+                        $childDocument = htmlspecialchars($child['childIdDocument'] ?? 'N/A');
+                        $displayAge = is_numeric($age) ? round((float)$age, 2) : $age;
+                    ?>
                     <tr>
                         <td><?= htmlspecialchars(substr($id, 0, 6)) ?>...</td>
                         <td><strong><?= $childName ?></strong></td>
-                        <td><?= "$age yrs ($grade)" ?></td>
-                        <td><?= $guardianDisplay ?></td>
+                        <td><?= "$displayAge yrs ($grade)" ?></td>
+                        <td><?= $guardianDisplay ?></td> 
                         <td><?= htmlspecialchars(date('Y-m-d H:i', strtotime($timestamp))) ?></td>
-                        <td><span class="<?= $statusClass ?>"><?= $status ?></span></td>
+                        <td><span class="<?= $statusClass ?>"><?= htmlspecialchars(ucfirst($status)) ?></span></td>
                         
                         <td>
                             <?php if ($childDocument !== 'N/A' && $childDocument !== ''): ?>
@@ -205,6 +208,7 @@ require_once "../app/menu-bar.php";
                             <?php endif; ?>
                         </td>
                     </tr>
+                <?php endforeach; ?>
                 <?php endforeach; ?>
             </tbody>
         </table>

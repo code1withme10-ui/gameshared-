@@ -117,7 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // File Uploads - Child ID Document
         $childDocFileName = null;
-        $childDocKey = 'childIdDocument_' . $index;
+        // CRITICAL FIX: Ensure the file key matches the name attribute: childIdDocument_0, childIdDocument_1, etc.
+        $childDocKey = 'childIdDocument_' . $index; 
         if (isset($_FILES[$childDocKey]) && $_FILES[$childDocKey]['error'] === UPLOAD_ERR_OK) {
             $fileTmpPath = $_FILES[$childDocKey]['tmp_name'];
             $fileExtension = pathinfo($_FILES[$childDocKey]['name'], PATHINFO_EXTENSION);
@@ -346,6 +347,7 @@ require_once "../app/menu-bar.php";
 
 <script>
     const gradeCategories = <?= json_encode($gradeCategories) ?>;
+    
     // childCount reflects how many child sections are present
     function calculateAge(dobString) {
         if (!dobString) return 0;
@@ -425,11 +427,11 @@ require_once "../app/menu-bar.php";
 
     // Build grade options HTML once so we can reuse in templates
     const gradeOptionsHTML = (() => {
-        const categories = <?= json_encode(array_map(function($d){return $d['label'];}, $gradeCategories)); ?>;
         const keys = <?= json_encode(array_keys($gradeCategories)); ?>;
+        const labels = <?= json_encode(array_column($gradeCategories, 'label')); ?>;
         let out = '<option value="">-- Select Grade --</option>';
         for (let i = 0; i < keys.length; i++) {
-            out += `<option value="${keys[i]}">${categories[i]}</option>`;
+            out += `<option value="${keys[i]}">${labels[i]}</option>`;
         }
         return out;
     })();
@@ -491,44 +493,61 @@ require_once "../app/menu-bar.php";
         checkFormValidity();
     }
 
+    // CRITICAL FIX: Dedicated function to re-index all elements inside a child section
+    function reindexElements(section, newIndex) {
+        const elements = section.querySelectorAll('label, input, select, textarea, button, legend, p');
+        const oldIndex = section.dataset.index;
+        const indexStr = `_${newIndex}`;
+        const oldIndexStr = `_${oldIndex}`;
+
+        // 1. Update Section attributes
+        section.id = `childSection${indexStr}`;
+        section.dataset.index = newIndex;
+        section.querySelector('legend').textContent = `Child ${newIndex + 1} Information`;
+
+        elements.forEach(el => {
+            // Update IDs
+            if (el.id) {
+                el.id = el.id.replace(oldIndexStr, indexStr);
+            }
+            // Update 'for' attributes in labels
+            if (el.tagName === 'LABEL' && el.htmlFor) {
+                el.htmlFor = el.htmlFor.replace(oldIndexStr, indexStr);
+            }
+            // Update name for file inputs (which are unique by index)
+            if (el.tagName === 'INPUT' && el.type === 'file') {
+                el.name = `childIdDocument${indexStr}`;
+            }
+            // Update button data-index
+            if (el.classList.contains('remove-child-btn')) {
+                el.dataset.index = newIndex;
+            }
+        });
+    }
+
     // Remove a child section and reindex remaining sections
     function removeChildSection(indexToRemove) {
         const container = document.getElementById('childrenContainer');
         const sections = Array.from(container.querySelectorAll('.child-section'));
-
+        
         if (sections.length === 1) {
             alert('At least one child is required.');
             return;
         }
 
+        // Find and remove the section
         const toRemove = document.getElementById(`childSection_${indexToRemove}`);
         if (toRemove) toRemove.remove();
 
-        // Rebuild remaining sections with fresh indices to ensure correct file input names
+        // Get the remaining sections
         const remaining = Array.from(container.querySelectorAll('.child-section'));
-        container.innerHTML = '';
-        remaining.forEach((oldSection, newIndex) => {
-            const newFieldset = document.createElement('fieldset');
-            newFieldset.className = 'child-section';
-            newFieldset.id = `childSection_${newIndex}`;
-            newFieldset.dataset.index = newIndex;
-            newFieldset.innerHTML = createChildSectionHTML(newIndex);
 
-            // If the old section had values, try to copy them across (best-effort)
-            const mapOldToNew = (oldSelector, newSelector) => {
-                const oldEl = oldSection.querySelector(oldSelector);
-                const newEl = newFieldset.querySelector(newSelector);
-                if (oldEl && newEl) newEl.value = oldEl.value || '';
-            };
-
-            mapOldToNew('input[name="childFirstName[]"]', `#childFirstName_${newIndex}`);
-            mapOldToNew('input[name="childSurname[]"]', `#childSurname_${newIndex}`);
-            mapOldToNew('input[name="dateOfBirth[]"]', `#dateOfBirth_${newIndex}`);
-            mapOldToNew('select[name="childGender[]"]', `#childGender_${newIndex}`);
-            mapOldToNew('select[name="gradeApplyingFor[]"]', `#gradeApplyingFor_${newIndex}`);
-            mapOldToNew('textarea[name="medicalInfo[]"]', `#medicalInfo_${newIndex}`);
-
-            container.appendChild(newFieldset);
+        // Re-index all remaining sections and reattach listeners
+        remaining.forEach((section, newIndex) => {
+            // Re-index the HTML attributes
+            reindexElements(section, newIndex);
+            // Re-attach listeners for new indices
+            attachValidationListeners(newIndex);
         });
 
         // Hide remove button if only one remains
@@ -536,10 +555,9 @@ require_once "../app/menu-bar.php";
         if (finalRemoveBtns.length === 1) finalRemoveBtns[0].style.display = 'none';
         else finalRemoveBtns.forEach(btn => btn.style.display = 'inline-block');
 
-        // Reattach listeners
-        document.querySelectorAll('.child-section').forEach((section, idx) => attachValidationListeners(idx));
         checkFormValidity();
     }
+    // END CRITICAL FIX
 
     // Initial setup on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', () => {
@@ -553,6 +571,7 @@ require_once "../app/menu-bar.php";
 
         document.getElementById('childrenContainer').addEventListener('click', function(e) {
             if (e.target.classList.contains('remove-child-btn')) {
+                // Ensure we get the correct data-index from the button
                 const idx = parseInt(e.target.dataset.index);
                 removeChildSection(idx);
             }
@@ -566,4 +585,4 @@ require_once "../app/menu-bar.php";
     });
 </script>
 </body>
-</html>
+</html>tml>
