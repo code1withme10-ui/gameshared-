@@ -1,48 +1,92 @@
 [
     {
-        "applicationID": "693fae42c06f1",
-        "timestamp": "2025-12-15 07:44:18",
+        "applicationID": "69491cc23a0ed",
+        "timestamp": "2025-12-22 11:26:10",
         "status": "Pending",
         "parent": {
             "parentFirstName": "Promise",
             "parentSurname": "Kubayi",
             "contactNumber": "0764628333",
             "emailAddress": "Kubayiremember48@gmail.com",
-            "residentialAddress": "none",
+            "residentialAddress": "Mbokota\r\nelim\r\nmakhado",
             "parentIdNumber": "0012245428082",
-            "parentIdDocument": "parent_693fae42bf103.pdf"
+            "parentIdDocument": "parent_69491cc239c2f.pdf"
         },
         "children": [
             {
                 "firstName": "Tshifiwa",
                 "surname": "Manavhela",
                 "dateOfBirth": "2025-01-01",
-                "ageInYears": 0.95,
-                "gender": "Male",
+                "ageInYears": 0.97,
+                "gender": "Female",
                 "gradeApplyingFor": "Infants",
                 "medicalInfo": "none",
-                "childIdDocument": "child_693fae42b1b40.pdf"
+                "childIdDocument": "child_69491cc23581a.pdf",
+                "status": "Admitted",
+                "reviewedAt": "2025-12-22 11:26:47"
             },
             {
-                "firstName": "REMEMBER",
-                "surname": "SUPRISE",
-                "dateOfBirth": "2023-12-25",
-                "ageInYears": 1.97,
-                "gender": "Male",
+                "firstName": "Takakalani",
+                "surname": "Musubii",
+                "dateOfBirth": "2023-01-02",
+                "ageInYears": 2.97,
+                "gender": "Female",
+                "gradeApplyingFor": "Toddlers",
+                "medicalInfo": "n",
+                "childIdDocument": "child_69491cc236a8b.pdf",
+                "status": "Admitted",
+                "reviewedAt": "2025-12-22 11:26:52"
+            },
+            {
+                "firstName": "Xinavetiso  Pourlite",
+                "surname": "mboweni",
+                "dateOfBirth": "2024-05-02",
+                "ageInYears": 1.64,
+                "gender": "Female",
                 "gradeApplyingFor": "Toddlers",
                 "medicalInfo": "none",
-                "childIdDocument": "child_693fae42b630b.pdf"
+                "childIdDocument": "child_69491cc23700f.pdf",
+                "status": "Rejected",
+                "reviewedAt": "2025-12-22 11:26:54"
             },
             {
-                "firstName": "Tshifiwa",
-                "surname": "Munyai",
-                "dateOfBirth": "2022-05-13",
-                "ageInYears": 3.59,
+                "firstName": "taki",
+                "surname": "musubi",
+                "dateOfBirth": "2021-11-02",
+                "ageInYears": 4.14,
+                "gender": "Female",
+                "gradeApplyingFor": "Pre-School",
+                "medicalInfo": "n",
+                "childIdDocument": "child_69491cc2378e0.pdf",
+                "status": "Admitted",
+                "reviewedAt": "2025-12-22 11:26:57"
+            },
+            {
+                "firstName": "Khodani Lane",
+                "surname": "manavhela",
+                "dateOfBirth": "2022-02-02",
+                "ageInYears": 3.89,
                 "gender": "Female",
                 "gradeApplyingFor": "Playgroup",
                 "medicalInfo": "none",
-                "childIdDocument": "child_693fae42bb471.pdf"
+                "childIdDocument": "child_69491cc237d84.pdf",
+                "status": "Rejected",
+                "reviewedAt": "2025-12-22 11:26:59"
+            },
+            {
+                "firstName": "Pretty",
+                "surname": "Basani",
+                "dateOfBirth": "2021-12-02",
+                "ageInYears": 4.05,
+                "gender": "Male",
+                "gradeApplyingFor": "Pre-School",
+                "medicalInfo": "none",
+                "childIdDocument": "child_69491cc23942e.pdf",
+                "status": "Rejected",
+                "reviewedAt": "2025-12-22 11:27:02"
             }
-        ]
+        ],
+        "lastNotification": "Update: Student 'Pretty Basani' has been 'Rejected'.",
+        "notificationAt": "2025-12-22 11:27:02"
     }
 ]

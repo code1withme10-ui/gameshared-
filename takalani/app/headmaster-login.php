@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // *** CRITICAL FIX: Use the full root-relative path ***
         // Assuming headmaster.php is in /takalani/app, replace the path below 
         // with the correct root-relative path to the file.
-        header("Location: /takalani/app/headmaster.php"); 
+        header("Location: /takalani/app/headmaster"); 
         exit();
 
     } else {
@@ -78,7 +78,7 @@ require_once "../app/menu-bar.php";
         <button type="submit">Login</button>
     </form>
     
-    <p style="text-align:center; margin-top:15px;"><a href="login.php">Back to Parent Login</a></p>
+    <p style="text-align:center; margin-top:15px;"><a href="login">Back to Parent Login</a></p>
 </main>
 
 </body>

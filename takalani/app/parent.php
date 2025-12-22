@@ -30,7 +30,6 @@ $parentEmail = $_SESSION['user']['email'] ?? '';
 $parentEmailLower = strtolower($parentEmail);
 
 // --- CRITICAL FIX: Introduce a helper function to safely retrieve nested data ---
-// This function reliably pulls data using a dot notation (e.g., 'child.firstName')
 function getNestedData($data, $keys, $default = 'N/A') {
     $value = $data;
     foreach (explode('.', $keys) as $key) {
@@ -81,7 +80,6 @@ usort($myAdmissions, function($a, $b) {
 
 if (!empty($myAdmissions) && !empty($myAdmissions[0]['lastNotification'])) {
     $notificationMessage = $myAdmissions[0]['lastNotification'];
-    // CRITICAL FIX 2: Ensure we get a valid ID for the form
     $notificationId = $myAdmissions[0]['applicationID'] ?? $myAdmissions[0]['id'] ?? null; 
 }
 
@@ -185,16 +183,14 @@ usort($myAdmissions, function($a, $b) {
             </thead>
             <tbody>
                 <?php foreach ($myAdmissions as $a): 
-                    $status = getNestedData($a, 'status', 'Pending');
-                    $statusClass = 'status-' . str_replace(' ', '', ucfirst($status));
                     $applicationId = $a['applicationID'] ?? $a['id'] ?? null;
-                ?>
-                    <?php 
                     $children = $a['children'] ?? [];
                     
-                    // Display a table row for EACH child in the application
                     foreach ($children as $child): 
-                        // Now use $child array for data
+                        // FIXED: Get status from individual child, fallback to application status
+                        $childStatus = $child['status'] ?? $a['status'] ?? 'Pending';
+                        $statusClass = 'status-' . str_replace(' ', '', ucfirst($childStatus));
+                        
                         $childName = htmlspecialchars(($child['firstName'] ?? '') . ' ' . ($child['surname'] ?? ''));
                         $grade = htmlspecialchars($child['gradeApplyingFor'] ?? 'N/A');
                         $age = htmlspecialchars($child['ageInYears'] ?? 'N/A');
@@ -204,10 +200,10 @@ usort($myAdmissions, function($a, $b) {
                             <td><?= $childName ?></td>
                             <td><?= $grade ?></td>
                             <td><?= $displayAge ?></td>
-                            <td><span class="status-span <?= $statusClass ?>"><?= htmlspecialchars(ucfirst($status)) ?></span></td>
+                            <td><span class="status-span <?= $statusClass ?>"><?= htmlspecialchars(ucfirst($childStatus)) ?></span></td>
                             <td><?= htmlspecialchars(date('Y-m-d', strtotime($a['timestamp'] ?? 'N/A'))) ?></td>
                             <td>
-                                 <?php if (strtolower($status) === 'admitted' && $applicationId): ?>
+                                 <?php if (strtolower($childStatus) === 'admitted' && $applicationId): ?>
                                      <a href="#" style="text-decoration: none; color: #4D96FF; font-weight: bold;">Enrollment Details</a>
                                 <?php elseif (!empty($a['lastNotification'])): ?>
                                     🔔 New Status!
