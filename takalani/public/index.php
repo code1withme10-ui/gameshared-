@@ -42,7 +42,4 @@ if (file_exists($file_path)) {
     echo "<p>The requested page: **{$page}.php** could not be found in the **app** directory.</p>";
     echo "<p>Please ensure you ran the Git Bash commands to fix your internal links (a href tags).</p>";
 }
-
-// 6. Load the footer
-require __DIR__ . '/../app/footer.php';
 ?>

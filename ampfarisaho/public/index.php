@@ -1,25 +1,37 @@
 <?php
-// public/index.php
+session_start();
+require __DIR__ . '/../routes/routes.php';
+
 $page = $_GET['page'] ?? 'home';
 
-$pages = [
-    'home' => __DIR__ . '/../home.php',
-    'login' => __DIR__ . '/../login.php',
-    'logout' => __DIR__ . '/../logout.php',
-    'admission' => __DIR__ . '/../admission.php',
-    'about' => __DIR__ . '/../about.php',
-    'progress_report' => __DIR__ . '/../progress_report.php',
-    'parent_dashboard' => __DIR__ . '/../parent_dashboard.php',
-    'headmaster_dashboard' => __DIR__ . '/../headmaster_dashboard.php',
-    'gallery' => __DIR__ . '/../gallery.php',
-    'code_of_conduct' => __DIR__ . '/../code_of_conduct.php',
-    'help' => __DIR__ . '/../help.php'
-];
+if (isset($routes[$page])) {
+    $route = $routes[$page];
 
-if (isset($pages[$page]) && file_exists($pages[$page])) {
-    include $pages[$page];
+    $controller = null;
+    if (isset($route['controller']) && $route['controller']) {
+        $controllerName = $route['controller'];
+        require_once __DIR__ . '/../app/Http/' . $controllerName . '.php';
+        $controller = new $controllerName();
+        $controller->handle();
+    }
+
+    $viewFile = __DIR__ . '/../views/' . $route['view'] . '.php';
+    if (file_exists($viewFile)) {
+        // Pass controller variables to view
+        // Example for ParentController:
+        if ($controller) {
+            $parent_info = $controller->parent_info ?? null;
+            $my_children = $controller->my_children ?? [];
+            $errors = $controller->errors ?? [];
+            $success_message = $controller->success_message ?? '';
+        }
+        include $viewFile;
+    } else {
+        die("View '{$route['view']}.php' not found!");
+    }
 } else {
     http_response_code(404);
-    echo "<h1>404 - Page Not Found</h1>";
+    echo "<h1>404 Page Not Found</h1>";
 }
+
 

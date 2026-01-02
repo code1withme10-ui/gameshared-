@@ -25,5 +25,14 @@
         "phone": "0637624266",
         "relationship": "mother",
         "address": "02 mhiri street"
+    },
+    {
+        "username": "Mathagu",
+        "password": "mathagu",
+        "email": "mathaguampfarisaho@gmail.com",
+        "full_name": "Ampfarisaho Arthur Mathagu",
+        "phone": "0765406436",
+        "relationship": "Father",
+        "address": "R524"
     }
 ]

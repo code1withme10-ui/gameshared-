@@ -1,242 +1,92 @@
 [
     {
-        "applicationID": "APP_6926afe6bea4c",
-        "id": "ID_6926afe6c4212",
-        "timestamp": "2025-11-26 08:44:38",
-        "status": "Admitted",
-        "parentName": "Promise",
-        "parentEmail": "khodanimakhado07@gmail.com",
-        "parentContact": "0760261277",
-        "childFirstName": "takalani",
-        "childSurname": "musubi",
-        "dateOfBirth": "2023-01-12",
-        "gradeApplyingFor": "Toddlers",
-        "gender": "Male",
-        "healthConditions": "n",
-        "age": 2.83,
-        "uploadedFiles": {
-            "childIdDocument": "childIdDoc_APP_6926afe6bea4c_2024 academics.pdf",
-            "parentIdDocument": "parentIdDocument_APP_6926afe6bea4c_2024 academics.pdf"
-        },
-        "reviewedBy": "headmaster",
-        "reviewedAt": "2025-11-26 08:48:52",
-        "lastNotification": "Status update for **takalani musubi**: Your application has been **Admitted**.",
-        "notificationAt": "2025-11-26 08:48:52"
-    },
-    {
-        "applicationID": "APP_6926afe6c45ee",
-        "id": "ID_6926afe6c73fa",
-        "timestamp": "2025-11-26 08:44:38",
-        "status": "Rejected",
-        "parentName": "Promise",
-        "parentEmail": "khodanimakhado07@gmail.com",
-        "parentContact": "0760261277",
-        "childFirstName": "takalani",
-        "childSurname": "munyai",
-        "dateOfBirth": "2021-02-12",
-        "gradeApplyingFor": "Pre-School",
-        "gender": "Female",
-        "healthConditions": "n",
-        "age": 4.75,
-        "uploadedFiles": {
-            "childIdDocument": "childIdDoc_APP_6926afe6c45ee_2024 academics.pdf"
-        },
-        "reviewedBy": "headmaster",
-        "reviewedAt": "2025-11-26 08:48:54",
-        "lastNotification": "Status update for **takalani munyai**: Your application has been **Rejected**.",
-        "notificationAt": "2025-11-26 08:48:54"
-    },
-    {
-        "id": "APP692e74d271127",
-        "applicationID": "APP692e74d271127",
-        "parent": {
-            "parentName": "Xinavetiso  Pourlite",
-            "parentSurname": "mboweni",
-            "emailAddress": "Xinavetisopolite@gmail.com",
-            "contactNumber": "0760261277",
-            "parentIdDocument": "9dff35947bebfe8d7836a29ad7f57feb.pdf"
-        },
-        "children": [
-            {
-                "firstName": "taki",
-                "surname": "musubi",
-                "dateOfBirth": "2020-01-01",
-                "childIdDocument": "9dff35947bebfe8d7836a29ad7f57feb.pdf"
-            },
-            {
-                "firstName": "taki",
-                "surname": "musubi",
-                "dateOfBirth": "2023-11-02",
-                "childIdDocument": "9dff35947bebfe8d7836a29ad7f57feb.pdf"
-            }
-        ],
-        "status": "pending",
-        "timestamp": "2025-12-02 06:10:42",
-        "submittedBy": "xinavetisopolite@gmail.com",
-        "lastNotification": null
-    },
-    {
-        "applicationID": "692e8fb5f3259",
-        "timestamp": "2025-12-02 08:05:25",
+        "applicationID": "69491cc23a0ed",
+        "timestamp": "2025-12-22 11:26:10",
         "status": "Pending",
         "parent": {
-            "parentFirstName": "xihluke",
-            "parentSurname": "nkuna",
-            "contactNumber": "0123654863",
-            "emailAddress": "hlungwanimfaneloblondy@gmail.com",
-            "residentialAddress": "Mbokota\r\nelim\r\nmakhado",
-            "parentIdNumber": "0012245428086",
-            "parentIdDocument": "parent_692e8fb5f2dd7.pdf"
-        },
-        "children": [
-            {
-                "firstName": "taki",
-                "surname": "musubi",
-                "dateOfBirth": "2020-12-24",
-                "ageInYears": 4.94,
-                "gender": "Male",
-                "gradeApplyingFor": "Pre-School",
-                "medicalInfo": "n",
-                "childIdDocument": "child_692e8fb5ec8fa.pdf"
-            },
-            {
-                "firstName": "REMEMBER",
-                "surname": "SUPRISE",
-                "dateOfBirth": "2022-05-12",
-                "ageInYears": 3.56,
-                "gender": "Male",
-                "gradeApplyingFor": "Playgroup",
-                "medicalInfo": "n",
-                "childIdDocument": "child_692e8fb5effe9.pdf"
-            },
-            {
-                "firstName": "Tshifiwa",
-                "surname": "Manavhela",
-                "dateOfBirth": "2025-03-11",
-                "ageInYears": 0.73,
-                "gender": "Male",
-                "gradeApplyingFor": "Infants",
-                "medicalInfo": "n",
-                "childIdDocument": "child_692e8fb5f0697.pdf"
-            }
-        ]
-    },
-    {
-        "applicationID": "692e8fdd41c3e",
-        "timestamp": "2025-12-02 08:06:05",
-        "status": "Pending",
-        "parent": {
-            "parentFirstName": "xihluke",
-            "parentSurname": "nkuna",
-            "contactNumber": "0123654863",
-            "emailAddress": "hlungwanimfaneloblondy@gmail.com",
-            "residentialAddress": "Mbokota\r\nelim\r\nmakhado",
-            "parentIdNumber": "0012245428086",
-            "parentIdDocument": "parent_692e8fdd3ef1f.pdf"
-        },
-        "children": [
-            {
-                "firstName": "taki",
-                "surname": "musubi",
-                "dateOfBirth": "2020-12-24",
-                "ageInYears": 4.94,
-                "gender": "Male",
-                "gradeApplyingFor": "Pre-School",
-                "medicalInfo": "n",
-                "childIdDocument": "child_692e8fdd37a38.pdf"
-            },
-            {
-                "firstName": "REMEMBER",
-                "surname": "SUPRISE",
-                "dateOfBirth": "2022-05-12",
-                "ageInYears": 3.56,
-                "gender": "Male",
-                "gradeApplyingFor": "Playgroup",
-                "medicalInfo": "n",
-                "childIdDocument": "child_692e8fdd3bab1.pdf"
-            },
-            {
-                "firstName": "Tshifiwa",
-                "surname": "Manavhela",
-                "dateOfBirth": "2025-03-11",
-                "ageInYears": 0.73,
-                "gender": "Male",
-                "gradeApplyingFor": "Infants",
-                "medicalInfo": "n",
-                "childIdDocument": "child_692e8fdd3dbd6.pdf"
-            }
-        ]
-    },
-    {
-        "applicationID": "692eae3ab7405",
-        "timestamp": "2025-12-02 10:15:38",
-        "status": "Pending",
-        "parent": {
-            "parentFirstName": "xihluke",
-            "parentSurname": "nkuna",
-            "contactNumber": "0123654863",
-            "emailAddress": "hlungwanimfaneloblondy@gmail.com",
-            "residentialAddress": "Mbokota\r\nelim\r\nmakhado",
-            "parentIdNumber": "0012245428082",
-            "parentIdDocument": "parent_692eae3ab6fd1.pdf"
-        },
-        "children": [
-            {
-                "firstName": "REMEMBER",
-                "surname": "SUPRISE",
-                "dateOfBirth": "2023-03-02",
-                "ageInYears": 2.75,
-                "gender": "Female",
-                "gradeApplyingFor": "Toddlers",
-                "medicalInfo": "n",
-                "childIdDocument": "child_692eae3ab5eec.pdf"
-            },
-            {
-                "firstName": "Xinavetiso  Pourlite",
-                "surname": "mboweni",
-                "dateOfBirth": "2021-01-12",
-                "ageInYears": 4.89,
-                "gender": "Female",
-                "gradeApplyingFor": "Pre-School",
-                "medicalInfo": "n",
-                "childIdDocument": "child_692eae3ab69d1.pdf"
-            }
-        ]
-    },
-    {
-        "applicationID": "69319212e0dcd",
-        "timestamp": "2025-12-04 14:52:18",
-        "status": "Pending",
-        "parent": {
-            "parentFirstName": "tatenda",
-            "parentSurname": "hahaha",
-            "contactNumber": "0661194211",
+            "parentFirstName": "Promise",
+            "parentSurname": "Kubayi",
+            "contactNumber": "0764628333",
             "emailAddress": "Kubayiremember48@gmail.com",
             "residentialAddress": "Mbokota\r\nelim\r\nmakhado",
             "parentIdNumber": "0012245428082",
-            "parentIdDocument": "parent_69319212de337.pdf"
+            "parentIdDocument": "parent_69491cc239c2f.pdf"
         },
         "children": [
             {
-                "firstName": "REMEMBER",
-                "surname": "SUPRISE",
-                "dateOfBirth": "2023-03-02",
-                "ageInYears": 2.76,
-                "gender": "Male",
+                "firstName": "Tshifiwa",
+                "surname": "Manavhela",
+                "dateOfBirth": "2025-01-01",
+                "ageInYears": 0.97,
+                "gender": "Female",
+                "gradeApplyingFor": "Infants",
+                "medicalInfo": "none",
+                "childIdDocument": "child_69491cc23581a.pdf",
+                "status": "Admitted",
+                "reviewedAt": "2025-12-22 11:26:47"
+            },
+            {
+                "firstName": "Takakalani",
+                "surname": "Musubii",
+                "dateOfBirth": "2023-01-02",
+                "ageInYears": 2.97,
+                "gender": "Female",
                 "gradeApplyingFor": "Toddlers",
                 "medicalInfo": "n",
-                "childIdDocument": "child_69319212da1ea.pdf"
+                "childIdDocument": "child_69491cc236a8b.pdf",
+                "status": "Admitted",
+                "reviewedAt": "2025-12-22 11:26:52"
             },
             {
                 "firstName": "Xinavetiso  Pourlite",
                 "surname": "mboweni",
-                "dateOfBirth": "2021-01-12",
-                "ageInYears": 4.9,
-                "gender": "Male",
+                "dateOfBirth": "2024-05-02",
+                "ageInYears": 1.64,
+                "gender": "Female",
+                "gradeApplyingFor": "Toddlers",
+                "medicalInfo": "none",
+                "childIdDocument": "child_69491cc23700f.pdf",
+                "status": "Rejected",
+                "reviewedAt": "2025-12-22 11:26:54"
+            },
+            {
+                "firstName": "taki",
+                "surname": "musubi",
+                "dateOfBirth": "2021-11-02",
+                "ageInYears": 4.14,
+                "gender": "Female",
                 "gradeApplyingFor": "Pre-School",
                 "medicalInfo": "n",
-                "childIdDocument": "child_69319212ddd88.pdf"
+                "childIdDocument": "child_69491cc2378e0.pdf",
+                "status": "Admitted",
+                "reviewedAt": "2025-12-22 11:26:57"
+            },
+            {
+                "firstName": "Khodani Lane",
+                "surname": "manavhela",
+                "dateOfBirth": "2022-02-02",
+                "ageInYears": 3.89,
+                "gender": "Female",
+                "gradeApplyingFor": "Playgroup",
+                "medicalInfo": "none",
+                "childIdDocument": "child_69491cc237d84.pdf",
+                "status": "Rejected",
+                "reviewedAt": "2025-12-22 11:26:59"
+            },
+            {
+                "firstName": "Pretty",
+                "surname": "Basani",
+                "dateOfBirth": "2021-12-02",
+                "ageInYears": 4.05,
+                "gender": "Male",
+                "gradeApplyingFor": "Pre-School",
+                "medicalInfo": "none",
+                "childIdDocument": "child_69491cc23942e.pdf",
+                "status": "Rejected",
+                "reviewedAt": "2025-12-22 11:27:02"
             }
-        ]
+        ],
+        "lastNotification": "Update: Student 'Pretty Basani' has been 'Rejected'.",
+        "notificationAt": "2025-12-22 11:27:02"
     }
 ]

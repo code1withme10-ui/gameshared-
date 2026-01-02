@@ -5,13 +5,13 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'parent') {
-    header('Location: login.php');
+    header('Location: login');
     exit();
 }
 
 $id = $_POST['id'] ?? null;
 if (!$id) {
-    header('Location: parent.php');
+    header('Location: parent');
     exit();
 }
 

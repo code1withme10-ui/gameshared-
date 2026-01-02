@@ -16,11 +16,13 @@ $is_parent = $is_logged_in && $user_role === 'parent';
     <a href="/" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Home</a>
     <a href="/about" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">About</a>
     <a href="/admission" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Admission</a>
-    
+
     <?php if ($is_headmaster): ?>
         <a href="/headmaster" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Dashboard</a>
+        <a href="/logout" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Logout (Headmaster)</a>
     <?php elseif ($is_parent): ?>
         <a href="/parent" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Guardian</a>
+        <a href="/logout" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Logout (<?= htmlspecialchars($_SESSION['user']['username'] ?? 'Parent') ?>)</a>
     <?php endif; ?>
 
     <a href="/gallery" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Gallery</a>
@@ -28,11 +30,5 @@ $is_parent = $is_logged_in && $user_role === 'parent';
     <a href="/code-of-conduct" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Code of Conduct</a>
     <a href="/help" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Help</a>
 
-    <?php if ($is_logged_in): ?>
-        <a href="/logout" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Logout</a>
-    <?php elseif (!$is_parent): ?>
-        <a href="/headmaster-login" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Headmaster Login</a>
-    <?php endif; ?>
-
-  </nav>
+    </nav>
 </header>
