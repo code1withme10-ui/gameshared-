@@ -9,7 +9,7 @@ $username = $_SESSION['parent'];
 $approved_children = array_filter($children, fn($c) => isset($c['parent_username'],$c['status']) && $c['parent_username']===$username && $c['status']==='Approved');
 ?>
 
-<link rel="stylesheet" href="public/css/style.css">
+<link rel="stylesheet" href="css/style.css">
 <?php include __DIR__ . "/includes/menu-bar.php"; ?>
 
 <div class="container">

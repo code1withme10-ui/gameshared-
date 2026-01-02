@@ -1,5 +1,8 @@
-# Use official PHP CLI image (no Apache)
-FROM php:8.2-cli
+# Use official PHP CLI image (no Apache, to be set up below)
+FROM php:8.2-apache
+
+# Set non-interactive mode for installation
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies & PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -8,29 +11,27 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install gd pdo pdo_mysql mysqli \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
-WORKDIR /var/www
+# Set working directory to the Apache document root
+WORKDIR /var/www/html
 
+# Copy project files to the Apache document root
+# Assuming 'tshwarelo' is the main directory holding the website files
+COPY tshwarelo/ /var/www/html/
 
-# Copy website files into the Apache document root
-#COPY takalani/ /var/www/html/
-#COPY ampfarisaho/ /var/www/html/
+# Create the necessary 'uploads' directory
+RUN mkdir -p /var/www/html/uploads
 
-# Copy project (optional; for initial build)
-COPY . /var/www/
+# Enable Apache modules (mod_rewrite is essential for clean URLs/routing).
+RUN a2enmod rewrite
 
-# Fix file permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+# Set the default directory index to prioritize index.php over index.html
+RUN echo "DirectoryIndex index.php index.html" >> /etc/apache2/apache2.conf
 
-# Expose web port
-# Expose ports (for each site)
-EXPOSE 8040 8041 8042 8043 8044 8045 8046 8047
+# Set owner/group permissions for the entire web root, including the uploads folder
+RUN chown -R www-data:www-data /var/www/html
 
-## Start Apache automatically when container runs
-#CMD ["apache2-foreground"]
+# Expose port 80 (Apache's default)
+EXPOSE 80
 
-# Keep container running — servers started via docker-compose
-CMD ["tail", "-f", "/dev/null"]
-
-
+# Start Apache in the foreground
+CMD ["apache2-foreground"]

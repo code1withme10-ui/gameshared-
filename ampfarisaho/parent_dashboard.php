@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['new_child'])) {
 $my_children = array_filter($children, fn($c) => isset($c['parent_username']) && $c['parent_username'] === $parent_username);
 ?>
 
-<link rel="stylesheet" href="public/css/style.css">
+<link rel="stylesheet" href="css/style.css">
 <?php include __DIR__ . "/includes/menu-bar.php"; ?>
 
 <div class="container">

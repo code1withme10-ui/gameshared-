@@ -47,3 +47,5 @@ public/sites_list.html
 .gitignore_bak
 index_org.php
 public/sites_list.html
+tshwarelo/public/uploads/*
+tshwarelo/uploads/*
