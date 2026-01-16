@@ -1,143 +1,110 @@
 <?php
-// CRITICAL FIX: Robust session start to prevent PHP Notice
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-// Set up error reporting for debugging (helpful during development)
+if (session_status() === PHP_SESSION_NONE) { session_start(); }
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// --- 1. Authorization Check ---
 if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'headmaster') {
-    // CRITICAL FIX: Redirect to the router-friendly clean URL /headmaster-login
     header('Location: /headmaster-login'); 
     exit();
 }
-// --- 2. Load Data ---
-// FIX: Simplified data path (Fixes redundant '../data/../data/')
+
 $admissionFile = __DIR__ . '/../data/admissions.json';
-$admissions = file_exists($admissionFile)
-    ? json_decode(file_get_contents($admissionFile), true)
-    : [];
+$admissionsRaw = file_exists($admissionFile) ? json_decode(file_get_contents($admissionFile), true) : [];
 
 $error = $_GET['error'] ?? '';
 $success = $_GET['success'] ?? '';
 
-if ($admissions === null && file_exists($admissionFile)) {
-    $error = "Error decoding admissions data. JSON file may be corrupted.";
-}
-
-// Function to safely get data, checking nested/flat keys
 function getAdmissionData($admission, $keys, $default = 'N/A') {
     foreach ($keys as $key) {
-        // Check for nested keys (e.g., child.firstName)
         if (strpos($key, '.') !== false) {
             list($parentKey, $childKey) = explode('.', $key);
-            if (isset($admission[$parentKey][$childKey]) && $admission[$parentKey][$childKey] !== '') {
-                return $admission[$parentKey][$childKey];
-            }
-        } 
-        // Check for flat keys (e.g., applicationID)
-        else {
-            if (isset($admission[$key]) && $admission[$key] !== '') {
-                return $admission[$key];
-            }
+            if (isset($admission[$parentKey][$childKey])) return htmlspecialchars($admission[$parentKey][$childKey]);
+        } elseif (isset($admission[$key])) {
+            return htmlspecialchars($admission[$key]);
         }
     }
     return $default;
 }
 
-// Display applications in reverse chronological order
-if (!empty($admissions)) {
-    usort($admissions, function($a, $b) {
-        $timeA = strtotime($a['timestamp'] ?? '1970-01-01');
-        $timeB = strtotime($b['timestamp'] ?? '1970-01-01');
-        return $timeB - $timeA;
-    });
+$admissions = [];
+if (is_array($admissionsRaw)) {
+    foreach ($admissionsRaw as $id => $data) {
+        if (is_array($data)) {
+            $data['applicationID'] = $data['applicationID'] ?? $id; 
+            $admissions[] = $data;
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Headmaster Dashboard</title>
     <link rel="stylesheet" href="/public/css/styles.css">
+    <style>
+        .dashboard-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .dashboard-table th, .dashboard-table td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 0.9em; }
+        .dashboard-table th { background-color: #f2f2f2; font-weight: bold; }
+        .status-admitted { color: green; font-weight: bold; }
+        .status-rejected { color: red; font-weight: bold; }
+        .status-pending { color: orange; font-weight: bold; }
+        .btn-admit { background-color: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+        .btn-reject { background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+    </style>
 </head>
 <body>
+<?php require_once "../app/menu-bar.php"; ?>
+<main style="max-width: 1250px; margin: 40px auto; padding: 20px; background: white; border-radius: 10px;">
+    <h1 style="text-align: center; color: #007bff;">Headmaster Dashboard</h1>
+    <?php if ($error): ?><p style="color: red; text-align: center;"><?= htmlspecialchars($error) ?></p><?php endif; ?>
+    <?php if ($success): ?><p style="color: green; text-align: center;"><?= htmlspecialchars($success) ?></p><?php endif; ?>
 
-<?php 
-// FIX: Corrected mismatched quote
-require_once "../app/menu-bar.php"; 
-?>
+    <table class="dashboard-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Child Name</th>
+                <th>Age/Grade</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($admissions as $admission): 
+                $id = $admission['applicationID'];
+                $timestamp = getAdmissionData($admission, ['timestamp']);
 
-<main>
-    <h2 style="text-align:center;">Headmaster Dashboard: Admissions Overview</h2>
-
-    <?php if ($error): ?>
-        <p style="color:red; text-align:center;"><?= htmlspecialchars($error) ?></p>
-    <?php endif; ?>
-
-    <?php if ($success): ?>
-        <p style="color:green; text-align:center;"><?= htmlspecialchars($success) ?></p>
-    <?php endif; ?>
-
-    <?php if (empty($admissions)): ?>
-        <p style="text-align:center;">There are no admission applications yet.</p>
-    <?php else: ?>
-        <table class="application-table">
-            <thead>
+                foreach ($admission['children'] ?? [] as $index => $child): // ADDED $index
+                    $childName = htmlspecialchars(($child['firstName'] ?? '') . ' ' . ($child['surname'] ?? ''));
+                    // FIX: Check status at the individual child level
+                    $childStatus = $child['status'] ?? 'Pending';
+            ?>
                 <tr>
-                    <th>ID</th>
-                    <th>Child Name</th>
-                    <th>Grade</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <td><?= htmlspecialchars(substr((string)$id, 0, 8)) ?></td>
+                    <td><strong><?= $childName ?></strong></td>
+                    <td><?= htmlspecialchars($child['ageInYears'] ?? 'N/A') ?> yrs (<?= htmlspecialchars($child['gradeApplyingFor'] ?? 'N/A') ?>)</td>
+                    <td><span class="status-<?= strtolower($childStatus) ?>"><?= ucfirst($childStatus) ?></span></td>
+                    <td>
+                        <?php if (strtolower($childStatus) === 'pending'): ?>
+                            <form action="update-status" method="POST" style="display:inline;">
+                                <input type="hidden" name="id" value="<?= $id ?>">
+                                <input type="hidden" name="child_index" value="<?= $index ?>"> <input type="hidden" name="status" value="Admitted">
+                                <button type="submit" class="btn btn-admit">✅ Admit</button>
+                            </form>
+                            <form action="update-status" method="POST" style="display:inline;">
+                                <input type="hidden" name="id" value="<?= $id ?>">
+                                <input type="hidden" name="child_index" value="<?= $index ?>"> <input type="hidden" name="status" value="Rejected">
+                                <button type="submit" class="btn btn-reject">❌ Reject</button>
+                            </form>
+                        <?php else: ?>
+                            <small>Processed</small>
+                        <?php endif; ?>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($admissions as $admission): 
-                    $id = getAdmissionData($admission, ['applicationID', 'id']);
-                    $childName = getAdmissionData($admission, ['childFirstName', 'child.firstName']) . ' ' . getAdmissionData($admission, ['childSurname', 'child.surname']);
-                    $grade = getAdmissionData($admission, ['gradeApplyingFor']);
-                    $date = date('Y-m-d', strtotime(getAdmissionData($admission, ['timestamp'])));
-                    $status = getAdmissionData($admission, ['status'], 'Pending');
-
-                    $statusClass = strtolower($status) === 'admitted' ? 'status-admitted' : 
-                                   (strtolower($status) === 'rejected' ? 'status-rejected' : 'status-pending');
-                ?>
-                    <tr>
-                        <td><?= htmlspecialchars($id) ?></td>
-                        <td><?= htmlspecialchars($childName) ?></td>
-                        <td><?= htmlspecialchars($grade) ?></td>
-                        <td><?= htmlspecialchars($date) ?></td>
-                        <td><span class="<?= $statusClass ?>"><?= htmlspecialchars(ucfirst($status)) ?></span></td>
-                        <td>
-                            <?php if (strtolower($status) === 'pending'): ?>
-                                <form action="/takalani/app/update-status.php" method="POST" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
-                                    <input type="hidden" name="status" value="Admitted">
-                                    <button type="submit" class="btn btn-admit">✅ Admit</button>
-                                </form>
-                                <form action="/takalani/app/update-status.php" method="POST" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
-                                    <input type="hidden" name="status" value="Rejected">
-                                    <button type="submit" class="btn btn-reject">❌ Reject</button>
-                                </form>
-                            <?php else: ?>
-                                <span style="color:#555;"><?= htmlspecialchars(ucfirst($status)) ?></span>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
+            <?php endforeach; endforeach; ?>
+        </tbody>
+    </table>
 </main>
-<?php 
-    // Include footer.php only if it exists
-    if (file_exists('footer.php')) {
-        include 'footer.php'; 
-    }
-?>
 </body>
 </html>

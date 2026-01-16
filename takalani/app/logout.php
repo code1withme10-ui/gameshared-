@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 session_destroy();
 
 // Redirect to the login page (relative path is correct if files are in the same folder)
-header("Location: login.php");
+header("Location: login");
 
 // Always exit after a header redirect
 exit();

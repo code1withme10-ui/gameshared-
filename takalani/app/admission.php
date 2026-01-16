@@ -10,7 +10,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Authorization Check: Must be logged in as a parent
 if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'parent') {
-    header("Location: login.php");
+    header("Location: login");
     exit();
 }
 
@@ -43,7 +43,7 @@ $submissionSummary = null;
 
 // Define Grade Categories for consistency (Must be available for JavaScript validation logic)
 $gradeCategories = [
-    'Infants' => ['min' => 0.5, 'max' => 1, 'label' => 'Infants (6-12 months)'], 
+    'Infants' => ['min' => 0.5, 'max' => 1, 'label' => 'Infants (6-12 months)'],
     'Toddlers' => ['min' => 1, 'max' => 3, 'label' => 'Toddlers (1-3 years)'],
     'Playgroup' => ['min' => 3, 'max' => 4, 'label' => 'Playgroup (3-4 years)'],
     'Pre-School' => ['min' => 4, 'max' => 5, 'label' => 'Pre-School (4-5 years)']
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     function getPostData($key, $default = '') {
         return trim($_POST[$key] ?? $default);
     }
-    
+
     // Helper function to safely get child data array
     function getChildData($key) {
         return $_POST[$key] ?? [];
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $grades = getChildData('gradeApplyingFor');
     $genders = getChildData('childGender');
     $medicalInfos = getChildData('medicalInfo');
-    
+
     $isValid = true;
 
     // Process each child
@@ -96,15 +96,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $now = new DateTime();
         $ageInterval = $now->diff($dob);
         $ageInYears = $ageInterval->y + ($ageInterval->m / 12) + ($ageInterval->d / 365.25);
-        
+
         // Basic Age/Grade Validation
         $gradeKey = $grades[$index] ?? null;
         if ($gradeKey && isset($gradeCategories[$gradeKey])) {
             $minAge = $gradeCategories[$gradeKey]['min'];
             $maxAge = $gradeCategories[$gradeKey]['max'];
-            
+
             if ($ageInYears < $minAge || $ageInYears > $maxAge) {
-                $error = "Child #".($index + 1)." age ({".round($ageInYears, 2)." years}) is outside the acceptable range (".$minAge."-".$maxAge." years) for **{$gradeKey}**. Please check the date of birth or grade selection.";
+                $error = "Child #".($index + 1)." age (".round($ageInYears, 2)." years) is outside the acceptable range (".$minAge."-".$maxAge." years) for {$gradeKey}. Please check the date of birth or grade selection.";
                 $isValid = false;
                 break;
             }
@@ -117,7 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // File Uploads - Child ID Document
         $childDocFileName = null;
-        $childDocKey = 'childIdDocument_' . $index;
+        // CRITICAL FIX: Ensure the file key matches the name attribute: childIdDocument_0, childIdDocument_1, etc.
+        $childDocKey = 'childIdDocument_' . $index; 
         if (isset($_FILES[$childDocKey]) && $_FILES[$childDocKey]['error'] === UPLOAD_ERR_OK) {
             $fileTmpPath = $_FILES[$childDocKey]['tmp_name'];
             $fileExtension = pathinfo($_FILES[$childDocKey]['name'], PATHINFO_EXTENSION);
@@ -149,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             'childIdDocument'   => $childDocFileName,
         ];
     }
-    
+
     // File Uploads - Parent ID Document
     $parentIdDocFileName = null;
     if ($isValid) {
@@ -175,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // --- Save Data ---
     if ($isValid) {
         // Generate a simple unique ID (using timestamp + a random number)
-        $applicationID = uniqid(); 
+        $applicationID = uniqid();
 
         $newAdmission = [
             'applicationID' => $applicationID,
@@ -184,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             'parent'        => array_merge($parentData, ['parentIdDocument' => $parentIdDocFileName]),
             'children'      => $childrenData,
         ];
-        
+
         $admissions[] = $newAdmission;
 
         if (file_put_contents($admissionFile, json_encode($admissions, JSON_PRETTY_PRINT))) {
@@ -195,7 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 'children' => $childrenData,
                 'applicationID' => $applicationID
             ];
-            
+
         } else {
             $error = "❌ Failed to save application data. Check file permissions on the data folder.";
         }
@@ -210,7 +211,7 @@ $defaultParent = [
     'contactNumber'     => $sessionUser['phone'] ?? '',
     'emailAddress'      => $sessionUser['email'] ?? '',
     // Residential Address and ID number are typically not in the session
-    'residentialAddress'=> '', 
+    'residentialAddress'=> '',
     'parentIdNumber'    => '',
 ];
 
@@ -222,24 +223,27 @@ $defaultParent = [
     <title>Admission Application</title>
     <link rel="stylesheet" href="/public/css/styles.css">
     <style>
-        .child-section { 
-            border: 1px solid #ddd; 
-            padding: 20px; 
-            margin-top: 15px; 
-            border-radius: 8px; 
+        .child-section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 8px;
             background-color: #f9f9f9;
         }
         .error-message { color: red; font-weight: bold; margin-bottom: 15px; }
         .success-message { color: green; font-weight: bold; margin-bottom: 15px; }
         .summary-card { border: 2px solid green; padding: 20px; margin-top: 20px; background-color: #e6ffe6; border-radius: 8px; }
         .required-file-note { color: #555; font-size: 0.9em; margin-top: 5px; }
+        label { display:block; margin-top:10px; }
+        input, select, textarea, button { width:100%; padding:8px; box-sizing:border-box; margin-top:5px; }
+        .remove-child-btn { width:auto; display:inline-block; }
     </style>
 </head>
 <body>
 
-<?php 
+<?php
 // CRITICAL FIX 3: Corrected mismatched quote
-require_once "../app/menu-bar.php"; 
+require_once "../app/menu-bar.php";
 ?>
 
 <main style="max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
@@ -260,27 +264,27 @@ require_once "../app/menu-bar.php";
                     <li><?= htmlspecialchars($child['firstName'] . ' ' . $child['surname']) ?> (Grade: <?= htmlspecialchars($child['gradeApplyingFor']) ?>)</li>
                 <?php endforeach; ?>
             </ul>
-            <p style="margin-top: 10px;">Check your <a href="parent.php">Guardian Dashboard</a> for status updates.</p>
+            <p style="margin-top: 10px;">Check your <a href="parent">Guardian Dashboard</a> for status updates.</p>
         </div>
     <?php else: ?>
-    
+
         <form id="admissionForm" method="POST" enctype="multipart/form-data" style="text-align:left;">
-            
+
             <fieldset>
                 <legend>Guardian/Parent Information</legend>
-                
+
                 <label for="parentFirstName">First Name *</label>
                 <input type="text" id="parentFirstName" name="parentFirstName" value="<?= htmlspecialchars($defaultParent['parentFirstName']) ?>" required>
 
                 <label for="parentSurname">Surname *</label>
                 <input type="text" id="parentSurname" name="parentSurname" value="<?= htmlspecialchars($defaultParent['parentSurname']) ?>" required>
-                
+
                 <label for="contactNumber">Contact Number *</label>
                 <input type="tel" id="contactNumber" name="contactNumber" pattern="[0-9]{10}" placeholder="e.g., 0712345678" value="<?= htmlspecialchars($defaultParent['contactNumber']) ?>" required>
 
                 <label for="emailAddress">Email Address *</label>
                 <input type="email" id="emailAddress" name="emailAddress" value="<?= htmlspecialchars($defaultParent['emailAddress']) ?>" required>
-                
+
                 <label for="parentIdNumber">ID Number *</label>
                 <input type="text" id="parentIdNumber" name="parentIdNumber" pattern="[0-9]{13}" placeholder="13-digit ID" required>
                 <p class="required-file-note">A 13-digit ID number is required.</p>
@@ -294,7 +298,7 @@ require_once "../app/menu-bar.php";
             </fieldset>
 
             <div id="childrenContainer">
-                <fieldset class="child-section" id="childSection_0">
+                <fieldset class="child-section" id="childSection_0" data-index="0">
                     <legend>Child 1 Information</legend>
                     <label for="childFirstName_0">First Name *</label>
                     <input type="text" id="childFirstName_0" name="childFirstName[]" required>
@@ -328,11 +332,11 @@ require_once "../app/menu-bar.php";
 
                     <label for="medicalInfo_0">Medical Information / Allergies</label>
                     <textarea id="medicalInfo_0" name="medicalInfo[]" rows="2"></textarea>
-                    
+
                     <button type="button" class="remove-child-btn" data-index="0" style="display:none; margin-top:10px;">Remove Child</button>
                 </fieldset>
             </div>
-            
+
             <button type="button" id="addChildBtn" style="margin-top: 20px;">+ Add Another Child</button>
 
             <button type="submit" id="submitBtn" style="display: block; width: 100%; margin-top: 30px;" disabled>Submit Application</button>
@@ -343,35 +347,24 @@ require_once "../app/menu-bar.php";
 
 <script>
     const gradeCategories = <?= json_encode($gradeCategories) ?>;
-    let childCount = 1;
-
-    // --- Core Validation Functions ---
-
-    /** Calculates age in years from DOB to today. */
+    
+    // childCount reflects how many child sections are present
     function calculateAge(dobString) {
         if (!dobString) return 0;
         const dob = new Date(dobString);
         const now = new Date();
-        
-        let age = now.getFullYear() - dob.getFullYear();
-        const monthDiff = now.getMonth() - dob.getMonth();
-        
-        if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < dob.getDate())) {
-            age--;
-        }
-        
-        // Calculate a more precise age for the pre-school context
         const diffInMs = now.getTime() - dob.getTime();
-        return diffInMs / (1000 * 60 * 60 * 24 * 365.25); 
+        return diffInMs / (1000 * 60 * 60 * 24 * 365.25);
     }
 
-    /** Validates if the selected grade matches the calculated age. */
     function validateGradeCategory(gradeElement, dobElement, index) {
         const gradeKey = gradeElement.value;
         const dobString = dobElement.value;
         const messageElement = document.getElementById(`gradeMessage_${index}`);
 
-        messageElement.textContent = ''; 
+        if (!messageElement) return;
+
+        messageElement.textContent = '';
         gradeElement.setCustomValidity('');
 
         if (gradeKey && dobString) {
@@ -381,7 +374,7 @@ require_once "../app/menu-bar.php";
             if (category) {
                 const minAge = category.min;
                 const maxAge = category.max;
-                
+
                 if (age < minAge || age > maxAge) {
                     const ageDisplay = age.toFixed(2);
                     messageElement.textContent = `❌ Age mismatch! Your child's age is ${ageDisplay} years. This grade requires ${minAge} to ${maxAge} years.`;
@@ -396,60 +389,56 @@ require_once "../app/menu-bar.php";
         }
     }
 
-    /** Checks if all required fields are filled and validation passes. */
     function checkFormValidity() {
         const form = document.getElementById('admissionForm');
         const submitBtn = document.getElementById('submitBtn');
-        
-        // Check standard browser validity for all required fields
+
         let isFormValid = form.checkValidity();
-        
-        // Custom check for Grade/Age validation messages (to ensure customValidity is respected)
+
         document.querySelectorAll('p[id^="gradeMessage_"]').forEach(p => {
             if (p.style.color === 'red') {
                 isFormValid = false;
             }
         });
-        
+
         submitBtn.disabled = !isFormValid;
     }
 
-    /** Attaches listeners for age/grade validation. */
+    // Attach listeners for a specific child index
     function attachValidationListeners(index) {
         const dobElement = document.getElementById(`dateOfBirth_${index}`);
         const gradeElement = document.getElementById(`gradeApplyingFor_${index}`);
-        const childDocElement = document.getElementById(`childIdDocument_${index}`); // File Input
+        const childDocElement = document.getElementById(`childIdDocument_${index}`);
 
         if (dobElement && gradeElement) {
             const handler = () => {
                 validateGradeCategory(gradeElement, dobElement, index);
-                checkFormValidity(); 
+                checkFormValidity();
             };
-
-            // Recalculate and validate on change for DOB and Grade
             dobElement.addEventListener('change', handler);
             gradeElement.addEventListener('change', handler);
-            
-            // Initial run if fields are pre-filled (useful after validation failure)
-            handler(); 
+            handler();
         }
-        
-        // Add input listener for child document file input
+
         if (childDocElement) {
-             childDocElement.addEventListener('change', checkFormValidity);
+            childDocElement.addEventListener('change', checkFormValidity);
         }
     }
-    
-    // --- Dynamic Child Section Management ---
 
-    function addChildSection() {
-        const index = childCount;
-        const container = document.getElementById('childrenContainer');
-        
-        const newSection = document.createElement('fieldset');
-        newSection.className = 'child-section';
-        newSection.id = `childSection_${index}`;
-        newSection.innerHTML = `
+    // Build grade options HTML once so we can reuse in templates
+    const gradeOptionsHTML = (() => {
+        const keys = <?= json_encode(array_keys($gradeCategories)); ?>;
+        const labels = <?= json_encode(array_column($gradeCategories, 'label')); ?>;
+        let out = '<option value="">-- Select Grade --</option>';
+        for (let i = 0; i < keys.length; i++) {
+            out += `<option value="${keys[i]}">${labels[i]}</option>`;
+        }
+        return out;
+    })();
+
+    // Create child section markup for given index
+    function createChildSectionHTML(index) {
+        return `
             <legend>Child ${index + 1} Information</legend>
             <label for="childFirstName_${index}">First Name *</label>
             <input type="text" id="childFirstName_${index}" name="childFirstName[]" required>
@@ -470,101 +459,130 @@ require_once "../app/menu-bar.php";
 
             <label for="gradeApplyingFor_${index}">Grade Applying For *</label>
             <select id="gradeApplyingFor_${index}" name="gradeApplyingFor[]" required>
-                <option value="">-- Select Grade --</option>
-                <?php foreach ($gradeCategories as $key => $details): ?>
-                    <option value="<?= htmlspecialchars($key) ?>"><?= htmlspecialchars($details['label']) ?></option>
-                <?php endforeach; ?>
+                ${gradeOptionsHTML}
             </select>
             <p class="required-file-note" id="gradeMessage_${index}"></p>
 
             <label for="childIdDocument_${index}">Upload Child's ID/Birth Certificate *</label>
             <input type="file" id="childIdDocument_${index}" name="childIdDocument_${index}" accept=".pdf, .jpg, .jpeg, .png" required>
             <p class="required-file-note">PDF, JPG, or PNG only.</p>
-            
+
             <label for="medicalInfo_${index}">Medical Information / Allergies</label>
             <textarea id="medicalInfo_${index}" name="medicalInfo[]" rows="2"></textarea>
-            
+
             <button type="button" class="remove-child-btn" data-index="${index}" style="margin-top:10px;">Remove Child</button>
         `;
-        
-        container.appendChild(newSection);
+    }
+
+    // Add a new child section
+    function addChildSection() {
+        const container = document.getElementById('childrenContainer');
+        const index = container.querySelectorAll('.child-section').length;
+        const fieldset = document.createElement('fieldset');
+        fieldset.className = 'child-section';
+        fieldset.id = `childSection_${index}`;
+        fieldset.dataset.index = index;
+        fieldset.innerHTML = createChildSectionHTML(index);
+        container.appendChild(fieldset);
+
+        // Show remove buttons when >1 child
+        const removeBtns = document.querySelectorAll('.remove-child-btn');
+        removeBtns.forEach(btn => btn.style.display = 'inline-block');
+
         attachValidationListeners(index);
-        
-        // Show the remove button on all previous children
-        document.querySelectorAll('.remove-child-btn').forEach(btn => btn.style.display = 'inline-block');
-        
-        childCount++;
         checkFormValidity();
     }
-    
-    function removeChildSection(indexToRemove) {
-        const section = document.getElementById(`childSection_${indexToRemove}`);
-        if (section) {
-            section.remove();
-            childCount--;
-            
-            // Re-index remaining sections
-            const remainingSections = document.querySelectorAll('.child-section');
-            remainingSections.forEach((section, newIndex) => {
-                const oldIndex = parseInt(section.id.split('_')[1]);
-                if (oldIndex > indexToRemove) {
-                    section.id = `childSection_${newIndex}`;
-                    section.querySelector('legend').textContent = `Child ${newIndex + 1} Information`;
-                    
-                    // Update all IDs and names within the section
-                    section.querySelectorAll('[id$="_' + oldIndex + '"]').forEach(element => {
-                         const baseId = element.id.slice(0, -2);
-                         element.id = `${baseId}_${newIndex}`;
-                         // File inputs need a new name for the PHP to correctly process the uploaded file array
-                         if(element.type === 'file') {
-                             element.name = `${baseId}_${newIndex}`;
-                         }
-                    });
-                    
-                    // Update remove button index
-                    const removeBtn = section.querySelector('.remove-child-btn');
-                    if (removeBtn) {
-                        removeBtn.dataset.index = newIndex;
-                    }
-                }
-            });
-            
-            // Hide remove button if only one child remains
-            if (childCount === 1) {
-                document.querySelector('#childSection_0 .remove-child-btn').style.display = 'none';
+
+    // CRITICAL FIX: Dedicated function to re-index all elements inside a child section
+    function reindexElements(section, newIndex) {
+        const elements = section.querySelectorAll('label, input, select, textarea, button, legend, p');
+        const oldIndex = section.dataset.index;
+        const indexStr = `_${newIndex}`;
+        const oldIndexStr = `_${oldIndex}`;
+
+        // 1. Update Section attributes
+        section.id = `childSection${indexStr}`;
+        section.dataset.index = newIndex;
+        section.querySelector('legend').textContent = `Child ${newIndex + 1} Information`;
+
+        elements.forEach(el => {
+            // Update IDs
+            if (el.id) {
+                el.id = el.id.replace(oldIndexStr, indexStr);
             }
-            
-            checkFormValidity();
-        }
+            // Update 'for' attributes in labels
+            if (el.tagName === 'LABEL' && el.htmlFor) {
+                el.htmlFor = el.htmlFor.replace(oldIndexStr, indexStr);
+            }
+            // Update name for file inputs (which are unique by index)
+            if (el.tagName === 'INPUT' && el.type === 'file') {
+                el.name = `childIdDocument${indexStr}`;
+            }
+            // Update button data-index
+            if (el.classList.contains('remove-child-btn')) {
+                el.dataset.index = newIndex;
+            }
+        });
     }
 
-    // --- Initialization ---
-    document.addEventListener('DOMContentLoaded', () => {
-        // Set up the first child section (index 0)
-        attachValidationListeners(0);
+    // Remove a child section and reindex remaining sections
+    function removeChildSection(indexToRemove) {
+        const container = document.getElementById('childrenContainer');
+        const sections = Array.from(container.querySelectorAll('.child-section'));
         
-        // Global listener for all inputs to check validity (including parent ID doc)
-        document.getElementById('admissionForm').addEventListener('input', checkFormValidity);
-        
-        // File input listeners (only 'change' fires correctly on file selection)
-        document.getElementById('parentIdDocument').addEventListener('change', checkFormValidity);
-        document.getElementById('childIdDocument_0').addEventListener('change', checkFormValidity);
+        if (sections.length === 1) {
+            alert('At least one child is required.');
+            return;
+        }
 
-        // Listener for adding a new child
+        // Find and remove the section
+        const toRemove = document.getElementById(`childSection_${indexToRemove}`);
+        if (toRemove) toRemove.remove();
+
+        // Get the remaining sections
+        const remaining = Array.from(container.querySelectorAll('.child-section'));
+
+        // Re-index all remaining sections and reattach listeners
+        remaining.forEach((section, newIndex) => {
+            // Re-index the HTML attributes
+            reindexElements(section, newIndex);
+            // Re-attach listeners for new indices
+            attachValidationListeners(newIndex);
+        });
+
+        // Hide remove button if only one remains
+        const finalRemoveBtns = document.querySelectorAll('.remove-child-btn');
+        if (finalRemoveBtns.length === 1) finalRemoveBtns[0].style.display = 'none';
+        else finalRemoveBtns.forEach(btn => btn.style.display = 'inline-block');
+
+        checkFormValidity();
+    }
+    // END CRITICAL FIX
+
+    // Initial setup on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+        // Attach listeners for the initial child (index 0)
+        attachValidationListeners(0);
+
+        document.getElementById('admissionForm').addEventListener('input', checkFormValidity);
+        document.getElementById('parentIdDocument').addEventListener('change', checkFormValidity);
+
         document.getElementById('addChildBtn').addEventListener('click', addChildSection);
-        
-        // Listener for removing a child section
-        document.getElementById('childrenContainer').addEventListener('click', function(event) {
-            if (event.target.classList.contains('remove-child-btn')) {
-                const indexToRemove = parseInt(event.target.dataset.index);
-                removeChildSection(indexToRemove);
+
+        document.getElementById('childrenContainer').addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-child-btn')) {
+                // Ensure we get the correct data-index from the button
+                const idx = parseInt(e.target.dataset.index);
+                removeChildSection(idx);
             }
         });
 
-        // Initial validity check
+        // Ensure remove button hidden if only one child exists
+        const removeBtn0 = document.querySelector('#childSection_0 .remove-child-btn');
+        if (removeBtn0) removeBtn0.style.display = 'none';
+
         checkFormValidity();
     });
-
 </script>
 </body>
-</html>
+</html>tml>

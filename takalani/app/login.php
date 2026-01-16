@@ -87,10 +87,10 @@ require_once "../app/menu-bar.php";
     </form>
 
     <p style="margin-top:10px;">
-        Don't have an account? <a href="registration.php">Register here</a>
+        Don't have an account? <a href="registration">Register here</a>
     </p>
     <p style="margin-top:10px;">
-        Are you a Headmaster? <a href="headmaster-login.php">Login here</a>
+        Are you a Headmaster? <a href="headmaster-login">Login here</a>
     </p>
 </main>
 

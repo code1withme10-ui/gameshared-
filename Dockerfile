@@ -16,7 +16,7 @@ WORKDIR /var/www/html
 
 # Copy project files to the Apache document root
 # Assuming 'tshwarelo' is the main directory holding the website files
-COPY tshwarelo/ /var/www/html/
+COPY takalani/ /var/www/html/
 
 # Create the necessary 'uploads' directory
 RUN mkdir -p /var/www/html/uploads

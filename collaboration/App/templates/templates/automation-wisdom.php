@@ -8,4 +8,4 @@
     <h3>🛠️⚙️ Automation Wisdom</h3>
     <p><?= nl2br(htmlspecialchars($content["content"] ?? "")); ?></p>
 </div>
-
+    

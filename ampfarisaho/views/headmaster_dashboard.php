@@ -1,45 +1,52 @@
 <?php
-include __DIR__ . "/includes/auth.php";
-requireHeadmasterLogin();
-include __DIR__ . "/includes/functions.php";
-
-$children = readJSON(__DIR__ . "/data/children.json");
-$parents = readJSON(__DIR__ . "/data/parents.json");
-
-// Handle approve/decline
-if(isset($_GET['approve']) && isset($children[$_GET['approve']])) {
-    $children[$_GET['approve']]['status'] = "Approved";
-    writeJSON(__DIR__ . "/data/children.json", $children);
-}
-if(isset($_GET['decline']) && isset($children[$_GET['decline']])) {
-    $children[$_GET['decline']]['status'] = "Declined";
-    writeJSON(__DIR__ . "/data/children.json", $children);
-}
-
-function getParentInfo($parents, $username){
-    foreach($parents as $p){
-        if(isset($p['username']) && $p['username'] === $username){
-            return $p;
-        }
-    }
-    return null;
-}
+include __DIR__ . '/../includes/menu-bar.php';
 ?>
 
 <link rel="stylesheet" href="css/style.css">
-<?php include __DIR__ . "/includes/menu-bar.php"; ?>
 
 <div class="container">
     <h2>Headmaster Dashboard</h2>
     <p>Review and manage applications submitted by parents.</p>
 
+    <?php
+    // Load children and parents
+    $children = readJSON(__DIR__ . '/../../data/children.json');
+    $parents = readJSON(__DIR__ . '/../../data/parents.json');
+
+    // Handle approve/decline actions
+    if(isset($_GET['approve']) || isset($_GET['decline'])) {
+        $index = $_GET['approve'] ?? $_GET['decline'];
+        $index = intval($index);
+
+        if(isset($children[$index])) {
+            $children[$index]['status'] = isset($_GET['approve']) ? 'Approved' : 'Declined';
+            writeJSON(__DIR__ . '/../../data/children.json', $children);
+            echo '<p style="color:green; font-weight:bold;">Application status updated successfully!</p>';
+        }
+    }
+    ?>
+
     <?php if(empty($children)): ?>
         <p>No applications found.</p>
     <?php else: ?>
-        <?php foreach($children as $i=>$child): ?>
-            <div class="card">
+        <?php foreach ($children as $i => $child): ?>
+            <?php
+                // Get parent info
+                $parent_info = null;
+                foreach ($parents as $p) {
+                    if(isset($p['username']) && $p['username'] === $child['parent_username']) {
+                        $parent_info = $p;
+                        break;
+                    }
+                }
+
+                // Highlight new applications (Awaiting approval)
+                $card_style = $child['status'] === 'Awaiting approval' ? "border:2px solid orange; padding:10px; margin-bottom:15px;" :
+                              ($child['status'] === 'Approved' ? "border:2px solid green; padding:10px; margin-bottom:15px;" :
+                              "border:2px solid red; padding:10px; margin-bottom:15px;");
+            ?>
+            <div class="card" style="<?= $card_style ?>">
                 <h3><?= htmlspecialchars($child['child_name']) ?></h3>
-                <?php $parent_info = getParentInfo($parents, $child['parent_username']); ?>
                 <?php if($parent_info): ?>
                     <b>Parent Name:</b> <?= htmlspecialchars($parent_info['full_name']) ?><br>
                     <b>Relationship:</b> <?= htmlspecialchars($parent_info['relationship']) ?><br>
@@ -62,11 +69,14 @@ function getParentInfo($parents, $username){
                     <a href="<?= htmlspecialchars($child['parent_id']) ?>" target="_blank">Parent/Guardian ID</a><br>
                 <?php endif; ?>
                 <br>
-                <a class="button" href="index.php?page=headmaster_dashboard&approve=<?= $i ?>">Approve</a>
-                <a class="button" style="background:red;" href="index.php?page=headmaster_dashboard&decline=<?= $i ?>">Decline</a>
+                <?php if($child['status'] === 'Awaiting approval'): ?>
+                    <a class="button" href="index.php?page=headmaster_dashboard&approve=<?= $i ?>">Approve</a>
+                    <a class="button" style="background:red;" href="index.php?page=headmaster_dashboard&decline=<?= $i ?>">Decline</a>
+                <?php endif; ?>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
+
 
 
