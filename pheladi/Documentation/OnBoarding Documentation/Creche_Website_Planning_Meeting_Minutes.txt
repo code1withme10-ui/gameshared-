@@ -1,0 +1,72 @@
+MEETING TITLE: Planning Session – Crèche Website Outreach & Onboarding
+DATE: 5-9 Jan 2026
+TIME: Multiple sessions (weekly planning)
+LOCATION: Office / MS Teams
+FACILITATOR: Project Manager
+MINUTE TAKER: Pheladi Nchabeleng (Business Analyst Intern)
+
+--------------------------------------------------
+
+ATTENDEES
+Present: Business Analysts, Developers, Project Manager
+Apologies: Thato
+
+--------------------------------------------------
+
+1. TASK OVERVIEW
+The team was assigned a task to approach local crèches to propose the development of a website.
+The purpose of the visits is to understand the crèches’ needs and gather initial requirements.
+
+Outcome:
+The task scope and objectives were clarified.
+
+--------------------------------------------------
+
+2. STAKEHOLDER ONBOARDING APPROACH
+The team discussed the approach for onboarding crèches during the initial engagement.
+Onboarding will focus on understanding the crèches’ operations, services offered, and current challenges.
+A standard onboarding checklist will be used to ensure consistency across all visits.
+
+Decision:
+All teams will follow the same onboarding process during crèche visits.
+
+--------------------------------------------------
+
+3. VISIT PLANNING AND LOGISTICS
+Physical visits to selected crèches were planned.
+Crèches will be contacted in advance to request permission and schedule appointments.
+Each visit will include at least one Business Analyst and one Developer.
+
+Decision:
+Visits will be conducted during operating hours to observe real processes.
+
+--------------------------------------------------
+
+4. ROLES AND RESPONSIBILITIES
+Business Analysts will lead discussions and capture requirements.
+Developers will provide technical input and assess feasibility.
+One team member per visit will be responsible for documenting findings.
+
+Decision:
+The assigned Business Analyst will compile and submit visit notes.
+
+--------------------------------------------------
+
+5. DELIVERABLES AGREED
+- Completed onboarding checklist per crèche
+- Initial requirements summary
+- Visit report including observations and risks
+
+--------------------------------------------------
+
+
+--------------------------------------------------
+
+NEXT STEPS
+Discuss the actions to be taken.
+Discuss the risks and assumptions.
+
+--------------------------------------------------
+
+Minutes Prepared By: Pheladi Nchabeleng
+Date Circulated: 09 Jan 2026
