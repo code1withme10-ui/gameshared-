@@ -1,0 +1,70 @@
+MEETING TITLE: Planning Session – Crèche Website Outreach & Onboarding
+DATE: 12–16 Jan 2026
+TIME: Multiple sessions (weekly planning)
+LOCATION: Office / MS Teams
+FACILITATOR: Project Manager
+MINUTE TAKER: Pheladi Nchabeleng (Business Analyst Intern)
+
+--------------------------------------------------
+
+ATTENDEES
+Present: Business Analysts, Developers, Project Manager
+Apologies: None
+
+--------------------------------------------------
+
+1. TASK OVERVIEW
+The team was assigned a task to approach local crèches to propose the development of a website.
+The purpose of the visits is to understand the crèches’ needs and gather initial requirements.
+
+Outcome:
+The task scope and objectives were clarified.
+
+--------------------------------------------------
+
+
+--------------------------------------------------
+
+2. ACTION ITEMS
+
+Action: Finalize onboarding checklist
+Owner: BA Team
+Due Date: 14 Jan 2026
+
+Action: Prepare visit schedule
+Owner: Project Manager
+Due Date: 14 Jan 2026
+
+Action: Contact selected crèches
+Owner: Assigned Team Members
+Due Date: 15 Jan 2026
+
+--------------------------------------------------
+
+3. RISKS AND ASSUMPTIONS
+
+Risks:
+Crèches may be unavailable or decline participation.
+
+Mitigation:
+Prepare alternative crèches and allow flexible scheduling.
+
+Assumptions:
+Crèches will be willing to share basic operational information.
+
+--------------------------------------------------
+
+NEXT STEPS
+Commence scheduled crèche visits.
+Consolidate findings after each visit.
+
+--------------------------------------------------
+4. CONTACT WITH CRECHES
+
+The team members approached the creches and some managed to schedule meetings for onboarding discussion with the stakeholders.
+
+The other response from the creches were that they will get back to us.
+
+--------------------------------------------------
+Minutes Prepared By: Pheladi Nchabeleng
+Date Circulated: 16 Jan 2026
