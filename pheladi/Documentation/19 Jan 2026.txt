@@ -1,0 +1,29 @@
+MEETING TITLE: Planning Session – Crèche Website Outreach & Onboarding
+DATE: 19 Jan 2026
+TIME: Daily sessions
+LOCATION: Office / MS Teams
+FACILITATOR: Project Manager
+MINUTE TAKER: Pheladi Nchabeleng (Business Analyst Intern)
+
+--------------------------------------------------
+
+ATTENDEES
+Present: Business Analysts, Developers, Project Manager
+Apologies: None
+
+--------------------------------------------------
+
+1. AGENDA
+Creche visits feedback.
+Onboarding procedures.
+System compatibility.
+--------------------------------------------------
+2. DISCUSSION
+The team gave a report on how their creche visits went about and also discussed the approach they used.
+The analyst(intern) went through and elaborated on the onboarding procedures. 
+The developer summarised how they will test for compatibility on the system the have developed for the creches.
+
+--------------------------------------------------
+Minutes Prepared By: Pheladi Nchabeleng
+Date Circulated: 19 Jan 2026
+Next meeting: 20 Jan 2026.
