@@ -1,0 +1,153 @@
+SYSTEM DEVELOPMENT LIFE CYCLE (SDLC)
+FOR WEBSITE DEVELOPMENT
+================================
+
+1. PLANNING STAGE
+----------------
+Purpose:
+To identify the need for the website and determine project feasibility.
+
+Activities:
+- Identify business goals for the website
+- Define target users
+- Determine website type (static, dynamic, CMS)
+- Define scope, timeline, and budget
+- Conduct feasibility study
+- Identify risks
+
+Deliverables:
+- Project proposal
+- Scope document
+- Feasibility report
+
+
+2. REQUIREMENTS ANALYSIS
+-----------------------
+Purpose:
+To understand what the website must do and how it should perform.
+
+Activities:
+- Stakeholder interviews
+- Requirements gathering
+- Define functional requirements
+- Define non-functional requirements
+- Document use cases
+- Validate requirements
+
+Deliverables:
+- Website Requirements Specification (WRS)
+- Use cases
+- User stories
+
+
+3. SYSTEM DESIGN
+----------------
+Purpose:
+To create a blueprint for building the website.
+
+Activities:
+- UI/UX design
+- Wireframes and mockups
+- Sitemap creation
+- Database design
+- Architecture design
+- Security planning
+
+Deliverables:
+- Design document
+- Wireframes
+- Database schema
+
+
+4. DEVELOPMENT
+--------------
+Purpose:
+To build the website according to specifications.
+
+Activities:
+- Front-end development (HTML, CSS, JavaScript)
+- Back-end development (PHP, Java, Node.js)
+- Database implementation
+- CMS setup
+- API integration
+- Version control
+
+Deliverables:
+- Website source code
+- Functional modules
+- Database
+
+
+5. TESTING
+-----------
+Purpose:
+To ensure the website functions correctly.
+
+Activities:
+- Unit testing
+- Integration testing
+- Functional testing
+- Usability testing
+- Compatibility testing
+- Security testing
+- User Acceptance Testing (UAT)
+
+Deliverables:
+- Test plan
+- Test cases
+- Bug reports
+- Test summary report
+
+
+6. DEPLOYMENT
+--------------
+Purpose:
+To launch the website for public use.
+
+Activities:
+- Hosting setup
+- Domain configuration
+- File upload
+- Database migration
+- SSL configuration
+- Live testing
+
+Deliverables:
+- Live website
+- Deployment documentation
+
+
+7. MAINTENANCE AND SUPPORT
+--------------------------
+Purpose:
+To keep the website updated and secure.
+
+Activities:
+- Bug fixes
+- Content updates
+- Performance optimization
+- Security patches
+- Backups
+- User support
+
+Deliverables:
+- Maintenance logs
+- Updated versions
+
+
+8. EVALUATION AND UPGRADES
+--------------------------
+Purpose:
+To assess performance and plan improvements.
+
+Activities:
+- Website analytics review
+- User feedback collection
+- Feature evaluation
+- Upgrade planning
+
+Deliverables:
+- Evaluation report
+- Upgrade plan
+
+END OF DOCUMENT
