@@ -1,0 +1,60 @@
+========================================================================
+WEEKLY ACTIVITY LOG: 19 JANUARY - 22 JANUARY 2026
+INTERN: TAKALANI MASUBI | ROLE: SOFT DVELOPER INTERN
+PROJECT: CRECHE MANAGEMENT SYSTEM & STAKEHOLDER ONBOARDING
+========================================================================
+
+MONDAY, 19 JANUARY 2026
+------------------------------------------------------------------------
+ACTIVITY: STRATEGIC PLANNING & TESTING METHODOLOGY
+10:00 - 11:30: Meeting with Mentor (Mr. Ntsieni Mbulungeni). 
+               Discussed the strategy for crèche onboarding and the 
+               logistics for physical site visits.
+11:30 - 12:00: Team Meeting. 
+               Collaborated with developers to discuss Testing Types: 
+               Unit Testing, Integration Testing, and User Acceptance 
+               Testing (UAT) for the Crèche Website.
+14:00 - 16:30: Technical alignment session to sync folder structures 
+               and backend permissions for the upcoming review.
+
+TUESDAY, 20 JANUARY 2026
+------------------------------------------------------------------------
+ACTIVITY: MARKET FEASIBILITY & OUTREACH
+09:00 - 11:30: Outreach Visit: Local Crèche.
+               Outcome: Unsuccessful (No luck). The facility was found 
+               to be not digitally advanced enough for the current 
+               system requirements.
+13:00 - 15:00: Post-Visit Analysis: Identified a requirement for a 
+               "Lite" system version for stakeholders with limited 
+               hardware infrastructure.
+15:30 - 16:30: Market Research: Updated target list to prioritize 
+               centers with existing digital infrastructure.
+
+WEDNESDAY, 21 JANUARY 2026
+------------------------------------------------------------------------
+ACTIVITY: COMPLIANCE RESEARCH & ADMINISTRATIVE REPORTING
+08:00 - 12:00: Documentation: Drafted Monthly Progress Report and 
+               Timesheet (Reporting Period: 17 Dec 2025 - 21 Jan 2026).
+13:00 - 15:30: Technical Research: Studied Standard Operating Procedures 
+               (SOP) for ECD (Early Childhood Development) digital data 
+               management and POPI Act compliance.
+16:00 - 17:00: Git Maintenance: Resolved merge conflicts in the shared 
+               repository to ensure the team is working on the latest 
+               documentation version.
+
+THURSDAY, 22 JANUARY 2026
+------------------------------------------------------------------------
+ACTIVITY: SUCCESSFUL STAKEHOLDER REVIEW & ONBOARDING
+09:30 - 10:40: Meeting at Mulisawashu Early Learning Centre.
+               Participants: Takalani Masubi and Crèche Management.
+               Task: Joint review and walkthrough of the website prototype.
+11:00 - 12:30: Outcome: Stakeholders understood and loved the system 
+               logic and the "December Working-Days Service" idea. 
+               OFFICIAL AGREEMENT REACHED TO PARTNER WITH THE PROJECT.
+14:00 - 16:00: Data Transcription: Converting meeting notes into 
+               technical requirements for the development team.
+
+
+========================================================================
+END OF REPORT
+========================================================================
