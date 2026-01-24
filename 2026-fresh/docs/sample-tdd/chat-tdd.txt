@@ -1,0 +1,416 @@
+Perfect 👍 this is a **classic TDD + Laravel MVC** setup, so let’s do this **the right way**.
+
+Below I’ll show you:
+
+1. **How to think TDD-first in Laravel**
+2. **Laravel folder structure (MVC + OOP)**
+3. **Sample PHPUnit feature & unit tests (written BEFORE app code)**
+4. **Minimal controller/model code JUST ENOUGH to make tests pass**
+5. **How this maps to your user stories**
+
+I’ll assume:
+
+* Fresh Laravel project
+* PHPUnit already working
+* No application code exists yet
+
+---
+
+# 1️⃣ TDD FLOW (Laravel Way)
+
+You will repeat this loop:
+
+```
+1. Write failing test
+2. Run PHPUnit → FAIL ❌
+3. Write minimum code to pass
+4. Run PHPUnit → PASS ✅
+5. Refactor
+```
+
+Laravel supports this perfectly with:
+
+* **Feature tests** → routes, controllers, views
+* **Unit tests** → validation, business rules
+
+---
+
+# 2️⃣ Laravel MVC STRUCTURE (What We’ll Use)
+
+```
+app/
+ ├── Models/
+ │    ├── User.php
+ │    ├── Child.php
+ │    └── Application.php
+ │
+ ├── Http/
+ │    ├── Controllers/
+ │    │     ├── VisitorController.php
+ │    │     ├── Parent/
+ │    │     │     └── ApplicationController.php
+ │    │     └── Admin/
+ │    │           └── ApplicationReviewController.php
+ │    │
+ │    └── Requests/
+ │          └── StoreChildRequest.php
+ │
+routes/
+ ├── web.php
+ │
+tests/
+ ├── Feature/
+ │    ├── VisitorTest.php
+ │    ├── ParentApplicationTest.php
+ │    └── AdminApplicationTest.php
+ │
+ └── Unit/
+      └── AgeValidationTest.php
+```
+
+---
+
+# 3️⃣ START WITH A TEST (VIS-01)
+
+### User Story
+
+> VIS-01: Visitor can view creche information
+
+---
+
+## ✅ Feature Test (WRITE THIS FIRST)
+
+**tests/Feature/VisitorTest.php**
+
+```php
+<?php
+
+namespace Tests\Feature;
+
+use Tests\TestCase;
+
+class VisitorTest extends TestCase
+{
+    /** @test */
+    public function visitor_can_view_creche_information_page()
+    {
+        $response = $this->get('/about');
+
+        $response->assertStatus(200);
+        $response->assertSee('About Our Creche');
+    }
+}
+```
+
+### Run:
+
+```bash
+php artisan test
+```
+
+❌ **FAIL** – route does not exist (good!)
+
+---
+
+## ✅ Minimum Code to Pass
+
+### routes/web.php
+
+```php
+use App\Http\Controllers\VisitorController;
+
+Route::get('/about', [VisitorController::class, 'about']);
+```
+
+### app/Http/Controllers/VisitorController.php
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+class VisitorController extends Controller
+{
+    public function about()
+    {
+        return response('About Our Creche', 200);
+    }
+}
+```
+
+Run tests → ✅ PASS
+
+🎯 **TDD success**
+
+---
+
+# 4️⃣ PARENT REGISTRATION (PAR-01)
+
+### User Story
+
+> Parent can register
+
+---
+
+## ✅ Feature Test FIRST
+
+**tests/Feature/ParentApplicationTest.php**
+
+```php
+<?php
+
+namespace Tests\Feature;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class ParentApplicationTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /** @test */
+    public function parent_can_register()
+    {
+        $response = $this->post('/register', [
+            'name' => 'Jane Doe',
+            'email' => 'jane@example.com',
+            'password' => 'password',
+        ]);
+
+        $response->assertStatus(302); // redirect
+        $this->assertDatabaseHas('users', [
+            'email' => 'jane@example.com'
+        ]);
+    }
+}
+```
+
+Run → ❌ FAIL
+
+---
+
+## ✅ Minimum Code to Pass
+
+### routes/web.php
+
+```php
+use App\Http\Controllers\Auth\RegisterController;
+
+Route::post('/register', [RegisterController::class, 'store']);
+```
+
+### app/Http/Controllers/Auth/RegisterController.php
+
+```php
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+class RegisterController extends Controller
+{
+    public function store(Request $request)
+    {
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect('/');
+    }
+}
+```
+
+### app/Models/User.php
+
+```php
+protected $fillable = ['name', 'email', 'password'];
+```
+
+Run → ✅ PASS
+
+---
+
+# 5️⃣ AGE VALIDATION (PAR-04) — UNIT TEST
+
+### Business Rule:
+
+> Child age must match grade
+
+---
+
+## ✅ Unit Test FIRST
+
+**tests/Unit/AgeValidationTest.php**
+
+```php
+<?php
+
+namespace Tests\Unit;
+
+use App\Services\AgeValidator;
+use PHPUnit\Framework\TestCase;
+
+class AgeValidationTest extends TestCase
+{
+    /** @test */
+    public function it_rejects_invalid_age_for_grade()
+    {
+        $validator = new AgeValidator();
+
+        $this->assertFalse($validator->isValid(2, 'Grade 1'));
+    }
+
+    /** @test */
+    public function it_accepts_valid_age_for_grade()
+    {
+        $validator = new AgeValidator();
+
+        $this->assertTrue($validator->isValid(6, 'Grade 1'));
+    }
+}
+```
+
+Run → ❌ FAIL
+
+---
+
+## ✅ Minimum Code to Pass
+
+### app/Services/AgeValidator.php
+
+```php
+<?php
+
+namespace App\Services;
+
+class AgeValidator
+{
+    public function isValid(int $age, string $grade): bool
+    {
+        if ($grade === 'Grade 1') {
+            return $age >= 6;
+        }
+
+        return false;
+    }
+}
+```
+
+Run → ✅ PASS
+
+---
+
+# 6️⃣ ADMIN ACCEPT APPLICATION (ADM-03)
+
+---
+
+## ✅ Feature Test FIRST
+
+**tests/Feature/AdminApplicationTest.php**
+
+```php
+<?php
+
+namespace Tests\Feature;
+
+use App\Models\Application;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class AdminApplicationTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /** @test */
+    public function admin_can_accept_application()
+    {
+        $application = Application::factory()->create([
+            'status' => 'pending'
+        ]);
+
+        $response = $this->post("/admin/applications/{$application->id}/accept");
+
+        $response->assertStatus(302);
+
+        $this->assertDatabaseHas('applications', [
+            'id' => $application->id,
+            'status' => 'accepted'
+        ]);
+    }
+}
+```
+
+---
+
+## ✅ Minimum Code to Pass
+
+### routes/web.php
+
+```php
+use App\Http\Controllers\Admin\ApplicationReviewController;
+
+Route::post(
+    '/admin/applications/{application}/accept',
+    [ApplicationReviewController::class, 'accept']
+);
+```
+
+### app/Http/Controllers/Admin/ApplicationReviewController.php
+
+```php
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Application;
+
+class ApplicationReviewController extends Controller
+{
+    public function accept(Application $application)
+    {
+        $application->update(['status' => 'accepted']);
+
+        return redirect()->back();
+    }
+}
+```
+
+---
+
+# 7️⃣ HOW THIS MAPS TO YOUR USER STORIES
+
+| User Story | Test Type | Test File             |
+| ---------- | --------- | --------------------- |
+| VIS-01     | Feature   | VisitorTest           |
+| PAR-01     | Feature   | ParentApplicationTest |
+| PAR-04     | Unit      | AgeValidationTest     |
+| ADM-03     | Feature   | AdminApplicationTest  |
+
+---
+
+# 🔥 Key Takeaways
+
+* **Tests define your architecture**
+* **Controllers stay thin**
+* **Business logic goes to services**
+* **One test = one behavior**
+* **No guessing, no overengineering**
+
+---
+
+If you want, next I can:
+
+* Build **factories + migrations**
+* Show **document upload tests**
+* Add **auth/role-based access**
+* Help you design a **clean domain model**
+
+Just say the word 🚀
+

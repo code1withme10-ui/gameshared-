@@ -1,0 +1,99 @@
+
+{
+  "users": [
+    {
+      "role": "Visitor",
+      "description": "Any person visiting the creche website without logging in",
+      "userStories": [
+        {
+          "id": "VIS-01",
+          "story": "As a visitor, I want to view information about the creche so that I can understand what services it offers."
+        },
+        {
+          "id": "VIS-02",
+          "story": "As a visitor, I want to read the admission guidelines so that I know the requirements before applying."
+        },
+        {
+          "id": "VIS-03",
+          "story": "As a visitor, I want to view the creche gallery so that I can see the environment and facilities."
+        },
+        {
+          "id": "VIS-04",
+          "story": "As a visitor, I want to see the creche contact details so that I can get in touch easily."
+        },
+        {
+          "id": "VIS-05",
+          "story": "As a visitor, I want to view public notices and announcements so that I stay informed about important updates."
+        }
+      ]
+    },
+    {
+      "role": "Parent",
+      "description": "A registered parent applying for a child’s admission",
+      "userStories": [
+        {
+          "id": "PAR-01",
+          "story": "As a parent, I want to register and log in so that I can securely manage my child’s application."
+        },
+        {
+          "id": "PAR-02",
+          "story": "As a parent, I want to add more than one child so that I can apply for multiple children under one account."
+        },
+        {
+          "id": "PAR-03",
+          "story": "As a parent, I want to enter my child’s details so that the creche can assess eligibility."
+        },
+        {
+          "id": "PAR-04",
+          "story": "As a parent, I want the system to validate my child’s age against the selected grade so that I do not submit incorrect information."
+        },
+        {
+          "id": "PAR-05",
+          "story": "As a parent, I want to upload required documents so that my application is complete."
+        },
+        {
+          "id": "PAR-06",
+          "story": "As a parent, I want to submit an application and receive a confirmation so that I know it was successful."
+        },
+        {
+          "id": "PAR-07",
+          "story": "As a parent, I want to track my child’s admission status so that I know whether the application is pending, accepted, or rejected."
+        },
+        {
+          "id": "PAR-08",
+          "story": "As a parent, I want to receive notifications or view notices so that I stay informed about creche updates."
+        }
+      ]
+    },
+    {
+      "role": "Headmaster/Admin",
+      "description": "Creche staff responsible for managing applications and content",
+      "userStories": [
+        {
+          "id": "ADM-01",
+          "story": "As an admin, I want to log in securely so that I can manage the creche system."
+        },
+        {
+          "id": "ADM-02",
+          "story": "As an admin, I want to view all submitted applications so that I can review child and parent details."
+        },
+        {
+          "id": "ADM-03",
+          "story": "As an admin, I want to accept or reject an application so that I can control admissions."
+        },
+        {
+          "id": "ADM-04",
+          "story": "As an admin, I want to update application statuses so that parents can see real-time results."
+        },
+        {
+          "id": "ADM-05",
+          "story": "As an admin, I want to post notices and announcements so that parents receive important information."
+        },
+        {
+          "id": "ADM-06",
+          "story": "As an admin, I want to manage static content such as admission guidelines and contact details so that the website information stays accurate."
+        }
+      ]
+    }
+  ]
+}
