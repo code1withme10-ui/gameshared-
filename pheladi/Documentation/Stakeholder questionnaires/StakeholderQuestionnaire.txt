@@ -1,0 +1,65 @@
+Stakeholder Questionnaire – Crèche Website Development
+
+Purpose: To gather business, functional, data, and capacity requirements for the new crèche website.
+
+1. Stakeholder Information
+• Full Name: ________________________________
+• Role at the Crèche: ________________________
+• Contact Details (Email / Phone): ___________
+• Level of Involvement (High / Medium / Low): ______
+
+2. Business Overview & Capacity
+• Name of the Crèche: ________________________
+• Years of Operation: _______________________
+• Current number of enrolled children: ________
+• Expected maximum number of children (future capacity): ________
+• Number of Staff Members: __________________
+• Current System Used (Paper or Digital): __________________________
+
+3. Project Goals & Expectations
+• Reason for wanting a website: ____________________________________________
+• Problems the website should solve: _______________________________________
+•How will success be measured?
+ Faster admissions?
+ Better communication?
+ Increased enrolments?
+• Expected deadlines or timelines: _________________________________________
+
+4. Target Users
+• Who will use the website? (Parents, Headmaster, Admin, Teachers, Public)
+• Actions each user should perform: _______________________________________
+
+5. Functional Requirements
+• Online admission applications required? (Yes / No)
+• Document uploads required? (Yes / No)
+• Application tracking required? (Yes / No)
+• Approve or reject applications? (Yes / No)
+• Notifications to parents required? (Yes / No)
+• User login and roles required? (Yes / No). If yes, specify roles: __________
+
+6. Data Requirements
+• Child information to be captured: _______________________________________
+• Parent/Guardian information to be captured: ______________________________
+• Legal or compliance requirements (e.g., POPIA): ___________________________
+
+7. Content & Features
+• Required website pages (Home, About, Admissions, Contact, Gallery, News): ____
+• Announcements or notices required? (Yes / No)
+• Contact form required? (Yes / No)
+
+8. Non-Functional Requirements
+• Branding preferences (colors, logo, style): _______________________________
+• Mobile-friendly website required? (Yes / No)
+• Preferred language(s): _________________________________________________
+• Importance of data security and privacy (Very Important / Important / Not Critical): ______
+
+9. Notifications & Communication
+• Preferred notification method (Email / SMS / Website): ____________________
+• Keep history of admissions and rejections? (Yes / No)
+
+10. Constraints & Risks
+• Potential risks or concerns: ____________________________________________
+
+11. Approval & Next Steps
+• Who will approve the final requirements?: ________________________________
+• Preferred frequency for progress updates: _________________________________
