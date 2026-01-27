@@ -307,5 +307,10 @@ main() {
 # ============================================================
 # 🏁 RUN SCRIPT
 # ============================================================
-
+# --- Include Git repo check ---
+if [[ -f "./bin/check-git-repo.sh" ]]; then
+  source ./bin/install-hooks.sh
+else
+  echo -e "${YELLOW}⚠️  Git custom hooks not found (bin/install-hooks.sh.sh). Hooks may not be installed check.${NC}"
+fi
 main
