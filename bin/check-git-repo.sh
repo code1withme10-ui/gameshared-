@@ -26,7 +26,13 @@ check_git_repo() {
     echo -e "   Continuing with current local version."
     return 0  # ✅ Gracefully continue
   fi
-
+# Ensure upstream exists
+if ! git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1; then
+  echo -e "\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx${NC}\n⚠️  No upstream branch configured. Skipping remote diff.\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx${NC}"
+  #this  may fix  problem
+  git branch --set-upstream-to=origin/main main
+  return 0
+fi
   local local_commit
   local remote_commit
   local_commit=$(git rev-parse main)
@@ -42,14 +48,23 @@ check_git_repo() {
 
   # Show what files changed (limit 20)
   echo -e "${CYAN}📄 Files changed remotely (showing up to 20):${NC}"
-  git diff --name-only "$local_commit" "$remote_commit" | head -n 20 | awk '{print "   • " $0}'
+  #git diff --name-only "$local_commit" "$remote_commit" | head -n 20 | awk '{print "   • " $0}'
+  git diff --name-only main..origin/main | head -n 20 | awk '{print "   • " $0}'
   local total_changes
-  total_changes=$(git diff --name-only "$local_commit" "$remote_commit" | wc -l)
+  total_changes=$(git diff --name-only main..origin/main | wc -l)
   if [[ $total_changes -gt 20 ]]; then
     echo "   ... ($((total_changes - 20)) more files changed)"
   fi
   echo
-
+if git rev-list --count origin/main..main >/dev/null 2>&1; then
+echo -e "${CYAN}📄 Files changed locally** (showing up to 20):${NC}"
+  local ahead
+  ahead=$(git rev-list --count origin/main..main)
+  if [[ $ahead -gt 0 ]]; then
+    echo -e "${YELLOW}⬆️  Local commits not pushed: $ahead${NC}"
+    echo
+  fi
+fi
   # Prompt user
   read -p "Do you want to pull the latest updates? (y/N): " -r
   echo
