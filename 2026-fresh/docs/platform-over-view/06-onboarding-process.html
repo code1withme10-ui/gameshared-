@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crèche Platform – Onboarding Pipeline</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+     
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+        .section-spacing {
+            margin-top: 32px;
+        }
+        .stage {
+            border-left: 6px solid #2196F3;
+            padding-left: 16px;
+        }
+        .critical {
+            border-left: 6px solid #f44336;
+            padding-left: 16px;
+            background-color: #ffebee;
+        }
+        .info {
+            border-left: 6px solid #4CAF50;
+            padding-left: 16px;
+            background-color: #e8f5e9;
+        }
+        .nav-link {
+            text-decoration: none;
+        }
+        code, pre {
+            background-color: #f1f1f1;
+            padding: 6px;
+        }
+    </style>
+</head>
+
+<body class="w3-light-grey">
+
+<!-- HEADER -->
+<header class="w3-container w3-blue w3-padding-32">
+    <h1 class="w3-center">Crèche Onboarding Pipeline</h1>
+    <p class="w3-center w3-large">
+        From “Interested” to “Live” — Predictably
+    </p>
+</header>
+
+<div class="w3-content w3-padding-32" style="max-width:1200px">
+
+    <!-- GOAL -->
+    <section class="w3-card w3-white w3-padding">
+        <h2>🎯 Goal of Onboarding</h2>
+        <p>
+            Take a crèche from <strong>approval</strong> to
+            <strong>live and accepting applications</strong> with:
+        </p>
+
+        <ul class="w3-ul">
+            <li>Zero code changes</li>
+            <li>Minimal manual steps</li>
+            <li>Clear audit trail</li>
+            <li>Predictable 1–2 day timeline</li>
+        </ul>
+    </section>
+
+    <!-- PIPELINE DIAGRAM -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>🧭 Onboarding as a Pipeline</h2>
+
+        <svg width="100%" height="260" viewBox="0 0 1200 260">
+            <rect x="20" y="90" width="150" height="60" fill="#2196F3"/>
+            <text x="95" y="125" text-anchor="middle" fill="white">Intake</text>
+
+            <rect x="190" y="90" width="150" height="60" fill="#4CAF50"/>
+            <text x="265" y="125" text-anchor="middle" fill="white">Tenant Create</text>
+
+            <rect x="360" y="90" width="150" height="60" fill="#FF9800"/>
+            <text x="435" y="125" text-anchor="middle" fill="white">Config</text>
+
+            <rect x="530" y="90" width="150" height="60" fill="#9C27B0"/>
+            <text x="605" y="125" text-anchor="middle" fill="white">Content</text>
+
+            <rect x="700" y="90" width="150" height="60" fill="#607D8B"/>
+            <text x="775" y="125" text-anchor="middle" fill="white">Access</text>
+
+            <rect x="870" y="90" width="150" height="60" fill="#795548"/>
+            <text x="945" y="125" text-anchor="middle" fill="white">Validate</text>
+
+            <rect x="1040" y="90" width="150" height="60" fill="#009688"/>
+            <text x="1115" y="125" text-anchor="middle" fill="white">Go Live</text>
+
+            <line x1="170" y1="120" x2="190" y2="120" stroke="black" stroke-width="2"/>
+            <line x1="340" y1="120" x2="360" y2="120" stroke="black" stroke-width="2"/>
+            <line x1="510" y1="120" x2="530" y2="120" stroke="black" stroke-width="2"/>
+            <line x1="680" y1="120" x2="700" y2="120" stroke="black" stroke-width="2"/>
+            <line x1="850" y1="120" x2="870" y2="120" stroke="black" stroke-width="2"/>
+            <line x1="1020" y1="120" x2="1040" y2="120" stroke="black" stroke-width="2"/>
+        </svg>
+
+        <p class="info section-spacing">
+            Each stage has inputs, outputs, ownership, and rollback.
+        </p>
+    </section>
+
+    <!-- STAGE 1 -->
+    <section class="w3-card w3-white w3-padding section-spacing stage">
+        <h2>🧩 Stage 1 — Pre-Onboarding (Intake & Validation)</h2>
+
+        <p><strong>Owner:</strong> Business Analyst / Team Lead</p>
+
+        <h4>Inputs</h4>
+        <ul class="w3-ul">
+            <li>Signed consent / approval</li>
+            <li>Completed onboarding checklist</li>
+            <li>Identified crèche admin</li>
+            <li>Admission rules confirmed</li>
+            <li>Required documents list</li>
+        </ul>
+
+        <h4>Locked Decisions</h4>
+        <ul class="w3-ul">
+            <li>Age rules</li>
+            <li>Admission cycle</li>
+            <li>Branding choices</li>
+            <li>Contact details</li>
+        </ul>
+
+        <div class="critical">
+            If this stage is rushed, onboarding will fail later.
+        </div>
+    </section>
+
+    <!-- STAGE 2 -->
+    <section class="w3-card w3-white w3-padding section-spacing stage">
+        <h2>🧩 Stage 2 — Tenant Creation (Automated)</h2>
+
+        <p><strong>Owner:</strong> DevOps / Automation</p>
+
+        <h4>Command Chain</h4>
+        <pre>
+php artisan tenant:onboard \
+  --name="Sunshine Crèche" \
+  --admin="head@sunshine.co.za"
+        </pre>
+
+        <h4>What This Command Must Do</h4>
+        <ul class="w3-ul">
+            <li>Generate unique tenant_id</li>
+            <li>Create tenant directory / records</li>
+            <li>Seed base configuration</li>
+            <li>Assign admin role</li>
+            <li>Initialise audit log</li>
+        </ul>
+
+        <pre>
+/tenants/creche-001/
+ ├── config.json
+ ├── content.json
+ ├── branding.json
+ ├── users.json
+ └── audit.json
+        </pre>
+
+        <p class="critical">
+            Manual tenant creation is not allowed.
+        </p>
+    </section>
+
+    <!-- STAGE 3 -->
+    <section class="w3-card w3-white w3-padding section-spacing stage">
+        <h2>🧩 Stage 3 — Configuration (No Code)</h2>
+
+        <p><strong>Owner:</strong> System Admin</p>
+
+        <pre>
+{
+  "admissions": {
+    "age_rules": "standard_early_childhood",
+    "cycle": "open",
+    "max_capacity": 60
+  },
+  "features": {
+    "gallery": true,
+    "events": true,
+    "notifications": true
+  }
+}
+        </pre>
+
+        <div class="critical">
+            If a rule cannot be expressed in config,
+            the platform is incomplete.
+        </div>
+    </section>
+
+    <!-- STAGE 4 -->
+    <section class="w3-card w3-white w3-padding section-spacing stage">
+        <h2>🧩 Stage 4 — Static Content Generation</h2>
+
+        <p><strong>Owner:</strong> Automation / AI-assisted</p>
+
+        <ul class="w3-ul">
+            <li>Copy default templates</li>
+            <li>Inject crèche-specific values</li>
+            <li>Prepare editable content</li>
+        </ul>
+
+        <pre>
+{
+  "about": {
+    "title": "Welcome to Sunshine Crèche",
+    "body": "We provide a nurturing environment..."
+  }
+}
+        </pre>
+    </section>
+
+    <!-- STAGE 5 -->
+    <section class="w3-card w3-white w3-padding section-spacing stage">
+        <h2>🧩 Stage 5 — Access Control Setup</h2>
+
+        <p><strong>Owner:</strong> System Admin</p>
+
+        <ul class="w3-ul">
+            <li>Create admin account</li>
+            <li>Assign RBAC roles</li>
+            <li>Force password reset</li>
+            <li>Verify permission matrix</li>
+        </ul>
+
+        <p class="critical">
+            No tenant goes live without RBAC verification.
+        </p>
+    </section>
+
+    <!-- STAGE 6 -->
+    <section class="w3-card w3-white w3-padding section-spacing stage">
+        <h2>🧩 Stage 6 — Validation & Smoke Testing</h2>
+
+        <p><strong>Owner:</strong> QA / DevOps</p>
+
+        <h4>Automated</h4>
+        <ul class="w3-ul">
+            <li>Tenant isolation</li>
+            <li>Admission workflow</li>
+            <li>File upload security</li>
+        </ul>
+
+        <h4>Manual</h4>
+        <ul class="w3-ul">
+            <li>Admin login</li>
+            <li>Parent application</li>
+            <li>Status transitions</li>
+        </ul>
+    </section>
+
+    <!-- STAGE 7 -->
+    <section class="w3-card w3-white w3-padding section-spacing stage">
+        <h2>🧩 Stage 7 — Go Live & Handover</h2>
+
+        <p><strong>Owner:</strong> Team Lead</p>
+
+        <ul class="w3-ul">
+            <li>Admin credentials delivered</li>
+            <li>Quick-start guide shared</li>
+            <li>Support contacts provided</li>
+            <li>Go-live logged in audit trail</li>
+        </ul>
+    </section>
+
+    <!-- AI ROLE -->
+    <section class="w3-card w3-white w3-padding section-spacing info">
+        <h2>🤖 AI’s Role in Onboarding</h2>
+
+        <ul class="w3-ul">
+            <li>Draft content</li>
+            <li>Validate configuration</li>
+            <li>Detect missing intake data</li>
+        </ul>
+
+        <p class="critical">
+            AI never activates a tenant without human approval.
+        </p>
+    </section>
+
+    <!-- GOLDEN RULE -->
+    <section class="w3-card w3-white w3-padding section-spacing critical">
+        <h2>🧠 Golden Rule of Onboarding</h2>
+        <p>
+            If onboarding cannot be explained as a flowchart,
+            it is too complex.
+        </p>
+    </section>
+
+    <!-- NAV -->
+    <section class="w3-center section-spacing">
+        <a href="05-development-workflow.html" class="w3-button w3-grey w3-margin-right nav-link">
+            ⬅ Previous – Development Workflow
+        </a>
+
+        <a href="07-devops-tracking.html" class="w3-button w3-blue nav-link">
+            Next ➡ DevOps & Progress Tracking
+        </a>
+    </section>
+
+</div>
+
+<footer class="w3-container w3-blue w3-center w3-padding-16">
+    <p>Crèche Platform Documentation • Internal Use</p>
+</footer>
+
+</body>
+</html>
+

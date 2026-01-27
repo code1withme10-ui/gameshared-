@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crèche Platform – Core Principles</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+        .section-spacing {
+            margin-top: 32px;
+        }
+        .principle {
+            border-left: 6px solid #2196F3;
+            padding-left: 16px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 6px solid #ff9800;
+            padding: 16px;
+        }
+        .nav-link {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body class="w3-light-grey">
+
+     
+
+    
+<!-- HEADER -->
+<header class="w3-container w3-blue w3-padding-32">
+    <h1 class="w3-center">Core Principles & Non-Negotiables</h1>
+    <p class="w3-center w3-large">
+        Rules That Govern Every Technical and Product Decision
+    </p>
+</header>
+
+<!-- MAIN CONTENT -->
+<div class="w3-content w3-padding-32" style="max-width:1100px">
+
+    <!-- INTRO -->
+    <section class="w3-card w3-white w3-padding">
+        <h2>🧭 Why These Principles Exist</h2>
+        <p>
+            This platform is designed to scale rapidly while remaining stable,
+            secure, and predictable. These principles exist to prevent:
+        </p>
+
+        <ul class="w3-ul">
+            <li>One-off solutions that don’t scale</li>
+            <li>Hidden technical debt</li>
+            <li>Inconsistent onboarding experiences</li>
+            <li>Architectural shortcuts that slow future growth</li>
+        </ul>
+
+        <p>
+            <strong>If a decision violates any principle on this page, it must not proceed.</strong>
+        </p>
+    </section>
+
+    <!-- PRINCIPLE 1 -->
+    <section class="w3-card w3-white w3-padding section-spacing principle">
+        <h2>1️⃣ Configuration Over Custom Code</h2>
+        <p><strong>This is the most important principle.</strong></p>
+
+        <p>
+            No crèche should require a code change to go live.
+        </p>
+
+        <h4>What must be configurable</h4>
+        <ul class="w3-ul">
+            <li>Admission rules</li>
+            <li>Age ranges</li>
+            <li>Enrolment cycles</li>
+            <li>Required documents</li>
+            <li>Feature availability</li>
+        </ul>
+
+        <h4>How this is achieved</h4>
+        <ul class="w3-ul">
+            <li>Configuration files</li>
+            <li>Database / JSON settings</li>
+            <li>Strategy and rule patterns</li>
+        </ul>
+
+        <div class="warning">
+            <strong>Enforcement:</strong><br>
+            If someone says “we’ll just hardcode it for this crèche” — stop immediately.
+        </div>
+    </section>
+
+    <!-- PRINCIPLE 2 -->
+    <section class="w3-card w3-white w3-padding section-spacing principle">
+        <h2>2️⃣ One Shared Core, Zero Forks</h2>
+
+        <p>
+            There is exactly <strong>one</strong> platform codebase.
+        </p>
+
+        <ul class="w3-ul">
+            <li>No per-crèche forks</li>
+            <li>No duplicated repositories</li>
+            <li>No special deployments</li>
+        </ul>
+
+        <p>
+            Each crèche is defined only by:
+        </p>
+
+        <ul class="w3-ul">
+            <li>Configuration</li>
+            <li>Data</li>
+            <li>Theme / branding</li>
+            <li>Rule selection</li>
+        </ul>
+
+        <div class="warning">
+            <strong>Enforcement:</strong><br>
+            Forking the repository is considered an architectural failure.
+        </div>
+    </section>
+
+    <!-- PRINCIPLE 3 -->
+    <section class="w3-card w3-white w3-padding section-spacing principle">
+        <h2>3️⃣ Roles and Permissions Are Sacred</h2>
+
+        <p>
+            Every action in the system must be associated with a role.
+        </p>
+
+        <ul class="w3-ul">
+            <li>No shared accounts</li>
+            <li>No permission bypasses</li>
+            <li>No “temporary admin access”</li>
+        </ul>
+
+        <p>
+            This system handles children’s data. Trust and compliance are mandatory.
+        </p>
+    </section>
+
+    <!-- PRINCIPLE 4 -->
+    <section class="w3-card w3-white w3-padding section-spacing principle">
+        <h2>4️⃣ Business Rules Live Outside Controllers</h2>
+
+        <p>
+            Controllers coordinate requests — they do not make decisions.
+        </p>
+
+        <ul class="w3-ul">
+            <li>Age eligibility</li>
+            <li>Admission windows</li>
+            <li>Capacity limits</li>
+            <li>Acceptance logic</li>
+        </ul>
+
+        <p>
+            These belong in services, rule engines, and strategy classes
+            and must be testable without HTTP.
+        </p>
+    </section>
+
+    <!-- PRINCIPLE 5 -->
+    <section class="w3-card w3-white w3-padding section-spacing principle">
+        <h2>5️⃣ Test-First or Don’t Build It</h2>
+
+        <p>
+            If it is not tested, it does not exist.
+        </p>
+
+        <ul class="w3-ul">
+            <li>User stories → tests → code</li>
+            <li>PRs without tests are rejected</li>
+            <li>Bug fixes require regression tests</li>
+        </ul>
+
+        <p>
+            Tests define behaviour and protect us from unintended changes,
+            especially when using AI-generated code.
+        </p>
+    </section>
+
+    <!-- PRINCIPLE 6 -->
+    <section class="w3-card w3-white w3-padding section-spacing principle">
+        <h2>6️⃣ Multi-Tenancy Is First-Class</h2>
+
+        <p>
+            Every feature must explicitly consider: <strong>Which crèche?</strong>
+        </p>
+
+        <ul class="w3-ul">
+            <li>Strict data isolation</li>
+            <li>Crèche-scoped configuration</li>
+            <li>Tenant-aware logging and audits</li>
+        </ul>
+    </section>
+
+    <!-- PRINCIPLE 7 -->
+    <section class="w3-card w3-white w3-padding section-spacing principle">
+        <h2>7️⃣ Onboarding Speed Is a Feature</h2>
+
+        <p>
+            If onboarding is slow, the system is broken.
+        </p>
+
+        <ul class="w3-ul">
+            <li>Scripts are part of the product</li>
+            <li>Manual steps must be documented</li>
+            <li>Anything done twice becomes automation</li>
+        </ul>
+    </section>
+
+    <!-- PRINCIPLE 8 -->
+    <section class="w3-card w3-white w3-padding section-spacing principle">
+        <h2>8️⃣ Security & Privacy Are Non-Negotiable</h2>
+
+        <p>
+            Children’s data is sacred.
+        </p>
+
+        <ul class="w3-ul">
+            <li>Least-privilege access</li>
+            <li>Encrypted sensitive data</li>
+            <li>Secure uploads and audit trails</li>
+        </ul>
+    </section>
+
+    <!-- PRINCIPLE 9 -->
+    <section class="w3-card w3-white w3-padding section-spacing principle">
+        <h2>9️⃣ Build for Humans, Not Just Developers</h2>
+
+        <ul class="w3-ul">
+            <li>Clear language</li>
+            <li>Safe defaults</li>
+            <li>Confirm destructive actions</li>
+            <li>Helpful error messages</li>
+        </ul>
+    </section>
+
+    <!-- PRINCIPLE 10 -->
+    <section class="w3-card w3-white w3-padding section-spacing principle">
+        <h2>🔟 AI Is a Copilot, Not the Pilot</h2>
+
+        <p>
+            AI accelerates delivery, but humans own decisions.
+        </p>
+
+        <ul class="w3-ul">
+            <li>AI generates drafts</li>
+            <li>Humans approve architecture</li>
+            <li>Tests validate AI output</li>
+        </ul>
+    </section>
+
+    <!-- META PRINCIPLE -->
+    <section class="w3-card w3-white w3-padding section-spacing warning">
+        <h2>🧠 The Meta-Principle</h2>
+        <p>
+            <strong>
+                If a decision improves speed today but harms scale tomorrow,
+                it is the wrong decision.
+            </strong>
+        </p>
+    </section>
+
+    <!-- NAVIGATION -->
+    <section class="w3-center section-spacing">
+        <a href="01-platform-overview.html" class="w3-button w3-grey w3-margin-right nav-link">
+            ⬅ Previous – Platform Overview
+        </a>
+
+        <a href="03-user-roles-rbac.html" class="w3-button w3-blue nav-link">
+            Next ➡ User Roles & Responsibilities
+        </a>
+    </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="w3-container w3-blue w3-center w3-padding-16">
+    <p>Crèche Platform Documentation • Internal Use</p>
+</footer>
+
+</body>
+</html>
+

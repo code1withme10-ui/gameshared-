@@ -1,0 +1,216 @@
+{
+  "document": {
+    "name": "Crèche Platform CI/CD Checklist",
+    "derived_from": "Platform SOP v0.0.0",
+    "version": "v0.0.0",
+    "date": "2026-01-26"
+  },
+  "pipeline_stages": [
+    {
+      "stage": "pre-commit",
+      "description": "Local developer validation before code is pushed",
+      "checks": [
+        {
+          "id": "PC-01",
+          "name": "Code formatting and linting",
+          "required": true,
+          "failure_action": "block_commit"
+        },
+        {
+          "id": "PC-02",
+          "name": "Secrets scan (no API keys or passwords)",
+          "required": true,
+          "failure_action": "block_commit"
+        }
+      ]
+    },
+    {
+      "stage": "static-analysis",
+      "description": "Static code and architecture checks",
+      "checks": [
+        {
+          "id": "SA-01",
+          "name": "Static code analysis passed",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        },
+        {
+          "id": "SA-02",
+          "name": "No hardcoded tenant-specific values",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        },
+        {
+          "id": "SA-03",
+          "name": "No business logic in controllers",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        }
+      ]
+    },
+    {
+      "stage": "unit-tests",
+      "description": "Validation of business rules and services",
+      "checks": [
+        {
+          "id": "UT-01",
+          "name": "All unit tests pass",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        },
+        {
+          "id": "UT-02",
+          "name": "Admission rules tested (age, cycle, capacity)",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        }
+      ]
+    },
+    {
+      "stage": "feature-tests",
+      "description": "End-to-end user behaviour validation",
+      "checks": [
+        {
+          "id": "FT-01",
+          "name": "Guest access tests pass",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        },
+        {
+          "id": "FT-02",
+          "name": "Parent registration and application tests pass",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        },
+        {
+          "id": "FT-03",
+          "name": "Admin review and decision workflow tests pass",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        }
+      ]
+    },
+    {
+      "stage": "rbac-validation",
+      "description": "Security and access control enforcement",
+      "checks": [
+        {
+          "id": "RBAC-01",
+          "name": "Deny-by-default policy enforced",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        },
+        {
+          "id": "RBAC-02",
+          "name": "Role-based access tests pass",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        },
+        {
+          "id": "RBAC-03",
+          "name": "Tenant isolation enforced in all queries",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        }
+      ]
+    },
+    {
+      "stage": "audit-and-logging",
+      "description": "Auditability and traceability checks",
+      "checks": [
+        {
+          "id": "AL-01",
+          "name": "Audit logs generated for sensitive actions",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        },
+        {
+          "id": "AL-02",
+          "name": "Logs include tenant_id and user_id",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        }
+      ]
+    },
+    {
+      "stage": "config-validation",
+      "description": "Configuration-driven behaviour validation",
+      "checks": [
+        {
+          "id": "CFG-01",
+          "name": "Tenant configuration schema validated",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        },
+        {
+          "id": "CFG-02",
+          "name": "No tenant-specific logic in code",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        }
+      ]
+    },
+    {
+      "stage": "build",
+      "description": "Build and packaging stage",
+      "checks": [
+        {
+          "id": "BLD-01",
+          "name": "Build completes successfully",
+          "required": true,
+          "failure_action": "fail_pipeline"
+        }
+      ]
+    },
+    {
+      "stage": "deploy-staging",
+      "description": "Pre-production deployment",
+      "checks": [
+        {
+          "id": "STG-01",
+          "name": "Deployment to staging successful",
+          "required": true,
+          "failure_action": "stop_pipeline"
+        },
+        {
+          "id": "STG-02",
+          "name": "Staging smoke tests pass",
+          "required": true,
+          "failure_action": "stop_pipeline"
+        }
+      ]
+    },
+    {
+      "stage": "deploy-production",
+      "description": "Production deployment (controlled)",
+      "checks": [
+        {
+          "id": "PROD-01",
+          "name": "Manual approval granted",
+          "required": true,
+          "failure_action": "block_deploy"
+        },
+        {
+          "id": "PROD-02",
+          "name": "Production deployment successful",
+          "required": true,
+          "failure_action": "rollback"
+        },
+        {
+          "id": "PROD-03",
+          "name": "Production smoke tests pass",
+          "required": true,
+          "failure_action": "rollback"
+        }
+      ]
+    }
+  ],
+  "global_rules": {
+    "no_direct_production_changes": true,
+    "tests_required_for_all_features": true,
+    "rollback_mandatory": true,
+    "audit_logs_immutable": true,
+    "configuration_over_code": true
+  }
+}
+

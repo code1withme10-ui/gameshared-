@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crèche Platform – Development Workflow & TDD</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS -->
+     
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+        .section-spacing {
+            margin-top: 32px;
+        }
+        .rule {
+            border-left: 6px solid #4CAF50;
+            padding-left: 16px;
+        }
+        .warning {
+            border-left: 6px solid #f44336;
+            padding-left: 16px;
+            background-color: #ffebee;
+        }
+        .info {
+            border-left: 6px solid #2196F3;
+            padding-left: 16px;
+            background-color: #e3f2fd;
+        }
+        .nav-link {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body class="w3-light-grey">
+
+<!-- HEADER -->
+<header class="w3-container w3-blue w3-padding-32">
+    <h1 class="w3-center">Development Workflow & TDD</h1>
+    <p class="w3-center w3-large">
+        From Requirement to Production – Predictably
+    </p>
+</header>
+
+<div class="w3-content w3-padding-32" style="max-width:1200px">
+
+    <!-- INTRO -->
+    <section class="w3-card w3-white w3-padding">
+        <h2>🎯 Why This Workflow Exists</h2>
+        <p>
+            Speed without structure creates chaos.
+            Structure without speed creates stagnation.
+        </p>
+        <p>
+            This workflow exists to allow the team to:
+        </p>
+        <ul class="w3-ul">
+            <li>Onboard many crèches in parallel</li>
+            <li>Make frequent changes safely</li>
+            <li>Use AI without losing control</li>
+            <li>Track progress objectively</li>
+        </ul>
+    </section>
+
+    <!-- FLOW DIAGRAM -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>🔄 End-to-End Delivery Flow</h2>
+
+        <svg width="100%" height="220" viewBox="0 0 1000 220">
+            <rect x="20" y="60" width="160" height="60" fill="#2196F3"/>
+            <text x="100" y="95" text-anchor="middle" fill="white">Requirements</text>
+
+            <rect x="220" y="60" width="160" height="60" fill="#4CAF50"/>
+            <text x="300" y="95" text-anchor="middle" fill="white">Tests</text>
+
+            <rect x="420" y="60" width="160" height="60" fill="#FF9800"/>
+            <text x="500" y="95" text-anchor="middle" fill="white">Code</text>
+
+            <rect x="620" y="60" width="160" height="60" fill="#9C27B0"/>
+            <text x="700" y="95" text-anchor="middle" fill="white">Review</text>
+
+            <rect x="820" y="60" width="160" height="60" fill="#607D8B"/>
+            <text x="900" y="95" text-anchor="middle" fill="white">Deploy</text>
+
+            <line x1="180" y1="90" x2="220" y2="90" stroke="black" stroke-width="2"/>
+            <line x1="380" y1="90" x2="420" y2="90" stroke="black" stroke-width="2"/>
+            <line x1="580" y1="90" x2="620" y2="90" stroke="black" stroke-width="2"/>
+            <line x1="780" y1="90" x2="820" y2="90" stroke="black" stroke-width="2"/>
+        </svg>
+
+        <p class="info section-spacing">
+            If any step is skipped, quality and predictability collapse.
+        </p>
+    </section>
+
+    <!-- REQUIREMENTS -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>1️⃣ Requirements (Source of Truth)</h2>
+        <p>
+            Requirements always originate from:
+        </p>
+        <ul class="w3-ul">
+            <li>User role pages (Guest, Parent, Admin, etc.)</li>
+            <li>Platform principles (Pages 1–4)</li>
+            <li>Onboarding checklists</li>
+        </ul>
+
+        <p>
+            Requirements must be:
+        </p>
+        <ul class="w3-ul">
+            <li>Role-scoped</li>
+            <li>Tenant-aware</li>
+            <li>Testable</li>
+            <li>Free of implementation detail</li>
+        </ul>
+    </section>
+
+    <!-- TDD -->
+    <section class="w3-card w3-white w3-padding section-spacing rule">
+        <h2>2️⃣ Test-Driven Development (Non-Negotiable)</h2>
+
+        <p>
+            The only valid sequence is:
+        </p>
+        <ol class="w3-ul">
+            <li>Write tests from requirements</li>
+            <li>Run tests (they must fail)</li>
+            <li>Write minimal code to pass</li>
+            <li>Refactor safely</li>
+        </ol>
+
+        <p>
+            Tests define:
+        </p>
+        <ul class="w3-ul">
+            <li>Business rules</li>
+            <li>Permission boundaries</li>
+            <li>Multi-tenant behaviour</li>
+        </ul>
+    </section>
+
+    <!-- AI USAGE -->
+    <section class="w3-card w3-white w3-padding section-spacing info">
+        <h2>🤖 Using This Documentation to Prompt AI</h2>
+
+        <p>
+            This documentation is intentionally structured so it can be
+            <strong>fed directly into AI tools</strong>.
+        </p>
+
+        <h4>Recommended Prompt Pattern</h4>
+        <pre>
+You are building features for a multi-tenant crèche platform.
+
+Constraints:
+- Follow the Core Principles (Page 2)
+- Use the RBAC model exactly as defined (Page 3)
+- Respect shared vs configurable boundaries (Page 4)
+- All logic must be tenant-aware
+- Tests are mandatory
+
+Task:
+[Insert requirement here]
+        </pre>
+
+        <p>
+            AI is best used to:
+        </p>
+        <ul class="w3-ul">
+            <li>Draft tests from requirements</li>
+            <li>Generate boilerplate services</li>
+            <li>Suggest refactors</li>
+        </ul>
+
+        <div class="warning section-spacing">
+            AI output is never trusted blindly.
+            Humans own architecture and approval.
+        </div>
+    </section>
+
+    <!-- CODE & REVIEW -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>3️⃣ Code, Review & Merge</h2>
+
+        <ul class="w3-ul">
+            <li>Small, focused commits</li>
+            <li>One concern per PR</li>
+            <li>Tests must pass in CI</li>
+            <li>RBAC and tenant scope reviewed explicitly</li>
+        </ul>
+
+        <p>
+            Reviewers must verify:
+        </p>
+        <ul class="w3-ul">
+            <li>No hardcoded crèche logic</li>
+            <li>No permission bypasses</li>
+            <li>No shared-state leaks</li>
+        </ul>
+    </section>
+
+    <!-- DEVOPS -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>4️⃣ DevOps & Progress Tracking</h2>
+
+        <p>
+            Progress is tracked using objective signals:
+        </p>
+
+        <ul class="w3-ul">
+            <li>Tests written and passing</li>
+            <li>PR merged into main branch</li>
+            <li>Feature enabled via configuration</li>
+            <li>Audit logs generated correctly</li>
+        </ul>
+
+        <p>
+            A feature is not considered done until it can be
+            enabled for a crèche <strong>without code changes</strong>.
+        </p>
+    </section>
+
+    <!-- DEFINITION OF DONE -->
+    <section class="w3-card w3-white w3-padding section-spacing rule">
+        <h2>✅ Definition of Done</h2>
+
+        <ul class="w3-ul">
+            <li>Requirements satisfied</li>
+            <li>Tests passing</li>
+            <li>RBAC enforced</li>
+            <li>Tenant isolation verified</li>
+            <li>Audit logs present</li>
+            <li>Configurable where required</li>
+        </ul>
+    </section>
+
+    <!-- NAV -->
+    <section class="w3-center section-spacing">
+        <a href="04-system-capabilities.html" class="w3-button w3-grey w3-margin-right nav-link">
+            ⬅ Previous – System Capabilities
+        </a>
+
+        <a href="06-onboarding-process.html" class="w3-button w3-blue nav-link">
+            Next ➡ Crèche Onboarding Process
+        </a>
+    </section>
+
+</div>
+
+<footer class="w3-container w3-blue w3-center w3-padding-16">
+    <p>Crèche Platform Documentation • Internal Use</p>
+</footer>
+
+</body>
+</html>
+

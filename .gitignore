@@ -51,3 +51,6 @@ tshwarelo/public/uploads/*
 tshwarelo/uploads/*
 nbproject/*
 _old_nbproject/*
+2026-fresh/docs/tmp-*
+2026-fresh/docs/tmp*
+public/sites_list.html

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crèche Platform – DevOps & Environments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+        .section-spacing {
+            margin-top: 32px;
+        }
+        .critical {
+            border-left: 6px solid #f44336;
+            padding-left: 16px;
+            background-color: #ffebee;
+        }
+        .info {
+            border-left: 6px solid #4CAF50;
+            padding-left: 16px;
+            background-color: #e8f5e9;
+        }
+        .process {
+            border-left: 6px solid #2196F3;
+            padding-left: 16px;
+        }
+        .nav-link {
+            text-decoration: none;
+        }
+        code, pre {
+            background-color: #f1f1f1;
+            padding: 6px;
+        }
+    </style>
+</head>
+
+<body class="w3-light-grey">
+
+<!-- HEADER -->
+<header class="w3-container w3-blue w3-padding-32">
+    <h1 class="w3-center">DevOps, Environments & Progress Tracking</h1>
+    <p class="w3-center w3-large">
+        Reproducible. Secure. Observable.
+    </p>
+</header>
+
+<div class="w3-content w3-padding-32" style="max-width:1200px">
+
+    <!-- FOUNDATIONS -->
+    <section class="w3-card w3-white w3-padding">
+        <h2>🧱 DevOps Foundations (Non-Negotiable)</h2>
+
+        <div class="process section-spacing">
+            <h4>Infrastructure Is a Product</h4>
+            <ul class="w3-ul">
+                <li>Repeatable setups</li>
+                <li>Scripted deployments</li>
+                <li>Minimal manual steps</li>
+                <li>Same process for every crèche</li>
+            </ul>
+        </div>
+
+        <div class="critical section-spacing">
+            Infrastructure shortcuts become platform outages later.
+        </div>
+    </section>
+
+    <!-- AUTOMATION -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>🤖 Automation First</h2>
+
+        <p>
+            Any step performed more than once must be automated.
+        </p>
+
+        <ul class="w3-ul">
+            <li>Environment setup</li>
+            <li>Tenant onboarding</li>
+            <li>Config and data initialization</li>
+            <li>Deployments</li>
+            <li>Rollbacks</li>
+        </ul>
+
+        <div class="info">
+            Manual steps are acceptable only during prototyping — never in production flows.
+        </div>
+    </section>
+
+    <!-- SECURITY -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>🔐 Security by Default</h2>
+
+        <ul class="w3-ul">
+            <li>Secrets never committed to repositories</li>
+            <li>Environment variables per environment</li>
+            <li>Least-privilege access everywhere</li>
+            <li>RBAC validation enforced in CI</li>
+        </ul>
+
+        <div class="critical">
+            Security enforced by memory is not security.
+        </div>
+    </section>
+
+    <!-- ENVIRONMENTS -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>🌍 Environment Strategy</h2>
+
+        <table class="w3-table w3-bordered w3-striped">
+            <tr>
+                <th>Environment</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td>Local</td>
+                <td>Developer work</td>
+            </tr>
+            <tr>
+                <td>Dev</td>
+                <td>Shared integration</td>
+            </tr>
+            <tr>
+                <td>QA / Staging</td>
+                <td>Pre-production validation</td>
+            </tr>
+            <tr>
+                <td>Production</td>
+                <td>Live crèches</td>
+            </tr>
+        </table>
+
+        <div class="critical section-spacing">
+            Production data never exists outside production.
+        </div>
+    </section>
+
+    <!-- PARITY -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>⚖️ Environment Parity</h2>
+
+        <h4>Same Across Environments</h4>
+        <ul class="w3-ul">
+            <li>Codebase</li>
+            <li>Folder structure</li>
+            <li>Config schemas</li>
+            <li>Deployment steps</li>
+        </ul>
+
+        <h4>Different Per Environment</h4>
+        <ul class="w3-ul">
+            <li>Secrets</li>
+            <li>Data</li>
+            <li>Feature flags</li>
+            <li>Logging verbosity</li>
+        </ul>
+    </section>
+
+    <!-- MULTI TENANT -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>🏘️ Multi-Tenant Support per Environment</h2>
+
+        <pre>
+dev.creche-platform.com/sunshine
+prod.creche-platform.com/sunshine
+        </pre>
+
+        <p>
+            Tenant isolation rules apply equally in all environments.
+        </p>
+    </section>
+
+    <!-- CONFIG & SECRETS -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>⚙️ Configuration & Secrets Management</h2>
+
+        <table class="w3-table w3-bordered">
+            <tr>
+                <th>Type</th>
+                <th>Storage</th>
+            </tr>
+            <tr>
+                <td>System Config</td>
+                <td>Repository (versioned)</td>
+            </tr>
+            <tr>
+                <td>Tenant Config</td>
+                <td>JSON / Database</td>
+            </tr>
+            <tr>
+                <td>Secrets</td>
+                <td>Environment variables</td>
+            </tr>
+            <tr>
+                <td>Feature Flags</td>
+                <td>Tenant config</td>
+            </tr>
+        </table>
+
+        <div class="info section-spacing">
+            Code does not change between tenants — config does.
+        </div>
+    </section>
+
+    <!-- CI CD -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>🚦 CI / CD Pipeline Requirements</h2>
+
+        <ol class="w3-ul">
+            <li>Lint & static analysis</li>
+            <li>Unit tests</li>
+            <li>Feature tests</li>
+            <li>Security checks</li>
+            <li>Build</li>
+            <li>Deploy</li>
+            <li>Smoke tests</li>
+        </ol>
+
+        <div class="critical">
+            If any stage fails, deployment stops.
+        </div>
+    </section>
+
+    <!-- DATA STRATEGY -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>🗄️ Data Strategy (JSON → MySQL Safe)</h2>
+
+        <ul class="w3-ul">
+            <li>Repository pattern hides storage</li>
+            <li>Same interfaces regardless of backend</li>
+            <li>Immutable audit logs</li>
+            <li>Consistent IDs</li>
+        </ul>
+
+        <p>
+            Migration is a storage concern — not a business logic rewrite.
+        </p>
+    </section>
+
+    <!-- LOGGING -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>📜 Logging, Monitoring & Auditing</h2>
+
+        <h4>Logs Must Include</h4>
+        <ul class="w3-ul">
+            <li>Timestamp</li>
+            <li>Tenant ID</li>
+            <li>User ID</li>
+            <li>Action</li>
+        </ul>
+
+        <h4>Monitoring Tracks</h4>
+        <ul class="w3-ul">
+            <li>Error rates</li>
+            <li>Performance</li>
+            <li>Failed logins</li>
+            <li>Upload failures</li>
+        </ul>
+    </section>
+
+    <!-- BACKUPS -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>💾 Backups & Recovery</h2>
+
+        <ul class="w3-ul">
+            <li>Automated backups</li>
+            <li>Environment-specific</li>
+            <li>Secure storage</li>
+            <li>Regular restore tests</li>
+        </ul>
+
+        <div class="critical">
+            A backup that has never been restored is not a backup.
+        </div>
+    </section>
+
+    <!-- TRACKING -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>📊 Progress Tracking & Visibility</h2>
+
+        <h4>Onboarding Pipeline Tracking</h4>
+        <table class="w3-table w3-bordered">
+            <tr>
+                <th>Stage</th>
+                <th>Status</th>
+            </tr>
+            <tr><td>Intake</td><td>✅</td></tr>
+            <tr><td>Config</td><td>⏳</td></tr>
+            <tr><td>Content</td><td>⏳</td></tr>
+            <tr><td>Testing</td><td>❌</td></tr>
+            <tr><td>Live</td><td>❌</td></tr>
+        </table>
+    </section>
+
+    <!-- OWNERSHIP -->
+    <section class="w3-card w3-white w3-padding section-spacing">
+        <h2>👥 Ownership Matrix</h2>
+
+        <table class="w3-table w3-bordered">
+            <tr>
+                <th>Area</th>
+                <th>Owner</th>
+            </tr>
+            <tr><td>Infrastructure</td><td>DevOps</td></tr>
+            <tr><td>Platform Code</td><td>Developers</td></tr>
+            <tr><td>Requirements</td><td>Business Analyst</td></tr>
+            <tr><td>Onboarding</td><td>Product Manager</td></tr>
+            <tr><td>Content</td><td>Crèche Admin</td></tr>
+        </table>
+    </section>
+
+    <!-- FINAL RULES -->
+    <section class="w3-card w3-white w3-padding section-spacing critical">
+        <h2>🧭 Final Guiding Rules</h2>
+
+        <ul class="w3-ul">
+            <li>If it’s not reproducible, it’s broken</li>
+            <li>If it’s not logged, it didn’t happen</li>
+            <li>If it’s not tested, it’s not ready</li>
+            <li>If it can’t be rolled back, it’s not safe</li>
+        </ul>
+    </section>
+
+    <!-- NAV -->
+    <section class="w3-center section-spacing">
+        <a href="06-onboarding-process.html" class="w3-button w3-grey w3-margin-right nav-link">
+            ⬅ Previous – Onboarding Pipeline
+        </a>
+    </section>
+
+</div>
+
+<footer class="w3-container w3-blue w3-center w3-padding-16">
+    <p>Crèche Platform Documentation • Internal Use</p>
+</footer>
+
+</body>
+</html>
