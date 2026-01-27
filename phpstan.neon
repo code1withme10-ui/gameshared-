@@ -1,0 +1,8 @@
+parameters:
+    level: 6
+    paths:
+        - 2026-fresh
+
+    excludePaths:
+        - vendor
+        - '**/vendor/**'

@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+
+echo "Running pre-push checks..."
+
+# Skip if no upstream
+if ! git rev-parse @{u} >/dev/null 2>&1; then
+  echo "⚠️  No upstream branch, skipping pre-push checks"
+  exit 0
+fi
+
+# PHPStan (if installed)
+if [ -x vendor/bin/phpstan ]; then
+  echo "🔍 PHPStan"
+  vendor/bin/phpstan analyse
+fi
+
+# PHPUnit (optional)
+if [ -x vendor/bin/phpunit ]; then
+  echo "🧪 PHPUnit"
+  vendor/bin/phpunit
+fi
+
+echo "✔ Pre-push checks passed"
+

@@ -7,7 +7,7 @@ FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.php$')
 [ -z "$FILES" ] && exit 0
 
 for file in $FILES; do
- echo -e "\n Checking file: $file \n"
+  echo -e "\n Checking file: $file \n"
   php -l "$file" || exit 1
 done
 
