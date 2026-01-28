@@ -1,0 +1,36 @@
+Activities:
+
+Platform overview
+
+Core principles
+
+User roles (RBAC)
+
+System capabilities
+
+Development workflow
+
+Onboarding process
+
+DevOps tracking
+
+Analysed the roadmap for the DevOps collaboration programme.
+Identified key concepts to discuss with team members.
+
+Reviewed collaboration workflow and CI processes.
+Began planning implementation approach based on documentation.
+Learning Outcomes:
+Improved understanding of DevOps culture and collaboration models.
+Learned about CI/CD structure and team-based development workflows.
+Gained insight into RBAC and system governance.
+Team Collaboration:
+
+Prepared discussion points for team communication.
+
+Next Steps:
+
+Engage with team members to clarify unclear concepts.
+Develop a collective implementation plan.
+Begin practical DevOps workflow implementation.
+Prepared by: Takalani Masubi
+Track: DevOps Induction Programme

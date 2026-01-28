@@ -1,0 +1,17 @@
+Activities:
+
+Successfully completed website development and final system integration.
+Performed system testing using CI tools:
+
+Executed composer test (PHPUnit) – all automated tests passed.
+Executed composer stan (PHPStan) – static analysis passed with no errors.
+Fixed Composer configuration issues and configured CI scripts.
+Verified CI readiness and ensured project compliance with quality standards.
+Collected test evidence (screenshots of successful test outputs).
+Learning Outcomes:
+
+Gained practical understanding of CI pipelines.
+
+Learned how automated testing and static analysis improve software quality.
+Initial PHPStan configuration errors caused by vendor directory scanning.
+Reconfigured PHPStan to analyse only project source code.
