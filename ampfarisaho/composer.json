@@ -5,6 +5,12 @@
     "type": "project",
 
     "require-dev": {
-        "phpunit/phpunit": "^11.5"
-    }
+        "phpunit/phpunit": "^11.5",
+        "phpstan/phpstan": "^2.1"
+    },
+"scripts": {
+    "stan": "php vendor/bin/phpstan analyse src --level=0",
+    "test": "php vendor/bin/phpunit tests"
+}
+
 }
