@@ -1,0 +1,66 @@
+Creche Website - Gallery page
+
+1. Purpose
+The purpose of the gallery page is to showcase the crèche’s facilities, activities, and learning environment in order to:
+Build trust with parents/guardians.
+Demonstrate daily activities and safety standards.
+Promote transparency and professionalism.
+ 
+_________
+
+2. Functional Requirements
+FR-GAL-01: Display Image Gallery
+The system shall display a collection of images related to the crèche.
+Images shall be organised in a grid or tiled layout.
+
+FR-GAL-02: Image Categories
+The system shall allow images to be grouped into categories such as:
+Classrooms
+Outdoor Play Area
+Learning Activities
+Events & Celebrations
+Facilities
+
+FR-GAL-03: Image Preview (Lightbox)
+The system shall allow users to click on an image to view it in an enlarged (popup/lightbox) view.
+Users shall be able to navigate between images while in preview mode.
+
+FR-GAL-04: Image Descriptions
+The system shall support optional captions or short descriptions for each image.
+
+FR-GAL-05: Admin Image Management
+The system shall allow authorised users (Admin/Headmaster) to:
+Upload images
+Edit image captions
+Delete images
+Assign images to categories
+
+__________
+
+3. Non-Functional Requirements
+NFR-GAL-01: Performance
+The gallery page shall load within 3 seconds on a standard internet connection.
+ Images shall be optimised to reduce loading time.
+
+NFR-GAL-02: Usability
+The gallery shall be easy to navigate for non-technical users.
+The interface shall be intuitive and visually appealing.
+
+NFR-GAL-03: Responsiveness
+The gallery page shall be fully responsive and usable on:
+Desktop
+Tablet
+Mobile devices
+
+NFR-GAL-04: Security & Privacy
+Only authorised users shall be able to upload or manage images.
+Images of children shall be displayed in accordance with parental consent policies.
+
+NFR-GAL-05: Accessibility
+Images shall include alternative text (alt text) for accessibility purposes.
+
+__________
+
+4.Approval
+
+This document serves as the formal requirements baseline for the development of the Headmaster Page of the Crèche Website.
