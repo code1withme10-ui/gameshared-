@@ -1,0 +1,158 @@
+Creche Website - Detailed Use Cases.
+
+1. HOME PAGE
+__________________________
+UC-HOME-01: View Home Page
+
+Primary Actor: Parent / Visitor
+Secondary Actor: Headmaster / Staff (view mode)
+
+Description: User visits the home page to see crèche overview, services, and announcements.
+
+Preconditions:
+Website is accessible.
+
+Postconditions:
+Home page is displayed.
+
+Main Flow:
+User enters website URL.
+System loads Home Page.
+System displays:
+Crèche logo and name
+Navigation menu
+Hero section with CTA (Apply Now / Contact Us)
+Summary of services and age groups
+Key highlights (qualified staff, safe learning environment)
+Announcements / notices (if any)
+
+Alternate Flows:
+AF1: Page fails to load → system shows error message.
+__________________________
+
+UC-HOME-02: View Announcements (Headmaster Feature)
+
+Primary Actor: Headmaster / Administrator
+
+Description: Headmaster can view current announcements and manage their visibility.
+
+Main Flow:
+Headmaster logs in.
+Navigates to announcements section on Home Page (admin mode).
+Can create, edit, or remove announcements.
+System updates Home Page for visitors.
+
+Alternate Flow:
+AF1: If invalid input → system shows validation error.
+___________________________________________________
+2. ABOUT US PAGE
+_______________________________
+UC-ABOUT-01: View About Us Page
+
+Primary Actor: Parent / Visitor
+Secondary Actor: Headmaster / Staff
+
+Description: Display crèche’s vision, mission, values, staff, and facilities.
+
+Main Flow:
+User clicks “About Us” in menu.
+System displays:
+Crèche history and establishment year
+Vision & Mission statements
+Core values
+Staff overview (qualifications, roles – no personal data)
+Facilities information
+Accreditation & compliance details
+
+Alternate Flows:
+AF1: If content is missing → system displays placeholder or error message.
+___________________________________________________________________
+3. GALLERY PAGE
+_______________________
+UC-GAL-01: View Gallery
+
+Primary Actor: Parent / Visitor
+Secondary Actor: Headmaster (admin mode)
+
+Description: Displays images of crèche classrooms, activities, and facilities.
+
+Main Flow:
+User clicks “Gallery.”
+System shows images with thumbnails.
+User can click to view enlarged images.
+
+Alternate Flow:
+AF1: If image fails to load → placeholder shown.
+
+UC-GAL-02: Manage Gallery (Headmaster Feature)
+
+Primary Actor: Headmaster / Administrator
+
+Main Flow:
+Headmaster logs in.
+Navigates to Gallery Management.
+Can upload, edit, or remove images.
+System reflects changes on the live Gallery page.
+
+________________________________________________________________
+4. ADMISSIONS PAGE
+____________________
+UC-ADM-01: View Admissions
+
+Primary Actor: Parent / Guardian
+
+Description: Display admission requirements, age groups, fees, and application process.
+
+Main Flow:
+User clicks “Admissions.”
+System displays:
+Age groups
+Requirements
+Online application form
+
+UC-ADM-02: Submit Admission Application
+
+Primary Actor: Parent / Guardian
+Secondary Actor: Headmaster / Administrator
+
+Main Flow:
+Parent fills application form.
+Clicks “Submit.”
+System validates required fields.
+System stores application and notifies Headmaster.
+
+Alternate Flows:
+AF1: Missing fields → validation messages displayed.
+AF2: Successful submission → confirmation message displayed.
+
+UC-ADM-03: Review Application (Headmaster Feature)
+
+Primary Actor: Headmaster / Administrator
+
+Main Flow:
+Headmaster logs in.
+Navigates to “Applications.”
+Reviews submitted forms.
+Approves or rejects application.
+System updates application status and notifies parent.
+______________________________________________________
+LOGIN PAGE
+____________________
+UC-LOG-01: User Login
+
+Primary Actor: Parent / Staff / Headmaster
+
+Main Flow:
+User navigates to login page.
+Enters username and password.
+Clicks “Login.”
+System validates credentials.
+Redirects user based on role:
+Parent → Dashboard / Admission status
+Headmaster → Admin Dashboard (manage announcements, gallery, applications)
+Staff → Staff dashboard (optional features)
+
+Alternate Flows:
+AF1: Invalid credentials → error message.
+AF2: Empty fields → validation error.
+_______________________________________________________
