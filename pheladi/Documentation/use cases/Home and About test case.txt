@@ -1,0 +1,62 @@
+CRECHE WEBSITE – TESTING DOCUMENTATION
+Home Page & About Page
+Introduction
+
+The purpose of this document is to ensure that the Home Page and About Page of the crèche website function correctly, display accurate information, and provide a user-friendly experience for parents, guardians, and visitors.
+
+Test Environment
+
+Browsers: Chrome, Firefox, Edge
+Devices: Laptop, Tablet, Mobile
+Database: JSON / Static Content
+
+HOME PAGE TEST CASES
+Home Page – Functional & UI Testing
+_____________________________________________________________________________________________________________________________________
+Test-ID	        Test Case Description	                  Steps                                       Expected Results
+TC-HP-01	Home page loads successfully	          Enter website URL	                      Home page loads without errors
+TC-HP-02	Crèche name and logo display	          Open home page	                      Logo and crèche name are visible
+TC-HP-03	Navigation menu visibility	          View navigation bar	                      All menu items are visible
+TC-HP-04	Navigation menu functionality	          Click each menu item	                      Redirects to correct pages
+TC-HP-05	Welcome message display	                  View hero section	                      Welcome text is clear and readable
+TC-HP-06	Call-to-action buttons visible	          Scroll home page	                      CTA buttons are visible
+TC-HP-07	CTA button redirection	                  Click “Apply Now / Contact Us”	      Redirects to correct page
+TC-HP-08	Images load correctly	                  Observe page images	                      Images load without distortion
+TC-HP-09	Footer information display	          Scroll to footer	                      Contact info and copyright visible
+TC-HP-10	Responsive layout	                  Resize browser	                      Layout adapts correctly
+_________________________________________________________________________________________________________________________________________
+Home Page – Negative Test Cases
+_________________________________________________________________________________________________________________________________________
+Test-ID	        Test Case Description	                 Steps	                                       Expected Results
+NTC-HP-01	Invalid URL access	                 Enter wrong URL	                       Error or 404 page displayed
+NTC-HP-02	Broken navigation link	                 Click broken menu link	                       Friendly error page shown
+NTC-HP-03	Image file missing	                 Load page with missing image	               Placeholder or alt text shown
+NTC-HP-04	CTA link unavailable	                 Click CTA when page is down	               Error message displayed
+NTC-HP-05	Slow network loading	                 Load page on slow internet	               Loading indicator shown
+NTC-HP-06	Unsupported browser	                 Open page on old browser	               Page still readable
+NTC-HP-07	JavaScript disabled	                 Disable JS and reload	                       Basic content loads
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+ABOUT PAGE TEST CASES
+About Page – Functional & Content Testing
+__________________________________________________________________________________________________________________________________________
+Test-ID	        Test Case Description                   Steps	                                       Expected Results
+TC-AP-01	About page loads successfully	        Click About menu	                       About page loads correctly
+TC-AP-02	Crèche description display	        View description section	               Content is readable and correct
+TC-AP-03	Mission & Vision display	        Scroll page	                               Mission and Vision visible
+TC-AP-04	Staff information display	        View staff section	                       Staff details display correctly
+TC-AP-05	Images load correctly	                Observe images	                               Images display properly
+TC-AP-06	Navigation back to home	                Click Home menu	                               Redirects to Home Page
+TC-AP-07	Footer consistency	                Scroll to footer	                       Footer matches Home Page
+TC-AP-08	Page responsiveness	                Resize browser	                               Layout adjusts correctly
+___________________________________________________________________________________________________________________________________________
+About Page – Negative Test Cases
+___________________________________________________________________________________________________________________________________________
+Test-ID	        Test Case Description	               Steps	                                        Expected Results
+NTC-AP-01	Broken About page link	               Click broken About link	                        Error page displayed
+NTC-AP-02	Missing staff images	               Load page without images	                        Placeholder or alt text shown
+NTC-AP-03	Long text overflow	               Load long content	                        Text wraps correctly
+NTC-AP-04	Page refresh during load	       Refresh page	                                Page reloads safely
+NTC-AP-05	Unauthorized access attempt	       Modify URL parameters	                        Access denied or ignored
+NTC-AP-06	Very small screen	               Resize browser small	                        Content scrolls properly
+-------------------------------------------------------------------------------------------------------------------------------------------
