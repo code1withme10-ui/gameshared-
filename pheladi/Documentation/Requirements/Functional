@@ -8,7 +8,7 @@ The system must allow the parents to:
 Enter child and parent details.
 Upload required supporting documents.
 Submit an application.
-The system will not use database to store files but will use JSON for storage.
+The system will not use a database to store files but will use JSON for storage.
 
 Functional Requirements
 1.1 Child Information required fields:
@@ -21,7 +21,7 @@ Residential Address
 Grade Categories
 Parents must select from the following options:
 Category	Age Range
-Infants	        6 – 12 months
+Infants	  0 – 12 months
 Toddlers	1 – 3 years
 Playgroup	3 – 4 years
 Pre-School	4 – 5 years
@@ -48,23 +48,24 @@ Phone number must match a valid number pattern.
 1.3 Supporting Documents Upload:
 Parents must upload the following:
 Birth Certificate
+Clinical report
 Parent/Guardian ID
 
 Validation:
 Allowed formats: PDF, JPG, PNG
 Max size: 2MB per file
 Multiple upload attempts allowed
-System must show a preview if document is an image
-System must reject invalid file types
-System must show error messages for failed uploads
+The system must show a preview if the document is an image
+The system must reject invalid file types
+The system must show error messages for failed uploads
 
 1.4 Submission Requirements:
 Upon submitting the form:
 All fields must be validated.
 All documents must be uploaded.
-Application will only save if validation passes.
+The application will only save if the validation passes.
 Application status defaults to "pending".
-A success message must be displayed after submission and parent must view summary of submission.
+A success message must be displayed after submission, and the  parent must view a summary of the submission.
 
 1.5 JSON File Handling
 New applications must not overwrite existing applications.
@@ -93,7 +94,7 @@ SECTION 1: CHILD DETAILS
 [Date of Birth:          ____/____/________]          *Required
 [Gender:                 ( ) Male   ( ) Female   ( ) Other]  *Required
 [Grade Applying For:     ⬇ Select Category *]        *Required
-   - Infants (6-12 months)
+   - Infants (0-12 months)
    - Toddlers (1-3 years)
    - Playgroup (3-4 years)
    - Pre-School (4-5 years)
@@ -122,8 +123,7 @@ SECTION 3: UPLOAD SUPPORTING DOCUMENTS
 --------------------------------------------------------------------------------
 [Child ID / Birth Certificate:         [Choose File]]  *Required
 [Parent ID:                           [Choose File]]  *Required
-[Proof of Residence:                   [Choose File]]  *Required
-[Proof of Registration / Application: [Choose File]]  *Required
+[Clinical report: [Choose File]]  *Required
 
 * Notes:
 - Allowed file types: PDF, JPG, PNG
