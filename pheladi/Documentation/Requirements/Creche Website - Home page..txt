@@ -29,7 +29,6 @@ FR-HOME-03: Navigation Menu
 The system shall display a navigation menu linking to:
 Home
 About Us
-Programs / Classes
 Admissions
 Gallery
 Contact Us
@@ -37,19 +36,17 @@ Contact Us
 FR-HOME-04: Overview of Services
 The system shall display a brief summary of:
 Age groups accepted
-Educational programs
 Operating hours
 
 FR-HOME-05: Key Highlights
 The system shall display key selling points, such as:
-Qualified teachers
 Safe learning environment
 Learning approach
 
 FR-HOME-06: Call to Action (CTA)
 The system shall provide CTA buttons that redirect users to:
 Online application form
-Contact page
+
 
 FR-HOME-07: Announcements / Notices (Optional)
 The system shall display important announcements (e.g., enrolment open).
