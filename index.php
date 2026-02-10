@@ -101,19 +101,20 @@ function safe_get_remote_html($url) {
         ?>
     </div>                    
     </div>
+     
     <?php foreach ($developers as $dev): ?>
         <div class="w3-third w3-margin-bottom">
             <div class="w3-card w3-white w3-center team-member w3-padding-16">
-                <img src="<?= htmlspecialchars($dev['photo']) ?>" alt="<?= htmlspecialchars($dev['name']) ?>" class="photo w3-margin-bottom">
+     h           <img src="<?= htmlspecialchars($dev['photo']) ?>" alt="<?= htmlspecialchars($dev['name']) ?>" class="photo w3-margin-bottom">
                 <h3><?= htmlspecialchars($dev['name']) ?></h3>
                 <h4 class="w3-text-grey"><?= htmlspecialchars($dev['role']) ?></h4>
 
                 <div class="portfolio-frame w3-margin-top">
-                    <iframe src="<?= htmlspecialchars($dev['portfolio']) ?>"></iframe>
+                    <iframe src="<?= htmlspecialchars($dev['portfolio']) ?>/public/"></iframe>
                 </div>
 
                 <div class="portfolio-btn">
-                    <a href="<?= htmlspecialchars($dev['portfolio']) ?>" target="_blank" class="w3-button w3-blue w3-round-large w3-margin-top">
+                    <a href="<?= htmlspecialchars($dev['portfolio']) ?>/public/" target="_blank" class="w3-button w3-blue w3-round-large w3-margin-top">
                         View Full Portfolio
                     </a>
                 </div>
