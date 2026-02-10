@@ -2,6 +2,21 @@
     "require-dev": {
         "phpunit/phpunit": "^11.5",
         "phpstan/phpstan": "^2.1"
+    }
+    
+    
+    ,
+    
+    "require": {
+        "symfony/translation": "^7.4",
+        "jenssegers/blade": "^2.0",
+        "bramus/router": "^1.6",
+        "illuminate/view": "^11.47",
+        "illuminate/events": "^11.47",
+        "illuminate/filesystem": "^11.47",
+        "illuminate/translation": "^11.47",
+        "illuminate/support": "^11.47",
+        "eftec/bladeone": "^4.19"
     },
     "autoload-dev": {
   "psr-4": {

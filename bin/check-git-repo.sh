@@ -76,8 +76,11 @@ fi
       exit 1
     fi
     echo -e "${GREEN}✅ Repository successfully updated.${NC}"
+   composer update
+
   else
     echo -e "${YELLOW}⚠️  Skipping update. Continuing with local version.${NC}"
   fi
+
 }
 
