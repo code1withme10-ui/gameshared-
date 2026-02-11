@@ -169,7 +169,7 @@ generate_html_fragment() {
 <!--
   Auto-generated: $(date)
   This file is created by start_sites.sh.
-  To add your site to the development list:
+  To add your site  to the development list:
   1. Create a folder under www/, e.g. www/myportal/
   2. Inside it, create a 'public/' folder for your PHP app.
   3. Add a config/auto-site-list-info.txt file with this format:

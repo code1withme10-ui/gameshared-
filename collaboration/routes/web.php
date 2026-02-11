@@ -5,14 +5,13 @@ use Bramus\Router\Router;
 use App\Http\Controllers\Onboard\OnBoardController;
 use App\Http\Controllers\Onboard\StartController;
 use App\Http\Controllers\Onboard\IdentityController;
+use App\Http\Kernel\ResponseEmitter;
 require_once __DIR__.'/dispatch.php';
 // Middleware
  
 
 // Controllers
-//require_once __DIR__.'/../App/Http/Controllers/Onboard/OnBoardController.php';
-//require_once __DIR__.'/../App/Http/Controllers/Onboard/StartController.php';
-//require_once __DIR__.'/../App/Http/Controllers/Onboard/IdentityController.php';
+
 use App\Http\Controllers\Business\BusinessController;
  
  
@@ -46,10 +45,11 @@ $router->mount('/ ', function () use ($router) {
 });
 
 $router->get('/start/', function ()   {
- echo "Starting ....";
+  
   $obj=  new StartController();  
   
-  echo $obj->index();
+   $response=$obj->index();
+    ResponseEmitter::emit($response);
  exit;  
 });
 $router->run(); 

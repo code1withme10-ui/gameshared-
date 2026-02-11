@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CI Quality Tools Guide (PHPUnit + PHPStan)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet"
+          href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        pre, code {
+            background: #000;
+            color: #fff;
+            padding: 12px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+        h2 { margin-top: 32px; }
+        .highlight {
+            background: #ffefcc;
+            padding: 10px;
+            border-left: 4px solid #ff9800;
+        }
+    </style>
+</head>
+
+<body class="w3-padding">
+
+<header class="w3-center w3-margin-bottom">
+    <h1>CI Quality Tools Guide</h1>
+    <p>Running Tests & Static Analysis with Composer</p>
+</header>
+
+<!-- INTRO -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>1. Introduction</h2>
+
+    <p>
+        We have introduced new <b>CI quality checks</b> to improve code quality
+        and reduce bugs before code is merged.
+    </p>
+
+    <p>
+        These checks are powered by:
+    </p>
+
+    <ul>
+        <li><b>PHPUnit</b> – Automated tests</li>
+        <li><b>PHPStan</b> – Static code analysis</li>
+    </ul>
+
+    <div class="highlight">
+        <b>Good news:</b><br>
+        Everything is already configured in the repository.<br>
+        You do <b>NOT</b> need to install anything manually.
+    </div>
+</section>
+
+<!-- ASSUMPTIONS -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>2. Assumptions</h2>
+
+    <p>This guide assumes:</p>
+
+    <ul>
+        <li>You pulled the latest code from Git</li>
+        <li>The repository contains <code>composer.json</code></li>
+        <li>Your working directory follows this pattern:</li>
+    </ul>
+
+    <pre>
+/var/www/gameshared/yourName/
+    </pre>
+
+    <div class="highlight">
+        Replace <b>yourName</b> with <b>your actual folder name</b><br>
+        Example: <code>/var/www/gameshared/mpho/</code>
+    </div>
+</section>
+
+<!-- INSTALL DEPENDENCIES -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>3. Install Project Dependencies</h2>
+
+    <p>
+        After pulling the code, install all required tools
+        (PHPUnit, PHPStan, etc.) using Composer:
+    </p>
+
+    <pre>
+cd /var/www/gameshared/
+composer update
+    </pre>
+
+    <p>
+        This will create/update the <code>vendor/</code> folder.
+    </p>
+</section>
+
+<!-- COMPOSER SCRIPTS -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>4. Composer Commands You Will Use</h2>
+
+    <p>
+        The project defines Composer scripts for quality checks.
+        You will mainly use the following:
+    </p>
+
+    <h3>Run PHPUnit tests</h3>
+    <pre>
+composer test
+    </pre>
+
+    <p>
+        This runs all automated tests in the <code>tests/</code> directory.
+    </p>
+
+    <h3>Run PHPStan (static analysis)</h3>
+    <pre>
+composer stan
+    </pre>
+
+    <p>
+        This checks your PHP code for potential bugs and type issues.
+    </p>
+</section>
+
+<!-- PATH-BASED STAN -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>5. Running PHPStan on Your Own Folder Only</h2>
+
+    <p>
+        Each developer usually works inside their own folder
+        (named after themselves).
+    </p>
+
+    <p>
+        You can run PHPStan on <b>only your working directory</b> like this:
+    </p>
+
+    <pre>
+composer stan yourName
+    </pre>
+
+    <div class="highlight">
+        Example:
+        <pre>composer stan mpho</pre>
+    </div>
+
+    <p>
+        This helps you:
+    </p>
+
+    <ul>
+        <li>Focus only on your changes</li>
+        <li>Avoid noise from other folders</li>
+        <li>Fix issues before pushing code</li>
+    </ul>
+</section>
+
+<!-- WHAT TO EXPECT -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>6. What to Expect When You Run These Commands</h2>
+
+    <h3>PHPUnit</h3>
+    <ul>
+        <li>Green output = all tests passed ✅</li>
+        <li>Red output = failing tests ❌</li>
+    </ul>
+
+    <h3>PHPStan</h3>
+    <ul>
+        <li>Reports possible bugs and bad patterns</li>
+        <li>Does not execute code</li>
+        <li>Helps catch issues early</li>
+    </ul>
+</section>
+
+<!-- CI -->
+<section class="w3-card w3-padding w3-margin-bottom">
+    <h2>7. Why This Matters for CI</h2>
+
+    <p>
+        These same checks are used in our CI pipeline.
+    </p>
+
+    <div class="highlight">
+        <b>Rule of thumb:</b><br>
+        If <code>composer test</code> and <code>composer stan</code>
+        pass locally, CI is very likely to pass as well.
+    </div>
+</section>
+
+<footer class="w3-center w3-padding">
+    <p>End of Guide — Write clean code, break fewer builds 🚀</p>
+</footer>
+
+</body>
+</html>
+
