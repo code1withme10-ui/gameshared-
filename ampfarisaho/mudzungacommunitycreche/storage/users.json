@@ -1,3 +1,9 @@
-{
-    "name": "AMPFARISAHO"
-}
+[
+    {
+        "id": "headmaster_1",
+        "full_name": "Mpho Mathagu",
+        "email": "headmaster@mudzunga.com",
+        "password": "Admin123yes",
+        "role": "headmaster"
+    }
+]
