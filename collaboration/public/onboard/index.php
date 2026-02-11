@@ -5,4 +5,4 @@ require_once '../../../vendor/autoload.php';
 
 require_once '../../routes/web.php';
 
-echo  "On board..";
+echo  "On board ..".__FILE__;

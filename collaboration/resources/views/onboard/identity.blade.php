@@ -3,8 +3,8 @@
 <html>
 <head>
   <title>Onboarding — Identity</title>
-  <link rel="stylesheet" href="/css/w3.css">
-  <link rel="stylesheet" href="/css/style.css">
+  
+  @include('onboard.head')
 </head>
 <body class="w3-light-grey">
 
