@@ -3,6 +3,7 @@ namespace App\Http\Kernel;
 
 use App\Http\Contracts\MiddlewareInterface;
 use App\Http\Contracts\ResponseInterface;
+
 use Psr\Http\Message\ServerRequestInterface;
 
 class MiddlewarePipeline

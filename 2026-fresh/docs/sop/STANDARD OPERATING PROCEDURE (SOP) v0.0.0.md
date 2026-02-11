@@ -98,11 +98,18 @@ RBAC must work identically whether data is stored in JSON or MySQL.
 
 ### 6.1 Technical Architecture
 
-* Laravel MVC
+The platform uses a lightweight modular HTTP architecture:
+
+* Custom PSR-7 compatible HTTP kernel
+* Bramus Router for route handling
+* Middleware pipeline (PSR-15 style)
 * Thin controllers
-* Business logic in services
-* Abstract classes and interfaces for rules
+* Response abstraction (HTML/JSON)
+* Blade templating for server-rendered views
+* Business logic isolated in services
 * Repository pattern for storage abstraction
+* The architecture is framework-agnostic and storage-agnostic.
+* Follow Laravel conventions naming and folder structure  where possible  
 
 ### 6.2 Storage Strategy
 

@@ -6,16 +6,12 @@ use App\Http\Responses\HtmlResponse;
 use Psr\Http\Message\ServerRequestInterface;
  
 class IdentityController extends   BaseController  {
-        public function index(ServerRequestInterface $request, string $token)
+        public function index(ServerRequestInterface $request)
      {
- 
+          $token= $request->getAttribute('tenant')  ;  //this must be resolved by TenantResolutionMiddleware 
             return $this->view('onboard.identity', [
             'tenant' => []]);  
-//           return new JsonResponse([
-//            'step'  => 'identity',
-//            'token' => $token,
-//            'ip'    => $request->getServerParams()['REMOTE_ADDR'] ?? null,
-//        ]);
+
     }
 }
 
