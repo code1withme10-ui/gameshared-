@@ -6,16 +6,20 @@ use App\Http\Kernel\MiddlewarePipeline;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use App\Http\Middleware\TenantResolutionMiddleware;
- 
+use App\Http\Kernel\ControllerFactory; 
 function dispatch(string $action, 
         array $routeParams = [],
         array $middleware = []): void
 {
     try {
         [$class, $method] = explode('@', $action);
+// in dispatch.php
+[$class, $method] = explode('@', $action);
+$fqcn = "App\\Http\\Controllers\\{$class}";
 
-        $fqcn = "App\\Http\\Controllers\\{$class}";
-        $controller = new $fqcn();
+// Use factory instead of direct instantiation
+$controller = ControllerFactory::make($class);
+ 
 
         $psr17Factory = new Psr17Factory();
         $creator = new ServerRequestCreator(

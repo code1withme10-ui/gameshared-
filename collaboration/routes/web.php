@@ -23,6 +23,7 @@ $router->get('/test', function () {
 });
 
 $router->get('/([a-z0-9]+)/identity', function ($token) {
+     
     dispatch(
             action: 'Onboard\\IdentityController@index',
             routeParams: ['token' => $token],
@@ -63,6 +64,29 @@ $router->post('/([a-z0-9]+)/features',
             ]
     );
 } );
+// Branding
+$router->get('/([a-zA-Z0-9_-]+)/branding', function ($token) {
+    dispatch('Onboard\\BrandingController@index', ['token' => $token], [new TenantResolutionMiddleware()]);
+});
+$router->post('/([a-zA-Z0-9_-]+)/branding', function ($token) {
+    dispatch('Onboard\\BrandingController@store', ['token' => $token], [new TenantResolutionMiddleware()]);
+});
+
+// Content
+$router->get('/([a-zA-Z0-9_-]+)/content', function ($token) {
+    dispatch('Onboard\\ContentController@index', ['token' => $token], [new TenantResolutionMiddleware()]);
+});
+$router->post('/([a-zA-Z0-9_-]+)/content', function ($token) {
+    dispatch('Onboard\\ContentController@store', ['token' => $token], [new TenantResolutionMiddleware()]);
+});
+
+// Review
+$router->get('/([a-zA-Z0-9_-]+)/review', function ($token) {
+    dispatch('Onboard\\ReviewController@index', ['token' => $token], [new TenantResolutionMiddleware()]);
+});
+$router->post('/([a-zA-Z0-9_-]+)/review/submit', function ($token) {
+    dispatch('Onboard\\ReviewController@submit', ['token' => $token], [new TenantResolutionMiddleware()]);
+});
 
 $router->mount('/', function () use ($router) {
 

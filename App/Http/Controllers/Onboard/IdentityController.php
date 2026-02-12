@@ -9,7 +9,10 @@ class IdentityController extends   BaseController  {
         public function index(ServerRequestInterface $request)
      {
           $token= $request->getAttribute('tenant')  ;  //this must be resolved by TenantResolutionMiddleware 
-            return $this->view('onboard.identity', [
+           
+          
+          return $this->view('onboard.identity', [
+                            'request' =>$request,
             'tenant' => []]);  
 
     }

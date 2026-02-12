@@ -23,6 +23,7 @@ class RulesController extends BaseController
 
         return $this->view('onboard.rules', [
             'tenant' => $tenant,
+            'request' =>$request,
             'rules'  => $rules,
         ]);
     }

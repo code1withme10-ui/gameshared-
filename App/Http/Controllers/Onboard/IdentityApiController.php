@@ -9,6 +9,7 @@ class IdentityApiController extends   BaseController  {
         public function index(ServerRequestInterface $request)
      {
             $token= $request->getAttribute('tenant')  ;  //this must be resolved by TenantResolutionMiddleware
+             
            return new JsonResponse([
             'step'  => 'identity',
             'token' => $token,

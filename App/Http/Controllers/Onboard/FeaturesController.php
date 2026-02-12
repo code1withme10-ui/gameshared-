@@ -28,6 +28,7 @@ class FeaturesController extends BaseController
 
         return $this->view('onboard.features', [
             'tenant'   => $tenant,
+            'request' =>$request,
             'features' => $features,
         ]);
     }
