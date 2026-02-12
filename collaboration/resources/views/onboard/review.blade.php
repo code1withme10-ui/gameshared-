@@ -41,9 +41,9 @@
 
     <div class="w3-container w3-margin-top">
         <h4>Content</h4>
-        <p><strong>About Us:</strong> {{ Str::limit($summary['content']['about_us'] ?? '', 100) }}</p>
-        <p><strong>Contact:</strong> {{ $summary['content']['contact_email'] ?? '' }} / {{ $summary['content']['contact_phone'] ?? '' }}</p>
-        <a href="/onboard/{{ $tenant['token'] }}/content">Edit</a>
+           <p><strong>About Us:</strong> {{ str_limit($summary['content']['about_us'] ?? '', 100) }}</p>
+    <p><strong>Contact:</strong> {{ $summary['content']['contact_email'] ?? '' }} / {{ $summary['content']['contact_phone'] ?? '' }}</p>
+    <a href="/onboard/{{ $tenant['token'] }}/content">Edit</a>
     </div>
 
     <form method="POST" action="/onboard/{{ $tenant['token'] }}/review/submit" class="w3-margin-top">
