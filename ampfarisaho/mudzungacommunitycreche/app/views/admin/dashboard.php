@@ -1,9 +1,9 @@
 <?php
-require_once __DIR__ . '/../../partials/header.php';
-require_once __DIR__ . '/../../partials/navbar.php';
-require_once __DIR__ . '/../../services/JsonStorage.php';
-
 session_start();
+
+require_once __DIR__ . '/../partials/header.php';
+require_once __DIR__ . '/../partials/navbar.php';
+require_once __DIR__ . '/../../services/JsonStorage.php';
 
 // Ensure only headmaster can access
 if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'headmaster') {
@@ -11,20 +11,19 @@ if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'headmast
     exit;
 }
 
-// Load all children
+// Load children applications
 $childrenStorage = new JsonStorage(__DIR__ . '/../../../storage/children.json');
 $children = $childrenStorage->read();
 
-// Optional: filter by status via GET
+// Optional filter by status
 $statusFilter = $_GET['status'] ?? '';
 if ($statusFilter) {
     $children = array_filter($children, fn($c) => $c['status'] === $statusFilter);
 }
 
-// Load parents to display parent names
+// Load parents to resolve parent names
 $parentsStorage = new JsonStorage(__DIR__ . '/../../../storage/parents.json');
 $parents = $parentsStorage->read();
-
 ?>
 
 <div class="container" style="margin-top:50px;">
@@ -37,7 +36,7 @@ $parents = $parentsStorage->read();
         <a href="/logout.php" class="btn btn-secondary">Logout</a>
     </div>
 
-    <?php if ($children): ?>
+    <?php if (!empty($children)): ?>
         <table class="table" border="1" cellpadding="8" cellspacing="0">
             <thead>
                 <tr>
@@ -52,24 +51,36 @@ $parents = $parentsStorage->read();
                 <?php foreach ($children as $child): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($child['full_name']); ?></td>
+
                         <td>
                             <?php
-                                $parentName = '';
-                                foreach ($parents as $p) {
-                                    if ($p['id'] === $child['parent_id']) {
-                                        $parentName = $p['full_name'];
-                                        break;
-                                    }
+                            $parentName = 'Unknown';
+                            foreach ($parents as $parent) {
+                                if ($parent['id'] === $child['parent_id']) {
+                                    $parentName = $parent['full_name'];
+                                    break;
                                 }
-                                echo htmlspecialchars($parentName);
+                            }
+                            echo htmlspecialchars($parentName);
                             ?>
                         </td>
+
                         <td><?php echo htmlspecialchars($child['grade']); ?></td>
                         <td><?php echo htmlspecialchars($child['status']); ?></td>
+
                         <td>
                             <?php if ($child['status'] === 'pending'): ?>
-                                <a href="/action.php?id=<?php echo $child['id']; ?>&action=accept" class="btn btn-success">Accept</a>
-                                <a href="/action.php?id=<?php echo $child['id']; ?>&action=decline" class="btn btn-danger">Decline</a>
+                                <a
+                                  href="/app/controllers/ChildController.php?id=<?php echo $child['id']; ?>&action=accept"
+                                  class="btn btn-success">
+                                  Accept
+                                </a>
+
+                                <a
+                                  href="/app/controllers/ChildController.php?id=<?php echo $child['id']; ?>&action=decline"
+                                  class="btn btn-danger">
+                                  Decline
+                                </a>
                             <?php else: ?>
                                 <span>No actions available</span>
                             <?php endif; ?>
@@ -84,5 +95,6 @@ $parents = $parentsStorage->read();
 </div>
 
 <?php
-require_once __DIR__ . '/../../partials/footer.php';
+require_once __DIR__ . '/../partials/footer.php';
 ?>
+
