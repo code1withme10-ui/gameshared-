@@ -50,3 +50,4 @@
         <button class="w3-button w3-green" type="submit">Complete Onboarding</button>
     </form>
 </div>
+@endsection
