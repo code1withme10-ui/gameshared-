@@ -1,13 +1,9 @@
 <!-- resources/views/onboard/identity.blade.php -->
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Onboarding — Identity</title>
-  
-  @include('onboard.head')
-</head>
-<body class="w3-light-grey">
+@extends('layouts.admin.app')
 
+@section('title', 'Onboarding — Identity')
+@section('content')
+ 
 <div class="w3-container w3-card w3-white w3-margin">
   <h2>Crèche Identity & Ownership</h2>
 @include('onboard._wizard')
@@ -40,5 +36,4 @@
 <script>
 // future API call placeholder
 </script>
-</body>
-</html>
+@endsection

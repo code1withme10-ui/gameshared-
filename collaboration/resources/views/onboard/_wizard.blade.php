@@ -1,9 +1,9 @@
 <div class="w3-bar w3-light-grey">
-  <span class="w3-bar-item">1. Identity</span>
-  <span class="w3-bar-item">2. Branding</span>
-  <span class="w3-bar-item">3. Rules</span>
-  <span class="w3-bar-item">4. Features</span>
-  <span class="w3-bar-item">5. Content</span>
-  <span class="w3-bar-item">Review</span>
+    <span class="w3-bar-item"><a href="/onboard/698d27db9194f/identity">1. Identity </a></span>
+  <span class="w3-bar-item"><a href="/onboard/698d27db9194f/branding">2. Branding</a></span>
+  <span class="w3-bar-item"><a href="/onboard/698d27db9194f/rules">3. Rules</a></span>
+  <span class="w3-bar-item"><a href="/onboard/698d27db9194f/features">4. Features</a></span>
+  <span class="w3-bar-item"><a href="/onboard/698d27db9194f/content">5. Content</a></span>
+  <span class="w3-bar-item"><a href="/onboard/698d27db9194f/review">Review</a></span>
 </div>
 

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Architecture Tutorial: Registering a Learner</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        pre { background:#f4f4f4; padding:12px; overflow:auto; }
+        code { color:#b30000; }
+        .flow-box { padding:16px; margin:8px; text-align:center; font-weight:bold; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<div class="w3-container w3-blue w3-padding-32">
+    <h1>Controller → Service → Repository → Storage</h1>
+    <p>Example: Registering a Learner in a Multi-Tenant Crèche Platform</p>
+</div>
+
+<div class="w3-content w3-padding-32" style="max-width:1100px">
+
+    <!-- Overview -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>1. Architectural Overview</h2>
+        <p>
+            This layered architecture separates responsibilities so that the system remains:
+        </p>
+        <ul>
+            <li>Maintainable</li>
+            <li>Testable</li>
+            <li>Storage-agnostic (JSON today, MySQL tomorrow)</li>
+            <li>Clear in responsibility boundaries</li>
+        </ul>
+        <p>
+            When a learner is registered, the request flows through clearly defined layers.
+        </p>
+    </div>
+
+    <!-- Flow -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>2. Request Flow</h2>
+        <div class="w3-row-padding w3-center">
+            <div class="w3-quarter flow-box w3-blue w3-text-white">Controller</div>
+            <div class="w3-quarter flow-box w3-teal w3-text-white">Service</div>
+            <div class="w3-quarter flow-box w3-indigo w3-text-white">Repository</div>
+            <div class="w3-quarter flow-box w3-dark-grey w3-text-white">Storage</div>
+        </div>
+        <p class="w3-margin-top">
+            Each layer performs one clearly defined role.
+        </p>
+    </div>
+
+    <!-- Controller -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>3. Controller</h2>
+
+        <h4>Definition</h4>
+        <p>
+            A Controller is responsible for handling incoming HTTP requests and returning HTTP responses.
+            It acts as the entry point into the application from the web layer.
+        </p>
+
+        <h4>Role in Architecture</h4>
+        <ul>
+            <li>Receives request data (e.g., form submission)</li>
+            <li>Delegates work to the Service layer</li>
+            <li>Returns HTML or JSON response</li>
+            <li>Contains no business rules</li>
+        </ul>
+
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers\Learners;
+
+use App\Http\Controllers\BaseController;
+use App\Http\Responses\HtmlResponse;
+use App\Services\Learners\LearnerService;
+use Psr\Http\Message\ServerRequestInterface;
+
+class LearnerController extends BaseController
+{
+    public function __construct(
+        private LearnerService $learnerService
+    ) {}
+
+    /**
+     * Handle POST: Register learner
+     */
+    public function store(ServerRequestInterface $request): HtmlResponse
+    {
+        $tenant = $request->getAttribute('tenant');
+        $data   = $request->getParsedBody();
+
+        $this->learnerService->register(
+            tenantId: $tenant['id'],
+            data: $data
+        );
+
+        return new HtmlResponse('', 302, [
+            'Location' => "/{$tenant['token']}/learners"
+        ]);
+    }
+}
+</code></pre>
+        <p>
+            The Controller does not validate age rules or store files.
+            It delegates everything to the Service.
+        </p>
+    </div>
+
+    <!-- Service -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>4. Service</h2>
+
+        <h4>Definition</h4>
+        <p>
+            A Service contains business logic and application rules. It coordinates actions,
+            validates domain requirements, and ensures business policies are enforced.
+        </p>
+
+        <h4>Role in Architecture</h4>
+        <ul>
+            <li>Validates learner eligibility</li>
+            <li>Applies admission rules</li>
+            <li>Creates domain objects</li>
+            <li>Calls Repository to persist data</li>
+        </ul>
+
+ <pre><code>&lt;?php
+
+namespace App\Services\Learners;
+
+use App\Repositories\LearnerRepository;
+
+class LearnerService
+{
+    public function __construct(
+        private LearnerRepository $learnerRepository
+    ) {}
+
+    /**
+     * Register a learner for a tenant.
+     */
+    public function register(int $tenantId, array $data): void
+    {
+        if (empty($data['first_name']) || empty($data['date_of_birth'])) {
+            throw new \InvalidArgumentException("Missing required fields.");
+        }
+
+        $learner = [
+            'tenant_id'     => $tenantId,
+            'first_name'    => $data['first_name'],
+            'last_name'     => $data['last_name'] ?? '',
+            'date_of_birth' => $data['date_of_birth'],
+            'status'        => 'active',
+            'created_at'    => date('Y-m-d H:i:s'),
+        ];
+
+        $this->learnerRepository->create($learner);
+    }
+}
+</code></pre>
+
+        <p>
+            The Service enforces business rules and prepares structured data.
+            It does not know whether data is saved in JSON or MySQL.
+        </p>
+    </div>
+
+    <!-- Repository -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>5. Repository</h2>
+
+        <h4>Definition</h4>
+        <p>
+            A Repository abstracts data access. It hides how and where data is stored.
+            The rest of the application does not know whether data is stored in JSON,
+            MySQL, or another system.
+        </p>
+
+        <h4>Role in Architecture</h4>
+        <ul>
+            <li>Saves learner records</li>
+            <li>Retrieves learner data</li>
+            <li>Encapsulates storage logic</li>
+            <li>Allows storage replacement without affecting Services</li>
+        </ul>
+
+ 
+<pre><code>&lt;?php
+
+namespace App\Repositories;
+
+class LearnerRepository
+{
+    public function create(array $data): void
+    {
+        $file = storage_path("tenants/{$data['tenant_id']}/learners.json");
+
+        $records = [];
+
+        if (file_exists($file)) {
+            $records = json_decode(file_get_contents($file), true);
+        }
+
+        $records[] = $data;
+
+        file_put_contents(
+            $file,
+            json_encode($records, JSON_PRETTY_PRINT)
+        );
+    }
+}
+</code></pre>
+
+        <p>
+            Only the Repository interacts with the file system.
+            If you switch to MySQL, only this class changes.
+        </p>
+    </div>
+
+    <!-- Storage -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>6. Storage</h2>
+
+        <h4>Definition</h4>
+        <p>
+            Storage is the physical persistence layer. It may be:
+        </p>
+        <ul>
+            <li>JSON files</li>
+            <li>MySQL database</li>
+            <li>Cloud storage</li>
+        </ul>
+
+ <pre><code>// storage/tenants/12/learners.json
+
+[
+    {
+        "tenant_id": 12,
+        "first_name": "Ava",
+        "last_name": "Smith",
+        "date_of_birth": "2021-05-10",
+        "status": "active",
+        "created_at": "2026-02-12 09:30:00"
+    }
+]
+</code></pre>
+    </div>
+
+    <!-- Folder Structure -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>7. Sample Folder Structure</h2>
+<pre><code>project-root/
+│
+├── app/
+│   ├── Http/
+│   │   └── Controllers/
+│   │       └── Learners/
+│   │           └── LearnerController.php
+│   │
+│   ├── Services/
+│   │   └── Learners/
+│   │       └── LearnerService.php
+│   │
+│   ├── Repositories/
+│   │   └── LearnerRepository.php
+│
+├── storage/
+│   └── tenants/
+│       └── {tenant_id}/
+│           └── learners.json
+│
+├── routes/
+│   └── web.php
+│
+└── public/
+    └── index.php
+</code></pre>
+    </div>
+
+    <!-- Summary -->
+    <div class="w3-card w3-green w3-padding w3-margin-bottom">
+        <h2>8. Key Takeaways</h2>
+        <ul>
+            <li><strong>Controller</strong> handles HTTP only.</li>
+            <li><strong>Service</strong> enforces business rules.</li>
+            <li><strong>Repository</strong> manages data access.</li>
+            <li><strong>Storage</strong> persists the data physically.</li>
+        </ul>
+        <p>
+            Because responsibilities are separated, you can replace JSON with MySQL
+            by changing only the Repository implementation — without rewriting
+            Controllers or Services.
+        </p>
+    </div>
+
+</div>
+
+<div class="w3-container w3-blue w3-center w3-padding-16">
+    Multi-Tenant Crèche Platform Architecture Guide
+</div>
+
+</body>
+</html>

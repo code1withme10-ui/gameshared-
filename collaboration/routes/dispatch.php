@@ -1,4 +1,5 @@
 <?php
+//  routes/dispatch.php
 use App\Http\Contracts\ResponseInterface;
 use App\Http\Kernel\ResponseEmitter;
 use App\Http\Kernel\MiddlewarePipeline;
@@ -44,8 +45,8 @@ function dispatch(string $action,
         }
 
     } catch (\Throwable $e) {
-        print_R($e);
-        exit;
+       // print_R($e);
+       // exit;
       //TODO improve  response formate  if  not api  than only  text/error  page
         $response = new \App\Http\Responses\JsonResponse([
             'error' => true,

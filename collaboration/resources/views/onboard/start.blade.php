@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Start Onboarding</title>
-  <link rel="stylesheet" href="/css/w3.css">
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body class="w3-light-grey">
+ 
+@extends('layouts.admin.app')
 
+@section('title', 'Start Onboarding')
+@section('content')
+ 
 <div class="w3-container w3-center w3-padding-64">
   <div class="w3-card w3-white w3-padding-32 w3-round-large" style="max-width:500px;margin:auto">
 
@@ -26,7 +23,4 @@
     </p>
   </div>
 </div>
-
-</body>
-</html>
-
+@endsection

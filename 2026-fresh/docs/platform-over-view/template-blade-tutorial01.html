@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>BladeOne Layout Structure Guide</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        pre { background:#f4f4f4; padding:12px; overflow:auto; }
+        code { color:#b30000; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<div class="w3-container w3-blue w3-padding-32">
+    <h1>Using a Common Layout with BladeOne</h1>
+    <p>Structure for layout.blade.php and page views</p>
+</div>
+
+<div class="w3-content w3-padding-32" style="max-width:1100px">
+
+    <!-- Concept -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>1. The Concept</h2>
+        <p>
+            A layout file defines the shared structure of your pages:
+        </p>
+        <ul>
+            <li>HTML head section</li>
+            <li>Navigation</li>
+            <li>Footer</li>
+            <li>Common scripts and styles</li>
+        </ul>
+        <p>
+            Individual pages only define the content that changes.
+        </p>
+    </div>
+
+    <!-- Folder Structure -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>2. Suggested Folder Structure</h2>
+
+<pre><code>resources/
+└── views/
+    ├── layouts/
+    │   └── app.blade.php
+    │
+    ├── learners/
+    │   ├── index.blade.php
+    │   └── create.blade.php
+    │
+    └── dashboard.blade.php
+</code></pre>
+
+        <p>
+            Keep layouts separate inside a <code>layouts</code> folder.
+        </p>
+    </div>
+
+    <!-- Layout File -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>3. Example: layouts/app.blade.php</h2>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;@yield('title', 'Crèche Platform')&lt;/title&gt;
+
+    &lt;link rel="stylesheet"
+          href="https://www.w3schools.com/w3css/4/w3.css"&gt;
+
+    @yield('styles')
+&lt;/head&gt;
+&lt;body class="w3-light-grey"&gt;
+
+    &lt;!-- Navigation --&gt;
+    &lt;div class="w3-bar w3-blue"&gt;
+        &lt;a href="/" class="w3-bar-item w3-button"&gt;Home&lt;/a&gt;
+        &lt;a href="/learners" class="w3-bar-item w3-button"&gt;Learners&lt;/a&gt;
+        &lt;a href="/settings" class="w3-bar-item w3-button"&gt;Settings&lt;/a&gt;
+    &lt;/div&gt;
+
+    &lt;div class="w3-content w3-padding-32" style="max-width:1100px"&gt;
+        @yield('content')
+    &lt;/div&gt;
+
+    &lt;footer class="w3-container w3-blue w3-center w3-padding-16"&gt;
+        Multi-Tenant Crèche Platform
+    &lt;/footer&gt;
+
+    @yield('scripts')
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+        <p>
+            The key concept is <code>@yield()</code>.
+            It defines placeholders that child pages will fill.
+        </p>
+    </div>
+
+    <!-- Child Page -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>4. Example: learners/create.blade.php</h2>
+
+<pre><code>@extends('layouts.app')
+
+@section('title', 'Register Learner')
+
+@section('content')
+    &lt;div class="w3-card w3-white w3-padding"&gt;
+        &lt;h2&gt;Register Learner&lt;/h2&gt;
+
+        &lt;form method="POST" action="/learners"&gt;
+            &lt;p&gt;
+                &lt;label&gt;First Name&lt;/label&gt;
+                &lt;input class="w3-input w3-border"
+                       type="text"
+                       name="first_name"
+                       required&gt;
+            &lt;/p&gt;
+
+            &lt;p&gt;
+                &lt;label&gt;Date of Birth&lt;/label&gt;
+                &lt;input class="w3-input w3-border"
+                       type="date"
+                       name="date_of_birth"
+                       required&gt;
+            &lt;/p&gt;
+
+            &lt;button class="w3-button w3-blue"&gt;
+                Save
+            &lt;/button&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+@endsection
+</code></pre>
+
+        <p>
+            <code>@extends()</code> tells BladeOne to use the layout.
+            <code>@section()</code> fills the layout’s placeholders.
+        </p>
+    </div>
+
+    <!-- Optional Sections -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>5. Optional: Adding Page-Specific Scripts</h2>
+
+<pre><code>@section('scripts')
+&lt;script&gt;
+    console.log("Learner page loaded");
+&lt;/script&gt;
+@endsection
+</code></pre>
+
+        <p>
+            This script will be injected into the <code>@yield('scripts')</code>
+            area of the layout.
+        </p>
+    </div>
+
+    <!-- Controller Rendering -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2>6. Rendering the View (Controller)</h2>
+
+<pre><code>return $this->view('learners.create', [
+    'tenant' => $tenant,
+]);
+</code></pre>
+
+        <p>
+            BladeOne automatically resolves dot notation to folders:
+            <code>learners.create</code> → <code>learners/create.blade.php</code>
+        </p>
+    </div>
+
+    <!-- Summary -->
+    <div class="w3-card w3-green w3-padding w3-margin-bottom">
+        <h2>7. Summary</h2>
+        <ul>
+            <li><strong>layouts/app.blade.php</strong> → Shared structure</li>
+            <li><strong>@yield()</strong> → Placeholder</li>
+            <li><strong>@extends()</strong> → Use layout</li>
+            <li><strong>@section()</strong> → Fill placeholder</li>
+        </ul>
+        <p>
+            This structure keeps your UI consistent, clean,
+            and easy to maintain as your platform grows.
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>
