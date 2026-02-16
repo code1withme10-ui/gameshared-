@@ -1,266 +1,280 @@
- # 📘 STANDARD OPERATING PROCEDURE (SOP)
+ 
+
+> 📘 SOP v1.0.0 — Tenant Persistence & Schema Governance
+
+This version:
+
+* Is fully aligned with:
+
+  * **SOP v3.0.0 — Tenant Persistence, Identity & Schema Governance**
+  * **SOP v2.0.0-A — Identity, Tenant Resolution & UX Governance**
+* Removes architectural conflicts
+* Enforces global identity + membership binding model
+* Removes tenant-scoped users (now global users)
+* Eliminates role/permission duplication
+* Aligns runtime-config with active membership model
+* Adds concurrency, atomic write, and cross-tenant guard enforcement
+* Hardens snapshot, indexing, retention, and validation
+* Locks schema for repository implementation phase
+
+You are now safe to begin repository and model creation after this.
+
+# 📘 STANDARD OPERATING PROCEDURE (SOP)
 
 # Tenant Persistence & Schema Governance
 
 **Version:** v1.0.0
-**Status:** Production Baseline
+**Status:** Production Baseline (Schema Locked)
 **Applies To:** All Tenants, All Environments
+**Aligned With:**
+
+* SOP v3.0.0 — Tenant Persistence, Identity & Schema Governance
+* SOP v2.0.0-A — Identity, Tenant Resolution & UX Governance
 
 ---
 
 # 1. PURPOSE
 
-This SOP defines:
+This SOP defines the **authoritative tenant-scoped schema contract** for JSON persistence.
 
-* The authoritative schema rules for tenant data
-* File system layout for JSON persistence
-* Lifecycle-layer separation
-* ULID identity rules
-* Meta-wrapper contract
-* Runtime configuration contract for SPA/PWA
-* Validation checklist to ensure user stories are satisfied
-* Migration compatibility guarantees (JSON → MySQL)
+It governs:
 
-This is the **single source of truth** for tenant data structure.
+* Tenant directory structure
+* Lifecycle layer separation
+* Entity contracts
+* Cross-tenant isolation rules
+* Runtime configuration aggregation
+* Audit format
+* Snapshot requirements
+* Concurrency expectations
+* JSON → SQL migration guarantees
 
----
-
-# 2. GLOBAL NON-NEGOTIABLE RULES
-
-## 2.1 Identity Rule
-
-* All entities MUST use **ULID**
-* No integer IDs allowed
-* ULID format: 26-character Crockford base32
-* ULIDs are immutable
-* ULIDs must be generated server-side only
+This document is the **schema lock baseline** prior to repository and model implementation.
 
 ---
 
-## 2.2 One-File-Per-Entity Rule
+# 2. GLOBAL ALIGNMENT RULES
 
-Each entity instance must be stored in its own JSON file.
+This SOP inherits and enforces:
 
-❌ Forbidden:
+* ULID identity rules (from v3.0.0)
+* Meta-wrapper contract (v3.0.0)
+* Atomic write requirements (v3.0.0)
+* Optimistic concurrency (entity_version)
+* Global identity + tenant_membership model (v2.0.0-A)
+* Role Registry governance (v3.0.0)
 
-```json
-parents: [ {...}, {...} ]
-```
-
-✅ Required:
-
-```
-parents/
-    01HV6X....json
-    01HV6Y....json
-```
+This document does NOT redefine identity rules.
 
 ---
 
-## 2.3 Meta-Wrapper Pattern (MANDATORY)
+# 3. GLOBAL NON-NEGOTIABLE RULES
 
-Every entity file must follow this contract:
+## 3.1 ULID Identity Rule
+
+All entities:
+
+* MUST use ULID
+* MUST be 26-character Crockford Base32
+* MUST be server-generated
+* MUST be immutable
+* MUST NOT use integer IDs
+
+---
+
+## 3.2 Meta-Wrapper Contract (MANDATORY)
+
+Every entity file MUST follow:
 
 ```json
 {
-  "id": "01HV6X7ABCDE...",
+  "id": "ULID",
   "meta": {
-    "schema_version": "1.0",
+    "schema_version": "1.0.0",
     "entity_version": 1,
     "created_at": "ISO-8601",
-    "created_by": "ULID",
+    "created_by": "ULID|null",
     "updated_at": "ISO-8601",
-    "updated_by": "ULID",
+    "updated_by": "ULID|null",
     "deleted_at": null
   },
-  "data": {
-    // entity-specific fields
-  }
+  "data": {}
 }
 ```
 
-### Rules
+### Enforcement Rules
 
-* `meta.entity_version` increments on every update
-* `deleted_at` enables soft delete
-* No business data allowed in `meta`
-* No metadata allowed in `data`
+* entity_version increments on every update
+* deleted_at enables soft delete
+* No business fields inside meta
+* No metadata inside data
+* Updates MUST enforce optimistic locking
 
 ---
 
-# 3. TENANT DIRECTORY STRUCTURE
+## 3.3 Atomic Write Requirement
+
+All writes MUST:
+
+1. Write to temp file
+2. fsync
+3. Atomic rename
+4. Increment entity_version
+
+Silent overwrite is forbidden.
+
+---
+
+# 4. TENANT DIRECTORY STRUCTURE (ALIGNED MODEL)
+
+⚠️ Identity is global.
+Tenant directories MUST NOT contain user accounts or roles.
 
 ```
-storage/data/tenants/{tenant_ulid}/
+storage/
 
-    tenant.json
-    onboarding.json
+    /system/
+        users/
+        tenants/
+        tenant_memberships/
+        role_registry.json
+        login_audit/
 
-    config/
-        identity.json
-        admission_rules.json
-        features.json
-        security.json
-        locale.json
+    /tenants/
+        {tenant_ulid}/
 
-    ui/
-        theme.json
-        navigation.json
-        layout.json
-        labels.json
-        dashboard.json
+            onboarding.json
 
-    users/
-        staff/
-            {ulid}.json
-        parents/
-            {ulid}.json
-        roles.json
-        permissions.json
+            config/
+                admission_rules.json
+                features.json
+                security.json
+                locale.json
+                branding.json
 
-    domain/
-        children/
-            {ulid}.json
-        applications/
-            {ulid}.json
-        enrollment_cycles/
-            {ulid}.json
-        notices/
-            {ulid}.json
+            ui/
+                theme.json
+                navigation.json
+                layout.json
+                dashboard.json
+                labels.json
 
-    content/
-        pages/
-            {ulid}.json
-        gallery/
-            {ulid}.json
+            domain/
+                parent_profiles/
+                children/
+                applications/
+                enrollment_cycles/
+                notices/
 
-    audit/
-        2026-02.log
+            content/
+                pages/
+                gallery_items/
+
+            audit/
+                YYYY-MM.log
+
+    /indexes/
+        {tenant_ulid}/
 ```
 
 ---
 
-# 4. LIFECYCLE LAYER SEPARATION
-
-## LAYER 1 — SYSTEM LIFECYCLE (Platform Level)
-
-* tenant.json
-* onboarding.json
-
-Purpose:
-
-* Track onboarding progress
-* Activation state
-* Plan & feature overrides
+# 5. LIFECYCLE LAYER SEPARATION
 
 ---
 
-## LAYER 2 — CONFIGURATION LIFECYCLE (Rarely Changes)
+## LAYER 1 — SYSTEM LIFECYCLE (GLOBAL)
+
+Located in `/system`.
+
+Includes:
+
+* users
+* tenants
+* tenant_memberships
+* role_registry
+* login_audit
+
+Tenant data must never redefine identity.
+
+---
+
+## LAYER 2 — TENANT CONFIG LIFECYCLE
 
 Location: `/config`
 
-Used for:
+Characteristics:
 
-* Business rule enforcement
-* Runtime validation
-* Feature gating
+* Rarely changes
+* Drives validation logic
+* Drives feature gating
+* Drives runtime-config
 
 Examples:
 
 * admission rules
-* age validation
-* required documents
-* waitlist enabled
-
-These directly impact business logic.
+* feature modules
+* security settings
+* locale
+* branding
 
 ---
 
-## LAYER 3 — UI LIFECYCLE (SPA Runtime Control)
+## LAYER 3 — TENANT UI LIFECYCLE
 
 Location: `/ui`
 
-Used for:
+Controls SPA rendering only.
 
-* Navigation rendering
-* Menu structure
-* Labels
-* Dashboard widgets
-* Theme
+Contains:
 
-These must not contain business logic.
+* navigation
+* layout
+* dashboard widgets
+* theme
+* labels
 
----
+Must NOT contain:
 
-## LAYER 4 — DOMAIN LIFECYCLE (Operational Data)
-
-Location: `/domain`
-
-Changes frequently.
-
-Includes:
-
-* Applications
-* Children
-* Enrollment cycles
-* Notices
-
-This is transactional data.
+* role logic
+* permission logic
+* business rules
 
 ---
 
-## LAYER 5 — USER LIFECYCLE (Authentication & RBAC)
+## LAYER 4 — TENANT DOMAIN LIFECYCLE
 
-Location: `/users`
+Transactional data.
 
-Includes:
+ALL domain entities MUST include:
 
-* Staff
-* Parents
-* Roles
-* Permissions
+```json
+"tenant_id": "ULID"
+```
 
-Passwords must be hashed.
-No plaintext secrets.
+Cross-tenant write attempts MUST be rejected.
 
 ---
 
-## LAYER 6 — AUDIT LIFECYCLE (Immutable)
+## LAYER 5 — TENANT AUDIT LIFECYCLE
 
-Location: `/audit`
+Append-only log files.
 
-Append-only logs.
-
-Never wrapped in meta.
-Never modified.
-Never deleted.
+* Not wrapped in meta
+* Not editable
+* Not deletable
 
 ---
 
-# 5. ENTITY CONTRACT DEFINITIONS
-
-Below are minimum required data contracts.
+# 6. ENTITY CONTRACT DEFINITIONS (TENANT-SCOPED)
 
 ---
 
-## 5.1 tenant.json
+## 6.1 onboarding.json
 
-Purpose: Global tenant identity.
+Purpose: Tenant activation tracking.
 
-`data` must include:
-
-* name
-* token (unique)
-* status (onboarding | active | suspended)
-* plan_type
-* timezone
-* locale
-
----
-
-## 5.2 onboarding.json
-
-`data` must include:
+Must include:
 
 * current_step
 * completed_steps[]
@@ -268,13 +282,15 @@ Purpose: Global tenant identity.
 * submitted_at
 * activated_at
 
-Prevents skipping steps.
+Must NOT include plan or identity fields (those belong in system tenant entity).
 
 ---
 
-## 5.3 admission_rules.json
+## 6.2 admission_rules.json
 
-Must use structured validation.
+Structured validation only.
+
+Example:
 
 ```json
 {
@@ -286,17 +302,18 @@ Must use structured validation.
   "required_documents": [
     "birth_certificate",
     "immunization_record"
-  ]
+  ],
+  "enrollment_cycle_required": true
 }
 ```
 
-No free-text rules allowed.
+No free-text logic.
 
 ---
 
-## 5.4 features.json
+## 6.3 features.json
 
-Must use namespaced modules:
+Namespaced modules required:
 
 ```json
 {
@@ -318,9 +335,11 @@ Must use namespaced modules:
 
 ---
 
-## 5.5 navigation.json
+## 6.4 navigation.json
 
-Must support feature gating:
+Must align with Role Registry names.
+
+Example:
 
 ```json
 {
@@ -330,50 +349,108 @@ Must support feature gating:
       "label": "Applications",
       "route": "/applications",
       "feature_required": "admissions.enabled",
-      "role_required": ["creche_admin", "staff"]
+      "role_required": ["ADMIN", "STAFF"],
+      "permission_required": "applications.view"
     }
   ]
 }
 ```
 
----
-
-## 5.6 Parent Entity
-
-Must support:
-
-* multiple children
-* secure authentication
-* notification preferences
+Roles must exist in `/system/role_registry.json`.
 
 ---
 
-## 5.7 Child Entity
+## 6.5 parent_profile (Tenant-Scoped)
 
-Must support:
+Represents tenant-specific profile.
 
+Must include:
+
+* tenant_id
+* user_id
+* address
+* emergency_contact
+* notification_preferences
+
+Parent authentication is global user.
+
+---
+
+## 6.6 child (Tenant-Scoped)
+
+Must include:
+
+* tenant_id
+* parent_profile_id
 * birth_date
 * grade_applied
-* linked_parent_id
-* document references
+* document_refs[]
+* medical_notes (optional)
+* archived (boolean)
 
 ---
 
-## 5.8 Application Entity
+## 6.7 application (Tenant-Scoped, Snapshot Required)
 
-Must support:
+Must include:
 
-* parent_id
-* child_id
+* tenant_id
+* parent_membership_id
 * enrollment_cycle_id
-* status (pending | accepted | rejected | waitlisted)
+* child_snapshot
+* parent_snapshot
+* emergency_contact_snapshot
+* status
 * status_history[]
+* reviewed_by_membership_id
 * decision_notes
-* reviewed_by
+* archived
+
+### Snapshot Rules
+
+* Snapshots immutable
+* Must store schema_version inside snapshot
+* Never overwritten
 
 ---
 
-# 6. RUNTIME CONFIG AGGREGATION (SPA CONTRACT)
+## 6.8 enrollment_cycle
+
+Must include:
+
+* tenant_id
+* name
+* start_date
+* end_date
+* capacity
+* status (open | closed | archived)
+
+---
+
+## 6.9 notice
+
+Must include:
+
+* tenant_id
+* title
+* content
+* is_public
+* publish_at
+* expires_at
+
+---
+
+# 7. CROSS-TENANT GUARD RULE
+
+On every write:
+
+* membership.tenant_id MUST equal entity.tenant_id
+* Foreign references MUST belong to same tenant
+* Mismatch → 403 + audit log
+
+---
+
+# 8. RUNTIME CONFIG CONTRACT (SPA)
 
 Endpoint:
 
@@ -381,32 +458,35 @@ Endpoint:
 GET /api/runtime-config
 ```
 
-Returns aggregated:
+Must aggregate:
 
-* tenant identity
-* features
+* tenant identity (from system/tenants)
+* membership roles
+* feature modules
 * UI config
-* permissions
+* permission matrix
 * admission rules
 
-The SPA must not read raw JSON files directly.
+Frontend must not read JSON files directly.
 
-Backend aggregates and caches per tenant.
+Cache invalidated on:
 
-Cache invalidated on config change.
+* config change
+* membership change
+* role change
 
 ---
 
-# 7. AUDIT CONTRACT
+# 9. AUDIT CONTRACT (TENANT DOMAIN EVENTS)
 
-Each entry:
+Append-only structure:
 
 ```json
 {
   "event_id": "ULID",
   "timestamp": "ISO-8601",
   "tenant_id": "ULID",
-  "user_id": "ULID",
+  "membership_id": "ULID",
   "entity_type": "application",
   "entity_id": "ULID",
   "action": "status_changed",
@@ -417,102 +497,84 @@ Each entry:
 }
 ```
 
-Append-only.
+---
 
-No edits.
+# 10. INDEXING STRATEGY
+
+Optional per-tenant index files:
+
+* Must only contain ULID references
+* Must be rebuildable
+* Must not duplicate business data
+
+Corruption → rebuild from domain entities.
 
 ---
 
-# 8. SCHEMA VALIDATION CHECKLIST (MANDATORY)
+# 11. SCHEMA VALIDATION CHECKLIST (LOCK REQUIRED)
 
-Before merging any schema change:
+Before repository implementation:
 
 ✅ ULID used
 ✅ Meta-wrapper present
-✅ No integer IDs
-✅ Lifecycle layer respected
-✅ Config separate from domain
-✅ Audit not embedded
-✅ Feature flags namespaced
-✅ Admission rules structured
-✅ Runtime-config contract unchanged
-✅ Supports multi-child parent
-✅ Supports application status history
-✅ Supports public content without login
+✅ entity_version implemented
+✅ No tenant-scoped users
+✅ Roles only in tenant_membership
+✅ navigation roles match Role Registry
+✅ tenant_id present in all domain entities
+✅ Snapshot immutable
+✅ Cross-tenant guard enforced
+✅ Atomic write enforced
+✅ Runtime-config contract aligned
 
 ---
 
-# 9. USER STORY COVERAGE VALIDATION
-
-## Visitor Stories Covered?
-
-* Public content → content/pages
-* Admission guidelines → content/pages
-* Gallery → content/gallery
-* Contact details → identity.json + pages
-* Notices → domain/notices (is_public=true)
-
-✔ Covered.
-
----
-
-## Parent Stories Covered?
-
-* Register/login → users/parents
-* Multiple children → domain/children
-* Age validation → config/admission_rules
-* Upload documents → child.document references
-* Submit application → domain/applications
-* Track status → application.status + history
-* Notifications → features.modules + notices
-
-✔ Covered.
-
----
-
-## Admin Stories Covered?
-
-* Secure login → users/staff
-* View applications → domain/applications
-* Accept/reject → application.status + audit
-* Post notices → domain/notices
-* Manage content → content/pages
-* Update statuses → application entity_version increment
-
-✔ Covered.
-
-No missing functional requirement detected.
-
----
-
-# 10. MIGRATION GUARANTEE (JSON → MYSQL)
+# 12. JSON → MYSQL MIGRATION GUARANTEE
 
 Each entity file maps to:
 
 * One table
-* Meta fields → columns
-* Data fields → columns
-* JSON column for flexible fields
 * ULID primary key
+* Meta columns
+* Data columns
+* tenant_id indexed
+* Soft delete supported
 
-No rewrite of business logic if repository pattern respected.
-
----
-
-# 11. FINAL LOCKED DECISIONS
-
-| Decision            | Status   |
-| ------------------- | -------- |
-| ULID                | Locked   |
-| One-file-per-entity | Locked   |
-| Meta-wrapper        | Locked   |
-| Append-only audit   | Locked   |
-| Layer separation    | Locked   |
-| Runtime-config API  | Required |
-| Feature namespacing | Required |
+No business logic rewrite required.
 
 ---
 
-# 12. GOVERNANCE
+# 13. FINAL LOCKED DECISIONS
 
+| Decision                | Status |
+| ----------------------- | ------ |
+| Global identity model   | Locked |
+| Membership binding      | Locked |
+| ULID                    | Locked |
+| One-file-per-entity     | Locked |
+| Meta-wrapper            | Locked |
+| Tenant-scoped domain    | Locked |
+| Role Registry global    | Locked |
+| Runtime-config required | Locked |
+
+---
+
+# 14. CONFLICT REVIEW
+
+### Conflicts Removed from Previous Version
+
+❌ Removed tenant-level `/users/staff` and `/users/parents`
+→ Identity is global under `/system/users`
+
+❌ Removed tenant-level roles.json & permissions.json
+→ Roles governed globally via Role Registry
+
+❌ Removed tenant.json from tenant directory
+→ Tenant entity lives under `/system/tenants`
+
+
+
+---
+
+# ✅ SCHEMA IS NOW LOCKED
  

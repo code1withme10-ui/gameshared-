@@ -1,0 +1,207 @@
+# 📘 SOP v2.0.0-A
+
+# Identity, Tenant Resolution & UX Governance
+
+**Purpose:**
+Define how user identity, tenant resolution, UI resolution, and UX switching MUST operate.
+
+---
+
+# 1. IDENTITY RESOLUTION FLOW
+
+### Step 1 — Login
+
+User authenticates globally:
+
+* Validate email
+* Validate password hash
+* Record login_audit
+
+No tenant resolved yet.
+
+---
+
+### Step 2 — Membership Resolution
+
+System loads all tenant_memberships for user.
+
+Scenarios:
+
+| Membership Count | Action                    |
+| ---------------- | ------------------------- |
+| 0                | Redirect to onboarding    |
+| 1                | Auto-select tenant        |
+| >1               | Show tenant switch screen |
+
+---
+
+### Step 3 — Active Tenant Selection
+
+Store in session:
+
+```
+active_tenant_id
+active_membership_id
+active_roles[]
+```
+
+All API calls MUST verify membership.
+
+---
+
+# 2. TENANT SWITCH UX
+
+User must have:
+
+* Tenant switcher dropdown (top nav)
+* Clear tenant identity display
+* Immediate reload of runtime-config
+
+Switch flow:
+
+1. User selects tenant
+2. Validate membership
+3. Update session
+4. Regenerate runtime-config
+5. Clear cached UI state
+
+No cross-tenant cache leakage allowed.
+
+---
+
+# 3. AUTHORIZATION RESOLUTION
+
+Authorization =
+
+```
+membership.roles[]
++ feature flags
++ permission matrix
+```
+
+Access rule:
+
+```
+User must:
+- be active
+- membership active
+- feature enabled
+- role permitted
+```
+
+---
+
+# 4. UI RESOLUTION LOGIC
+
+Navigation filtering:
+
+Each menu item must define:
+
+```json
+{
+  "feature_required": "admissions.enabled",
+  "role_required": ["HEADMASTER", "STAFF"]
+}
+```
+
+Frontend must hide items not authorized.
+
+Backend must enforce again.
+
+Never trust frontend.
+
+---
+
+# 5. FUTURE ROLE ADDITION PROCEDURE
+
+When adding new role:
+
+1. Register role name (UPPERCASE constant)
+2. Add to permission matrix
+3. Update navigation gating
+4. No schema changes required
+5. No migration required
+
+Roles are data-driven.
+
+---
+
+# 6. TENANT ISOLATION ENFORCEMENT
+
+Every request must:
+
+* Resolve active tenant
+* Validate membership
+* Scope repository query to tenant_id
+
+Violation = security incident.
+
+---
+
+# 7. MODERATOR & CROSS-TENANT USERS
+
+Moderators may have:
+
+```json
+roles: ["MODERATOR"]
+```
+
+In multiple tenant_memberships.
+
+They switch context like parents.
+
+No global cross-tenant read without membership.
+
+---
+
+# 8. DEFAULT ROLE ASSIGNMENT
+
+When a parent applies to tenant:
+
+If no membership exists:
+
+* Auto-create membership
+* roles = ["PARENT"]
+
+Default_tenant_id updated if first membership.
+
+---
+
+# 9. UX PRINCIPLES
+
+* Single login across platform
+* Zero confusion about active tenant
+* No cross-tenant data bleed
+* Instant tenant switching
+* Clear breadcrumb of workspace
+
+---
+
+# 10. SECURITY PRINCIPLES
+
+* Global email uniqueness
+* Password hashed (bcrypt/argon2)
+* Membership validated on every request
+* Tenant ID required in every domain entity
+* Audit trail immutable
+
+---
+
+# 11. FINAL ARCHITECTURAL PRINCIPLE
+
+> Identity is global.
+> Authorization is tenant-scoped.
+> Data is tenant-isolated.
+> UX is context-driven.
+
+---
+# Governance Rule Required
+
+ System reference data is:
+
+* Platform-governed
+* Versioned with platform
+* Not tenant-editable
+* Referenced by ULID only
+* Never duplicated inside tenant storage
+# 📘 END SOP v2.0.0-A

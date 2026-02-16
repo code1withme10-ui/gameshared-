@@ -1,0 +1,542 @@
+# 📘 SOP v1.0.0
+
+# Tenant Persistence, Identity & Schema Governance
+
+**Version:** v1.0.0
+**Status:** Production Baseline (Hardened)
+**Date:** 12 uary 2026
+**Supersedes:** v0.0.0
+
+**Applies To:** Platform Core + All Tenants
+**Related Document:** Platform Development, Onboarding & Operations SOP
+
+---
+
+# 1. PURPOSE
+
+This SOP defines the **authoritative persistence and identity contract** for the multi-tenant SaaS platform.
+
+It governs:
+
+* Global identity model
+* Tenant isolation model
+* Membership binding
+* ULID identity enforcement
+* Meta-wrapper contract
+* Directory structure
+* Concurrency rules
+* File integrity guarantees
+* Snapshot immutability
+* Indexing strategy
+* Role governance
+* Runtime aggregation contract
+* JSON → SQL migration guarantee
+* Backup & disaster recovery
+
+This document is binding for all persistence-layer implementations.
+
+---
+
+# 2. ARCHITECTURAL FOUNDATION (LOCKED)
+
+The platform SHALL implement:
+
+> Global Identity
+> Tenant Workspace
+> Membership Binding
+
+### 2.1 Identity Model
+
+* Identity is global.
+* Tenants are isolated workspaces.
+* Membership binds identity to tenant.
+* Roles are scoped per membership.
+* No entity may bypass this model.
+
+---
+
+# 3. GLOBAL NON-NEGOTIABLE RULES
+
+---
+
+## 3.1 ULID Identity Rule (ENFORCED)
+
+All entities MUST:
+
+* Use ULID (26-character Crockford Base32)
+* Be server-generated only
+* Be immutable
+* Be globally unique
+
+### 3.1.1 ULID Collision Policy
+
+In the event of a collision:
+
+1. Collision detected at write-time
+2. Regenerate ULID
+3. Log collision event
+4. Retry write
+
+Collisions must be logged in system audit.
+
+---
+
+## 3.2 One-File-Per-Entity Rule
+
+Each entity instance stored as:
+
+```
+{entity}/{ulid}.json
+```
+
+No array collections inside a single file.
+
+---
+
+## 3.3 Atomic Write & Concurrency Rule (MANDATORY)
+
+All writes MUST follow crash-safe pattern:
+
+1. Write to temporary file
+2. fsync (flush to disk)
+3. Atomic rename to target path
+
+### 3.3.1 File Locking
+
+* Exclusive lock during write
+* Shared lock during read (if supported)
+* Retry up to 3 times on contention
+* Log repeated lock failure
+
+---
+
+## 3.4 Optimistic Concurrency Control
+
+Entities include:
+
+```
+meta.entity_version
+```
+
+Update flow:
+
+1. Client sends expected entity_version
+2. Server compares with stored version
+3. If mismatch → return HTTP 409 Conflict
+4. No silent overwrite permitted
+
+---
+
+# 4. META-WRAPPER PATTERN (MANDATORY)
+
+All entities MUST follow:
+
+```json
+{
+  "id": "ULID",
+  "meta": {
+    "schema_version": "3.0.0",
+    "entity_version": 1,
+    "created_at": "ISO-8601",
+    "created_by": "ULID|null",
+    "updated_at": "ISO-8601",
+    "updated_by": "ULID|null",
+    "deleted_at": null
+  },
+  "data": {}
+}
+```
+
+Rules:
+
+* entity_version increments on update
+* Soft delete via deleted_at
+* No business data in meta
+* No metadata in data
+* Schema version immutable once created
+
+---
+
+# 5. DIRECTORY STRUCTURE (UPDATED)
+
+```
+storage/
+
+    /system/
+        users/
+        tenants/
+        tenant_memberships/
+        login_audit/
+        role_registry.json
+
+    /tenants/
+        {tenant_ulid}/
+            onboarding.json
+
+            config/
+            ui/
+            domain/
+            audit/
+
+    /indexes/
+        {tenant_ulid}/
+            applications.index.json
+            parent_profiles.index.json
+```
+
+---
+
+# 6. LIFECYCLE LAYER SEPARATION
+
+## Layer 1 — Global System Lifecycle
+
+Location: `/system`
+
+Entities:
+
+* user
+* tenant
+* tenant_membership
+* login_audit
+
+Cross-tenant entities only.
+
+Tenant data MUST NOT reference system entities except via ULID.
+
+---
+
+## Layer 2 — Tenant Config Lifecycle
+
+Rarely changes.
+
+Includes:
+
+* admission rules
+* feature modules
+* branding
+* security settings
+* locale
+
+---
+
+## Layer 3 — Tenant UI Lifecycle
+
+Controls SPA rendering only.
+
+Contains:
+
+* navigation
+* layout
+* dashboard
+* theme
+
+No business logic permitted.
+
+---
+
+## Layer 4 — Tenant Domain Lifecycle
+
+Transactional entities.
+
+ALL MUST include:
+
+```
+"tenant_id": "ULID"
+```
+
+### Cross-Tenant Guard Rule
+
+On write:
+
+* membership.tenant_id MUST equal entity.tenant_id
+* If mismatch → reject
+* If foreign ULID references another tenant → reject
+
+Validation mandatory.
+
+---
+
+## Layer 5 — Tenant Audit Lifecycle
+
+Append-only logs.
+
+* Never modified
+* Never wrapped in meta
+* Immutable by design
+
+---
+
+# 7. CORE ENTITY DEFINITIONS
+
+---
+
+## 7.1 user (GLOBAL)
+
+Must include:
+
+* email (globally unique)
+* password_hash
+* status
+* profile
+* default_tenant_id (nullable)
+
+Must NOT include:
+
+* tenant_id
+* roles array
+
+---
+
+## 7.2 tenant (GLOBAL)
+
+Must include:
+
+* name
+* slug
+* status
+* plan_type
+* timezone
+* locale
+
+---
+
+## 7.3 tenant_membership (GLOBAL BINDING)
+
+Must include:
+
+* user_id
+* tenant_id
+* roles[]
+* status
+* joined_at
+
+Roles scoped per tenant only.
+
+---
+
+## 7.4 Role Registry (GLOBAL)
+
+Location:
+
+```
+/system/role_registry.json
+```
+
+Must define:
+
+* role_name
+* description
+* default_permissions
+* navigation_visibility
+* created_at
+* updated_at
+
+New roles require:
+
+* Registry update
+* Permission map update
+* Navigation validation
+* ADR record
+
+---
+
+## 7.5 application (TENANT-SCOPED, SNAPSHOT IMMUTABLE)
+
+Must include:
+
+* tenant_id
+* parent_membership_id
+* child_snapshot
+* parent_snapshot
+* emergency_contact_snapshot
+* status
+* status_history[]
+* reviewed_by_membership_id
+* decision_notes
+* archived
+
+### Snapshot Rules
+
+* Immutable after creation
+* Never updated
+* Schema version stored within snapshot
+* Optional future: hash signature
+
+---
+
+# 8. INDEXING STRATEGY (JSON PHASE)
+
+To avoid full directory scans:
+
+* Optional secondary index files
+* Must contain ULID references only
+* No duplication of business data
+* Rebuildable from source files
+* Regenerated if corruption detected
+
+Indexes are performance aids only.
+
+---
+
+# 9. SOFT DELETE & DATA RETENTION
+
+Soft delete via `deleted_at`.
+
+Retention policy:
+
+* Retained for 12 months (configurable)
+* Restorable by ADMIN or SUPER_ADMIN
+* Hard purge via scheduled job
+* Hard purge logged in audit
+
+---
+
+# 10. BACKUP & DISASTER RECOVERY
+
+## 10.1 Backup Frequency
+
+* Nightly full backup
+* Hourly incremental (if supported)
+* Retention: 30 days
+
+## 10.2 Integrity Validation
+
+* SHA-256 checksum per file (future-ready)
+* Backup restore test quarterly
+* Corruption triggers incident protocol
+
+## 10.3 Recovery Objectives
+
+* RTO: 4 hours
+* RPO: 1 hour
+
+---
+
+# 11. RUNTIME CONFIG CONTRACT
+
+Endpoint:
+
+```
+GET /api/runtime-config
+```
+
+Returns:
+
+* active tenant identity
+* membership roles
+* features
+* ui config
+* permissions
+* admission rules
+
+SPA MUST NOT read filesystem directly.
+
+---
+
+# 12. SCHEMA VALIDATION CHECKLIST
+
+Before merge:
+
+✅ ULID used
+✅ Meta-wrapper present
+✅ entity_version implemented
+✅ Optimistic lock enforced
+✅ user has no tenant_id
+✅ Roles only in membership
+✅ tenant_id present
+✅ Cross-tenant guard validated
+✅ Snapshot immutable
+✅ Atomic write enforced
+✅ Index rebuild safe
+✅ No lifecycle violation
+
+---
+
+# 13. JSON → SQL MIGRATION GUARANTEE
+
+## 13.1 Migration Procedure
+
+1. Announce maintenance window
+2. Freeze writes
+3. Snapshot JSON storage
+4. Validate schema versions
+5. Migrate entities
+6. Validate record counts
+7. Verify foreign key integrity
+8. Re-enable writes
+9. Run audit comparison
+
+---
+
+## 13.2 Mapping Strategy
+
+| JSON Entity       | SQL Table       |
+| ----------------- | --------------- |
+| user              | users           |
+| tenant            | tenants         |
+| tenant_membership | tenant_user     |
+| application       | applications    |
+| parent_profile    | parent_profiles |
+
+ULIDs become primary keys.
+
+No business logic rewrite permitted.
+
+---
+
+# 14. LOCKED DECISIONS
+
+| Decision            | Status |
+| ------------------- | ------ |
+| Global identity     | Locked |
+| Membership binding  | Locked |
+| ULID                | Locked |
+| One-file-per-entity | Locked |
+| Meta-wrapper        | Locked |
+| Atomic writes       | Locked |
+| Optimistic locking  | Locked |
+| Append-only audit   | Locked |
+| Tenant isolation    | Locked |
+
+Reversal requires:
+
+* Formal Architecture Decision Record (ADR)
+* Impact analysis
+* Approval from Lead Architect + PM
+
+---
+
+# 15. ADR GOVERNANCE
+
+All structural changes require:
+
+* ADR document
+* Problem statement
+* Alternatives considered
+* Trade-offs
+* Reversal cost
+* Approval record
+
+Stored in:
+
+```
+/docs/adr/
+```
+
+---
+
+# 16. COMPLIANCE & FUTURE READINESS
+
+Designed to support:
+
+* SQL migration
+* Horizontal scaling
+* Object storage
+* Encryption at rest
+* Compliance frameworks (future phase)
+
+---
+
+# ✅ END OF SOP v1.0.0
+
+ 

@@ -58,3 +58,12 @@ public/sites_list.html
 *docs/specs-*
 collaboration/public/images/shared/creche/play-time/yOCOIv3fSC-Mde-ExQHKOw@2k.webp
 takalani/data/uploads/*
+collaboration/vendor/*
+schemas/audit schemas/common schemas/config schemas/domain schemas/system schemas/users
+ai/context
+**/.windsurf/
+**/.windsurf/*
+schemes/*
+architecture/*
+schemas/*
+ai/*
