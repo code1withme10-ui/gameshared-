@@ -410,6 +410,32 @@ When platform boots tenant runtime config:
 
 ---
 
+# Plugin Management
+
+    1. Plugins must be listed in the **system-level plugin registry** before tenant activation.
+    2. Only tenants listed in `allowed_tenants` can enable the plugin.
+    3. Tenants cannot modify core plugin code; only tenant-specific `config` is allowed.
+    4. Any plugin activation must be logged (`created_at` / `updated_at`).
+    5. System admin must approve **external plugins** before tenant enablement.
+## Tenant Isolation is mandatory
+
+   * Do not allow shared plugin state unless explicitly multi-tenant aware.
+## Separate in-house vs external plugins
+
+   * Keep in-house plugins versioned with the platform.
+   * External plugins should require approval and vetting.
+
+## Plugin Lifecycle Enforcement
+
+   * Enforce `enabled`, `disabled`, and `uninstall` processes via SOP.
+   * Log all changes to `status_history` (similar to applications).
+
+
+### Rules
+ - Plugin activation must satisfy both tenant allowance and plan type restriction.
+ - If tenant upgrades/downgrades plan, system should auto-validate currently enabled plugins.
+ - Log any plugin activation failure due to plan-type restriction.
+ - External plugins still require system admin approval.
 
 ### ✅ END OF SOP — VERSION v0.0.0
  
