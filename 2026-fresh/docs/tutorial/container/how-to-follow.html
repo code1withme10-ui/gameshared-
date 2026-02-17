@@ -1,22 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>How to Follow This Tutorial</title>
     <meta charset="UTF-8">
+    <title>How to Follow This Tutorial</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+        .w3-container p { line-height: 1.6; }
+        .download-link { text-decoration: none; color: #00796B; font-weight: bold; }
+        .download-link:hover { text-decoration: underline; }
+    </style>
 </head>
 <body class="w3-light-grey">
 
+<!-- Header -->
 <div class="w3-container w3-teal w3-padding-32">
     <h1>How to Follow This Tutorial</h1>
-    <p class="w3-large">Step-by-step professional workflow using AI as your tool</p>
+    <p class="w3-large">Step-by-step professional workflow</p>
 </div>
 
+<!-- Main content -->
 <div class="w3-container w3-margin-top w3-margin-bottom">
 
+    <!-- Step 1 -->
     <div class="w3-card w3-white w3-padding w3-margin-bottom">
-        <h2 class="w3-text-teal">Step 1: Prepare Your Environment</h2>
+        <h2 class="section-title">Step 1: Prepare Your Environment</h2>
         <ul class="w3-ul">
             <li>Create a new folder: <strong>/var/www/tutorial/containers/</strong></li>
             <li>Do NOT use your existing work sandbox</li>
@@ -27,72 +42,63 @@
         </div>
     </div>
 
+    <!-- Step 2 -->
     <div class="w3-card w3-white w3-padding w3-margin-bottom">
-        <h2 class="w3-text-teal">Step 2: Start a Fresh AI Session</h2>
+        <h2 class="section-title">Step 2: Reset Your AI Session</h2>
+        <p>Before starting the exercise:</p>
         <ul class="w3-ul">
-            <li>Log out of any existing AI chat sessions</li>
-            <li>Start a brand new session</li>
-            <li>Do NOT attach the chat to any previous project</li>
+            <li>Log out of your AI account</li>
+            <li>Log back in</li>
+            <li>Start a brand new chat session</li>
+            <li>Do NOT attach the chat to any existing project</li>
         </ul>
         <div class="w3-panel w3-pale-red w3-border">
-            Fresh context ensures AI guidance matches the phase instructions exactly.
+            Previous chat history may influence AI responses and break tutorial constraints.
         </div>
     </div>
 
+    <!-- Step 3 -->
     <div class="w3-card w3-white w3-padding w3-margin-bottom">
-        <h2 class="w3-text-teal">Step 3: Initialize AI with Prompt and SOP</h2>
+        <h2 class="section-title">Step 3: Initialize the AI Correctly</h2>
+        <p>Download the following files:</p>
+        <ul class="w3-ul">
+            <li>
+                <a href="prompt.md" target="_blank" download class="download-link">Download prompt.md</a>
+            </li>
+            <li>
+                <a href="SOP.md" target="_blank" download class="download-link">Download SOP.md</a>
+            </li>
+        </ul>
+        <p>In a brand new AI chat session:</p>
         <ol class="w3-ol">
-            <li>Open <strong>prompt.md</strong> and copy its contents</li>
-            <li>Paste into the new AI chat and send</li>
-            <li>Open <strong>SOP.md</strong>, copy all content, paste into the same chat, and send</li>
+            <li>Open prompt.md and copy all contents</li>
+            <li>Paste into AI and send</li>
+            <li>Open SOP.md and copy all contents</li>
+            <li>Paste into AI and send</li>
         </ol>
         <div class="w3-panel w3-pale-blue w3-border">
-            The SOP ensures AI stays within tutorial constraints. Professional developers control their tools.
+            Professionals control their tools. SOP prevents AI from drifting into complexity.
         </div>
     </div>
 
+    <!-- Step 4 -->
     <div class="w3-card w3-white w3-padding w3-margin-bottom">
-        <h2 class="w3-text-teal">Step 4: Follow Phases Strictly</h2>
-        <p>This tutorial is divided into phases. Complete each phase before moving to the next.</p>
+        <h2 class="section-title">Step 4: Follow Phases Strictly</h2>
+        <p>This tutorial is divided into phases:</p>
         <ul class="w3-ul">
             <li>Phase 1 – Hard-coded implementation (feel the pain)</li>
             <li>Phase 2 – Introduce an interface</li>
             <li>Phase 3 – Introduce a container</li>
-            <li>Phase 4 – Extend with new message channels</li>
+            <li>Phase 4 – Extend with WhatsApp</li>
         </ul>
         <div class="w3-panel w3-pale-yellow w3-border">
-            Skipping phases will prevent you from understanding the architecture mindset.
+            Do not skip phases. Architectural understanding comes from progression.
         </div>
     </div>
 
+    <!-- Step 5 -->
     <div class="w3-card w3-white w3-padding w3-margin-bottom">
-        <h2 class="w3-text-teal">Phase 1 – Hard-Coded Implementation</h2>
-        <p>
-            In this phase, you will feel the pain of tight coupling. You will manually instantiate the <strong>EmailNotifier</strong> and <strong>NotificationService</strong> in <code>index.php</code>.
-        </p>
-        <p><strong>Instructions:</strong></p>
-        <ol class="w3-ol">
-            <li>Open <code>index.php</code></li>
-            <li>Require <code>EmailNotifier.php</code> and <code>NotificationService.php</code></li>
-            <li>Manually create objects:
-                <pre>
-$notifier = new EmailNotifier();
-$service  = new NotificationService($notifier);
-$service->send($message);
-                </pre>
-            </li>
-            <li>Run the CLI command to test:
-                <pre>php index.php email "Hello World"</pre>
-            </li>
-        </ol>
-        <p><strong>Sample AI Prompt:</strong></p>
-        <div class="w3-panel w3-pale-green w3-border">
-            We are in Phase 1. I want a hard-coded version of the notification system. Do not introduce interfaces or containers. Use simple PHP classes. CLI only.
-        </div>
-    </div>
-
-    <div class="w3-card w3-white w3-padding w3-margin-bottom">
-        <h2 class="w3-text-teal">Step 5: Work With AI Professionally</h2>
+        <h2 class="section-title">Step 5: Work With AI Professionally</h2>
         <p>Do not ask vague questions like:</p>
         <div class="w3-panel w3-pale-red w3-border">
             “Build me a notification system.”
@@ -101,11 +107,19 @@ $service->send($message);
         <div class="w3-panel w3-pale-green w3-border">
             “We are in Phase 1. Hard-coded version only. Do not introduce interfaces yet.”
         </div>
-        <p>If AI introduces frameworks, namespaces, or advanced patterns, remind it of the SOP constraints.</p>
+        <p>If AI introduces:</p>
+        <ul class="w3-ul">
+            <li>Frameworks</li>
+            <li>Namespaces</li>
+            <li>Autoloaders</li>
+            <li>Advanced design patterns</li>
+        </ul>
+        <p>Remind it of the SOP constraints.</p>
     </div>
 
+    <!-- Professional Conduct -->
     <div class="w3-card w3-white w3-padding">
-        <h2 class="w3-text-teal">Professional Conduct & Motivation</h2>
+        <h2 class="section-title">Professional Conduct</h2>
         <ul class="w3-ul">
             <li>Write code yourself</li>
             <li>Read every line generated by AI</li>
@@ -113,12 +127,19 @@ $service->send($message);
             <li>Refactor manually when instructed</li>
         </ul>
         <p class="w3-margin-top">
-            You are not here to generate code. You are here to understand architecture and learn to use AI as a professional tool.
+            You are not here to generate code. You are here to understand architecture.
         </p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="intro.html">← Previous</a>
+        <a class="w3-button w3-teal" href="phase1.html">Next → Phase 1</a>
     </div>
 
 </div>
 
+<!-- Footer -->
 <div class="w3-container w3-teal w3-padding-16 w3-center">
     <p>Professionals control tools. Tools do not control professionals.</p>
 </div>

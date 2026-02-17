@@ -1,26 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Phase 1 – Hard-Coded Implementation</title>
     <meta charset="UTF-8">
+    <title>Phase 1 – Hard-Coded Implementation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- W3.CSS CDN -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    
     <style>
         body { font-family: Arial, sans-serif; }
         .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
         .term { font-weight: bold; color: #00796B; }
         .term-desc { margin-left: 10px; color: #555; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
-        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        pre { background: #f4f4f4; padding: 12px; border-radius: 6px; overflow-x: auto; }
+        .w3-card { border-radius: 8px; }
+        .terminal { background: #000; color: #00ff88; padding: 12px; border-radius: 6px; font-family: monospace; overflow-x: auto; }
     </style>
 </head>
 <body class="w3-light-grey">
 
+<!-- Header -->
 <div class="w3-container w3-teal w3-padding-32">
     <h1>Phase 1 – Hard-Coded Implementation</h1>
     <p class="w3-large">Feel the pain of tight coupling. Learn to use AI as a professional tool.</p>
 </div>
 
+<!-- Main content -->
 <div class="w3-container w3-margin-top w3-margin-bottom">
 
     <!-- Objective -->
@@ -46,7 +53,7 @@ $service->send($message);
                 </pre>
             </li>
             <li>Run the CLI command to test:
-                <pre>php index.php email "Hello World"</pre>
+                <div class="terminal">php index.php email "Hello World"</div>
             </li>
         </ol>
     </div>
@@ -62,18 +69,20 @@ $service->send($message);
     <div class="w3-card w3-white w3-padding w3-margin-bottom">
         <h2 class="section-title">Sample AI Prompt</h2>
         <div class="w3-panel w3-pale-green w3-border">
-            We are in Phase 1. I want a hard-coded version of the notification system. Do not introduce interfaces or containers. Use simple PHP classes. CLI only.
+            We are in Phase 1. I want a hard-coded version of the notification system. 
+            Do not introduce interfaces or containers. Use simple PHP classes. CLI only.
         </div>
     </div>
 
     <!-- Navigation -->
     <div class="nav-buttons">
-        <a class="w3-button w3-teal" href="intro.html">← Previous</a>
-        <a class="w3-button w3-teal" href="phase2.html">Next →</a>
+        <a class="w3-button w3-teal" href="how-to-follow.html">← Previous</a>
+        <a class="w3-button w3-teal" href="phase2.html">Next → Phase 2</a>
     </div>
 
 </div>
 
+<!-- Footer -->
 <div class="w3-container w3-teal w3-padding-16 w3-center">
     <p>Use AI as a professional tool. Understand architecture before writing code.</p>
 </div>
