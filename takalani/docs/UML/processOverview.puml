@@ -1,0 +1,122 @@
+@startuml processOverview
+!theme plain
+skinparam componentStyle rectangle
+
+package "Controllers" {
+    [OnboardingController] as Controller
+}
+
+package "Services Layer" {
+    [IdentityService] as Identity
+    [BrandingService] as Branding
+    [RulesService] as Rules
+    [ContentService] as Content
+}
+
+package "Repository Layer" {
+    [TenantRepository] as TenantRepo
+}
+
+package "Storage Layer" {
+    [JSON File System] as JSONFS
+    [tenant.json] as TenantFile
+    [onboarding.json] as OnboardingFile
+    [config/admission_rules.json] as RulesFile
+    [ui/theme.json] as ThemeFile
+    [content/pages/*.json] as ContentFiles
+}
+
+package "Utilities" {
+    [ULID Generator] as ULIDGen
+    [JSON Schema Validator] as Validator
+}
+
+' Component Relationships
+Controller --> Identity
+Controller --> Branding
+Controller --> Rules
+Controller --> Content
+
+Identity --> TenantRepo
+Branding --> TenantRepo
+Rules --> TenantRepo
+Content --> TenantRepo
+
+TenantRepo --> TenantFile
+TenantRepo --> OnboardingFile
+TenantRepo --> RulesFile
+TenantRepo --> ThemeFile
+TenantRepo --> ContentFiles
+
+Identity --> ULIDGen
+Rules --> Validator
+Branding --> Validator
+Content --> Validator
+
+note right of Controller
+  **Onboarding Pipeline Stages**
+  
+  Stage 1: Pre-Onboarding (Intake)
+  Stage 2: Tenant Creation (Automated)
+  Stage 3: Configuration
+  Stage 4: Static Content Initialization
+end note
+ Stage 1 & 2: Tenant Creation 
+group "Tenant Creation Flow"
+    Controller -> Identity: createTenant(data)
+    Identity -> ULIDGen: generateULID()
+    ULIDGen --> Identity: tenant_ulid
+    Identity -> TenantRepo: createTenantStructure(tenant_ulid)
+    TenantRepo -> TenantFile: create tenant.json
+    TenantRepo -> OnboardingFile: create onboarding.json
+    Identity --> Controller: tenant_ulid
+end
+
+Stage 3: Tenant Configuration and Rules Setup
+group "Configuration Flow"
+    Controller -> Rules: saveAdmissionRules(tenant_ulid, rules)
+    Rules -> Validator: validateRulesStructure(rules)
+    Validator --> Rules: validation_result
+    Rules -> TenantRepo: saveConfig(tenant_ulid, "admission_rules", rules)
+    TenantRepo -> RulesFile: write admission_rules.json
+    Rules --> Controller: success/failure
+end
+
+ Stage 4: Branding & Content 
+group "Branding Flow"
+    Controller -> Branding: saveBranding(tenant_ulid, branding)
+    Branding -> Validator: validateBrandingInputs(branding)
+    Validator --> Branding: validation_result
+    Branding -> TenantRepo: saveConfig(tenant_ulid, "theme", branding)
+    TenantRepo -> ThemeFile: write theme.json
+    Branding --> Controller: success/failure
+end
+
+group "Content Initialization Flow"
+    Controller -> Content: initializeContent(tenant_ulid, content)
+    Content -> TenantRepo: copyDefaultTemplates()
+    Content -> TenantRepo: injectTenantSpecificValues(content)
+    TenantRepo -> ContentFiles: create page files
+    Content --> Controller: success/failure
+end
+
+note bottom of TenantRepo
+  **Repository Responsibilities**
+  
+  - Enforce tenant isolation
+  - Apply meta-wrapper pattern
+  - Handle JSON file operations
+  - Validate directory structure
+  - Maintain SOP compliance
+end note
+
+note bottom of Validator
+  **Validation Rules**
+  
+  - ULID format (26-char Crockford base32)
+  - Meta-wrapper schema compliance
+  - Structured admission rules
+  - Branding input validation
+  - Content schema validation
+end note
+@enduml
