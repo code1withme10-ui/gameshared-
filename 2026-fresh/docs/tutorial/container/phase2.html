@@ -1,25 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Phase 2 – Introduce Interfaces</title>
     <meta charset="UTF-8">
+    <title>Phase 2 – Introduce Interfaces</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <style>
         body { font-family: Arial, sans-serif; }
         .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
         .term { font-weight: bold; color: #00796B; }
         .term-desc { margin-left: 10px; color: #555; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+        .w3-card { border-radius: 8px; }
+        pre { background: #f4f4f4; padding: 12px; border-radius: 6px; overflow-x: auto; }
+        .terminal { background: #000; color: #00ff88; padding: 12px; border-radius: 6px; font-family: monospace; overflow-x: auto; }
     </style>
 </head>
 <body class="w3-light-grey">
 
+<!-- Header -->
 <div class="w3-container w3-teal w3-padding-32">
     <h1>Phase 2 – Introduce Interfaces</h1>
     <p class="w3-large">Learn to instruct AI to refactor code toward abstraction.</p>
 </div>
 
+<!-- Main content -->
 <div class="w3-container w3-margin-top w3-margin-bottom">
 
     <!-- Objective -->
@@ -30,18 +38,16 @@
             Now you will guide AI to introduce an abstraction so the service depends
             on a contract instead of a concrete class.
         </p>
-        <p>
-            Your goal is not to copy code. Your goal is to instruct AI correctly.
-        </p>
+        <p>Your goal is not to copy code. Your goal is to instruct AI correctly.</p>
     </div>
 
     <!-- What Must Change -->
     <div class="w3-card w3-white w3-padding w3-margin-bottom">
         <h2 class="section-title">What Must Change</h2>
         <ul class="w3-ul">
-            <li>Create a NotifierInterface</li>
-            <li>Make EmailNotifier implement that interface</li>
-            <li>Modify NotificationService to depend on the interface</li>
+            <li>Create a <strong>NotifierInterface</strong></li>
+            <li>Make <strong>EmailNotifier</strong> implement that interface</li>
+            <li>Modify <strong>NotificationService</strong> to depend on the interface</li>
             <li>Do NOT introduce containers yet</li>
         </ul>
     </div>
@@ -51,48 +57,27 @@
         <h2 class="section-title">Your AI Prompt</h2>
         <div class="w3-panel w3-pale-green w3-border">
             We are in Phase 2 of a learning tutorial. 
-            Refactor the existing notification system to introduce a NotifierInterface. 
+            Refactor the existing notification system to introduce a <strong>NotifierInterface</strong>. 
             NotificationService must depend on the interface instead of EmailNotifier. 
-            Keep everything simple. 
-            No containers. 
-            No frameworks. 
-            CLI only. 
-            Pure PHP. 
-            No namespaces.
+            Keep everything simple. No containers. No frameworks. CLI only. Pure PHP. No namespaces.
         </div>
     </div>
 
-    <!-- What To Verify -->
- <!-- What To Check -->
-<div class="w3-card w3-white w3-padding w3-margin-bottom">
-    <h2 class="section-title">What To Check Carefully</h2>
-
-    <p>After AI generates the code, do the following:</p>
-
-    <ol class="w3-ol">
-        <li>
-            Open <code>NotifierInterface.php</code>.  
-            Does it contain a method called <code>send</code>?
-        </li>
-        <li>
-            Open <code>EmailNotifier.php</code>.  
-            Does the class say <code>implements NotifierInterface</code>?
-        </li>
-        <li>
-            Open <code>NotificationService.php</code>.  
-            In the constructor, do you see <code>NotifierInterface</code> instead of <code>EmailNotifier</code>?
-        </li>
-        <li>
-            Run the system again.  
-            Does it still send the message successfully?
-        </li>
-    </ol>
-
-    <div class="w3-panel w3-pale-yellow w3-border">
-        If the system still works and EmailNotifier is no longer directly required
-        inside NotificationService, you have successfully reduced coupling.
+    <!-- What To Check Carefully -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What To Check Carefully</h2>
+        <p>After AI generates the code, do the following:</p>
+        <ol class="w3-ol">
+            <li>Open <code>NotifierInterface.php</code>. Does it contain a method called <code>send</code>?</li>
+            <li>Open <code>EmailNotifier.php</code>. Does the class say <code>implements NotifierInterface</code>?</li>
+            <li>Open <code>NotificationService.php</code>. In the constructor, do you see <code>NotifierInterface</code> instead of <code>EmailNotifier</code>?</li>
+            <li>Run the system again. Does it still send the message successfully?</li>
+        </ol>
+        <div class="w3-panel w3-pale-yellow w3-border">
+            If the system still works and EmailNotifier is no longer directly required
+            inside NotificationService, you have successfully reduced coupling.
+        </div>
     </div>
-</div>
 
     <!-- Terminology -->
     <div class="w3-card w3-white w3-padding w3-margin-bottom">
@@ -113,11 +98,12 @@
     <!-- Navigation -->
     <div class="nav-buttons">
         <a class="w3-button w3-teal" href="phase1.html">← Previous</a>
-        <a class="w3-button w3-teal" href="phase3.html">Next →</a>
+        <a class="w3-button w3-teal" href="phase3.html">Next → Phase 3</a>
     </div>
 
 </div>
 
+<!-- Footer -->
 <div class="w3-container w3-teal w3-padding-16 w3-center">
     <p>Professional developers review AI output. They do not blindly trust it.</p>
 </div>

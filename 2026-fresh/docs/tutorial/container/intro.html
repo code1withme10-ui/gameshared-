@@ -1,83 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Container & Interface Training</title>
     <meta charset="UTF-8">
+    <title>Phase 1 – Hard-Coded Implementation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- W3.CSS CDN -->
+    
+    <!-- W3.CSS CDN for modern look -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    
+    <!-- Custom styles -->
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .nav-buttons { display: flex; justify-content: flex-end; margin-top: 20px; }
+        .w3-container p { line-height: 1.6; }
+    </style>
 </head>
 <body class="w3-light-grey">
 
+<!-- Header -->
 <div class="w3-container w3-teal w3-padding-32">
     <h1>Architectural Training: Containers & Interfaces</h1>
-    <p class="w3-large">Professional Developer Foundations</p>
+    <p class="w3-large">Phase 1 – Hard-Coded Implementation</p>
 </div>
 
+<!-- Main content -->
 <div class="w3-container w3-margin-top w3-margin-bottom">
 
+    <!-- Welcome -->
     <div class="w3-card w3-white w3-padding w3-margin-bottom">
-        <h2 class="w3-text-teal">Welcome</h2>
+        <h2 class="section-title">Welcome</h2>
         <p>
             This tutorial is designed to strengthen your architectural thinking.
             You are not building a feature for a client.
             You are building professional discipline.
         </p>
-        <p>
-            The goal is to understand:
-        </p>
+        <p>The goal is to understand:</p>
         <ul class="w3-ul">
             <li>What tight coupling feels like</li>
             <li>Why abstraction matters</li>
-            <li>How interfaces reduce dependency</li>
-            <li>How a container centralizes object creation</li>
             <li>How professional developers structure systems</li>
+            <li>How centralized object creation can improve maintainability</li>
         </ul>
     </div>
 
+    <!-- Mindset -->
     <div class="w3-card w3-white w3-padding w3-margin-bottom">
-        <h2 class="w3-text-teal">Important Mindset</h2>
+        <h2 class="section-title">Important Mindset</h2>
         <p>
-            This tutorial must be completed in a new folder:
+            This tutorial must be completed in a <strong>new folder</strong>:
         </p>
-
         <div class="w3-panel w3-pale-yellow w3-border">
             <strong>/var/www/tutorial/containers/</strong>
         </div>
-
         <p>
-            This folder must be outside your normal work sandbox.
-            This is architectural training space.
+            This folder is your architectural training space — separate from normal work.
         </p>
     </div>
 
+    <!-- What You Will Build -->
     <div class="w3-card w3-white w3-padding w3-margin-bottom">
-        <h2 class="w3-text-teal">What You Will Build</h2>
+        <h2 class="section-title">What You Will Build</h2>
         <p>
-            You will create a simple <strong>Notification System</strong>
-            that can send messages via:
+            You will create a simple <strong>Notification System</strong> that can send messages via:
         </p>
-
         <ul class="w3-ul">
             <li>Email</li>
-            <li>SMS</li>
-            <li>WhatsApp</li>
         </ul>
-
         <p>
             At first, the system will be tightly coupled and rigid.
             You will experience the limitations.
         </p>
-
         <p>
-            Then, step by step, you will refactor it into a flexible,
-            extendable, professional structure.
+            Later, step by step, it will become flexible, extendable, and professional.
         </p>
     </div>
 
+    <!-- Technology Rules -->
     <div class="w3-card w3-white w3-padding w3-margin-bottom">
-        <h2 class="w3-text-teal">Technology Rules</h2>
+        <h2 class="section-title">Technology Rules</h2>
         <ul class="w3-ul">
             <li>Pure PHP (8.1+)</li>
             <li>No frameworks</li>
@@ -86,21 +88,19 @@
             <li>No autoloaders</li>
             <li>Simple <code>require</code> statements only</li>
             <li>CLI execution only</li>
+            <li>Keep code small, readable, and well-commented</li>
         </ul>
     </div>
 
-    <div class="w3-card w3-white w3-padding">
-        <h2 class="w3-text-teal">Expected Outcome</h2>
-        <p>
-            By the end of this training, you should be able to explain:
-        </p>
+    <!-- Expected Outcome -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Expected Outcome</h2>
+        <p>By the end of Phase 1, you should be able to explain:</p>
         <ul class="w3-ul">
-            <li>What dependency inversion means</li>
-            <li>Why services should depend on abstractions</li>
-            <li>Why object creation should be centralized</li>
-            <li>How containers improve maintainability</li>
+            <li>What tight coupling is</li>
+            <li>How dependency affects flexibility</li>
+            <li>Why object creation matters</li>
         </ul>
-
         <p class="w3-margin-top">
             If you can explain these concepts clearly without looking at the code,
             you are thinking like a professional developer.
@@ -109,8 +109,14 @@
 
 </div>
 
+<!-- Footer -->
 <div class="w3-container w3-teal w3-padding-16 w3-center">
     <p>Architectural discipline creates scalable systems.</p>
+</div>
+
+<!-- Navigation -->
+<div class="w3-container w3-margin-top w3-center">
+    <a class="w3-button w3-teal" href="how-to-follow.html">Next → How to Follow the Tutorial</a>
 </div>
 
 </body>
