@@ -1,0 +1,89 @@
+@startuml
+title Multi-Tenant Hierarchical Architecture
+caption SOP Version: v1.0.0 | Created: 2026-02-16
+
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+' =============================
+' LAYERS
+' =============================
+
+package "HTTP Layer" {
+    [Router]
+    [TenantResolutionMiddleware]
+    [Controller/API]
+}
+
+package "Application Layer" {
+    [Service Layer]
+}
+
+package "Domain Layer" {
+    interface RepositoryInterface
+    [JsonRepository]
+    [MysqlRepository]
+}
+
+package "Data Hierarchy" {
+
+    package "Global Level" {
+        [Global Defaults]
+    }
+
+    package "Group Level (Franchise)" {
+        [Group Configuration]
+    }
+
+    package "Tenant Level" {
+        [Tenant Overrides]
+    }
+}
+
+' =============================
+' FLOW
+' =============================
+
+[Router] --> [TenantResolutionMiddleware]
+[TenantResolutionMiddleware] --> [Controller/API]
+[Controller/API] --> [Service Layer]
+[Service Layer] --> RepositoryInterface
+
+RepositoryInterface <|.. [JsonRepository]
+RepositoryInterface <|.. [MysqlRepository]
+
+[JsonRepository] --> [Global Defaults]
+[JsonRepository] --> [Group Configuration]
+[JsonRepository] --> [Tenant Overrides]
+
+[MysqlRepository] --> [Global Defaults]
+[MysqlRepository] --> [Group Configuration]
+[MysqlRepository] --> [Tenant Overrides]
+
+' =============================
+' HIERARCHICAL RESOLUTION
+' =============================
+
+[Global Defaults] --> [Group Configuration] : inherit
+[Group Configuration] --> [Tenant Overrides] : override
+[Tenant Overrides] --> [Service Layer] : merged result
+
+note right of [Service Layer]
+Services receive fully merged configuration.
+They do NOT know:
+- Storage type (JSON/MySQL)
+- Merge source (global/group/tenant)
+- Physical storage location
+end note
+
+note bottom of RepositoryInterface
+Repository is responsible for:
+- Tenant isolation
+- Group resolution
+- Global fallback
+- Atomic persistence
+- Storage abstraction
+end note
+
+@enduml

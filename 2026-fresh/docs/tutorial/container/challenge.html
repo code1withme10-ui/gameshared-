@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Challenge – Add Another Channel</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>Challenge Phase</h1>
+    <p class="w3-large">Prove that your architecture is flexible.</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Your Objective</h2>
+        <p>
+            Add a completely new message channel.
+        </p>
+        <p>
+            Examples:
+        </p>
+        <ul class="w3-ul">
+            <li>TelegramNotifier</li>
+            <li>PushNotifier</li>
+            <li>SlackNotifier</li>
+        </ul>
+
+        <p>
+            You must decide how to prompt the AI.
+        </p>
+    </div>
+
+    <!-- Rules -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Rules</h2>
+        <ul class="w3-ul">
+            <li>Do not modify NotificationService</li>
+            <li>The new class must implement NotifierInterface</li>
+            <li>Only update Container.php to support the new type</li>
+            <li>Keep everything CLI-based</li>
+            <li>Keep code simple</li>
+        </ul>
+    </div>
+
+    <!-- Run Command -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Run From Command Line</h2>
+
+        <p>After implementing your new channel:</p>
+
+        <div class="terminal">
+php index.php telegram "Hello from Telegram"
+        </div>
+
+        <p>
+            Replace <strong>telegram</strong> with your chosen type.
+        </p>
+    </div>
+
+    <!-- Self-Check -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Self-Check</h2>
+
+        <ul class="w3-ul">
+            <li>Did you create only one new file?</li>
+            <li>Did you avoid changing NotificationService?</li>
+            <li>Did you update only the container logic?</li>
+            <li>Does email still work?</li>
+            <li>Does SMS still work?</li>
+        </ul>
+
+        <div class="w3-panel w3-pale-yellow w3-border">
+            If you modified multiple core files,
+            your system may still be tightly coupled.
+        </div>
+    </div>
+
+    <!-- Terminology -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Terminology</h2>
+
+        <p><strong>Scalability:</strong> The ability to grow without rewriting core logic.</p>
+        <p><strong>Open for Extension:</strong> You can add new behavior without modifying existing stable code.</p>
+    </div>
+
+    <!-- Reflection -->
+    <div class="w3-card w3-white w3-padding">
+        <h2 class="section-title">Reflection</h2>
+
+        <p>
+            Compare Phase 1 with now.
+        </p>
+
+        <p>
+            In Phase 1, how many files would you have needed to modify?
+        </p>
+
+        <p>
+            What does this tell you about containers and interfaces?
+        </p>
+    </div>
+
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="phase4.html">← Previous</a>
+        <a class="w3-button w3-teal" href="readme.html">Finish →</a>
+    </div>
+
+</div>
+
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>Architecture determines how easily your system evolves.</p>
+</div>
+
+</body>
+</html>

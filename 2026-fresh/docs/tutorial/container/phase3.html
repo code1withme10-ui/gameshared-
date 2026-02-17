@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phase 3 – Introduce a Container</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .term { font-weight: bold; color: #00796B; }
+        .term-desc { margin-left: 10px; color: #555; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>Phase 3 – Introduce a Container</h1>
+    <p class="w3-large">Stop manually creating objects. Centralize object creation.</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+        <p>
+            In previous phases, you manually created objects in <code>index.php</code>.
+            Now you will introduce a simple <strong>Container</strong> class
+            responsible for creating and returning objects.
+        </p>
+        <p>
+            The goal is to move object creation to one central place.
+        </p>
+    </div>
+
+    <!-- What Must Change -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What Must Change</h2>
+        <ul class="w3-ul">
+            <li>Create a new file: <code>Container.php</code></li>
+            <li>The container must create EmailNotifier</li>
+            <li>The container must create NotificationService</li>
+            <li>index.php must stop using <code>new EmailNotifier()</code> directly</li>
+        </ul>
+    </div>
+
+    <!-- AI Prompt -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Your AI Prompt</h2>
+        <div class="w3-panel w3-pale-green w3-border">
+            We are in Phase 3 of a learning tutorial.
+            Create a simple Container class that is responsible for creating 
+            EmailNotifier and NotificationService.
+            index.php should no longer manually create these objects.
+            Keep everything simple.
+            No frameworks.
+            No namespaces.
+            No advanced patterns.
+            CLI only.
+        </div>
+    </div>
+
+    <!-- What To Check -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What To Check Carefully</h2>
+
+        <ol class="w3-ol">
+            <li>
+                Open <code>Container.php</code>.  
+                Does it create and return a NotificationService?
+            </li>
+            <li>
+                Open <code>index.php</code>.  
+                Do you still see <code>new EmailNotifier()</code> there?  
+                If yes, the refactor is incomplete.
+            </li>
+            <li>
+                Does <code>index.php</code> now use the Container to get the service?
+            </li>
+            <li>
+                Run the system again.  
+                Does it still send the message?
+            </li>
+        </ol>
+
+        <div class="w3-panel w3-pale-yellow w3-border">
+            If index.php is simpler and object creation happens inside Container.php,
+            you have centralized object creation successfully.
+        </div>
+    </div>
+
+    <!-- Terminology -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Terminology</h2>
+
+        <p>
+            <span class="term">Container:</span>
+            <span class="term-desc">
+                A central place responsible for creating and providing objects.
+            </span>
+        </p>
+
+        <p>
+            <span class="term">Dependency Injection:</span>
+            <span class="term-desc">
+                Giving an object the dependencies it needs instead of creating them inside.
+            </span>
+        </p>
+    </div>
+
+    <!-- Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Reflection</h2>
+        <p>
+            If you wanted to change from EmailNotifier to SmsNotifier,
+            how many files would you need to modify now?
+        </p>
+        <p>
+            Is index.php becoming simpler as phases progress?
+        </p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="phase2.html">← Previous</a>
+        <a class="w3-button w3-teal" href="phase4.html">Next →</a>
+    </div>
+
+</div>
+
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>Professional systems centralize decisions. They do not scatter object creation.</p>
+</div>
+
+</body>
+</html>

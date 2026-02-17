@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phase 1 – Hard-Coded Implementation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .term { font-weight: bold; color: #00796B; }
+        .term-desc { margin-left: 10px; color: #555; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>Phase 1 – Hard-Coded Implementation</h1>
+    <p class="w3-large">Feel the pain of tight coupling. Learn to use AI as a professional tool.</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+        <p>
+            In this phase, you will manually create the <strong>EmailNotifier</strong> and <strong>NotificationService</strong>
+            in <code>index.php</code>. This helps you experience why tightly coupled code is rigid and hard to extend.
+        </p>
+    </div>
+
+    <!-- Instructions -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Instructions</h2>
+        <ol class="w3-ol">
+            <li>Open <code>index.php</code>.</li>
+            <li>Require <code>EmailNotifier.php</code> and <code>NotificationService.php</code>.</li>
+            <li>Manually create objects:
+                <pre>
+$notifier = new EmailNotifier();
+$service  = new NotificationService($notifier);
+$service->send($message);
+                </pre>
+            </li>
+            <li>Run the CLI command to test:
+                <pre>php index.php email "Hello World"</pre>
+            </li>
+        </ol>
+    </div>
+
+    <!-- Terminology -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Terminology</h2>
+        <p><span class="term">Tight Coupling:</span><span class="term-desc">When a class depends directly on another specific class, making it hard to change or extend.</span></p>
+        <p><span class="term">Notifier:</span><span class="term-desc">A component responsible for sending messages through a specific channel (e.g., Email).</span></p>
+    </div>
+
+    <!-- AI Prompt -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Sample AI Prompt</h2>
+        <div class="w3-panel w3-pale-green w3-border">
+            We are in Phase 1. I want a hard-coded version of the notification system. Do not introduce interfaces or containers. Use simple PHP classes. CLI only.
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="intro.html">← Previous</a>
+        <a class="w3-button w3-teal" href="phase2.html">Next →</a>
+    </div>
+
+</div>
+
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>Use AI as a professional tool. Understand architecture before writing code.</p>
+</div>
+
+</body>
+</html>
