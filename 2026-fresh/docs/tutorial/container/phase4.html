@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phase 4 – Extend with a New Channel</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .term { font-weight: bold; color: #00796B; }
+        .term-desc { margin-left: 10px; color: #555; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>Phase 4 – Extend with a New Channel</h1>
+    <p class="w3-large">Experience the power of interfaces and containers.</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+        <p>
+            You will now add a new message channel (e.g., <strong>SmsNotifier</strong> 
+            or <strong>WhatsAppNotifier</strong>).
+        </p>
+        <p>
+            The goal is to observe how little code needs to change.
+        </p>
+    </div>
+
+    <!-- What Must Change -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What Must Change</h2>
+        <ul class="w3-ul">
+            <li>Create a new notifier class (e.g., SmsNotifier)</li>
+            <li>Make it implement NotifierInterface</li>
+            <li>Update Container.php to return the correct notifier based on input</li>
+            <li>Do NOT modify NotificationService</li>
+        </ul>
+    </div>
+
+    <!-- AI Prompt -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Your AI Prompt</h2>
+        <div class="w3-panel w3-pale-green w3-border">
+            We are in Phase 4 of a learning tutorial.
+            Add a new notifier called SmsNotifier that implements NotifierInterface.
+            Update the Container so it can return either EmailNotifier or SmsNotifier
+            depending on the send type.
+            Do not modify NotificationService.
+            Keep everything simple.
+            No frameworks.
+            No namespaces.
+            CLI only.
+        </div>
+    </div>
+
+    <!-- What To Check -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What To Check Carefully</h2>
+
+        <ol class="w3-ol">
+            <li>Does SmsNotifier implement NotifierInterface?</li>
+            <li>Did you avoid modifying NotificationService?</li>
+            <li>Is the selection logic inside Container.php?</li>
+            <li>Does the system still work for email?</li>
+            <li>Does it now work for SMS?</li>
+        </ol>
+
+        <div class="w3-panel w3-pale-yellow w3-border">
+            If you only modified or added the notifier and container,
+            your architecture is flexible.
+        </div>
+    </div>
+
+    <!-- How To Run -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Run From Command Line</h2>
+
+        <p>Open your terminal and run:</p>
+
+        <div class="terminal">
+php index.php email "Hello World"
+        </div>
+
+        <br>
+
+        <div class="terminal">
+php index.php sms "Hello via SMS"
+        </div>
+
+        <p>
+            If both commands work, your system is now extendable.
+        </p>
+    </div>
+
+    <!-- Terminology -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Terminology</h2>
+
+        <p>
+            <span class="term">Extensibility:</span>
+            <span class="term-desc">
+                The ability to add new functionality without modifying existing core logic.
+            </span>
+        </p>
+
+        <p>
+            <span class="term">Loose Coupling:</span>
+            <span class="term-desc">
+                Components depend on abstractions, making them easier to replace or extend.
+            </span>
+        </p>
+    </div>
+
+    <!-- Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Reflection</h2>
+        <p>
+            Compare Phase 1 to now.
+        </p>
+        <p>
+            How many files did you modify to add SMS?
+        </p>
+        <p>
+            Could you now add Telegram with minimal changes?
+        </p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="phase3.html">← Previous</a>
+        <a class="w3-button w3-teal" href="challenge.html">Next →</a>
+    </div>
+
+</div>
+
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>Architecture determines how easily a system grows.</p>
+</div>
+
+</body>
+</html>
