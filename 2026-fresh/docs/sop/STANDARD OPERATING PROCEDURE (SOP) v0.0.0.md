@@ -321,5 +321,121 @@ This SOP is a **living document**.
 
 ---
 
+
+Onboarding must guarantee go-live readiness:
+
+* Public visitor page renders correctly ✅
+* Admissions flow works ✅
+* Admin login possible ✅
+* Minimal branding is applied ✅
+
+This is exactly the System Layer responsibility, not tenant-level config.
+
+All of the above schemas support tenant bootstrap. Once onboarding is complete, tenants own tenant-specific config (full admission rules, features, branding), but the initial minimal seed comes from the System
+
+---
+
+# 🟪 FRANCHISE / TENANT GROUPING ARCHITECTURE
+
+3 logical levels:
+
+1️⃣ Platform (global system)
+2️⃣ Franchise / Cluster (optional grouping layer)
+3️⃣ Tenant (individual crèche)
+This becomes:
+
+```
+Platform
+   └── Franchise (optional)
+          └── Tenant
+```
+## Franchise / Cluster Layer (System Governance Layer)
+
+A Franchise (or Cluster) is:
+
+> A system-level grouping of tenants that share governance, branding policy, feature configuration baselines, reporting aggregation, or oversight roles.
+
+Characteristics:
+
+* Created and managed by System Admin
+* Can own multiple tenants
+* May define:
+
+  * Default feature presets
+  * Default branding presets
+  * Reporting visibility
+  * Oversight roles (future Moderator role)
+* Does NOT replace tenant isolation
+* Does NOT bypass tenant RBAC
+* Does NOT merge tenant data
+
+---
+
+# 🏗 Where It Lives Architecturally
+
+📁 `/system/franchises/`
+
+NOT under `/tenants/`
+
+Because:
+
+* It is cross-tenant
+* It affects multiple tenants
+* It must exist before tenant creation (optional assignment during onboarding)
+
+Governance Rules (Must Be Enforced)
+
+Repository Layer must:
+* Validate franchise exists
+* Validate franchise status = active
+* Prevent deleting franchise if tenants reference it
+* Prevent franchise accessing tenant data directly
+* Apply preset only during onboarding unless explicitly synced
+
+##🧠 Runtime Configuration Resolution Order
+
+When platform boots tenant runtime config:
+* Load Franchise (if exists)
+* Load Franchise Profiles (if set)
+* Load Tenant Config
+* Merge (tenant overrides franchise defaults)
+* Cache result
+* Deterministic and reversible.
+## ✅ Franchise System Layer Complete
+* System Identity
+* System Onboarding
+* System Reference
+* System Franchise
+* Tenant Config
+
+---
+
+# Plugin Management
+
+    1. Plugins must be listed in the **system-level plugin registry** before tenant activation.
+    2. Only tenants listed in `allowed_tenants` can enable the plugin.
+    3. Tenants cannot modify core plugin code; only tenant-specific `config` is allowed.
+    4. Any plugin activation must be logged (`created_at` / `updated_at`).
+    5. System admin must approve **external plugins** before tenant enablement.
+## Tenant Isolation is mandatory
+
+   * Do not allow shared plugin state unless explicitly multi-tenant aware.
+## Separate in-house vs external plugins
+
+   * Keep in-house plugins versioned with the platform.
+   * External plugins should require approval and vetting.
+
+## Plugin Lifecycle Enforcement
+
+   * Enforce `enabled`, `disabled`, and `uninstall` processes via SOP.
+   * Log all changes to `status_history` (similar to applications).
+
+
+### Rules
+ - Plugin activation must satisfy both tenant allowance and plan type restriction.
+ - If tenant upgrades/downgrades plan, system should auto-validate currently enabled plugins.
+ - Log any plugin activation failure due to plan-type restriction.
+ - External plugins still require system admin approval.
+
 ### ✅ END OF SOP — VERSION v0.0.0
  

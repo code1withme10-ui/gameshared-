@@ -1,0 +1,60 @@
+Creche Website - About Us page
+
+1.1 Purpose
+The About Us page shall provide detailed information about the crèche, its values, mission, and background to build trust with parents.
+
+1.2 Stakeholders
+Parents / Guardians
+Prospective Parents
+Crèche Management
+
+1.3 Functional Requirements
+FR-ABOUT-01: Crèche Background
+The system shall display a brief history of the crèche.
+The system shall display the year of establishment.
+
+FR-ABOUT-02: Vision and Mission
+The system shall display the crèche’s vision statement.
+The system shall display the crèche’s mission statement.
+
+FR-ABOUT-03: Values
+The system shall display the core values of the crèche.
+
+FR-ABOUT-04: Management and Staff Overview
+The system shall display:
+Head teacher / principal details
+Staff qualifications summary (no sensitive personal data)
+
+FR-ABOUT-05: Facilities Information
+The system shall display information about:
+Classrooms
+Play areas
+Safety measures
+
+FR-ABOUT-06: Accreditation and Compliance
+The system shall display registration or compliance information (e.g., Department of Social Development).
+
+___________
+
+1.4 Non-Functional Requirements
+Content shall be easy to read and professionally written.
+The page shall support future content updates.
+The page shall be consistent with branding and layout used on the Home Page.
+
+1.5 Business Rules
+All published content must be approved by crèche management.
+No child personal data shall be displayed.
+
+1.6 Dependencies
+Availability of approved content from stakeholders.
+Availability of images and certification documents.
+
+1.7 Vision and Mission
+Vision: "Bright minds. Strong roots. Global futures "
+Mission: "We provide high-quality eductaion that connects academic learning with practical skills for real life"
+Values: "Empowerment, Excellence, Community"
+
+1.8 Historic brief about the centre
+"Govern Psy Educational centre, situated in Mpumalanga was established in 2019 with humble beginnings of just five children in a church. What started as a small initiative had grown into an impactful and a dedicated learning centre with a an aim of nurturing young minds.
+
+"We welcome children starting from the age of 2 years through  to grade 3, providing a safe, structured and stimulating learning environment. Our programs are designed to support early childhood development and strong foundational education."

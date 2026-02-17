@@ -1,0 +1,134 @@
+Creche Website – Headmaster Page
+
+1. Introduction
+
+This document defines the formal functional and non-functional requirements for the Headmaster Page of the Crèche Website. The Headmaster Page enables authorised personnel to review, accept, or decline learner admission applications submitted by parents or guardians.
+
+⸻
+
+2. Purpose
+
+The purpose of the Headmaster Page is to:
+	•	Provide a secure administrative interface for managing learner admissions
+	•	Enable efficient review and decision-making on applications
+	•	Maintain accurate admission records
+	•	Ensure timely communication with parents or guardians
+
+⸻
+
+3. Scope
+
+These requirements apply to the administrative section of the crèche website accessible only to authorised users (Headmaster role). The page will manage all admission-related activities from submission review to final decision.
+
+⸻
+
+4. User Roles
+
+4.1 Headmaster (Primary User)
+	•	Reviews admission applications
+	•	Accepts or declines applications
+	•	Views admission history and reports
+
+⸻
+
+5. Functional Requirements
+
+5.1 Authentication and Authorisation
+	•	The system shall require secure login credentials for access to the Headmaster Page.
+	•	The system shall restrict access to authorised users with the Headmaster role only.
+	•	The system shall log the login and logout activities of the headmaster.
+
+5.2 Dashboard Overview
+	•	The system shall display a dashboard summary upon login.
+	•	The dashboard shall show:
+	•	Total number of applications
+	•	Number of pending applications
+	•	Number of accepted applications
+	•	Number of declined applications
+	•	The system shall notify the headmaster of new applications.
+
+5.3 View Admission Applications
+	•	The system shall display a list of all admission applications.
+	•	Each application record shall display:
+	•	Child’s full name
+	•	Parent/guardian name
+	•	Application date
+	•	Current application status
+	•	The system shall allow filtering applications by status (Pending, Accepted, Declined).
+	•	The system shall allow sorting applications by date.
+
+5.4 View Application Details
+	•	The system shall allow the headmaster to view full application details.
+	•	The application details shall include:
+	•	Child information (name, date of birth, age, gender)
+	•	Parent/guardian information (name, contact number, email address, physical address)
+	•	Uploaded supporting documents
+	•	Preferred start date
+	•	Additional notes provided by the parent/guardian
+
+5.5 Review and Decision Management
+	•	The system shall allow the headmaster to review applications individually.
+	•	The system shall provide the following actions:
+	•	Accept application
+	•	Decline application
+	•	Keep application pending
+	•	Upon acceptance, the system shall update the application status to “Accepted”.
+	•	Upon decline, the system shall update the application status to “Declined”.
+	•	The system shall allow the headmaster to capture optional notes or reasons for decisions.
+
+5.6 Notifications
+	•	The system shall automatically notify parents/guardians via email or SMS when an application status changes.
+	•	The notification shall include:
+	•	Application status
+	•	Crèche contact information
+	•	Optional message from the headmaster
+
+5.7 Application History and Audit Trail
+	•	The system shall maintain a history of all application status changes.
+	•	The audit trail shall record:
+	•	Date and time of decision
+	•	User who made the decision
+	•	Previous and new status
+
+5.8 Search Functionality
+	•	The system shall allow searching applications by:
+	•	Child’s name
+	•	Parent/guardian name
+	•	Application reference number
+
+5.9 Data Management and Reporting
+	•	The system shall allow the headmaster to view a list of accepted learners.
+	•	The system shall allow exporting application data in PDF or Excel format.
+	•	The system shall allow archiving of closed or old applications.
+
+⸻
+
+6. Non-Functional Requirements
+
+6.1 Security
+	•	All sensitive data shall be encrypted.
+	•	The system shall comply with POPIA data protection requirements.
+
+6.2 Performance
+	•	The system shall load application lists within acceptable response times.
+	•	The system shall support concurrent access without performance degradation.
+
+6.3 Usability
+	•	The interface shall be user-friendly and easy to navigate.
+	•	Action buttons shall be clearly labelled and accessible.
+
+6.4 Reliability
+	•	The system shall ensure data integrity during status updates.
+	•	The system shall prevent loss of application data.
+
+⸻
+
+7. Assumptions and Constraints
+	•	Users have access to the internet and a modern web browser.
+	•	The system is dependent on email/SMS service availability for notifications.
+
+⸻
+
+8. Approval
+
+This document serves as the formal requirements baseline for the development of the Headmaster Page of the Crèche Website.

@@ -1,0 +1,154 @@
+# **SOP: Plugin Creation and Management on Platform**
+
+**SOP ID:** `PLG-001`
+**Scope:** This SOP governs the creation, registration, configuration, and management of plugins within the platform to ensure secure, isolated, and plan-compliant usage across tenants.
+**Audience:** Platform admins, product engineers, and tenant support teams.
+
+---
+
+## **1️⃣ Plugin Definition**
+
+A **plugin** is an extendable module or component that enhances platform capabilities. Plugins can be:
+
+* **In-house:** Developed internally and managed fully by the platform team.
+* **External:** Third-party modules integrated into the platform.
+
+**Plugin Types must be declared** in the system-level registry as either `"inhouse"` or `"external"`.
+
+---
+
+## **2️⃣ Plugin Layers & Storage**
+
+* **System-Level Registry (Central):**
+
+  * Holds canonical definitions of all plugins.
+  * Fields: `plugin_id`, `name`, `type`, `version`, `description`, `required_features`, `allowed_tenants`, `allowed_plan_types`, `created_at`, `updated_at`.
+
+* **Tenant-Level Mapping:**
+
+  * Tracks which plugins are **enabled per tenant**.
+  * Fields: `plugin_id`, `config`, `enabled`.
+
+> **Isolation Principle:** Tenant-level plugin records must never reference another tenant’s configuration.
+
+---
+
+## **3️⃣ Rules of Engagement**
+
+### **3.1 Plugin Creation**
+
+1. Only authorized platform admins may register a plugin in the system-level registry.
+2. Every plugin must have:
+
+   * Unique `plugin_id` (ULID)
+   * `name` and `type` (`inhouse` / `external`)
+   * `version` and optional `description`
+   * Any `required_features` listed (features that must be enabled before this plugin can be activated).
+3. If the plugin is **external**, require:
+
+   * Source verification
+   * Security review
+   * Dependency review
+
+---
+
+### **3.2 Tenant Access Rules**
+
+1. **Tenant isolation must be enforced**:
+
+   * A tenant can only enable plugins listed in `allowed_tenants`.
+2. **Plan-based access** (optional):
+
+   * A plugin may include `allowed_plan_types`.
+   * The system **must validate tenant plan type** before enabling the plugin.
+3. **Required Features:**
+
+   * Any plugin dependencies on features must be satisfied at tenant level.
+
+> ✅ **Validation Logic:** `tenant_id ∈ allowed_tenants AND tenant_plan_type ∈ allowed_plan_types AND required_features ⊆ tenant_enabled_features`
+
+---
+
+### **3.3 Configuration and Versioning**
+
+1. Each tenant can configure plugin-specific settings in `tenant_plugin.config`.
+2. Plugin versions must be **tracked** in the system-level registry.
+3. When a new version is published:
+
+   * Existing tenant configurations **must be validated for compatibility**.
+   * Tenants can **opt-in** for upgrade or remain on the old version.
+
+---
+
+### **3.4 Plugin Lifecycle**
+
+* **Enabled:** Plugin is active for the tenant.
+* **Disabled:** Plugin is inactive but configuration is retained.
+* **Archived/Deprecated:** Plugin is removed from new tenant activation but may remain active for existing tenants temporarily.
+
+> **Best Practice:** Never delete plugin records from system-level registry to preserve historical audit and tenant data integrity.
+
+---
+
+### **3.5 Security & Isolation Rules**
+
+1. **Tenant-Level Isolation:**
+
+   * Plugin configuration and data must be **fully tenant-isolated**.
+   * Plugins **cannot read or write** to other tenants’ data.
+2. **Feature Dependencies:**
+
+   * Plugins must check that required features are active for tenant.
+3. **External Plugins:**
+
+   * Must run in sandboxed environment if possible.
+   * Audit logging enabled for all actions performed.
+
+---
+
+### **3.6 Logging & Audit**
+
+* Every plugin creation, update, activation, or deactivation **must be logged**.
+* Logs must include:
+
+  * `plugin_id`, `tenant_id`, `action`, `performed_by`, `timestamp`, `note`.
+* Security-relevant actions (enabling/disabling external plugins) **require approval** from an admin.
+
+---
+
+### **3.7 Plan Type & Upgrade/Downgrade**
+
+1. When a tenant changes plan type, system **must validate all enabled plugins**:
+
+   * Any plugin not allowed in the new plan must be disabled automatically.
+2. Tenants **must be notified** of disabled plugins and reason.
+
+---
+
+### **3.8 Exceptions**
+
+* Temporary overrides by admin **must be documented**.
+* External plugins may require special handling for **sandboxing** or **tenant opt-in**.
+
+---
+
+## **4️⃣ SOP References**
+
+* **Tenant Config Management SOP** → include “Plugin Management Section”
+* **Feature Management SOP** → link to dependent features for plugin activation
+* **Audit & Security SOP** → ensure all plugin actions are logged and traceable
+
+---
+
+### ✅ Summary of Best Practices
+
+| Principle    | Action                                                 |
+| ------------ | ------------------------------------------------------ |
+| Isolation    | Tenant plugin data is never shared between tenants     |
+| Plan-aware   | Only allow plugins based on tenant plan type           |
+| Versioning   | Track plugin versions, allow safe tenant upgrades      |
+| Dependencies | Check required features before activation              |
+| Logging      | All actions are auditable                              |
+| Security     | External plugins sandboxed, reviewed before activation |
+
+---

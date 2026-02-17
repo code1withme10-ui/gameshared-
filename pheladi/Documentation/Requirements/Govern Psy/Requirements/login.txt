@@ -1,0 +1,110 @@
+
+Creche Website – Role-Based Login Page
+
+1. Introduction
+
+This document defines the formal functional and non-functional requirements for the Role-Based Login Page of the Crèche Website. The login page controls access to the system by authenticating users and granting permissions based on assigned roles.
+
+⸻
+
+2. Purpose
+
+The purpose of the Role-Based Login Page is to:
+	•	Secure the crèche system from unauthorised access
+	•	Authenticate registered users
+	•	Grant system access based on user roles
+	•	Direct users to appropriate system pages according to their permissions
+
+⸻
+
+3. Scope
+
+These requirements apply to all system users who require access to the crèche website’s internal features, including administrative and operational pages.
+
+⸻
+
+4. User Roles
+
+The system shall support the following roles:
+	•	Headmaster – Full access to admissions and system management
+	•	Staff – Limited access to learner information and daily operations
+	•	Administrator (Optional) – User management and system configuration
+
+⸻
+
+5. Functional Requirements
+
+5.1 Login Interface
+	•	The system shall provide a login page accessible via the crèche website.
+	•	The login page shall include the following input fields:
+	•	Username or email address
+	•	Password
+	•	The login page shall include a login button to submit credentials.
+
+5.2 Authentication
+	•	The system shall validate user credentials against stored records.
+	•	The system shall deny access for invalid credentials.
+	•	The system shall display appropriate error messages for failed login attempts.
+	•	The system shall support secure password storage (hashed passwords).
+
+5.3 Role-Based Access Control
+	•	The system shall assign a role to each registered user.
+	•	The system shall determine user permissions based on their assigned role.
+	•	Upon successful login, the system shall redirect users according to their role:
+	•	Headmaster → Headmaster Dashboard
+	•	Staff → Staff Dashboard
+	•	Administrator → Admin Dashboard
+
+5.4 Session Management
+	•	The system shall create a secure session upon successful login.
+	•	The system shall automatically log out users after a period of inactivity.
+	•	The system shall provide a logout option on all secured pages.
+
+5.5 Access Restriction
+	•	The system shall prevent users from accessing pages not authorised for their role.
+	•	The system shall redirect unauthorised access attempts to an error or login page.
+
+5.6 Password Management
+	•	The system shall provide a “Forgot Password” functionality.
+	•	The system shall allow users to reset their password via a secure process.
+	•	The system shall enforce password complexity rules.
+
+5.7 Login Audit and Monitoring
+	•	The system shall record login attempts.
+	•	The system shall log the following details:
+	•	User ID
+	•	Date and time of login
+	•	Login success or failure
+
+⸻
+
+6. Non-Functional Requirements
+
+6.1 Security
+	•	All login data shall be transmitted over secure HTTPS connections.
+	•	The system shall protect against common security threats (e.g. brute-force attacks).
+	•	The system shall comply with POPIA requirements for user data protection.
+
+6.2 Performance
+	•	The system shall authenticate users within acceptable response times.
+	•	The system shall support multiple concurrent login sessions.
+
+6.3 Usability
+	•	The login page shall be simple, clear, and user-friendly.
+	•	Error messages shall be clear and understandable.
+
+6.4 Reliability
+	•	The system shall ensure consistent login availability.
+	•	The system shall handle login failures gracefully without system crashes.
+
+⸻
+
+7. Assumptions and Constraints
+	•	Users are pre-registered by an administrator.
+	•	Users have access to a modern web browser and internet connection.
+
+⸻
+
+8. Approval
+
+This document serves as the formal requirements baseline for the development of the Role-Based Login Page for the Crèche Website.
