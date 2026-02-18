@@ -62,8 +62,7 @@
     <!-- Result card -->
     <div class="w3-card w3-white w3-padding">
         <h2 class="section-title">Result</h2>
-        <div id="result" class="result-box">
-            <?php echo $output ?: 'The output of sending will appear here.'; ?>
+        <div id="result" class="result-box"><?php echo $output ?: 'The output of sending will appear here.'; ?>
         </div>
     </div>
 

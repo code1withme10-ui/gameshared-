@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Interface Setup</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; }
+        .terminal { background: #000; color: #00ff88; padding: 12px; border-radius: 6px; font-family: monospace; }
+        .brand-subtitle { letter-spacing: 1px; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>CodeWithMe – Architectural Training Series</h1>
+    <p class="w3-large brand-subtitle">Messaging Module – Setup</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 1 – Create public folder</h2>
+        <p>Create a folder to serve web content separately:</p>
+        <div class="terminal">
+mkdir -p /var/www/tutorial/containers/public
+        </div>
+    </div>
+
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 2 – Copy index.php</h2>
+        <p>Copy/paste the basic HTML index.php provided to /public/</p>
+        <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Messaging Lessons&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Messaging Lessons&lt;/h1&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a href="sender.php"&gt;Send Message&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+        <p>This will allow your web server to display a simple landing page with links to exercises.</p>
+    </div>
+
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 3 – Start PHP Built-in Server</h2>
+        <p>Open terminal in <code>/var/www/tutorial/containers</code> and run:</p>
+        <div class="terminal">
+php -S localhost:8000 -t public/
+        </div>
+        <p>Open browser at <code>http://localhost:8000</code> to preview the index page.</p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="web-interface.html">← Previous</a>
+        <a class="w3-button w3-teal" href="web-interface-phase1.html">Next →</a>
+    </div>
+
+</div>
+
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>Professional practice begins with disciplined setup. CodeWithMe – Architectural Training.</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeWithMe – Phase 1: Create Sender Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+        .w3-container p { line-height: 1.6; }
+        .terminal { background: #000; color: #00ff88; padding: 12px; border-radius: 6px; font-family: monospace; overflow-x: auto; }
+        .w3-panel { border-radius: 6px; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>Phase 1 – Create Sender Page</h1>
+    <p class="w3-large">Use AI to generate your first HTML form for sending messages</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+        <p>
+            In this phase, you will generate <strong>sender.php</strong> as a simple HTML page with:
+        </p>
+        <ul class="w3-ul">
+            <li>A select box for send type (SMS, Email, WhatsApp)</li>
+            <li>A text area to enter the message</li>
+            <li>A submit button</li>
+        </ul>
+        <p>
+            No PHP processing yet — just static HTML. This allows you to start interacting with AI in a controlled way.
+        </p>
+    </div>
+
+    <!-- Step 1: Remind Workspace -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 1: Open Your Workspace</h2>
+        <p>
+            Make sure your workspace is the tutorial folder:
+        </p>
+        <div class="terminal">
+cd /var/www/tutorial/containers
+        </div>
+        <p>
+            All generated files must live here. This isolates your work and keeps it organized.
+        </p>
+    </div>
+
+    <!-- Step 2: Prompt AI to Generate HTML -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 2: Generate Basic HTML</h2>
+        <p>
+            Use the AI to generate <strong>sender.php</strong>. Provide this prompt:
+        </p>
+        <div class="w3-panel w3-pale-green w3-border">
+            "Create a basic HTML page named <strong>sender.php</strong> with a select box for send type (SMS, Email, WhatsApp), a text area for message input, and a submit button. Do not include any PHP code. Keep the page simple and professional."
+        </div>
+        <p>
+            Copy the AI output directly into <strong>sender.php</strong> inside your tutorial folder.
+        </p>
+    </div>
+
+    <!-- Step 3: Verify HTML -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 3: Verify Your Page</h2>
+        <p>
+            Start the PHP built-in server to preview your page:
+        </p>
+        <div class="terminal">
+cd /var/www/tutorial/containers<br>
+php -S localhost:8000 -t public/
+        </div>
+        <p>Open your browser at:</p>
+        <div class="terminal">
+http://localhost:8000/sender.php
+        </div>
+        <p>
+            You should see your select box, text area, and submit button. No functionality yet — just layout.
+        </p>
+    </div>
+
+    <!-- Step 4: Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 4: Reflection</h2>
+        <p>
+            This exercise teaches you how to start small and control AI output.
+            In the next phase, you will convert this static HTML into a functional sender page using PHP.
+        </p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="web-interface.html">← Previous</a>
+        <a class="w3-button w3-teal" href="web-interface-phase2.html">Next → Phase 2</a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – Learn architecture professionally. Tools do not control you.</p>
+</div>
+
+</body>
+</html>
