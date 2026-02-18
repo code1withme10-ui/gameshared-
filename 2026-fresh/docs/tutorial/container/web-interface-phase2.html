@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeWithMe – Phase 2: Make Sender Functional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+        .w3-container p { line-height: 1.6; }
+        .terminal { background: #000; color: #00ff88; padding: 12px; border-radius: 6px; font-family: monospace; overflow-x: auto; }
+        .w3-panel { border-radius: 6px; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>Phase 2 – Make Sender Functional</h1>
+    <p class="w3-large">Convert your HTML page into a working PHP message sender</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+        <p>
+            You will now take the static <strong>sender.php</strong> and make it functional:
+        </p>
+        <ul class="w3-ul">
+            <li>Use a <code>POST</code> form to send messages</li>
+            <li>Execute the CLI command <code>php index.php &lt;type&gt; &lt;message&gt;</code></li>
+            <li>Capture and display the output directly on the page</li>
+        </ul>
+        <p>
+            This is the first step toward using PHP and AI together to control message sending.
+        </p>
+    </div>
+
+    <!-- Step 1: Remind Workspace -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 1: Verify Your Workspace</h2>
+        <p>
+            Make sure you are in the correct folder. Your files should live here:
+        </p>
+        <div class="terminal">
+cd /var/www/tutorial/containers
+        </div>
+        <p>
+            The server will be started from the <strong>public/</strong> folder.
+        </p>
+    </div>
+
+    <!-- Step 2: Start Server -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 2: Start PHP Server</h2>
+        <p>
+            Open a terminal and start the built-in PHP server:
+        </p>
+        <div class="terminal">
+cd /var/www/tutorial/containers/public<br>
+php -S localhost:8000
+        </div>
+        <p>Open your browser at <code>http://localhost:8000/sender.php</code>.</p>
+    </div>
+
+    <!-- Step 3: Prompt AI to Add PHP -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 3: Convert HTML to Functional PHP</h2>
+        <p>
+            Ask the AI to update <strong>sender.php</strong> with the following instructions:
+        </p>
+        <div class="w3-panel w3-pale-green w3-border">
+"Take the static <strong>sender.php</strong> HTML page. Convert it to a PHP page that handles form POST. The form has a select for type (SMS, Email, WhatsApp) and a text area for the message. When the form is submitted, execute <code>php index.php &lt;type&gt; &lt;message&gt;</code> using PHP <code>shell_exec()</code> and display the output below the form. Keep it simple, no frameworks, no CSS changes."
+        </div>
+        <p>
+            Copy the AI output into <strong>sender.php</strong> in your workspace.
+        </p>
+    </div>
+
+    <!-- Step 4: Verify Functionality -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 4: Test Your Page</h2>
+        <ol class="w3-ol">
+            <li>Ensure <strong>index.php</strong> exists in the same folder and works with CLI commands.</li>
+            <li>Open <strong>sender.php</strong> in your browser: <code>http://localhost:8000/sender.php</code></li>
+            <li>Select a message type and enter a test message.</li>
+            <li>Click "Send Message".</li>
+            <li>The result of the CLI execution should appear below the form.</li>
+        </ol>
+        <div class="w3-panel w3-pale-yellow w3-border">
+            If the output appears, your sender page is functional and ready for the next phase.
+        </div>
+    </div>
+
+    <!-- Step 5: Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 5: Reflection</h2>
+        <p>
+            You have now converted static HTML to a working PHP page that interacts with your CLI-based message system.
+            In the next phase, we will explore handling multiple message channels and improving the UI experience.
+        </p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="web-interface-phase1.html">← Previous</a>
+        <a class="w3-button w3-teal" href="web-interface-phase3.html">Next → Phase 3</a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – Build architecture professionally. Tools follow your guidance.</p>
+</div>
+
+</body>
+</html>
