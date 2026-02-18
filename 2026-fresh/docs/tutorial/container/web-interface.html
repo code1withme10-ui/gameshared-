@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeWithMe – Architectural Training Series</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+        .w3-container p { line-height: 1.6; }
+        .download-link { text-decoration: none; color: #00796B; font-weight: bold; }
+        .download-link:hover { text-decoration: underline; }
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>CodeWithMe – Architectural Training Series</h1>
+    <p class="w3-large">Step-by-step professional workflow for building flexible messaging systems</p>
+</div>
+
+<!-- Main content -->
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Step 1: Prepare Environment -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 1: Prepare Your Environment</h2>
+        <ul class="w3-ul">
+            <li>Create a new folder: <strong>/var/www/tutorial/containers/</strong></li>
+            <li>Do NOT use your existing work sandbox</li>
+            <li>Place all tutorial files inside this folder</li>
+        </ul>
+        <div class="w3-panel w3-pale-yellow w3-border">
+            This tutorial must be completely isolated from production or client work.
+        </div>
+    </div>
+
+    <!-- Step 2: Reset AI -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 2: Reset Your AI Session</h2>
+        <p>Before starting the exercise:</p>
+        <ul class="w3-ul">
+            <li>Log out of your AI account</li>
+            <li>Log back in</li>
+            <li>Start a brand new chat session</li>
+            <li>Do NOT attach the chat to any existing project</li>
+        </ul>
+        <div class="w3-panel w3-pale-red w3-border">
+            Previous chat history may influence AI responses and break tutorial constraints.
+        </div>
+    </div>
+
+    <!-- Step 3: Download prompts & SOP -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 3: Initialize the AI Correctly</h2>
+        <p>Download the following files and use them in a brand new AI chat session:</p>
+        <ul class="w3-ul">
+            <li>
+                <a href="prompt_web-interface.md" target="_blank" download class="download-link">Download prompt.md</a>
+            </li>
+            <li>
+                <a href="SOP_web.txt" target="_blank" download class="download-link">Download SOP_web.txt</a>
+            </li>
+        </ul>
+        <p>Instructions:</p>
+        <ol class="w3-ol">
+            <li>Open prompt.md, copy all contents, paste into AI, and send</li>
+            <li>Open SOP_web.txt, copy all contents, paste into AI, and send</li>
+        </ol>
+        <div class="w3-panel w3-pale-blue w3-border">
+            Professionals control their tools. SOP prevents AI from drifting into creativity or complexity.
+        </div>
+    </div>
+
+    <!-- Step 4: Follow Phases -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 4: Follow Phases Strictly</h2>
+        <p>This tutorial is divided into phases. Do not skip:</p>
+        <ul class="w3-ul">
+            <li>Phase 1 – Generate basic sender.php HTML (form only)</li>
+            <li>Phase 2 – Convert sender.php to POST form and execute CLI</li>
+            <li>Phase 3 – Introduce container if needed</li>
+            <li>Phase 4 – Add additional channels like WhatsApp</li>
+        </ul>
+        <div class="w3-panel w3-pale-yellow w3-border">
+            Architectural understanding comes from step-by-step progression.
+        </div>
+    </div>
+
+    <!-- Step 5: Run Local Server -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 5: Preview Your Work</h2>
+        <p>Start the PHP built-in server in your tutorial folder:</p>
+        <div class="terminal">
+cd /var/www/tutorial/containers<br>
+php -S localhost:8000 -t public/
+        </div>
+        <p>Open your browser and navigate to:</p>
+        <div class="terminal">
+http://localhost:8000/sender.php
+        </div>
+        <div class="w3-panel w3-pale-green w3-border">
+            This allows you to preview and test your sender.php page as you progress through the phases.
+        </div>
+    </div>
+
+    <!-- Step 6: Professional Conduct -->
+    <div class="w3-card w3-white w3-padding">
+        <h2 class="section-title">Professional Conduct</h2>
+        <ul class="w3-ul">
+            <li>Write code yourself</li>
+            <li>Read every line generated by AI</li>
+            <li>Understand before copying</li>
+            <li>Follow phased prompts exactly</li>
+        </ul>
+        <p class="w3-margin-top">
+            You are here to **learn architecture and controlled development**, not to build a platform.
+        </p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="intro.html">← Previous</a>
+        <a class="w3-button w3-teal" href="web-interface-setup.html">Next → Phase 1</a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – Learn architecture professionally. Tools do not control you.</p>
+</div>
+
+</body>
+</html>

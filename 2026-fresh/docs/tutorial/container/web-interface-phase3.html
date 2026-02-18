@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeWithMe – Phase 3: Multi-Channel Sender (Advanced)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+        .w3-container p { line-height: 1.6; }
+        .terminal { background: #000; color: #00ff88; padding: 12px; border-radius: 6px; font-family: monospace; overflow-x: auto; }
+        .w3-panel { border-radius: 6px; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>Phase 3 – Multi-Channel Sender (Advanced)</h1>
+    <p class="w3-large">Optional advanced exercise: extend your sender for multiple channels</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+        <p>
+            Extend your existing <strong>sender.php</strong> to handle multiple message channels:
+        </p>
+        <ul class="w3-ul">
+            <li>Email (already functional)</li>
+            <li>SMS</li>
+            <li>WhatsApp</li>
+        </ul>
+        <p>
+            This exercise demonstrates **flexibility and loose coupling** using the same CLI-based architecture.
+            You will also practice updating forms and processing inputs dynamically.
+        </p>
+    </div>
+
+    <!-- Step 1: Verify Workspace -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 1: Verify Workspace</h2>
+        <p>
+            Make sure your workspace is correct. Files should live here:
+        </p>
+        <div class="terminal">
+cd /var/www/tutorial/containers
+        </div>
+        <p>
+            Your public server folder remains <strong>public/</strong> for <strong>sender.php</strong>.
+        </p>
+    </div>
+
+    <!-- Step 2: Start PHP Server -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 2: Start PHP Server</h2>
+        <div class="terminal">
+cd /var/www/tutorial/containers/public<br>
+php -S localhost:8000
+        </div>
+        <p>
+            Open <code>http://localhost:8000/sender.php</code> in your browser.
+        </p>
+    </div>
+
+    <!-- Step 3: Update AI Prompt for Multi-Channel -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 3: Update Sender via AI Prompt</h2>
+        <p>
+            Ask the AI to update <strong>sender.php</strong> with the following instructions:
+        </p>
+        <div class="w3-panel w3-pale-green w3-border">
+"Enhance the existing <strong>sender.php</strong> page. The form should allow selecting a message type: Email, SMS, or WhatsApp. When submitted, execute the CLI command <code>php index.php &lt;type&gt; &lt;message&gt;</code> using PHP <code>shell_exec()</code>. Display the output below the form. Keep the page simple: no frameworks, no JavaScript, no CSS changes. Only extend functionality for multiple channels."
+        </div>
+        <p>
+            Copy the AI output into <strong>sender.php</strong> and save.
+        </p>
+    </div>
+
+    <!-- Step 4: Test Multi-Channel -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 4: Test Your Multi-Channel Sender</h2>
+        <ol class="w3-ol">
+            <li>Ensure <strong>index.php</strong> supports all channels: Email, SMS, WhatsApp.</li>
+            <li>Open <strong>sender.php</strong> in the browser.</li>
+            <li>Select each channel one by one and enter a test message.</li>
+            <li>Click "Send Message".</li>
+            <li>Verify that output shows the correct CLI execution result for each channel.</li>
+        </ol>
+        <div class="w3-panel w3-pale-yellow w3-border">
+            Successfully sending via multiple channels shows your page is flexible and ready for future extensions.
+        </div>
+    </div>
+
+    <!-- Step 5: Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 5: Reflection</h2>
+        <p>
+            Compare this advanced sender with Phase 2:
+        </p>
+        <ul class="w3-ul">
+            <li>You reused the same form structure</li>
+            <li>You dynamically handled multiple message types without changing core logic</li>
+            <li>You reinforced the concept of loose coupling</li>
+        </ul>
+        <p>
+            Optional: consider how this architecture could be extended for Telegram or other channels with minimal changes.
+        </p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="web-interface-phase2.html">← Previous</a>
+        <a class="w3-button w3-teal" href="web-interface.html">Finish →</a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – End of Web Interface Tutorial. Congratulations on completing the exercise!</p>
+</div>
+
+</body>
+</html>
