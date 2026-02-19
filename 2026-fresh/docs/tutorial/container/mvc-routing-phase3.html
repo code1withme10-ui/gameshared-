@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MVC & Routing – Phase 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>CodeWithMe – Architectural Training Series</h1>
+    <p class="w3-large">Phase 3 – Introduce Controller</p>
+</div>
+
+<!-- Main Content -->
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+        <p>
+            We will introduce a <strong>Controller</strong> class to handle message-related logic.
+            This keeps <strong>index.php</strong> clean and centralizes behavior.
+        </p>
+        <div class="w3-panel w3-pale-blue w3-border">
+            Router remains unchanged. Only logic moves into Controller.
+        </div>
+    </div>
+
+    <!-- What Must Change -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What Must Change / Key Concepts</h2>
+
+        <ul class="w3-ul">
+            <li>Create <strong>/app/core/Controller.php</strong> base class</li>
+            <li>Create <strong>/app/controllers/MessageController.php</strong></li>
+            <li>Move message form and listing logic from index.php to controller</li>
+            <li>Router will call controller methods instead of inline logic</li>
+        </ul>
+
+        <p>Example base Controller:</p>
+        <div class="terminal">
+&lt;?php
+class Controller {
+    // Render a view file with optional data
+    protected function view($path, $data = []) {
+        extract($data);
+        require __DIR__ . "/../views/$path.php";
+    }
+}
+        </div>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            Base class simplifies future controllers.
+        </div>
+    </div>
+
+    <!-- AI Guidance -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">AI Prompt / Guidance for Learner</h2>
+
+        <div class="w3-panel w3-pale-red w3-border">
+            Paste the current index.php into AI before making changes.
+        </div>
+
+        <p>Then instruct AI:</p>
+        <div class="terminal">
+Phase 3 – Introduce Controller
+
+1. Create /app/core/Controller.php as base class.
+2. Create /app/controllers/MessageController.php with methods:
+   - index() – show message list
+   - create() – show sender form
+3. Update Router in index.php to call MessageController methods
+4. Keep sender.php functionality working
+5. Do NOT introduce Models yet
+        </div>
+    </div>
+
+    <!-- Verification -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What to Check / Verification Steps</h2>
+
+        <ol>
+            <li>Start server:</li>
+        </ol>
+        <div class="terminal">
+php -S localhost:8000 -t /var/www/tutorial/containers/public/
+        </div>
+
+        <ol start="2">
+            <li>Visit:</li>
+        </ol>
+        <div class="terminal">
+http://localhost:8000/messages/create
+        </div>
+
+        <ol start="3">
+            <li>Confirm sender form appears</li>
+        </ol>
+
+        <ol start="4">
+            <li>Visit:</li>
+        </ol>
+        <div class="terminal">
+http://localhost:8000/messages
+        </div>
+
+        <ol start="5">
+            <li>Confirm message listing text appears</li>
+        </ol>
+
+        <ol start="6">
+            <li>Visit unknown route:</li>
+        </ol>
+        <div class="terminal">
+http://localhost:8000/unknown
+        </div>
+
+        <ol start="7">
+            <li>Confirm "Page not found." appears</li>
+        </ol>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            Router + Controller integration is working if all checks pass.
+        </div>
+    </div>
+
+    <!-- Terminology -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Terminology</h2>
+        <ul class="w3-ul">
+            <li><strong>Controller</strong> – Handles requests and business logic</li>
+            <li><strong>Base Controller</strong> – Provides shared methods like view rendering</li>
+            <li><strong>Dispatch</strong> – Router calls controller methods instead of inline code</li>
+        </ul>
+    </div>
+
+    <!-- Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Reflection</h2>
+        <p>
+            How does moving logic to Controller improve maintainability and clarity compared to Phase 2?
+        </p>
+        <div class="w3-panel w3-pale-yellow w3-border">
+            Cleaner index.php, reusable methods, prepares for Models in next phase.
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="mvc-routing-phase2.html">Previous</a>
+        <a class="w3-button w3-teal" href="mvc-routing-phase4.html">Next</a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – Learn architecture professionally. Tools do not control you.</p>
+</div>
+
+</body>
+</html>
+

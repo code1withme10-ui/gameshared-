@@ -1,0 +1,561 @@
+SOFTWARE REQUIREMENTS DOCUMENTS(SRD)
+
+TABLE OF CONTENTS
+
+Introduction
+Purpose
+Stakeholders
+Functional requirements
+Non-functional requirements
+Data requirements
+Validation requirements
+
+INTRODUCTION
+=======================
+The purpose of this Software Requirements Document (SRD) is to describe the functional, non-functional, data, and validation requirements for the development of a web-based crèche management and information system. This document will be used by developers, stakeholders, and testers to understand the system features and guide the design, development, and testing processes.
+
+PURPOSE
+======================
+The purpose of this Software Requirements Document (SRD) is to provide a detailed description of the functional, non-functional, data, and validation requirements for the crèche website system. This document serves as a communication tool between stakeholders, developers, and testers to ensure a shared understanding of the system’s features and objectives. It will guide the design, development, testing, and implementation of the system, ensuring that it meets the needs of parents, staff, and administrators.
+
+STAKEHOLDERS
+=====================
+Parents / Guardians (Primary Users)
+Parents
+Crèche Management
+Website Administrator
+
+FUNCTIONAL REQUIREMENTS
+---------------------------------------------------------------
+Home Page Requirements
+---------------------------------------------------------------
+FR-HOME-01: Display Crèche Branding
+The system shall display the creche logo(if provided)
+The system shall display the crèche name.
+The system shall display brand colours consistently.
+
+FR-HOME-02: Hero Section
+The system shall display a hero banner with:
+A welcoming headline
+A short introductory message
+
+FR-HOME-03: Navigation Menu
+The system shall display a navigation menu linking to:
+Home
+About Us
+Admissions
+Gallery
+Contact Us
+
+FR-HOME-04: Overview of Services
+The system shall display a brief summary of:
+Age groups accepted
+Operating hours
+
+FR-HOME-05: Key Highlights
+The system shall display key selling points, such as:
+Safe learning environment
+Learning approach
+
+FR-HOME-06: Call to Action (CTA)
+The system shall provide CTA buttons that redirect users to:
+Online application form
+
+FR-HOME-07: Announcements / Notices
+The system shall display important announcements (e.g., enrolment open).
+------------------------------------------------------------------------
+
+2.About Us Requirements
+-----------------------------------------------------------------------
+FR-ABOUT-01: Crèche Background
+The system shall display a brief history of the crèche.
+The system shall display the year of establishment.
+
+FR-ABOUT-02: Vision and Mission
+The system shall display the crèche’s vision statement.
+The system shall display the crèche’s mission statement.
+
+FR-ABOUT-03: Values
+The system shall display the core values of the crèche.
+
+FR-ABOUT-04: Management and Staff Overview
+The system shall display:
+Head teacher / principal details
+
+FR-ABOUT-05: Facilities Information
+The system shall display information about:
+Classrooms
+Play areas
+Safety measures
+----------------------------------------------------------------------
+
+3.Gallery Requirements
+----------------------------------------------------------------------
+FR-GAL-01: Display Image Gallery
+The system shall display a collection of images related to the crèche.
+Images shall be organised in a grid or tiled layout.
+
+FR-GAL-02: Image Categories
+The system shall allow images to be grouped into categories such as:
+Classrooms
+Outdoor Play Area
+Learning Activities
+
+FR-GAL-03: Image Preview (Lightbox)
+The system shall allow users to click on an image to view it in an enlarged (popup/lightbox) view.
+Users shall be able to navigate between images while in preview mode.
+
+FR-GAL-04: Image Descriptions
+The system shall support optional captions or short descriptions for each image.
+
+FR-GAL-05: Admin Image Management
+The system shall allow authorised users (Admin/Headmaster) to:
+Upload images
+Edit image captions
+Delete images
+Assign images to categories
+------------------------------------------------------------------
+
+4.Admission Requirements
+----------------------------------------------------------------------
+FR-ADM 01 Child Information required fields:
+Child Full Name
+Date of Birth
+ID Number
+Gender
+Residential Address
+Health problems
+Medical allergies
+
+FR-ADM 02 Parent Information required fields:
+Provide mother's information and father's information
+Parent Full Name
+ID No/Passport No
+Marital status
+Phone Number
+Residential Address
+Employer
+Work Contact Number
+
+FR-ADM 03 Emergency contact(Other than parent/guardian must be three different people)
+Full Name
+Residential address
+Phone number
+
+FRD-04 Transportation details(Must be three different people allowed to fetch the kid)
+Full Names
+Relationship to parent
+Contact Number
+
+
+FR-ADM 05 Supporting Documents Upload:
+Parents must upload the following:
+Birth Certificate
+Clinical report
+Mother and father's ID
+ID copies for all collectors
+-------------------------------------------------------------------------
+
+4.2 Headmaster Requirements
+--------------------------------------------------------------------------
+FR-HMA 01 Authentication and Authorisation
+The system shall require secure login credentials for access to the Headmaster Page.
+The system shall restrict access to authorised users with the Headmaster role only.
+The system shall log the login and logout activities of the headmaster.
+
+FR-HMA 02 Dashboard Overview
+The system shall display a dashboard summary upon login.
+The dashboard shall show:
+Total number of applications
+Number of pending applications
+Number of accepted applications
+Number of declined applications
+The system shall notify the headmaster of new applications.
+
+FR-HMA 03 View Admission Applications
+The system shall display a list of all admission applications.
+Each application record shall display:
+Child’s full name
+Parent/guardian name
+Application date
+Current application status
+The system shall allow filtering applications by status (Pending, Accepted, Declined).
+The system shall allow sorting applications by date.
+
+FR-HMA 04 View Application Details
+The system shall allow the headmaster to view full application details.
+The application details shall include:
+Child information (name, date of birth, age, gender)
+Parent/guardian information (name, contact number, email address, physical address)
+Uploaded supporting documents
+Preferred start date
+Additional notes provided by the parent/guardian
+
+FR-HMA 05 Review and Decision Management
+The system shall allow the headmaster to review applications individually.
+The system shall provide the following actions:
+Accept application
+Decline application
+Keep application pending
+Upon acceptance, the system shall update the application status to “Accepted”.
+Upon decline, the system shall update the application status to “Declined”.
+The system shall allow the headmaster to capture optional notes or reasons for decisions.
+
+FR-HMA 06 Notifications
+The system shall automatically notify parents/guardians via email or SMS when an application status changes.
+The notification shall include:
+	•	Application status
+	•	Crèche contact information
+	•	Optional message from the headmaster
+
+FR-HMA 07 Application History and Audit Trail
+The system shall maintain a history of all application status changes.
+The audit trail shall record:
+	•	Date and time of decision
+	•	User who made the decision
+	•	Previous and new status
+
+FR-HMA 08 Search Functionality
+The system shall allow searching applications by:
+	•	Child’s name
+	•	Parent/guardian name
+	•	Application reference number
+
+FR-HMA 09 Data Management and Reporting
+The system shall allow the headmaster to view a list of accepted learners.
+The system shall allow exporting application data in PDF or Excel format.
+The system shall allow archiving of closed or old applications.
+------------------------------------------------------------------------
+
+5.Login Requirements
+------------------------------------------------------------------------
+FR-LOG 01 Login Interface
+The system shall provide a login page accessible via the crèche website.
+The login page shall include the following input fields:
+	•	Username or email address
+	•	Password
+	•	The login page shall include a login button to submit credentials.
+
+FR-LOG 02 Authentication
+The system shall validate user credentials against stored records.
+The system shall deny access for invalid credentials.
+The system shall display appropriate error messages for failed login attempts.
+The system shall support secure password storage (hashed passwords).
+
+FR-LOG 03 Role-Based Access Control
+The system shall assign a role to each registered user.
+The system shall determine user permissions based on their assigned role.
+Upon successful login, the system shall redirect users according to their role:
+	•	Headmaster → Headmaster Dashboard
+	•	Staff → Staff Dashboard
+	•	Administrator → Admin Dashboard
+
+FR-LOG 04 Session Management
+The system shall create a secure session upon successful login.
+The system shall automatically log out users after a period of inactivity.
+The system shall provide a logout option on all secured pages.
+
+FR-LOG 05 Access Restriction
+The system shall prevent users from accessing pages not authorised for their role.
+The system shall redirect unauthorised access attempts to an error or login page.
+
+FR-LOG 06 Password Management
+The system shall provide a “Forgot Password” functionality.
+The system shall allow users to reset their password via a secure process.
+The system shall enforce password complexity rules.
+
+5.7 Login Audit and Monitoring
+The system shall record login attempts.
+The system shall log the following details:
+	•	User ID
+	•	Date and time of login
+	•	Login success or failure
+----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+NON-FUNCTIONAL REQUIREMENTS
+----------------------------------------------------------------------------
+PERFORMANCE REQUIREMENTS
+-----------------------------
+NFR-PERF-01:
+The website shall load within 3 seconds under normal internet conditions.
+
+NFR-PERF-02:
+The system shall support multiple users accessing the website simultaneously without performance degradation.
+
+NFR-PERF-03:
+The system shall handle form submissions efficiently.
+
+SECURITY REQUIREMENTS
+----------------------------
+NFR-SEC-01:
+The system shall secure all personal data in compliance with the Protection of Personal Information Act (POPIA).
+
+NFR-SEC-02:
+The system shall encrypt sensitive data such as login credentials.
+
+NFR-SEC-03:
+The system shall require authentication for administrator access.
+
+NFR-SEC-04:
+The system shall prevent unauthorised access to enrolment and admission data.
+
+NFR-SEC-05:
+The system shall protect against common web attacks such as SQL injection and cross-site scripting.
+
+USABILITY REQUIREMENTS
+--------------------------
+NFR-USA-01:
+The system shall have a user-friendly interface.
+
+NFR-USA-02:
+The system shall provide clear navigation across all web pages.
+
+NFR-USA-03:
+The system shall be understandable for users with low technical skills.
+
+NFR-USA-04:
+Forms shall include helpful instructions and error messages.
+
+ACCESSIBILITY REQUIREMENTS
+--------------------------
+NFR-ACC-01:
+The website shall be accessible on mobile, tablet, and desktop devices.
+
+NFR-ACC-02:
+The system shall support users with disabilities such as visual impairments.
+
+NFR-ACC-03:
+The system shall use readable fonts and appropriate colour contrast.
+
+COMPATIBILITY REQUIREMENTS
+--------------------------------
+NFR-COMP-01:
+The system shall be compatible with modern browsers such as Chrome, Edge, and Firefox.
+
+NFR-COMP-02:
+The system shall be responsive across different screen sizes.
+
+Availability Requirements
+-----------------------------------
+NFR-AVA-01:
+The website shall be available 24/7 except during maintenance.
+
+NFR-AVA-02:
+The system shall display a maintenance message during downtime.
+
+Reliability Requirements
+----------------------------------
+NFR-REL-01:
+The system shall ensure data is saved correctly during form submissions.
+
+NFR-REL-02:
+The system shall recover from system failures without data loss.
+
+Privacy Requirements
+--------------------------------
+NFR-PRI-01:
+The system shall ensure that admission and personal data are confidential.
+
+NFR-PRI-02:
+The system shall allow only authorised staff to view sensitive information.
+
+ Maintainability Requirements
+------------------------------------
+NFR-MAI-01:
+The system shall allow administrators to update content without coding.
+
+NFR-MAI-02:
+The system shall support future enhancements.
+
+Scalability Requirements
+----------------------------------
+NFR-SCA-01:
+The system shall support increased enrolments and users.
+
+NFR-SCA-02:
+The system shall allow new modules such as payments and parent portals
+-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
+DATA REQUIREMENTS
+--------------------------------------------------------------------------------------------
+1. Organisation Profile Data
+------------------------------------------------
+1.1 Basic Organisation Information
+	Data Item	                   Description
+1	Crèche Name			   Tiny Tots Creche
+2	Branches	                   No
+3	Address	                           4 Copper Street, Musina, Limpopo, 0900
+4	Year Established	           2014
+5	Brand Colours	                   Baby blue and sunny yellow
+6	Website Tone	                   Child–friendly
+
+2. Organisation Background
+------------------------------------------
+Tiny Tots Creche in Musina began as a locally focused early childhood development centre dedicated to nurturing and educating young children in the community. Official records indicate that Tiny Tots was registered in 2014, marking its formal establishment as a licensed daycare and preschool provider in the region.
+
+Since its founding, the creche has grown into a trusted place for families in Musina, offering age-appropriate learning and play activities for children from infancy through the early years. Staff at Tiny Tots focus on fostering cognitive, social, emotional, and physical development through guided play, exploration, and interactive learning — helping prepare children for the transition into formal schooling.
+
+Over the years, Tiny Tots has earned a positive reputation among parents and caregivers for its warm environment and committed team. Though small, the centre has been regarded locally as one of the respected early childhood education options in the town.
+
+2. Vision and Mission Data
+2.1 Vision
+=======================
+To be a leading early childhood development centre in Musina that provides a safe, nurturing, and stimulating environment where every child is valued, inspired to learn, and empowered to reach their full potential.
+
+2.2 Mission
+=========================
+Tiny Tots Creche is committed to providing quality early childhood development in a safe, loving, and stimulating environment. We strive to nurture each child’s intellectual, emotional, social, and physical growth through structured learning, creative play, and positive guidance. In partnership with parents and the community, we aim to build a strong foundation that prepares children for lifelong learning and future success.
+
+3. Core Values Data
+=========================
+Love and Care
+Respect
+Safety and Protection
+Quality Early Learning
+Integrity and Accountability
+Partnership with Parents
+Inclusivity
+---------------------------------------------------------------------------
+3.Unique Selling Points Data
+----------------------------------
+A Home-Away-From-Home Environment
+Individual Attention
+Strong Parent Partnerships
+Focus on Holistic Development
+Community-Centred Approach
+Safe and Structured Learning Environment
+
+4. Website Home Page Data
+--------------------------------------------
+4.1 Welcome Message
+
+Welcome to Tiny Tots Creche — where little minds grow, explore, and shine!
+
+We are delighted to be part of your child’s early learning journey. At Tiny Tots Creche, we provide a safe, nurturing, and stimulating environment where children are encouraged to discover their talents, build confidence, and develop a love for learning.
+
+Our dedicated caregivers are passionate about supporting every child’s emotional, social, physical, and intellectual development through structured activities, creative play, and positive guidance.
+
+We believe every child is special — and we are committed to helping them build a strong foundation for a bright and successful future.
+
+We look forward to welcoming your family to ours!
+-------------------------------------------------------------------------
+4.2 Services and Programmes Data
+
+Infant & Toddler Care
+
+Loving, attentive care for babies and toddlers
+
+Age-appropriate stimulation activities
+
+Focus on sensory development and early milestones
+
+Preschool / Early Learning Programme
+
+Structured daily learning routines
+
+Early literacy and numeracy foundations
+
+Theme-based learning
+
+School readiness preparation
+
+Holistic Development Activities
+
+Creative arts and crafts
+
+Music and movement
+
+Story time and language development
+
+Fine and gross motor skill activities
+
+Social skills and emotional development exercises
+
+Outdoor Play & Physical Development
+
+Supervised outdoor play
+
+Physical coordination and balance activities
+
+Teamwork and group play
+
+Nutrition Support
+
+Healthy meals and snacks
+
+Encouraging healthy eating habits
+
+Parent Communication & Support
+
+Regular feedback
+
+Parent meetings
+
+Open communication
+
+ Flexible Care Options
+
+Full-day care
+
+Half-day care
+
+Aftercare
+
+Gallery Data
+--------------------
+Categories
+Classrooms
+Play areas
+Learning activities
+
+Privacy
+--------------------
+No photos of children will be used
+If used, faces will be covered
+
+Operational Data
+---------------------------------------
+Age Groups	  All ages
+Operating Hours   Monday to Friday 7:00 to 17:30
+----------------------------------------
+Policy and Compliance Data
+The system must support legal and compliance requirements such as the Protection of Personal Information Act.
+-------------------------------------------
+Policies
+Privacy Policy
+Terms & Conditions
+Cookie Policy
+Child Protection Policy
+Photo & Media Consent
+Registration & Compliance
+Health & Safety
+Complaints Procedure
+Emergency Procedures
+===========================================================================
+VALIDATION REQUIREMENTS
+-----------------------------------------------------
+Validation:
+Allowed formats: PDF, JPG, PNG
+Max size: 2MB per file
+Multiple upload attempts allowed
+The system must show a preview if the document is an image
+The system must reject invalid file types
+The system must show error messages for failed uploads
+All required fields must be completed
+Email must include “@” and valid domain
+Phone number must be numeric and properly formatted
+Date of birth cannot be a future date
+Grade must be selected
+Check file type before upload
+Check file size before upload
+Show real-time error messages
+
+Submission Requirements:
+Upon submitting the form:
+All fields must be validated.
+All documents must be uploaded.
+The application will only save if the validation passes.
+Application status defaults to "pending".
+A success message must be displayed after submission, and the  parent must view a summary of the submission.
+==================================================================================================================
+
