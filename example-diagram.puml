@@ -1,0 +1,39 @@
+@startuml
+!theme plain
+
+title Onboarding System Architecture
+
+package "Controllers" {
+    [IdentityController]
+    [ReviewController]
+    [BaseController]
+}
+
+package "Services" {
+    [AuditService]
+    [IdentityService]
+    [ReviewService]
+}
+
+package "Exceptions" {
+    [OnboardingException]
+    [TenantValidationException]
+    [StageProgressionException]
+}
+
+package "Middleware" {
+    [OnboardingExceptionMiddleware]
+}
+
+[IdentityController] --> [IdentityService]
+[IdentityController] --> [BaseController]
+[ReviewController] --> [ReviewService]
+[ReviewController] --> [BaseController]
+
+[BaseController] --> [AuditService]
+[OnboardingExceptionMiddleware] --> [AuditService]
+
+[IdentityController] --> [TenantValidationException]
+[ReviewController] --> [StageProgressionException]
+
+@enduml
