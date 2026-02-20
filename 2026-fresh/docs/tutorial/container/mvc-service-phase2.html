@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeWithMe – Architectural Training Series</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+            white-space: pre-line;
+        }
+
+        .ai-prompt {
+            font-family: monospace;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>CodeWithMe – Architectural Training Series</h1>
+    <p class="w3-large">Service Layer – Phase 2</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+
+        <p>
+            In this phase, you will move the CLI execution logic
+            from <strong>MessageController</strong> into <strong>MessageService</strong>.
+        </p>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            Only CLI execution moves. Storage remains in Controller for now.
+        </div>
+    </div>
+
+    <!-- What Must Change -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What Must Change</h2>
+
+        <p>Currently your Controller probably contains something like:</p>
+
+        <div class="w3-panel w3-pale-yellow w3-border">
+            shell_exec('php ../index.php ' . $type . ' "' . $message . '"');
+        </div>
+
+        <p>
+            That CLI call must now live inside:
+        </p>
+
+        <div class="terminal">
+/var/www/tutorial/containers/app/services/MessageService.php
+        </div>
+
+        <div class="w3-panel w3-pale-red w3-border">
+            Do not change routing.  
+            Do not change model logic yet.
+        </div>
+    </div>
+
+    <!-- AI Prompt -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">AI Prompt</h2>
+
+        <div class="w3-panel w3-pale-green w3-border ai-prompt">
+We are in Service Layer Phase 2.
+
+Move CLI execution logic from MessageController into MessageService.
+
+Requirements:
+- Update send($type, $message) to execute:
+  php ../index.php <type> "<message>"
+- Return CLI output (status)
+- Do not save to model yet
+- Do not modify routing
+- Keep Controller functional
+- Show exactly what to remove from Controller
+- Show what to add in MessageService
+        </div>
+
+        <div class="w3-panel w3-pale-blue w3-border">
+            AI must not redesign architecture.
+            Only relocate CLI logic.
+        </div>
+    </div>
+
+    <!-- Git Verification -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Verify With Git Bash</h2>
+
+        <p>Check file exists:</p>
+
+        <div class="terminal">
+ls /var/www/tutorial/containers/app/services/
+        </div>
+
+        <p>Restart your server:</p>
+
+        <div class="terminal">
+cd /var/www/tutorial/containers
+php -S localhost:8000 -t public/
+        </div>
+    </div>
+
+    <!-- What To Check -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What To Check</h2>
+
+        <ul class="w3-ul">
+            <li>Form still submits successfully</li>
+            <li>CLI output still appears correctly</li>
+            <li>No routing errors</li>
+            <li>No undefined class errors</li>
+        </ul>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            If everything works, the Controller is now lighter.
+        </div>
+    </div>
+
+    <!-- Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Reflection</h2>
+
+        <ul class="w3-ul">
+            <li>What responsibility did we remove from Controller?</li>
+            <li>Why should Controller not execute infrastructure logic?</li>
+            <li>What happens if we replace CLI with an API later?</li>
+        </ul>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="mvc-service-phase1.html">← Previous</a>
+        <a class="w3-button w3-teal" href="mvc-service-phase3.html">Next →</a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – Architecture improves one responsibility at a time.</p>
+</div>
+
+</body>
+</html>
+

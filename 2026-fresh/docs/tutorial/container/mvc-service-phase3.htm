@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeWithMe – Architectural Training Series</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+            white-space: pre-line;
+        }
+
+        .ai-prompt {
+            font-family: monospace;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>CodeWithMe – Architectural Training Series</h1>
+    <p class="w3-large">Service Layer – Phase 3</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+
+        <p>
+            Move message storage logic from <strong>MessageController</strong>
+            into <strong>MessageService</strong>.
+        </p>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            After this phase, the Controller will only coordinate the request.
+        </div>
+    </div>
+
+    <!-- What Must Change -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What Must Change</h2>
+
+        <p>
+            Your Controller currently:
+        </p>
+
+        <ul class="w3-ul">
+            <li>Calls Service for CLI execution</li>
+            <li>Calls Model to save message</li>
+        </ul>
+
+        <p>
+            Now:
+        </p>
+
+        <ul class="w3-ul">
+            <li>Service must call the Model</li>
+            <li>Service must return result to Controller</li>
+            <li>Controller must stop calling Model directly</li>
+        </ul>
+
+        <div class="w3-panel w3-pale-red w3-border">
+            Do not modify routing.
+            Do not introduce dependency injection.
+            Do not redesign project structure.
+        </div>
+    </div>
+
+    <!-- AI Prompt -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">AI Prompt</h2>
+
+        <div class="w3-panel w3-pale-green w3-border ai-prompt">
+We are in Service Layer Phase 3.
+
+Move message storage logic from MessageController into MessageService.
+
+Requirements:
+- Service must:
+    1. Execute CLI
+    2. Save message using MessageModel
+    3. Return final result
+
+- Controller must:
+    - Call Service only
+    - Stop calling MessageModel directly
+
+- Do not modify routing
+- Do not introduce namespaces
+- Keep file structure unchanged
+- Show exactly what to remove and what to add
+        </div>
+
+        <div class="w3-panel w3-pale-blue w3-border">
+            AI must not introduce new architecture.
+            Only relocate responsibilities.
+        </div>
+    </div>
+
+    <!-- Verification -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Verification Steps</h2>
+
+        <p>Restart server:</p>
+
+        <div class="terminal">
+cd /var/www/tutorial/containers
+php -S localhost:8000 -t public/
+        </div>
+
+        <ul class="w3-ul">
+            <li>Submit new message</li>
+            <li>Check CLI status appears correctly</li>
+            <li>Confirm message is saved in messages.json</li>
+            <li>Check list page still works</li>
+            <li>Check show page still works</li>
+        </ul>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            If everything works, Service Layer is now fully functional.
+        </div>
+    </div>
+
+    <!-- Architecture Summary -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Architecture Now</h2>
+
+        <div class="terminal">
+Browser
+  ↓
+Router
+  ↓
+Controller
+  ↓
+Service
+  ↓        ↓
+CLI     Model
+        ↓
+    messages.json
+        </div>
+
+        <p>
+            The Controller is now lightweight.
+            Business logic lives in Service.
+        </p>
+    </div>
+
+    <!-- Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Reflection</h2>
+
+        <ul class="w3-ul">
+            <li>Is the Controller simpler now?</li>
+            <li>Where does business logic live?</li>
+            <li>What would happen if we replace CLI with an API?</li>
+            <li>Why is this more scalable?</li>
+        </ul>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="mvc-service-phase2.html">← Previous</a>
+        <a class="w3-button w3-teal" href="mvc-service-phase4.html">Next →</a>
+    </div>
+
+</div>
+
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – Clean architecture separates coordination from execution.</p>
+</div>
+
+</body>
+</html>
+

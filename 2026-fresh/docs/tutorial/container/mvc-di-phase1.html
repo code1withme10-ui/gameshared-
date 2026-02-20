@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeWithMe – Architectural Training Series</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+            white-space: pre-line;
+        }
+
+        .ai-prompt {
+            font-family: monospace;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>CodeWithMe – Architectural Training Series</h1>
+    <p class="w3-large">Dependency Injection – Phase 1</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Step 1: Modify Controller -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 1: Modify MessageController</h2>
+        <p>Update the constructor to accept <strong>MessageService</strong> as a dependency:</p>
+        <div class="w3-panel w3-pale-green w3-border ai-prompt">
+1. Open <strong>MessageController.php</strong>.
+2. Add a constructor that takes <strong>MessageService</strong>:
+
+function __construct($messageService) {
+    $this->messageService = $messageService; // Save for use in controller methods
+}
+
+3. Remove any <strong>new MessageService()</strong> inside the controller.
+4. All controller methods should use <strong>$this->messageService</strong> instead of creating a new instance.
+        </div>
+    </div>
+
+    <!-- Step 2: Verification -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 2: Verification</h2>
+        <ul class="w3-ul">
+            <li>Controller no longer contains <strong>new MessageService()</strong></li>
+            <li>Constructor accepts <strong>$messageService</strong></li>
+            <li>All methods call <strong>$this->messageService</strong></li>
+            <li>Application behavior should remain unchanged</li>
+        </ul>
+        <div class="w3-panel w3-pale-yellow w3-border">
+            These changes only restructure your code for DI; output should remain the same.
+        </div>
+    </div>
+
+    <!-- Step 3: Workspace / Terminal Commands -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 3: Workspace Commands</h2>
+        <p>Make sure you are in the tutorial folder and PHP server is running:</p>
+        <div class="terminal">
+cd /var/www/tutorial/containers
+php -S localhost:8000 -t public/
+        </div>
+        <p>Navigate to:</p>
+        <div class="terminal">
+http://localhost:8000/messages
+        </div>
+    </div>
+
+    <!-- Step 4: Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 4: Reflection</h2>
+        <ul class="w3-ul">
+            <li>Notice how the controller no longer creates its own dependencies</li>
+            <li>Dependencies are now passed in from the outside (preparing for easier testing)</li>
+            <li>Compare this with the Container lesson – similar principle but manual</li>
+        </ul>
+        <div class="w3-panel w3-pale-blue w3-border">
+            Manual DI sets the foundation for more flexible, decoupled architecture.
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="mvc-di-setup.html">← Previous</a>
+        <a class="w3-button w3-teal" href="mvc-di-phase2.html">Next →</a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – Dependency Injection prepares you for clean architecture.</p>
+</div>
+
+</body>
+</html>
+
