@@ -379,8 +379,4 @@ This SOP ensures:
 
 ---
 
-If you would like next, I can:
-
-* Draft Phase T tutorial HTML page (following your branding format), or
-* Refine this SOP into a more compact AI control version, or
-* Create the Phase roadmap visual summary for instructors.
+ 
