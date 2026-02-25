@@ -1,6 +1,9 @@
 <?php
 require_once 'includes/functions.php';
 
+// MVC Pattern: Controller Logic
+$homeController = new HomeController();
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $error = '';
@@ -8,6 +11,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     try {
         // Validate required fields
+        $requiredFields = ['name', 'email', 'phone', 'subject', 'message'];
+        $missing = [];
+        
+        foreach ($requiredFields as $field) {
+            if (empty($_POST[$field])) {
+                $missing[] = $field;
+            }
+        }
+        
+        if (!empty($missing)) {
+            throw new Exception("Please fill in all required fields: " . implode(', ', $missing));
+        }
+        
+        // Validate email
+        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            throw new Exception("Please enter a valid email address");
+        }
+        
+        // Validate phone
+        if (!preg_match('/^[0-9\s\-\+\(\)]{10,}$/', $_POST['phone'])) {
+            throw new Exception("Please enter a valid phone number");
+        }
+        
+        // Here you would normally send an email or save to database
+        // For now, we'll just show success message
+        $success = "Your message has been sent successfully! We'll get back to you soon.";
+        
+    } catch (Exception $e) {
+        $error = $e->getMessage();
+    }
+}
+
+// Render the view
+$homeController->contact();
+?>
         $requiredFields = ['name', 'email', 'subject', 'message'];
         foreach ($requiredFields as $field) {
             if (empty($_POST[$field])) {

@@ -1,4 +1,5 @@
 @startuml processOverview
+hide empty members
 !theme plain
 skinparam componentStyle rectangle
 
@@ -21,9 +22,9 @@ package "Storage Layer" {
     [JSON File System] as JSONFS
     [tenant.json] as TenantFile
     [onboarding.json] as OnboardingFile
-    [config/admission_rules.json] as RulesFile
-    [ui/theme.json] as ThemeFile
-    [content/pages/*.json] as ContentFiles
+    [admission_rules.json] as RulesFile
+    [theme.json] as ThemeFile
+    [content pages JSON files] as ContentFiles
 }
 
 package "Utilities" {
@@ -42,11 +43,12 @@ Branding --> TenantRepo
 Rules --> TenantRepo
 Content --> TenantRepo
 
-TenantRepo --> TenantFile
-TenantRepo --> OnboardingFile
-TenantRepo --> RulesFile
-TenantRepo --> ThemeFile
-TenantRepo --> ContentFiles
+TenantRepo --> JSONFS
+JSONFS --> TenantFile
+JSONFS --> OnboardingFile
+JSONFS --> RulesFile
+JSONFS --> ThemeFile
+JSONFS --> ContentFiles
 
 Identity --> ULIDGen
 Rules --> Validator
@@ -54,69 +56,57 @@ Branding --> Validator
 Content --> Validator
 
 note right of Controller
-  **Onboarding Pipeline Stages**
-  
-  Stage 1: Pre-Onboarding (Intake)
-  Stage 2: Tenant Creation (Automated)
-  Stage 3: Configuration
-  Stage 4: Static Content Initialization
+Onboarding Pipeline Stages
+
+Stage 1: Pre-Onboarding (Intake)
+Stage 2: Tenant Creation (Automated)
+Stage 3: Configuration
+Stage 4: Static Content Initialization
 end note
- Stage 1 & 2: Tenant Creation 
-group "Tenant Creation Flow"
-    Controller -> Identity: createTenant(data)
-    Identity -> ULIDGen: generateULID()
-    ULIDGen --> Identity: tenant_ulid
-    Identity -> TenantRepo: createTenantStructure(tenant_ulid)
-    TenantRepo -> TenantFile: create tenant.json
-    TenantRepo -> OnboardingFile: create onboarding.json
-    Identity --> Controller: tenant_ulid
-end
 
-Stage 3: Tenant Configuration and Rules Setup
-group "Configuration Flow"
-    Controller -> Rules: saveAdmissionRules(tenant_ulid, rules)
-    Rules -> Validator: validateRulesStructure(rules)
-    Validator --> Rules: validation_result
-    Rules -> TenantRepo: saveConfig(tenant_ulid, "admission_rules", rules)
-    TenantRepo -> RulesFile: write admission_rules.json
-    Rules --> Controller: success/failure
-end
+note right of Identity
+Tenant Creation Flow:
+- createTenant(data)
+- generateULID()
+- createTenantStructure()
+- create tenant.json
+- create onboarding.json
+end note
 
- Stage 4: Branding & Content 
-group "Branding Flow"
-    Controller -> Branding: saveBranding(tenant_ulid, branding)
-    Branding -> Validator: validateBrandingInputs(branding)
-    Validator --> Branding: validation_result
-    Branding -> TenantRepo: saveConfig(tenant_ulid, "theme", branding)
-    TenantRepo -> ThemeFile: write theme.json
-    Branding --> Controller: success/failure
-end
+note right of Rules
+Configuration Flow:
+- validateRulesStructure()
+- save admission_rules.json
+end note
 
-group "Content Initialization Flow"
-    Controller -> Content: initializeContent(tenant_ulid, content)
-    Content -> TenantRepo: copyDefaultTemplates()
-    Content -> TenantRepo: injectTenantSpecificValues(content)
-    TenantRepo -> ContentFiles: create page files
-    Content --> Controller: success/failure
-end
+note right of Branding
+Branding Flow:
+- validateBrandingInputs()
+- save theme.json
+end note
+
+note right of Content
+Content Initialization Flow:
+- copyDefaultTemplates()
+- injectTenantSpecificValues()
+- create page JSON files
+end note
 
 note bottom of TenantRepo
-  **Repository Responsibilities**
-  
-  - Enforce tenant isolation
-  - Apply meta-wrapper pattern
-  - Handle JSON file operations
-  - Validate directory structure
-  - Maintain SOP compliance
+Repository Responsibilities:
+- Enforce tenant isolation
+- Apply meta-wrapper pattern
+- Handle JSON file operations
+- Validate directory structure
+- Maintain SOP compliance
 end note
 
 note bottom of Validator
-  **Validation Rules**
-  
-  - ULID format (26-char Crockford base32)
-  - Meta-wrapper schema compliance
-  - Structured admission rules
-  - Branding input validation
-  - Content schema validation
+Validation Rules:
+- ULID format (26-char Crockford base32)
+- Meta-wrapper schema compliance
+- Structured admission rules
+- Branding input validation
+- Content schema validation
 end note
 @enduml

@@ -1,33 +1,10 @@
 <?php
 require_once 'includes/functions.php';
-require_once 'includes/header.php';
+
+// MVC Pattern: Controller Logic
+$homeController = new HomeController();
+$homeController->about();
 ?>
-
-<main class="home-container">
-    <section class="about-hero">
-        <h1>About Tiny Tots Creche</h1>
-        <p class="hero-subtitle">Nurturing young minds since 2014</p>
-    </section>
-
-    <section class="about-background">
-        <h2>🏛️ Our Story</h2>
-        <div class="content-card">
-            <p>Tiny Tots Creche in Musina began as a locally focused early childhood development centre dedicated to nurturing and educating young children in our community. Official records indicate that Tiny Tots was registered in 2014, marking its formal establishment as a licensed daycare and preschool provider in the region.</p>
-            
-            <p>Since its founding, the creche has grown into a trusted place for families in Musina, offering age-appropriate learning and play activities for children from infancy through their early years. Staff at Tiny Tots focus on fostering cognitive, social, emotional, and physical development through guided play, exploration, and interactive learning — helping prepare children for the transition into formal schooling.</p>
-            
-            <p>Over the years, Tiny Tots has earned a positive reputation among parents and caregivers for its warm environment and committed team. Though small, the centre has been regarded locally as one of the respected early childhood education options in town.</p>
-        </div>
-    </section>
-
-    <section class="vision-mission">
-        <div class="vm-grid">
-            <div class="vm-card vision-card">
-                <h2>👁️ Our Vision</h2>
-                <p>To be a leading early childhood development centre in Musina that provides a safe, nurturing, and stimulating environment where every child is valued, inspired to learn, and empowered to reach their full potential.</p>
-            </div>
-            
-            <div class="vm-card mission-card">
                 <h2>🎯 Our Mission</h2>
                 <p>Tiny Tots Creche is committed to providing quality early childhood development in a safe, loving, and stimulating environment. We strive to nurture each child's intellectual, emotional, social, and physical growth through structured learning, creative play, and positive guidance. In partnership with parents and the community, we aim to build a strong foundation that prepares children for lifelong learning and future success.</p>
             </div>

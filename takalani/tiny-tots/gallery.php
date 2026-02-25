@@ -1,13 +1,10 @@
 <?php
 require_once 'includes/functions.php';
-require_once 'includes/header.php';
-?>
 
-<main class="home-container">
-    <section class="gallery-hero">
-        <h1>🖼️ Tiny Tots Gallery</h1>
-        <p>A glimpse into the wonderful world of learning and fun at our creche</p>
-    </section>
+// MVC Pattern: Controller Logic
+$homeController = new HomeController();
+$homeController->gallery();
+?>
 
     <section class="gallery-section">
         <h2>📚 Classrooms</h2>

@@ -1,33 +1,10 @@
 <?php
 require_once 'includes/functions.php';
 
-// Handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $error = '';
-    $success = '';
-    $submissionSummary = null;
-    
-    try {
-        // Validate required fields
-        $requiredFields = [
-            'parentFirstName', 'parentSurname', 'contactNumber', 'emailAddress', 
-            'parentIdNumber', 'residentialAddress', 'childFirstName', 'childSurname', 
-            'dateOfBirth', 'childGender', 'gradeApplyingFor'
-        ];
-        
-        foreach ($requiredFields as $field) {
-            if (empty($_POST[$field])) {
-                throw new Exception("Please fill in all required fields.");
-            }
-        }
-        
-        // Validate email
-        if (!filter_var($_POST['emailAddress'], FILTER_VALIDATE_EMAIL)) {
-            throw new Exception("Please enter a valid email address.");
-        }
-        
-        // Validate phone number
-        if (!preg_match('/^[0-9]{10}$/', $_POST['contactNumber'])) {
+// MVC Pattern: Controller Logic
+$admissionController = new AdmissionController();
+$admissionController->index();
+?>
             throw new Exception("Please enter a valid 10-digit phone number.");
         }
         
