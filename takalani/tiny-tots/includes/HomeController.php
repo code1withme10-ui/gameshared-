@@ -51,69 +51,17 @@ class HomeController {
     }
     
     public function index() {
+        // Extract data for use in view
+        extract($this->data);
+        
         // Include header
         require_once 'includes/header.php';
         
-        // Include the view (template)
-        $this->renderHomeView();
+        // Include the MVC home view
+        require_once 'views/home/index.php';
         
         // Include footer
         require_once 'includes/footer.php';
-    }
-    
-    private function renderHomeView() {
-        // Extract data for use in view
-        extract($this->data);
-        ?>
-        <main class="home-container">
-            <header class="hero-section">
-                <h1 class="creche-title"><?= htmlspecialchars($heroTitle) ?></h1>
-                <h2 class="welcome-subtitle"><?= htmlspecialchars($heroSubtitle) ?></h2>
-                <p class="tagline"><?= htmlspecialchars($heroTagline) ?></p>
-            </header>
-
-            <section class="welcome-message">
-                <div class="message-card">
-                    <h3>Welcome to <?= htmlspecialchars($heroTitle) ?>!</h3>
-                    <p><?= htmlspecialchars($welcomeMessage) ?></p>
-                    <p><?= htmlspecialchars($welcomeDetails) ?></p>
-                </div>
-            </section>
-
-            <section class="key-highlights">
-                <h3>Why Choose <?= htmlspecialchars($heroTitle) ?>?</h3>
-                <div class="highlights-grid">
-                    <?php foreach ($highlights as $highlight): ?>
-                        <div class="highlight-item">
-                            <h4><?= htmlspecialchars($highlight['title']) ?></h4>
-                            <p><?= htmlspecialchars($highlight['description']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </section>
-
-            <section class="cta-section">
-                <h3><?= htmlspecialchars($ctaTitle) ?></h3>
-                <p><?= htmlspecialchars($ctaMessage) ?></p>
-                <div class="cta-buttons">
-                    <a href="admission.php" class="cta-btn">Apply Now</a>
-                    <a href="about.php" class="cta-btn">Learn More</a>
-                </div>
-            </section>
-
-            <section class="contact-section">
-                <h3>📞 Contact Us</h3>
-                <p><strong>📍 Address:</strong> <?= htmlspecialchars($contactInfo['address']) ?></p>
-                <p><strong>📱 Phone:</strong> <?= htmlspecialchars($contactInfo['phone']) ?></p>
-                <p><strong>📧 Email:</strong> <?= htmlspecialchars($contactInfo['email']) ?></p>
-                <p><strong>🏢 EMIS NR:</strong> <?= htmlspecialchars($contactInfo['emis']) ?></p>
-                <div class="operating-hours">
-                    <h4>🕐 Operating Hours</h4>
-                    <p><?= htmlspecialchars($contactInfo['hours']) ?></p>
-                </div>
-            </section>
-        </main>
-        <?php
     }
     
     public function about() {

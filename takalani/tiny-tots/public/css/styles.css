@@ -427,7 +427,7 @@ body {
 
 /* Welcome Section */
 .welcome-section {
-  padding: 4rem 0;
+  padding: 2rem 0;
   text-align: center;
 }
 
@@ -448,7 +448,7 @@ body {
 
 /* Highlights Section */
 .highlights-section {
-  padding: 4rem 0;
+  padding: 2rem 0;
   background: white;
   border-radius: 20px;
   margin-bottom: 3rem;
@@ -504,7 +504,7 @@ body {
 
 /* CTA Section */
 .cta-section {
-  padding: 4rem 0;
+  padding: 2rem 0;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   border-radius: 20px;
   text-align: center;
@@ -534,7 +534,7 @@ body {
 
 /* Contact Info Section */
 .contact-info-section {
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 
 .contact-info-grid {
@@ -584,7 +584,7 @@ body {
 
 /* News Section */
 .news-section {
-  padding: 4rem 0;
+  padding: 2rem 0;
   background: white;
   border-radius: 20px;
   margin-bottom: 3rem;
