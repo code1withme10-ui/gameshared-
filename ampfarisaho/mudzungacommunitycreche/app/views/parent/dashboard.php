@@ -12,16 +12,14 @@ $parentId = $parent['id'];
 $childrenStorage = new JsonStorage(__DIR__ . '/../../../storage/children.json');
 $children = $childrenStorage->read();
 
-// Only this parent’s children
-$myChildren = array_filter($children, function ($child) use ($parentId) {
-    return $child['parent_id'] === $parentId;
-});
+// Filter only this parent's children
+$myChildren = array_filter($children, fn($child) => $child['parent_id'] === $parentId);
 ?>
 
-<div class="container" style="margin-top:50px;">
+<div class="container">
     <h2>Welcome, <?php echo htmlspecialchars($parent['full_name']); ?>!</h2>
 
-    <div style="margin:20px 0;">
+    <div style="margin: 20px 0; display:flex; flex-wrap:wrap; gap:10px;">
         <a href="/app/views/parent/admit-child.php" class="btn btn-primary">
             <?php echo empty($myChildren) ? 'Admit First Child' : 'Add Another Child'; ?>
         </a>
@@ -31,7 +29,7 @@ $myChildren = array_filter($children, function ($child) use ($parentId) {
     <h3>Your Child(ren) Admission Status</h3>
 
     <?php if (!empty($myChildren)): ?>
-        <table class="table" border="1" cellpadding="8" cellspacing="0">
+        <table class="table">
             <thead>
                 <tr>
                     <th>Child Name</th>
@@ -48,12 +46,18 @@ $myChildren = array_filter($children, function ($child) use ($parentId) {
                         <td><?php echo htmlspecialchars($child['grade']); ?></td>
                         <td>
                             <?php
-                                if ($child['status'] === 'pending') {
-                                    echo '<span style="color:orange;">Pending</span>';
-                                } elseif ($child['status'] === 'accepted') {
-                                    echo '<span style="color:green;">Accepted</span>';
-                                } else {
-                                    echo '<span style="color:red;">Declined</span>';
+                                switch ($child['status']) {
+                                    case 'pending':
+                                        echo '<span style="color:orange; font-weight:bold;">Pending</span>';
+                                        break;
+                                    case 'accepted':
+                                        echo '<span style="color:green; font-weight:bold;">Accepted</span>';
+                                        break;
+                                    case 'declined':
+                                        echo '<span style="color:red; font-weight:bold;">Declined</span>';
+                                        break;
+                                    default:
+                                        echo '<span>' . htmlspecialchars($child['status']) . '</span>';
                                 }
                             ?>
                         </td>
