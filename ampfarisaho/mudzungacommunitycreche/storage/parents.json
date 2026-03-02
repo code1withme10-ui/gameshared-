@@ -5,5 +5,13 @@
         "email": "mathaguampfarisaho@gmail.com",
         "phone": "0765406436",
         "password": "$2y$10$1R0prV32xdrhcPp.3gc2lOi\/.CgJ3mrESn3MspRSyf6ful0fN8VJu"
+    },
+    {
+        "id": "parent_69a0139e5bb0b",
+        "full_name": "Tshifhiwa",
+        "email": "Mudzunga465@gmail.com",
+        "phone": "0729583729",
+        "password": "$2y$10$PmrVVWusY4vD1fF1HWuIYepXS4a\/qQy0hPUaCnYv26YS8g4hxZKTK",
+        "role": "parent"
     }
 ]
