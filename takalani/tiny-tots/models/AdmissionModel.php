@@ -8,7 +8,8 @@ class AdmissionModel extends BaseModel {
         $requiredFields = [
             'parentFirstName', 'parentSurname', 'contactNumber', 'emailAddress',
             'parentIdNumber', 'residentialAddress', 'childFirstName', 'childSurname',
-            'dateOfBirth', 'childGender', 'gradeApplyingFor'
+            'dateOfBirth', 'childGender', 'gradeApplyingFor', 'emergencyContactName',
+            'emergencyContactPhone', 'relationshipToChild'
         ];
         
         $missing = $this->validateRequired($admissionData, $requiredFields);
@@ -48,13 +49,16 @@ class AdmissionModel extends BaseModel {
             'emailAddress' => $admissionData['emailAddress'],
             'parentIdNumber' => $admissionData['parentIdNumber'],
             'residentialAddress' => $admissionData['residentialAddress'],
+            'relationshipToChild' => $admissionData['relationshipToChild'],
             'childFirstName' => $admissionData['childFirstName'],
             'childSurname' => $admissionData['childSurname'],
             'dateOfBirth' => $admissionData['dateOfBirth'],
             'childGender' => $admissionData['childGender'],
             'gradeApplyingFor' => $admissionData['gradeApplyingFor'],
-            'emergencyContactName' => $admissionData['emergencyContactName'] ?? '',
-            'emergencyContactPhone' => $admissionData['emergencyContactPhone'] ?? '',
+            'emergencyContactName' => $admissionData['emergencyContactName'],
+            'emergencyContactPhone' => $admissionData['emergencyContactPhone'],
+            'emergencyContactAddress' => $admissionData['emergencyContactAddress'] ?? '',
+            'childAddress' => $admissionData['childAddress'] ?? '',
             'transportation' => $admissionData['transportation'] ?? 'none',
             'specialNeeds' => $admissionData['specialNeeds'] ?? '',
             'status' => 'Pending',
@@ -140,7 +144,7 @@ class AdmissionModel extends BaseModel {
     
     private function generateApplicationId() {
         $year = date('Y');
-        $sequence = rand(1000, 9999);
+        $sequence = random_int(1000, 9999);
         return "TT{$year}{$sequence}";
     }
     
@@ -152,10 +156,12 @@ class AdmissionModel extends BaseModel {
     
     private function validateGradeForAge($grade, $age) {
         $gradeCategories = [
+            'toddlers' => ['min_age' => 0, 'max_age' => 2],
+            'playgroup' => ['min_age' => 2, 'max_age' => 3],
+            'preschool' => ['min_age' => 3, 'max_age' => 4],
             'grade_r' => ['min_age' => 4, 'max_age' => 5],
-            'grade_1' => ['min_age' => 6, 'max_age' => 7],
-            'grade_2' => ['min_age' => 7, 'max_age' => 8],
-            'grade_3' => ['min_age' => 8, 'max_age' => 9]
+            'grade_1' => ['min_age' => 5, 'max_age' => 6],
+            'foundation' => ['min_age' => 6, 'max_age' => 7]
         ];
         
         if (!isset($gradeCategories[$grade])) {
