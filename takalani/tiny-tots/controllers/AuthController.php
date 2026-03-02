@@ -398,18 +398,6 @@ class AuthController extends BaseController {
         return (time() - $lastActivity) > $timeout;
     }
     
-    private function validateEmail($email) {
-        if (empty($email)) {
-            return 'Email is required';
-        }
-        
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return 'Invalid email address';
-        }
-        
-        return null;
-    }
-    
     public function forgotPassword() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = sanitizeInput($_POST['email'] ?? '');

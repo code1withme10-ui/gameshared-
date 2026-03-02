@@ -51,5 +51,17 @@ class BaseController {
         }
         return $_SESSION['csrf_token'];
     }
+    
+    protected function validateEmail($email) {
+        if (empty($email)) {
+            return 'Email is required';
+        }
+        
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return 'Invalid email address';
+        }
+        
+        return null;
+    }
 }
 ?>
