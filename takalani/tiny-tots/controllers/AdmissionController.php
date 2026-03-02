@@ -26,6 +26,14 @@ class AdmissionController extends BaseController {
     }
     
     public function index() {
+        // Check if user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            // Store the intended destination for redirect after login
+            $_SESSION['redirect_after_login'] = '/admission';
+            $this->setFlashMessage('info', 'Please login or register to access the admission form.');
+            redirect('/login');
+        }
+        
         $this->render('admission/index', [
             'pageTitle' => 'Admission - Tiny Tots Creche',
             'gradeCategories' => [
@@ -41,6 +49,12 @@ class AdmissionController extends BaseController {
     }
     
     public function submit() {
+        // Check if user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            $this->setFlashMessage('error', 'Please login to submit your application.');
+            redirect('/login');
+        }
+        
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             redirect('/admission');
         }

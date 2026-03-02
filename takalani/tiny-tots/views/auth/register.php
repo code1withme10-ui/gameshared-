@@ -2,8 +2,14 @@
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <h1><i class="fas fa-user-plus"></i> Register</h1>
-                <p>Create your Tiny Tots Creche account</p>
+                <h1><i class="fas fa-user-plus"></i> Create Account</h1>
+                <p>Join Tiny Tots Creche to access admission forms</p>
+                <?php if (isset($_SESSION['redirect_after_login']) && $_SESSION['redirect_after_login'] === '/admission'): ?>
+                    <div class="login-purpose">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Register to start your child's admission application</span>
+                    </div>
+                <?php endif; ?>
             </div>
             
             <?php if (isset($errors)): ?>

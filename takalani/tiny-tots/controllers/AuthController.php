@@ -14,6 +14,11 @@ class AuthController extends BaseController {
             return;
         }
         
+        // Handle redirect parameter from registration
+        if (isset($_GET['redirect'])) {
+            $_SESSION['redirect_after_login'] = sanitizeInput($_GET['redirect']);
+        }
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = sanitizeInput($_POST['username'] ?? '');
             $password = $_POST['password'] ?? '';
@@ -75,8 +80,16 @@ class AuthController extends BaseController {
                 
                 $this->setFlashMessage('success', 'Welcome back, ' . $user['name'] . '!');
                 
-                // Redirect based on role
-                $this->redirectBasedOnRole($user['role']);
+                // Redirect based on role or stored redirect
+                $redirectUrl = $_SESSION['redirect_after_login'] ?? null;
+                
+                if ($redirectUrl) {
+                    // Clear the stored redirect
+                    unset($_SESSION['redirect_after_login']);
+                    redirect($redirectUrl);
+                } else {
+                    $this->redirectBasedOnRole($user['role']);
+                }
             } else {
                 // Log failed login attempt
                 $this->logLoginAttempt($username, false);
@@ -151,8 +164,16 @@ class AuthController extends BaseController {
                 unset($userData['confirm_password']);
                 
                 $user = $this->userModel->createUser($userData);
-                $this->setFlashMessage('success', 'Registration successful! Please login.');
-                redirect('/login');
+                $this->setFlashMessage('success', 'Registration successful! Please login to continue.');
+                
+                // Store the intended destination for after login
+                $redirectUrl = $_SESSION['redirect_after_login'] ?? null;
+                
+                if ($redirectUrl) {
+                    redirect('/login?redirect=' . urlencode($redirectUrl));
+                } else {
+                    redirect('/login');
+                }
             } catch (Exception $e) {
                 $this->setFlashMessage('error', $e->getMessage());
                 $this->render('auth/register', [

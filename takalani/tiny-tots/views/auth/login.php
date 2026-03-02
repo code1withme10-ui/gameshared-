@@ -2,8 +2,14 @@
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <h1><i class="fas fa-sign-in-alt"></i> Secure Login</h1>
-                <p>Access your Tiny Tots Creche portal</p>
+                <h1><i class="fas fa-sign-in-alt"></i> Login Required</h1>
+                <p>Access the Tiny Tots Creche admission system</p>
+                <?php if (isset($_SESSION['redirect_after_login']) && $_SESSION['redirect_after_login'] === '/admission'): ?>
+                    <div class="login-purpose">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Login to complete your child's admission application</span>
+                    </div>
+                <?php endif; ?>
             </div>
             
             <?php if (isset($error)): ?>
@@ -156,6 +162,25 @@
     margin: 0;
     font-size: 1rem;
     opacity: 0.9;
+}
+
+.login-purpose {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 10px;
+    border-left: 4px solid var(--secondary-color);
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.login-purpose i {
+    color: var(--secondary-color);
+    font-size: 1rem;
 }
 
 .login-form {
