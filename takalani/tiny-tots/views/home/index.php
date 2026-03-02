@@ -84,6 +84,43 @@
     </div>
 </section>
 
+<!-- Authentication Section -->
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-content">
+            <h2>Ready to Join Our Family?</h2>
+            <p>Create an account or login to start your child's admission journey</p>
+            
+            <div class="auth-buttons">
+                <a href="/login" class="btn btn-primary btn-large auth-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="/register" class="btn btn-secondary btn-large auth-btn">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Register</span>
+                </a>
+            </div>
+            
+            <div class="auth-features">
+                <div class="feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Secure Account</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Save Progress</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Track Applications</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Welcome Section -->
 <section class="welcome-section">
     <div class="container">

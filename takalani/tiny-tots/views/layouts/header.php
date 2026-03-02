@@ -50,9 +50,6 @@
                                     <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                                 </ul>
                             </li>
-                        <?php else: ?>
-                            <li><a href="/login" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                            <li><a href="/register" class="nav-link"><i class="fas fa-user-plus"></i> Register</a></li>
                         <?php endif; ?>
                     </ul>
                 </nav>
