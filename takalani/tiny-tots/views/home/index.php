@@ -1,22 +1,85 @@
 <!-- Hero Section -->
 <section class="hero-section">
+    <div class="hero-background">
+        <div class="hero-pattern"></div>
+        <div class="hero-overlay"></div>
+    </div>
+    
     <div class="hero-content">
-        <h1 class="hero-title"><?= htmlspecialchars($heroTitle ?? 'Tiny Tots Creche') ?></h1>
-        <p class="hero-subtitle"><?= htmlspecialchars($heroSubtitle ?? 'Where little minds grow, explore, and shine!') ?></p>
-        <p class="hero-tagline"><?= htmlspecialchars($heroTagline ?? 'From 3 months to Grade RR • Aftercare also available') ?></p>
+        <div class="hero-badge">
+            <i class="fas fa-star"></i>
+            <span>Est. 2014 • Musina's Trusted Creche</span>
+        </div>
+        
+        <h1 class="hero-title">
+            Welcome to<br>
+            <span class="highlight">Tiny Tots Creche</span>
+        </h1>
+        
+        <p class="hero-subtitle">
+            Where little minds grow, explore, and shine!
+        </p>
+        
+        <p class="hero-tagline">
+            <i class="fas fa-baby"></i> From 3 months to Grade RR • 
+            <i class="fas fa-clock"></i> Aftercare available • 
+            <i class="fas fa-heart"></i> Safe & Nurturing
+        </p>
+        
         <div class="hero-buttons">
-            <a href="/admission" class="btn btn-primary btn-large">
-                <i class="fas fa-graduation-cap"></i> Apply Now
+            <a href="/admission" class="btn btn-primary btn-large hero-btn-primary">
+                <i class="fas fa-graduation-cap"></i> 
+                <span>Apply Now</span>
+                <i class="fas fa-arrow-right"></i>
             </a>
-            <a href="/gallery" class="btn btn-secondary btn-large">
-                <i class="fas fa-images"></i> View Gallery
+            <a href="/gallery" class="btn btn-secondary btn-large hero-btn-secondary">
+                <i class="fas fa-images"></i> 
+                <span>View Gallery</span>
             </a>
         </div>
+        
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-number">10+</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Happy Children</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">5-Star Reviews</div>
+            </div>
+        </div>
     </div>
+    
     <div class="hero-image">
-        <div class="hero-placeholder">
-            <i class="fas fa-baby"></i>
-            <span>Happy Children Learning</span>
+        <div class="hero-visual">
+            <div class="floating-elements">
+                <div class="float-element float-1">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="float-element float-2">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <div class="float-element float-3">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="float-element float-4">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+            </div>
+            
+            <div class="hero-main-visual">
+                <div class="creche-icon">
+                    <i class="fas fa-baby"></i>
+                </div>
+                <div class="creche-text">
+                    <h3>Happy Learning</h3>
+                    <p>Safe Environment</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
