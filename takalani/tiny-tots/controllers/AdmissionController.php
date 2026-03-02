@@ -136,19 +136,12 @@ class AdmissionController extends BaseController {
         ]);
     }
     
-    public function list() {
+    public function dashboard() {
         requireRole('headmaster');
         
-        $status = $_GET['status'] ?? 'all';
         $allAdmissions = $this->admissionModel->getAllAdmissions();
         
-        if ($status !== 'all') {
-            $admissions = $this->admissionModel->getAdmissionsByStatus($status);
-        } else {
-            $admissions = $allAdmissions;
-        }
-        
-        // Calculate statistics from the already fetched data
+        // Calculate statistics
         $stats = [
             'total' => count($allAdmissions),
             'pending' => count(array_filter($allAdmissions, function($a) { return $a['status'] === 'Pending'; })),
@@ -156,16 +149,86 @@ class AdmissionController extends BaseController {
             'rejected' => count(array_filter($allAdmissions, function($a) { return $a['status'] === 'Rejected'; }))
         ];
         
-        $this->render('admission/list', [
+        // Get recent applications (last 5)
+        $recentApplications = array_slice($allAdmissions, 0, 5);
+        
+        $this->render('admin/dashboard', [
+            'pageTitle' => 'Headmaster Dashboard - Tiny Tots Creche',
+            'stats' => $stats,
+            'recentApplications' => $recentApplications,
+            'gradeCategories' => [
+                'toddlers' => 'Toddlers (0-2 years)',
+                'playgroup' => 'Playgroup (2-3 years)',
+                'preschool' => 'Pre-School (3-4 years)',
+                'grade_r' => 'Grade R (4-5 years)',
+                'grade_1' => 'Grade 1 (5-6 years)',
+                'foundation' => 'Foundation Phase (6-7 years)'
+            ]
+        ]);
+    }
+    
+    public function list() {
+        requireRole('headmaster');
+        
+        $status = $_GET['status'] ?? 'all';
+        $search = $_GET['search'] ?? '';
+        $sortBy = $_GET['sortBy'] ?? 'date';
+        
+        $allAdmissions = $this->admissionModel->getAllAdmissions();
+        
+        // Filter by status
+        if ($status !== 'all') {
+            $allAdmissions = array_filter($allAdmissions, function($a) use ($status) {
+                return strtolower($a['status']) === strtolower($status);
+            });
+        }
+        
+        // Apply search filter
+        if (!empty($search)) {
+            $searchLower = strtolower($search);
+            $allAdmissions = array_filter($allAdmissions, function($a) use ($searchLower) {
+                return (
+                    strpos(strtolower($a['applicationID']), $searchLower) !== false ||
+                    strpos(strtolower($a['childFirstName'] . ' ' . $a['childSurname']), $searchLower) !== false ||
+                    strpos(strtolower($a['parentFirstName'] . ' ' . $a['parentSurname']), $searchLower) !== false
+                );
+            });
+        }
+        
+        // Sort applications
+        usort($allAdmissions, function($a, $b) use ($sortBy) {
+            switch ($sortBy) {
+                case 'name':
+                    return strcmp(($a['childFirstName'] . ' ' . $a['childSurname']), ($b['childFirstName'] . ' ' . $b['childSurname']));
+                case 'status':
+                    return strcmp($a['status'], $b['status']);
+                case 'date':
+                default:
+                    return strtotime($b['submittedAt']) - strtotime($a['submittedAt']);
+            }
+        });
+        
+        // Calculate statistics from all admissions (not filtered)
+        $allAdmissionsForStats = $this->admissionModel->getAllAdmissions();
+        $stats = [
+            'total' => count($allAdmissionsForStats),
+            'pending' => count(array_filter($allAdmissionsForStats, function($a) { return $a['status'] === 'Pending'; })),
+            'approved' => count(array_filter($allAdmissionsForStats, function($a) { return $a['status'] === 'Approved'; })),
+            'rejected' => count(array_filter($allAdmissionsForStats, function($a) { return $a['status'] === 'Rejected'; }))
+        ];
+        
+        $this->render('admin/admissions', [
             'pageTitle' => 'Admission Applications - Tiny Tots Creche',
-            'admissions' => $admissions,
+            'admissions' => $allAdmissions,
             'status' => $status,
             'stats' => $stats,
             'gradeCategories' => [
-                'grade_r' => 'Grade R',
-                'grade_1' => 'Grade 1',
-                'grade_2' => 'Grade 2',
-                'grade_3' => 'Grade 3'
+                'toddlers' => 'Toddlers (0-2 years)',
+                'playgroup' => 'Playgroup (2-3 years)',
+                'preschool' => 'Pre-School (3-4 years)',
+                'grade_r' => 'Grade R (4-5 years)',
+                'grade_1' => 'Grade 1 (5-6 years)',
+                'foundation' => 'Foundation Phase (6-7 years)'
             ]
         ]);
     }
@@ -186,14 +249,16 @@ class AdmissionController extends BaseController {
             redirect('/admin/admissions');
         }
         
-        $this->render('admission/view', [
-            'pageTitle' => 'View Application - Tiny Tots Creche',
+        $this->render('admin/application-details', [
+            'pageTitle' => 'Application Details - Tiny Tots Creche',
             'admission' => $admission,
             'gradeCategories' => [
-                'grade_r' => 'Grade R',
-                'grade_1' => 'Grade 1',
-                'grade_2' => 'Grade 2',
-                'grade_3' => 'Grade 3'
+                'toddlers' => 'Toddlers (0-2 years)',
+                'playgroup' => 'Playgroup (2-3 years)',
+                'preschool' => 'Pre-School (3-4 years)',
+                'grade_r' => 'Grade R (4-5 years)',
+                'grade_1' => 'Grade 1 (5-6 years)',
+                'foundation' => 'Foundation Phase (6-7 years)'
             ]
         ]);
     }
@@ -207,6 +272,7 @@ class AdmissionController extends BaseController {
         
         $id = $_POST['id'] ?? '';
         $status = $_POST['status'] ?? '';
+        $notes = $_POST['notes'] ?? '';
         
         if (empty($id) || empty($status)) {
             $this->json(['error' => 'Application ID and status are required'], 400);
@@ -216,11 +282,43 @@ class AdmissionController extends BaseController {
             $this->json(['error' => 'Invalid status'], 400);
         }
         
-        if ($this->admissionModel->updateAdmissionStatus($id, $status)) {
-            $this->json(['success' => true, 'message' => 'Application status updated successfully']);
+        // Get current admission for audit trail
+        $currentAdmission = $this->admissionModel->getAdmissionById($id);
+        if (!$currentAdmission) {
+            $this->json(['error' => 'Application not found'], 404);
+        }
+        
+        // Update status with audit trail
+        if ($this->admissionModel->updateAdmissionStatus($id, $status, $notes, $_SESSION['user']['name'] ?? 'Headmaster')) {
+            // Send notification to parent (in real implementation)
+            $this->sendStatusNotification($currentAdmission, $status, $notes);
+            
+            $this->json([
+                'success' => true, 
+                'message' => 'Application status updated successfully',
+                'newStatus' => $status
+            ]);
         } else {
             $this->json(['error' => 'Failed to update application status'], 500);
         }
+    }
+    
+    private function sendStatusNotification($admission, $newStatus, $notes) {
+        // In a real implementation, this would send email/SMS
+        // For now, we'll just log the notification
+        $notification = [
+            'applicationId' => $admission['applicationID'],
+            'parentEmail' => $admission['emailAddress'],
+            'parentName' => $admission['parentFirstName'] . ' ' . $admission['parentSurname'],
+            'childName' => $admission['childFirstName'] . ' ' . $admission['childSurname'],
+            'status' => $newStatus,
+            'notes' => $notes,
+            'sentAt' => date('Y-m-d H:i:s'),
+            'type' => 'status_change'
+        ];
+        
+        // Log notification (in real implementation, would send email/SMS)
+        error_log('Notification sent: ' . json_encode($notification));
     }
     
     private function handleFileUploads($files) {
@@ -305,6 +403,82 @@ class AdmissionController extends BaseController {
             default:
                 return "Unknown upload error";
         }
+    }
+    
+    public function export() {
+        requireRole('headmaster');
+        
+        $status = $_GET['status'] ?? 'all';
+        $format = $_GET['format'] ?? 'csv';
+        
+        $allAdmissions = $this->admissionModel->getAllAdmissions();
+        
+        // Filter by status if specified
+        if ($status !== 'all') {
+            $allAdmissions = array_filter($allAdmissions, function($a) use ($status) {
+                return strtolower($a['status']) === strtolower($status);
+            });
+        }
+        
+        if (empty($allAdmissions)) {
+            $this->json(['error' => 'No applications found to export'], 404);
+        }
+        
+        // Prepare data for export
+        $exportData = [];
+        foreach ($allAdmissions as $admission) {
+            $exportData[] = [
+                'Application ID' => $admission['applicationID'],
+                'Child Name' => $admission['childFirstName'] . ' ' . $admission['childSurname'],
+                'Parent Name' => $admission['parentFirstName'] . ' ' . $admission['parentSurname'],
+                'Email' => $admission['emailAddress'],
+                'Phone' => $admission['contactNumber'],
+                'Date of Birth' => $admission['dateOfBirth'],
+                'Age' => $admission['age'],
+                'Gender' => $admission['childGender'],
+                'Grade' => $gradeCategories[$admission['gradeApplyingFor']] ?? 'N/A',
+                'Status' => $admission['status'],
+                'Submitted Date' => $admission['submittedAt'],
+                'Updated Date' => $admission['updatedAt'] ?? $admission['submittedAt']
+            ];
+        }
+        
+        switch ($format) {
+            case 'csv':
+                $this->exportCSV($exportData, 'admissions_' . $status . '_' . date('Y-m-d') . '.csv');
+                break;
+            case 'json':
+                $this->exportJSON($exportData, 'admissions_' . $status . '_' . date('Y-m-d') . '.json');
+                break;
+            default:
+                $this->json(['error' => 'Invalid export format'], 400);
+        }
+    }
+    
+    private function exportCSV($data, $filename) {
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        
+        $output = fopen('php://output', 'w');
+        
+        // Write CSV header
+        fputcsv($output, array_keys($data[0]));
+        
+        // Write CSV data
+        foreach ($data as $row) {
+            fputcsv($output, $row);
+        }
+        
+        fclose($output);
+        exit;
+    }
+    
+    private function exportJSON($data, $filename) {
+        header('Content-Type: application/json');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        
+        echo json_encode($data, JSON_PRETTY_PRINT);
+        exit;
     }
     
     public function delete() {

@@ -107,14 +107,29 @@ class AdmissionModel extends BaseModel {
         });
     }
     
-    public function updateAdmissionStatus($id, $status) {
+    public function updateAdmissionStatus($id, $status, $notes = '', $changedBy = '') {
         $admissions = $this->readJsonFile();
         $updated = false;
         
         foreach ($admissions as &$admission) {
             if ($admission['id'] === $id) {
+                $oldStatus = $admission['status'];
                 $admission['status'] = $status;
                 $admission['updatedAt'] = date('Y-m-d H:i:s');
+                
+                // Add to status history
+                if (!isset($admission['statusHistory'])) {
+                    $admission['statusHistory'] = [];
+                }
+                
+                $admission['statusHistory'][] = [
+                    'date' => date('Y-m-d H:i:s'),
+                    'oldStatus' => $oldStatus,
+                    'newStatus' => $status,
+                    'notes' => $notes,
+                    'changedBy' => $changedBy
+                ];
+                
                 $updated = true;
                 break;
             }

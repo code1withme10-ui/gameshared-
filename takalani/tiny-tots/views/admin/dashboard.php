@@ -1,56 +1,52 @@
 <div class="content-wrapper">
-    <div class="admin-container">
-        <div class="admin-header">
-            <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
-            <p>Welcome back, <?= htmlspecialchars($user['name']) ?>!</p>
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <div class="hero-content">
+            <h1>Headmaster Dashboard</h1>
+            <p>Manage admission applications and monitor enrollment statistics</p>
         </div>
+    </section>
+
+    <div class="admin-container">
         
         <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">📋</div>
-                <div class="stat-info">
-                    <h3><?= $stats['total_admissions'] ?></h3>
+            <div class="stat-card total">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3><?= $stats['total'] ?></h3>
                     <p>Total Applications</p>
                 </div>
             </div>
             
             <div class="stat-card pending">
-                <div class="stat-icon">⏳</div>
-                <div class="stat-info">
-                    <h3><?= $stats['pending_admissions'] ?></h3>
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <h3><?= $stats['pending'] ?></h3>
                     <p>Pending Review</p>
                 </div>
             </div>
             
             <div class="stat-card approved">
-                <div class="stat-icon">✅</div>
-                <div class="stat-info">
-                    <h3><?= $stats['approved_admissions'] ?></h3>
-                    <p>Approved</p>
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3><?= $stats['approved'] ?></h3>
+                    <p>Accepted Applications</p>
                 </div>
             </div>
             
             <div class="stat-card rejected">
-                <div class="stat-icon">❌</div>
-                <div class="stat-info">
-                    <h3><?= $stats['rejected_admissions'] ?></h3>
-                    <p>Rejected</p>
+                <div class="stat-icon">
+                    <i class="fas fa-times-circle"></i>
                 </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon">👥</div>
-                <div class="stat-info">
-                    <h3><?= $stats['total_users'] ?></h3>
-                    <p>Total Users</p>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon">👨‍👩‍👧‍👦</div>
-                <div class="stat-info">
-                    <h3><?= $stats['total_parents'] ?></h3>
-                    <p>Parents</p>
+                <div class="stat-content">
+                    <h3><?= $stats['rejected'] ?></h3>
+                    <p>Declined Applications</p>
                 </div>
             </div>
         </div>
@@ -227,35 +223,61 @@
     transform: translateY(-5px);
 }
 
+.stat-card.total {
+    border-left: 5px solid var(--primary-color);
+}
+
 .stat-card.pending {
-    border-left: 5px solid #ffa500;
+    border-left: 5px solid #f39c12;
 }
 
 .stat-card.approved {
-    border-left: 5px solid #51cf66;
+    border-left: 5px solid #27ae60;
 }
 
 .stat-card.rejected {
-    border-left: 5px solid #ff6b6b;
+    border-left: 5px solid #e74c3c;
 }
 
 .stat-icon {
-    font-size: 3rem;
     width: 60px;
-    text-align: center;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
 }
 
-.stat-info h3 {
+.stat-card.total .stat-icon {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.stat-card.pending .stat-icon {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+.stat-card.approved .stat-icon {
+    background: linear-gradient(135deg, #27ae60, #229954);
+}
+
+.stat-card.rejected .stat-icon {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.stat-content h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
     color: var(--text-dark);
-    font-size: 2rem;
     margin: 0 0 0.5rem 0;
-    font-weight: 600;
 }
 
-.stat-info p {
+.stat-content p {
     color: var(--text-light);
+    font-size: 1rem;
     margin: 0;
-    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .dashboard-content {
