@@ -8,8 +8,15 @@ class UserModel extends BaseModel {
         $users = $this->readJsonFile();
         
         foreach ($users as $user) {
-            if ($user['username'] === $username && $user['password'] === $password) {
-                return $user;
+            if ($user['username'] === $username) {
+                // Check if password is hashed or plain text (for backward compatibility)
+                if (password_verify($password, $user['password'])) {
+                    return $user;
+                } elseif ($user['password'] === $password) {
+                    // Plain text password - update to hashed version
+                    $this->updatePassword($user['id'], password_hash($password, PASSWORD_DEFAULT));
+                    return $user;
+                }
             }
         }
         
@@ -95,6 +102,51 @@ class UserModel extends BaseModel {
         
         if (count($filteredUsers) < count($users)) {
             $this->writeJsonFile(array_values($filteredUsers));
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public function findByEmail($email) {
+        $users = $this->readJsonFile();
+        
+        foreach ($users as $user) {
+            if ($user['email'] === $email) {
+                return $user;
+            }
+        }
+        
+        return false;
+    }
+    
+    public function findById($id) {
+        $users = $this->readJsonFile();
+        
+        foreach ($users as $user) {
+            if ($user['id'] === $id) {
+                return $user;
+            }
+        }
+        
+        return false;
+    }
+    
+    public function updatePassword($id, $hashedPassword) {
+        $users = $this->readJsonFile();
+        $updated = false;
+        
+        foreach ($users as &$user) {
+            if ($user['id'] === $id) {
+                $user['password'] = $hashedPassword;
+                $user['updated_at'] = date('Y-m-d H:i:s');
+                $updated = true;
+                break;
+            }
+        }
+        
+        if ($updated) {
+            $this->writeJsonFile($users);
             return true;
         }
         

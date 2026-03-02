@@ -23,6 +23,8 @@ $routes = [
     '/logout' => ['AuthController', 'logout'],
     '/register' => ['AuthController', 'register'],
     '/profile' => ['AuthController', 'profile'],
+    '/forgot-password' => ['AuthController', 'forgotPassword'],
+    '/reset-password' => ['AuthController', 'resetPassword'],
     
     // Admission routes
     '/admission' => ['AdmissionController', 'index'],
@@ -32,9 +34,13 @@ $routes = [
     '/admission/view' => ['AdmissionController', 'view'],
     '/admission/update-status' => ['AdmissionController', 'updateStatus'],
     '/admission/delete' => ['AdmissionController', 'delete'],
+    '/admission/export' => ['AdmissionController', 'export'],
     
     // Admin routes
-    '/admin/dashboard' => ['AdminController', 'dashboard'],
+    '/admin/dashboard' => ['AdmissionController', 'dashboard'],
+    '/admin/admissions' => ['AdmissionController', 'list'],
+    '/admin/admissions/view' => ['AdmissionController', 'view'],
+    '/admin/admissions/updateStatus' => ['AdmissionController', 'updateStatus'],
     '/admin/users' => ['AdminController', 'users'],
     '/admin/create-user' => ['AdminController', 'createUser'],
     '/admin/delete-user' => ['AdminController', 'deleteUser'],
