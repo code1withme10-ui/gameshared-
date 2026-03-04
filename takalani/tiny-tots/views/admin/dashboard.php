@@ -98,13 +98,26 @@
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="submit-date"><?= date('M j, Y', strtotime($admission['submittedAt'])) ?></span>
+                                    <span class="submit-date"><?= date('M j, Y', strtotime($admission['submittedAt'] ?? $admission['submitted_at'] ?? '1970-01-01')) ?></span>
                                 </div>
                                 <div>
-                                    <button onclick="viewApplication('<?= htmlspecialchars($admission['id']) ?>')" 
-                                            class="btn-small btn-view">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
+                                    <div class="action-buttons">
+                                        <button onclick="viewApplication('<?= htmlspecialchars($admission['id']) ?>')" 
+                                                class="btn-small btn-view">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                        
+                                        <?php if ($admission['status'] === 'Pending'): ?>
+                                            <button onclick="showAdmitModal('<?= htmlspecialchars($admission['id']) ?>', '<?= htmlspecialchars($admission['childFirstName'] . ' ' . $admission['childSurname']) ?>')" 
+                                                    class="btn-small btn-admit">
+                                                <i class="fas fa-check"></i> Admit
+                                            </button>
+                                            <button onclick="showRejectModal('<?= htmlspecialchars($admission['id']) ?>', '<?= htmlspecialchars($admission['childFirstName'] . ' ' . $admission['childSurname']) ?>')" 
+                                                    class="btn-small btn-reject">
+                                                <i class="fas fa-times"></i> Reject
+                                            </button>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -589,6 +602,242 @@
         margin: 2% auto;
     }
 }
+
+/* Action Buttons and Modal Styles */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-small {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.btn-view {
+    background: #17a2b8;
+    color: white;
+}
+
+.btn-view:hover {
+    background: #138496;
+    transform: translateY(-1px);
+}
+
+.btn-admit {
+    background: #28a745;
+    color: white;
+}
+
+.btn-admit:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
+.btn-reject {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-reject:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 1.5rem;
+    border-radius: 12px 12px 0 0;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #495057;
+    font-size: 1.5rem;
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.modal-footer {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 0 0 12px 12px;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* Form Styles in Modal */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #218838, #1ea085);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #dc3545, #e74c3c);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #c82333, #d62c1a);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+}
+
+/* Responsive Design for Modals */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .btn-small {
+        width: 100%;
+        justify-content: center;
+    }
+}
 </style>
 
 <script>
@@ -619,6 +868,102 @@ function exportData() {
     alert('Export functionality would download all applications as CSV/Excel');
 }
 
+function showAdmitModal(applicationId, childName) {
+    const modal = document.getElementById('admitModal');
+    document.getElementById('admitApplicationId').value = applicationId;
+    document.getElementById('admitChildName').textContent = childName;
+    modal.style.display = 'block';
+}
+
+function showRejectModal(applicationId, childName) {
+    const modal = document.getElementById('rejectModal');
+    document.getElementById('rejectApplicationId').value = applicationId;
+    document.getElementById('rejectChildName').textContent = childName;
+    modal.style.display = 'block';
+}
+
+function closeAdmitModal() {
+    document.getElementById('admitModal').style.display = 'none';
+}
+
+function closeRejectModal() {
+    document.getElementById('rejectModal').style.display = 'none';
+}
+
+function confirmAdmission() {
+    const applicationId = document.getElementById('admitApplicationId').value;
+    const enrollmentDate = document.getElementById('enrollmentDate').value;
+    const classroom = document.getElementById('classroom').value;
+    const teacher = document.getElementById('teacher').value;
+    const notes = document.getElementById('admissionNotes').value;
+    
+    // Submit admission decision
+    fetch('/admin/admit-application', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': window.csrfToken
+        },
+        body: JSON.stringify({
+            applicationId: applicationId,
+            enrollmentDate: enrollmentDate,
+            classroom: classroom,
+            teacher: teacher,
+            notes: notes
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Application admitted successfully!');
+            closeAdmitModal();
+            location.reload();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while processing the admission.');
+    });
+}
+
+function confirmRejection() {
+    const applicationId = document.getElementById('rejectApplicationId').value;
+    const reason = document.getElementById('rejectionReason').value;
+    const requirements = document.getElementById('requirements').value;
+    const contactOption = document.getElementById('contactOption').value;
+    
+    // Submit rejection decision
+    fetch('/admin/reject-application', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': window.csrfToken
+        },
+        body: JSON.stringify({
+            applicationId: applicationId,
+            reason: reason,
+            requirements: requirements,
+            contactOption: contactOption
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Application rejected successfully!');
+            closeRejectModal();
+            location.reload();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while processing the rejection.');
+    });
+}
+
 // Close modal when clicking outside
 window.onclick = function(event) {
     const modal = document.getElementById('applicationModal');
@@ -627,3 +972,119 @@ window.onclick = function(event) {
     }
 }
 </script>
+
+<!-- Admission Modal -->
+<div id="admitModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-check-circle" style="color: #28a745;"></i> Admit Student</h2>
+            <span class="close" onclick="closeAdmitModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p><strong>Student:</strong> <span id="admitChildName"></span></p>
+            
+            <div class="form-group">
+                <label for="enrollmentDate">Enrollment Date *</label>
+                <input type="date" id="enrollmentDate" name="enrollmentDate" required 
+                       value="<?= date('Y-m-d') ?>">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="classroom">Classroom *</label>
+                    <select id="classroom" name="classroom" required>
+                        <option value="">Select Classroom</option>
+                        <option value="Toddler Room A">Toddler Room A</option>
+                        <option value="Toddler Room B">Toddler Room B</option>
+                        <option value="Playgroup Room A">Playgroup Room A</option>
+                        <option value="Playgroup Room B">Playgroup Room B</option>
+                        <option value="Preschool Room A">Preschool Room A</option>
+                        <option value="Preschool Room B">Preschool Room B</option>
+                        <option value="Grade R Room A">Grade R Room A</option>
+                        <option value="Grade R Room B">Grade R Room B</option>
+                        <option value="Grade 1 Room A">Grade 1 Room A</option>
+                        <option value="Grade 1 Room B">Grade 1 Room B</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="teacher">Assigned Teacher *</label>
+                    <select id="teacher" name="teacher" required>
+                        <option value="">Select Teacher</option>
+                        <option value="Mrs. Johnson">Mrs. Johnson</option>
+                        <option value="Mrs. Smith">Mrs. Smith</option>
+                        <option value="Mrs. Williams">Mrs. Williams</option>
+                        <option value="Mrs. Brown">Mrs. Brown</option>
+                        <option value="Mrs. Davis">Mrs. Davis</option>
+                        <option value="Mrs. Miller">Mrs. Miller</option>
+                        <option value="Mrs. Wilson">Mrs. Wilson</option>
+                        <option value="Mrs. Moore">Mrs. Moore</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="admissionNotes">Admission Notes</label>
+                <textarea id="admissionNotes" name="admissionNotes" rows="3" 
+                          placeholder="Any special notes about the admission..."></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeAdmitModal()">Cancel</button>
+            <button type="button" class="btn btn-success" onclick="confirmAdmission()">
+                <i class="fas fa-check"></i> Confirm Admission
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Rejection Modal -->
+<div id="rejectModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-times-circle" style="color: #dc3545;"></i> Reject Application</h2>
+            <span class="close" onclick="closeRejectModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p><strong>Student:</strong> <span id="rejectChildName"></span></p>
+            
+            <div class="form-group">
+                <label for="rejectionReason">Rejection Reason *</label>
+                <select id="rejectionReason" name="rejectionReason" required>
+                    <option value="">Select Reason</option>
+                    <option value="Age not appropriate">Age not appropriate for selected grade</option>
+                    <option value="Class full">Class is at full capacity</option>
+                    <option value="Documentation incomplete">Required documentation missing</option>
+                    <option value="Medical requirements">Medical requirements not met</option>
+                    <option value="Payment issues">Payment or financial issues</option>
+                    <option value="Other">Other reasons</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="requirements">Requirements for Future Application</label>
+                <textarea id="requirements" name="requirements" rows="3" 
+                          placeholder="Specify what needs to be addressed for future consideration..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="contactOption">Contact Parent</label>
+                <select id="contactOption" name="contactOption">
+                    <option value="email">Send email notification</option>
+                    <option value="phone">Phone call</option>
+                    <option value="both">Email and phone call</option>
+                    <option value="none">No contact needed</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeRejectModal()">Cancel</button>
+            <button type="button" class="btn btn-danger" onclick="confirmRejection()">
+                <i class="fas fa-times"></i> Confirm Rejection
+            </button>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="admitApplicationId" value="">
+<input type="hidden" id="rejectApplicationId" value="">

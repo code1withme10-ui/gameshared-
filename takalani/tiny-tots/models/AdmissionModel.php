@@ -224,5 +224,9 @@ class AdmissionModel extends BaseModel {
         
         return false;
     }
+    
+    public function saveAllAdmissions($applications) {
+        return $this->writeJsonFile($applications);
+    }
 }
 ?>

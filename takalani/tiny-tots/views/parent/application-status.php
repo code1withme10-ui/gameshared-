@@ -160,7 +160,7 @@
             <div class="next-steps-card">
                 <h3>📋 Next Steps</h3>
                 <div class="steps-list">
-                    <?php if ($application['status'] === 'pending'): ?>
+                    <?php if ($application['status'] === 'Pending'): ?>
                         <div class="step-item">
                             <div class="step-number">1</div>
                             <div class="step-content">
@@ -182,31 +182,120 @@
                                 <p>You may be contacted for an interview or additional information.</p>
                             </div>
                         </div>
-                    <?php elseif ($application['status'] === 'under-review'): ?>
+                    <?php elseif ($application['status'] === 'Approved'): ?>
+                        <?php if (isset($application['nextSteps'])): ?>
+                            <div class="step-item completed">
+                                <div class="step-number">✓</div>
+                                <div class="step-content">
+                                    <h4><?= htmlspecialchars($application['nextSteps']['title']) ?></h4>
+                                    <p><?= htmlspecialchars($application['nextSteps']['description']) ?></p>
+                                </div>
+                            </div>
+                            <?php foreach ($application['nextSteps']['items'] as $index => $item): ?>
+                                <div class="step-item">
+                                    <div class="step-number"><?= $index + 1 ?></div>
+                                    <div class="step-content">
+                                        <p><?= htmlspecialchars($item) ?></p>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                            <div class="contact-info">
+                                <h4>📞 Contact Information</h4>
+                                <p><?= htmlspecialchars($application['nextSteps']['contactInfo']) ?></p>
+                            </div>
+                            
+                            <?php if (isset($application['enrollmentDate'])): ?>
+                                <div class="enrollment-details">
+                                    <h4>🎓 Enrollment Details</h4>
+                                    <div class="detail-grid">
+                                        <div class="detail-item">
+                                            <label>Enrollment Date:</label>
+                                            <span><?= date('F j, Y', strtotime($application['enrollmentDate'])) ?></span>
+                                        </div>
+                                        <?php if (isset($application['classroom'])): ?>
+                                        <div class="detail-item">
+                                            <label>Classroom:</label>
+                                            <span><?= htmlspecialchars($application['classroom']) ?></span>
+                                        </div>
+                                        <?php endif; ?>
+                                        <?php if (isset($application['teacher'])): ?>
+                                        <div class="detail-item">
+                                            <label>Teacher:</label>
+                                            <span><?= htmlspecialchars($application['teacher']) ?></span>
+                                        </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <?php if (isset($application['admissionNotes'])): ?>
+                                        <div class="admission-notes">
+                                            <label>Notes:</label>
+                                            <p><?= htmlspecialchars($application['admissionNotes']) ?></p>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <div class="step-item completed">
+                                <div class="step-number">✓</div>
+                                <div class="step-content">
+                                    <h4>Application Approved!</h4>
+                                    <p>Congratulations! Check your email for next steps and enrollment instructions.</p>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php elseif ($application['status'] === 'Rejected'): ?>
+                        <?php if (isset($application['nextSteps'])): ?>
+                            <div class="step-item rejected">
+                                <div class="step-number">⚠</div>
+                                <div class="step-content">
+                                    <h4><?= htmlspecialchars($application['nextSteps']['title']) ?></h4>
+                                    <p><?= htmlspecialchars($application['nextSteps']['description']) ?></p>
+                                </div>
+                            </div>
+                            <?php foreach ($application['nextSteps']['items'] as $index => $item): ?>
+                                <div class="step-item">
+                                    <div class="step-number"><?= $index + 1 ?></div>
+                                    <div class="step-content">
+                                        <p><?= htmlspecialchars($item) ?></p>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                            <div class="contact-info">
+                                <h4>📞 Contact Information</h4>
+                                <p><?= htmlspecialchars($application['nextSteps']['contactInfo']) ?></p>
+                            </div>
+                            
+                            <?php if (isset($application['rejectionReason'])): ?>
+                                <div class="rejection-details">
+                                    <h4>📋 Rejection Reason</h4>
+                                    <p><strong>Reason:</strong> <?= htmlspecialchars($application['rejectionReason']) ?></p>
+                                    <?php if (isset($application['requirements'])): ?>
+                                        <p><strong>Requirements:</strong> <?= htmlspecialchars($application['requirements']) ?></p>
+                                    <?php endif; ?>
+                                    <?php if (isset($application['contactOption'])): ?>
+                                        <p><strong>Contact Method:</strong> <?= htmlspecialchars(ucfirst($application['contactOption'])) ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <div class="step-item rejected">
+                                <div class="step-number">⚠</div>
+                                <div class="step-content">
+                                    <h4>Application Not Approved</h4>
+                                    <p>Your application was not approved at this time. Please contact the school for more information.</p>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php else: ?>
                         <div class="step-item">
-                            <div class="step-number">1</div>
+                            <div class="step-number">?</div>
                             <div class="step-content">
-                                <h4>Application Under Review</h4>
-                                <p>Your application is currently being reviewed by our admissions committee.</p>
+                                <h4>Status Unknown</h4>
+                                <p>Please contact the school office for more information about your application status.</p>
                             </div>
                         </div>
-                        <div class="step-item">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h4>Wait for Decision</h4>
-                                <p>You will receive a decision within the next few business days.</p>
-                            </div>
-                        </div>
-                    <?php elseif ($application['status'] === 'approved'): ?>
-                        <div class="step-item completed">
-                            <div class="step-number">✓</div>
-                            <div class="step-content">
-                                <h4>Application Approved!</h4>
-                                <p>Congratulations! Check your email for next steps and enrollment instructions.</p>
-                            </div>
-                        </div>
-                        <div class="step-item">
-                            <div class="step-number">1</div>
+                    <?php endif; ?>
+                </div>
+            </div>
                             <div class="step-content">
                                 <h4>Accept Offer</h4>
                                 <p>Follow the instructions in your approval email to accept the placement.</p>
@@ -562,6 +651,94 @@
         width: 100%;
         text-align: center;
     }
+}
+
+.contact-info {
+    background: linear-gradient(135deg, #e8f5e8, #d4edda);
+    border: 1px solid #c3e6cb;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.contact-info h4 {
+    color: #155724;
+    margin-bottom: 0.5rem;
+}
+
+.contact-info p {
+    color: #155724;
+    margin: 0;
+}
+
+.enrollment-details {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    border: 1px solid #ffc107;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.enrollment-details h4 {
+    color: #856404;
+    margin-bottom: 1rem;
+}
+
+.admission-notes {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.admission-notes label {
+    font-weight: 600;
+    color: #495057;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.admission-notes p {
+    margin: 0;
+    color: #6c757d;
+}
+
+.rejection-details {
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    border: 1px solid #f5c6cb;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.rejection-details h4 {
+    color: #721c24;
+    margin-bottom: 1rem;
+}
+
+.rejection-details p {
+    color: #721c24;
+    margin: 0.5rem 0;
+}
+
+.rejection-details strong {
+    color: #721c24;
+}
+
+.step-item.rejected {
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    border: 1px solid #f5c6cb;
+}
+
+.step-item.rejected .step-number {
+    background: #dc3545;
+    color: white;
+}
+
+.step-item.rejected .step-content h4 {
+    color: #721c24;
 }
 </style>
 
