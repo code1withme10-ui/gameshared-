@@ -160,7 +160,7 @@ class AuthController extends BaseController {
             
             try {
                 // Auto-generate username from parent details
-                $userData['username'] = $this->generateUsernameFromName($userData['name']);
+                $userData['username'] = $this->generateUsernameFromName($userData['name'], $userData['surname']);
                 
                 // Hash password securely
                 $userData['password'] = password_hash($userData['password'], PASSWORD_DEFAULT);
@@ -277,6 +277,7 @@ class AuthController extends BaseController {
         }
     }
     
+    // Enhanced validation for comprehensive parent registration
     private function validateRegistration($userData) {
         $errors = [];
         
@@ -292,15 +293,71 @@ class AuthController extends BaseController {
             $errors['confirm_password'] = 'Passwords do not match';
         }
         
+        // Personal Details Validation
         if (empty($userData['name'])) {
             $errors['name'] = 'Full name is required';
         } elseif (strlen($userData['name']) < 2) {
             $errors['name'] = 'Name must be at least 2 characters';
         }
         
-        $emailError = $this->validateEmail($userData['email']);
-        if ($emailError) {
-            $errors['email'] = $emailError;
+        if (empty($userData['surname'])) {
+            $errors['surname'] = 'Surname is required';
+        } elseif (strlen($userData['surname']) < 2) {
+            $errors['surname'] = 'Surname must be at least 2 characters';
+        }
+        
+        if (empty($userData['email'])) {
+            $errors['email'] = 'Email address is required';
+        } elseif (!filter_var($userData['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Invalid email address';
+        }
+        
+        if (empty($userData['phone'])) {
+            $errors['phone'] = 'Phone number is required';
+        } elseif (!preg_match('/^(\+27|0)[0-9]{9,15}$/', $userData['phone'])) {
+            $errors['phone'] = 'Invalid South African phone number format';
+        }
+        
+        if (empty($userData['address'])) {
+            $errors['address'] = 'Physical address is required';
+        } elseif (strlen($userData['address']) < 10) {
+            $errors['address'] = 'Address must be at least 10 characters';
+        }
+        
+        if (empty($userData['city'])) {
+            $errors['city'] = 'City/Town is required';
+        } elseif (strlen($userData['city']) < 2) {
+            $errors['city'] = 'City/Town must be at least 2 characters';
+        }
+        
+        if (empty($userData['province'])) {
+            $errors['province'] = 'Province is required';
+        } elseif (!in_array($userData['province'], [
+            'gauteng', 'western-cape', 'eastern-cape', 'northern-cape', 
+            'free-state', 'kwazulu-natal', 'mpumalanga', 'limpopo', 
+            'north-west', 'northern-cape'
+        ])) {
+            $errors['province'] = 'Invalid province selected';
+        }
+        
+        if (empty($userData['postal_code'])) {
+            $errors['postal_code'] = 'Postal code is required';
+        } elseif (!preg_match('/^[0-9]{4}$/', $userData['postal_code'])) {
+            $errors['postal_code'] = 'Invalid postal code format (4 digits)';
+        }
+        
+        if (empty($userData['id_number'])) {
+            $errors['id_number'] = 'ID/Passport number is required';
+        } elseif (strlen($userData['id_number']) < 6) {
+            $errors['id_number'] = 'ID/Passport number must be at least 6 characters';
+        }
+        
+        if (empty($userData['relationship'])) {
+            $errors['relationship'] = 'Relationship to child is required';
+        } elseif (!in_array($userData['relationship'], [
+            'mother', 'father', 'guardian', 'grandparent', 'aunt', 'uncle', 'sibling', 'other'
+        ])) {
+            $errors['relationship'] = 'Invalid relationship selected';
         }
         
         if (!in_array($userData['role'], ['parent', 'headmaster'])) {
@@ -404,16 +461,16 @@ class AuthController extends BaseController {
         return (time() - $lastActivity) > $timeout;
     }
     
-    private function generateUsernameFromName($name) {
+    private function generateUsernameFromName($name, $surname) {
         // Remove special characters and convert to lowercase
         $cleanName = preg_replace('/[^a-zA-Z\s]/', '', $name);
-        $nameParts = explode(' ', trim($cleanName));
+        $cleanSurname = preg_replace('/[^a-zA-Z\s]/', '', $surname);
         
-        // Use first name and last initial
-        $firstName = strtolower($nameParts[0] ?? 'user');
-        $lastName = isset($nameParts[1]) ? strtolower(substr($nameParts[1], 0, 1)) : '';
+        // Use first name and surname initial
+        $firstName = strtolower($cleanName);
+        $surnameInitial = isset($cleanSurname) ? strtolower(substr($cleanSurname, 0, 1)) : '';
         
-        $baseUsername = $firstName . $lastName;
+        $baseUsername = $firstName . $surnameInitial;
         
         // Add random number to ensure uniqueness
         $randomNumber = rand(100, 999);
@@ -421,7 +478,7 @@ class AuthController extends BaseController {
         
         // Check if username already exists, if so, generate another
         if ($this->userModel->findByUsername($username)) {
-            $username = $firstName . $lastName . rand(1000, 9999);
+            $username = $firstName . $surnameInitial . rand(1000, 9999);
         }
         
         return $username;

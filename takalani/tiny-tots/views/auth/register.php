@@ -32,7 +32,7 @@
             <form id="registerForm" method="POST" action="/register" class="login-form">
                 <div class="form-group">
                     <label for="name">
-                        <i class="fas fa-user"></i> Full Name *
+                        <i class="fas fa-id-card"></i> Full Name *
                     </label>
                     <input type="text" id="name" name="name" required 
                            autocomplete="name" placeholder="Enter your full name"
@@ -40,12 +40,101 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="surname">
+                        <i class="fas fa-user"></i> Surname *
+                    </label>
+                    <input type="text" id="surname" name="surname" required 
+                           autocomplete="family-name" placeholder="Enter your surname"
+                           value="<?= htmlspecialchars($old['surname'] ?? '') ?>">
+                </div>
+                
+                <div class="form-group">
                     <label for="email">
                         <i class="fas fa-envelope"></i> Email Address *
                     </label>
                     <input type="email" id="email" name="email" required 
-                           autocomplete="email" placeholder="Enter your email address"
+                           autocomplete="email" placeholder="your.email@example.com"
                            value="<?= htmlspecialchars($old['email'] ?? '') ?>">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">
+                        <i class="fas fa-phone"></i> Phone Number *
+                    </label>
+                    <input type="tel" id="phone" name="phone" required 
+                           autocomplete="tel" placeholder="Enter your phone number"
+                           value="<?= htmlspecialchars($old['phone'] ?? '') ?>">
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">
+                        <i class="fas fa-home"></i> Physical Address *
+                    </label>
+                    <input type="text" id="address" name="address" required 
+                           autocomplete="street-address" placeholder="Enter your physical address"
+                           value="<?= htmlspecialchars($old['address'] ?? '') ?>">
+                </div>
+                
+                <div class="form-group">
+                    <label for="city">
+                        <i class="fas fa-map-marker-alt"></i> City/Town *
+                    </label>
+                    <input type="text" id="city" name="city" required 
+                           autocomplete="address-level2" placeholder="Enter your city or town"
+                           value="<?= htmlspecialchars($old['city'] ?? '') ?>">
+                </div>
+                
+                <div class="form-group">
+                    <label for="province">
+                        <i class="fas fa-map"></i> Province *
+                    </label>
+                    <select id="province" name="province" required>
+                        <option value="">Select province</option>
+                        <option value="gauteng" <?= ($old['province'] ?? '') === 'gauteng' ? 'selected' : '' ?>>Gauteng</option>
+                        <option value="western-cape" <?= ($old['province'] ?? '') === 'western-cape' ? 'selected' : '' ?>>Western Cape</option>
+                        <option value="eastern-cape" <?= ($old['province'] ?? '') === 'eastern-cape' ? 'selected' : '' ?>>Eastern Cape</option>
+                        <option value="northern-cape" <?= ($old['province'] ?? '') === 'northern-cape' ? 'selected' : '' ?>>Northern Cape</option>
+                        <option value="free-state" <?= ($old['province'] ?? '') === 'free-state' ? 'selected' : '' ?>>Free State</option>
+                        <option value="kwazulu-natal" <?= ($old['province'] ?? '') === 'kwazulu-natal' ? 'selected' : '' ?>>KwaZulu-Natal</option>
+                        <option value="mpumalanga" <?= ($old['province'] ?? '') === 'mpumalanga' ? 'selected' : '' ?>>Mpumalanga</option>
+                        <option value="limpopo" <?= ($old['province'] ?? '') === 'limpopo' ? 'selected' : '' ?>>Limpopo</option>
+                        <option value="north-west" <?= ($old['province'] ?? '') === 'north-west' ? 'selected' : '' ?>>North West</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="postal-code">
+                        <i class="fas fa-mail-bulk"></i> Postal Code *
+                    </label>
+                    <input type="text" id="postal-code" name="postal_code" required 
+                           autocomplete="postal-code" placeholder="Enter postal code"
+                           value="<?= htmlspecialchars($old['postal_code'] ?? '') ?>">
+                </div>
+                
+                <div class="form-group">
+                    <label for="id-number">
+                        <i class="fas fa-id-card"></i> ID/Passport Number *
+                    </label>
+                    <input type="text" id="id-number" name="id_number" required 
+                           autocomplete="off" placeholder="Enter South African ID or Passport number"
+                           value="<?= htmlspecialchars($old['id_number'] ?? '') ?>">
+                </div>
+                
+                <div class="form-group">
+                    <label for="relationship">
+                        <i class="fas fa-heart"></i> Relationship to Child *
+                    </label>
+                    <select id="relationship" name="relationship" required>
+                        <option value="">Select relationship</option>
+                        <option value="mother" <?= ($old['relationship'] ?? '') === 'mother' ? 'selected' : '' ?>>Mother</option>
+                        <option value="father" <?= ($old['relationship'] ?? '') === 'father' ? 'selected' : '' ?>>Father</option>
+                        <option value="guardian" <?= ($old['relationship'] ?? '') === 'guardian' ? 'selected' : '' ?>>Legal Guardian</option>
+                        <option value="grandparent" <?= ($old['relationship'] ?? '') === 'grandparent' ? 'selected' : '' ?>>Grandparent</option>
+                        <option value="aunt" <?= ($old['relationship'] ?? '') === 'aunt' ? 'selected' : '' ?>>Aunt</option>
+                        <option value="uncle" <?= ($old['relationship'] ?? '') === 'uncle' ? 'selected' : '' ?>>Uncle</option>
+                        <option value="sibling" <?= ($old['relationship'] ?? '') === 'sibling' ? 'selected' : '' ?>>Sibling</option>
+                        <option value="other" <?= ($old['relationship'] ?? '') === 'other' ? 'selected' : '' ?>>Other</option>
+                    </select>
                 </div>
                 
                 <div class="form-group">
@@ -62,24 +151,6 @@
                     </label>
                     <input type="password" id="confirm_password" name="confirm_password" required 
                            autocomplete="new-password" placeholder="Confirm your password">
-                </div>
-                
-                <div class="form-group">
-                    <label for="name">
-                        <i class="fas fa-id-card"></i> Full Name *
-                    </label>
-                    <input type="text" id="name" name="name" required 
-                           placeholder="Enter your full name"
-                           value="<?= htmlspecialchars($old['name'] ?? '') ?>">
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">
-                        <i class="fas fa-envelope"></i> Email Address *
-                    </label>
-                    <input type="email" id="email" name="email" required 
-                           autocomplete="email" placeholder="your.email@example.com"
-                           value="<?= htmlspecialchars($old['email'] ?? '') ?>">
                 </div>
                 
                 <div class="form-group">
@@ -111,7 +182,7 @@
 <style>
 /* Register Page Styles */
 .login-container {
-    max-width: 500px;
+    max-width: 600px;
     margin: 2rem auto;
     padding: 0 1rem;
 }
@@ -148,14 +219,14 @@
 
 .form-group {
     margin-bottom: 1.5rem;
+    position: relative;
 }
 
 .form-group label {
     display: block;
-    color: var(--text-dark);
-    font-weight: 500;
     margin-bottom: 0.5rem;
-    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-dark);
 }
 
 .form-group label i {
@@ -166,19 +237,18 @@
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 1rem;
+    padding: 0.8rem;
     border: 2px solid var(--light-blue);
-    border-radius: 10px;
+    border-radius: 8px;
     font-size: 1rem;
-    transition: all 0.3s ease;
-    background: var(--warm-white);
+    transition: border-color 0.3s ease;
 }
 
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 8px rgba(135, 206, 235, 0.3);
+    box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.1);
 }
 
 .form-actions {
@@ -187,32 +257,6 @@
 
 .btn-full {
     width: 100%;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 25px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.alert {
-    padding: 1rem 1.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 10px;
-    font-weight: 500;
-}
-
-.alert-error {
-    background: #ff6b6b;
-    color: white;
-    border-left: 5px solid #d63031;
-}
-
-.alert-error ul {
-    margin: 0.5rem 0 0 1.5rem;
-    padding: 0;
-}
 
 .alert-error li {
     margin-bottom: 0.3rem;
