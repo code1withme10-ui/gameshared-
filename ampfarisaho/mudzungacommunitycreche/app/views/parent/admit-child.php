@@ -2,8 +2,8 @@
 require_once __DIR__ . '/../../middleware/auth.php';
 requireRole('parent');
 
-require_once __DIR__ . '/../../partials/header.php';
-require_once __DIR__ . '/../../partials/navbar.php';
+require_once __DIR__ . '/../partials/header.php';
+require_once __DIR__ . '/../partials/navbar.php';
 require_once __DIR__ . '/../../services/JsonStorage.php';
 
 $parentId = $_SESSION['user']['id'];
@@ -195,4 +195,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../../partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
