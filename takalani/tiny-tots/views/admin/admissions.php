@@ -91,7 +91,7 @@
                             <i class="fas fa-sort"></i>
                         </div>
                         <div>Grade</div>
-                        <div class="sortable" onclick="sortApplications('submittedAt')">
+                        <div class="sortable" onclick="sortApplications('submitted_at')">
                             Submitted Date
                             <i class="fas fa-sort"></i>
                         </div>
@@ -120,7 +120,7 @@
                                 <span class="grade-badge"><?= htmlspecialchars($gradeCategories[$application['gradeApplyingFor']] ?? 'N/A') ?></span>
                             </div>
                             <div>
-                                <span class="submit-date"><?= date('M j, Y', strtotime($application['submittedAt'])) ?></span>
+                                <span class="submit-date"><?= date('M j, Y', strtotime($application['submittedAt'] ?? $application['submitted_at'] ?? '1970-01-01')) ?></span>
                             </div>
                             <div>
                                 <span class="status-badge status-<?= strtolower($application['status']) ?>">
