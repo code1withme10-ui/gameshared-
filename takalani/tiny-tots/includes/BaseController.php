@@ -41,8 +41,22 @@ class BaseController {
     }
     
     protected function validateCsrf() {
-        return isset($_POST['csrf_token']) && 
-               hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token']);
+        // Check POST data first
+        if (isset($_POST['csrf_token']) && 
+            hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+            return true;
+        }
+        
+        // Check header as fallback
+        $headers = getallheaders();
+        $csrfHeader = $headers['X-CSRF-Token'] ?? $headers['X-Csrf-Token'] ?? '';
+        
+        if (!empty($csrfHeader) && 
+            hash_equals($_SESSION['csrf_token'] ?? '', $csrfHeader)) {
+            return true;
+        }
+        
+        return false;
     }
     
     protected function generateCsrfToken() {
