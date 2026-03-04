@@ -238,6 +238,7 @@ class AdmissionController extends BaseController {
             'admissions' => $allAdmissions,
             'status' => $status,
             'stats' => $stats,
+            'csrfToken' => $this->generateCsrfToken(),
             'gradeCategories' => [
                 'toddlers' => 'Toddlers (0-2 years)',
                 'playgroup' => 'Playgroup (2-3 years)',
