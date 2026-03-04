@@ -130,6 +130,9 @@ class AuthController extends BaseController {
     }
     
     public function register() {
+        // Debug: Check if register method is being called
+        error_log("AuthController::register() called with method: " . $_SERVER['REQUEST_METHOD']);
+        
         // Check if user is already logged in
         if (isset($_SESSION['user'])) {
             $this->redirectBasedOnRole($_SESSION['user']['role']);
@@ -137,17 +140,31 @@ class AuthController extends BaseController {
         }
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Debug: Log POST data
+            error_log("POST data received: " . print_r($_POST, true));
+            
             $userData = [
-                'username' => sanitizeInput($_POST['username'] ?? ''),
-                'password' => $_POST['password'] ?? '',
-                'confirm_password' => $_POST['confirm_password'] ?? '',
                 'name' => sanitizeInput($_POST['name'] ?? ''),
+                'surname' => sanitizeInput($_POST['surname'] ?? ''),
                 'email' => sanitizeInput($_POST['email'] ?? ''),
-                'role' => sanitizeInput($_POST['role'] ?? 'parent')
+                'phone' => sanitizeInput($_POST['phone'] ?? ''),
+                'address' => sanitizeInput($_POST['address'] ?? ''),
+                'city' => sanitizeInput($_POST['city'] ?? ''),
+                'province' => sanitizeInput($_POST['province'] ?? ''),
+                'postal_code' => sanitizeInput($_POST['postal_code'] ?? ''),
+                'id_number' => sanitizeInput($_POST['id_number'] ?? ''),
+                'relationship' => sanitizeInput($_POST['relationship'] ?? ''),
+                'password' => $_POST['password'] ?? '',
+                'confirm_password' => $_POST['confirm_password'] ?? ''
             ];
             
             // Enhanced validation
             $errors = $this->validateRegistration($userData);
+            
+            // Check if terms and conditions are accepted
+            if (!isset($_POST['terms']) || $_POST['terms'] !== 'on') {
+                $errors['terms'] = 'You must accept the terms and conditions to create an account';
+            }
             
             if (!empty($errors)) {
                 $this->render('auth/register', [
@@ -169,6 +186,9 @@ class AuthController extends BaseController {
                 $userData['password'] = password_hash($userData['password'], PASSWORD_DEFAULT);
                 unset($userData['confirm_password']);
                 
+                // Debug: Log the data being sent to UserModel
+                error_log("Registration data: " . print_r($userData, true));
+                
                 $user = $this->userModel->createUser($userData);
                 
                 // Auto-login the user after successful registration
@@ -176,7 +196,10 @@ class AuthController extends BaseController {
                 $_SESSION['user'] = $user;
                 $_SESSION['login_time'] = time();
                 
-                $this->setFlashMessage('success', 'Registration successful! Welcome to Tiny Tots Creche.');
+                // Store username for display in success message
+                $_SESSION['generated_username'] = $userData['username'];
+                
+                $this->setFlashMessage('success', "Registration successful! Your username is: <strong>{$userData['username']}</strong>. You have been automatically logged in.");
                 
                 // Redirect to intended destination or dashboard
                 $redirectUrl = $_SESSION['redirect_after_login'] ?? null;

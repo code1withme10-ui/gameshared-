@@ -153,8 +153,48 @@
                            autocomplete="new-password" placeholder="Confirm your password">
                 </div>
                 
+                <!-- Terms and Conditions - Very Visible -->
+                <div class="terms-section">
+                    <div class="terms-header">
+                        <i class="fas fa-file-contract"></i>
+                        <h3>Terms and Conditions</h3>
+                    </div>
+                    
+                    <div class="terms-content">
+                        <div class="terms-box">
+                            <h4>Important - Please Read Carefully</h4>
+                            <p>By registering with Tiny Tots Creche, you agree to:</p>
+                            <ul>
+                                <li><i class="fas fa-check-circle"></i> Provide accurate and truthful information</li>
+                                <li><i class="fas fa-check-circle"></i> Keep your login credentials secure</li>
+                                <li><i class="fas fa-check-circle"></i> Follow all creche policies and procedures</li>
+                                <li><i class="fas fa-check-circle"></i> Update us on any changes to your contact information</li>
+                                <li><i class="fas fa-check-circle"></i> Allow us to contact you regarding your child's education</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="terms-agreement">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="terms" name="terms" required>
+                                <span class="checkmark"></span>
+                                <strong>I have read and agree to the Terms and Conditions</strong>
+                            </label>
+                            <?php if (isset($errors['terms'])): ?>
+                                <div class="alert alert-error">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <?= htmlspecialchars($errors['terms']) ?>
+                                </div>
+                            <?php endif; ?>
+                            <p class="terms-note">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                You must accept the terms and conditions to create an account
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary btn-full">
+                    <button type="submit" class="btn btn-primary btn-full" id="submitBtn" disabled>
                         <i class="fas fa-user-plus"></i> Create Account
                     </button>
                 </div>
@@ -272,6 +312,132 @@
     text-decoration: underline;
 }
 
+/* Terms and Conditions Styling */
+.terms-section {
+    background: linear-gradient(135deg, #fff3cd, #fff8e1);
+    border: 2px solid #ffc107;
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
+}
+
+.terms-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: #856404;
+}
+
+.terms-header i {
+    font-size: 1.5rem;
+    color: #ffc107;
+}
+
+.terms-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.terms-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.terms-box {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 1px solid #ffc107;
+}
+
+.terms-box h4 {
+    color: #856404;
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.terms-box p {
+    color: #856404;
+    margin: 0 0 1rem 0;
+    font-weight: 500;
+}
+
+.terms-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.terms-box li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    color: #856404;
+    font-size: 0.95rem;
+}
+
+.terms-box li i {
+    color: #28a745;
+    font-size: 1rem;
+}
+
+.terms-agreement {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+}
+
+.terms-note {
+    margin: 0;
+    padding: 0.5rem;
+    background: #d1ecf1;
+    border-radius: 5px;
+    color: #0c5460;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.terms-note i {
+    color: #17a2b8;
+}
+
+#submitBtn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#submitBtn:disabled:hover {
+    background: #6c757d;
+    transform: none;
+}
+
 @media (max-width: 768px) {
     .login-container {
         margin: 1rem auto;
@@ -288,5 +454,40 @@
     .login-footer {
         padding: 1.5rem;
     }
+    
+    .terms-section {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .terms-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.3rem;
+    }
+    
+    .terms-box {
+        padding: 1rem;
+    }
+    
+    .terms-box li {
+        font-size: 0.9rem;
+    }
+    
+    .checkbox-label {
+        font-size: 0.9rem;
+    }
 }
 </style>
+
+<!-- Terms and Conditions JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const termsCheckbox = document.getElementById('terms');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    termsCheckbox.addEventListener('change', function() {
+        submitBtn.disabled = !this.checked;
+    });
+});
+</script>

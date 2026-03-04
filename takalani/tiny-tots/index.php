@@ -46,8 +46,9 @@ $routes = [
     '/admin/delete-user' => ['AdminController', 'deleteUser'],
     '/admin/settings' => ['AdminController', 'settings'],
     
-    // Parent routes (placeholder)
+    // Parent routes
     '/parent/portal' => ['ParentController', 'portal'],
+    '/parent/profile' => ['ParentController', 'profile'],
 ];
 
 // Handle 404

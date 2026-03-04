@@ -361,12 +361,40 @@
                         <ul id="errorList"></ul>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="terms" name="terms" required>
-                            <span class="checkmark"></span>
-                            I certify that all information provided is accurate and complete. I understand that false information may result in the rejection of this application.
-                        </label>
+                    <!-- Terms and Conditions - Highly Visible -->
+                    <div class="terms-section">
+                        <div class="terms-header">
+                            <i class="fas fa-file-contract"></i>
+                            <h3>Admission Terms and Conditions</h3>
+                        </div>
+                        
+                        <div class="terms-content">
+                            <div class="terms-box">
+                                <h4>Important - Please Read Carefully</h4>
+                                <p>By submitting this admission application, you agree to the following terms:</p>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> All information provided is accurate and complete</li>
+                                    <li><i class="fas fa-check-circle"></i> False information may result in application rejection</li>
+                                    <li><i class="fas fa-check-circle"></i> You consent to background checks if required</li>
+                                    <li><i class="fas fa-check-circle"></i> You agree to follow all creche policies and procedures</li>
+                                    <li><i class="fas fa-check-circle"></i> You authorize emergency medical treatment if needed</li>
+                                    <li><i class="fas fa-check-circle"></i> You understand fees and payment terms</li>
+                                    <li><i class="fas fa-check-circle"></i> You agree to provide required documentation</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="terms-agreement">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="terms" name="terms" required>
+                                    <span class="checkmark"></span>
+                                    <strong>I have read, understood, and agree to all the terms and conditions above</strong>
+                                </label>
+                                <p class="terms-note">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    You must accept the terms and conditions to submit your application
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </fieldset>
 
@@ -1075,6 +1103,30 @@ input[type="file"]:hover {
         max-width: 300px;
         justify-content: center;
     }
+    
+    /* Terms and Conditions Responsive */
+    .terms-section {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .terms-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.3rem;
+    }
+    
+    .terms-box {
+        padding: 1rem;
+    }
+    
+    .terms-box li {
+        font-size: 0.9rem;
+    }
+    
+    .terms-agreement .checkbox-label {
+        font-size: 0.9rem;
+    }
 }
 
 .page-hero h1 {
@@ -1215,6 +1267,116 @@ input[type="file"]:hover {
     width: auto;
     margin-right: 0.8rem;
     margin-top: 0.2rem;
+}
+
+/* Admission Terms and Conditions Styling */
+.terms-section {
+    background: linear-gradient(135deg, #fff3cd, #fff8e1);
+    border: 2px solid #ffc107;
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
+}
+
+.terms-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: #856404;
+}
+
+.terms-header i {
+    font-size: 1.5rem;
+    color: #ffc107;
+}
+
+.terms-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.terms-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.terms-box {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 1px solid #ffc107;
+}
+
+.terms-box h4 {
+    color: #856404;
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.terms-box p {
+    color: #856404;
+    margin: 0 0 1rem 0;
+    font-weight: 500;
+}
+
+.terms-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.terms-box li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    color: #856404;
+    font-size: 0.95rem;
+}
+
+.terms-box li i {
+    color: #28a745;
+    font-size: 1rem;
+}
+
+.terms-agreement {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+}
+
+.terms-agreement .checkbox-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.terms-agreement .checkbox-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primary-color);
+}
+
+.terms-note {
+    margin: 0;
+    padding: 0.5rem;
+    background: #d1ecf1;
+    border-radius: 5px;
+    color: #0c5460;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.terms-note i {
+    color: #17a2b8;
 }
 
 .alert {

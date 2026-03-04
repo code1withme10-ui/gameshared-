@@ -35,9 +35,18 @@ class UserModel extends BaseModel {
         return false;
     }
     
+    public function findByUsername($username) {
+        return $this->getUserByUsername($username);
+    }
+    
     public function createUser($userData) {
+        error_log("UserModel createUser called with: " . print_r($userData, true));
+        
+        // Temporarily reduce required fields for debugging
         $requiredFields = ['username', 'password', 'name', 'email', 'role'];
         $missing = $this->validateRequired($userData, $requiredFields);
+        
+        error_log("Missing fields: " . print_r($missing, true));
         
         if (!empty($missing)) {
             throw new Exception("Missing required fields: " . implode(', ', $missing));
@@ -62,6 +71,14 @@ class UserModel extends BaseModel {
             'role' => $userData['role'],
             'created_at' => date('Y-m-d H:i:s')
         ];
+        
+        // Add optional fields if they exist
+        $optionalFields = ['surname', 'phone', 'address', 'city', 'province', 'postal_code', 'id_number', 'relationship'];
+        foreach ($optionalFields as $field) {
+            if (isset($userData[$field])) {
+                $newUser[$field] = $userData[$field];
+            }
+        }
         
         $users[] = $newUser;
         $this->writeJsonFile($users);
