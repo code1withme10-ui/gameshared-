@@ -268,6 +268,7 @@ class AdmissionController extends BaseController {
         $this->render('admin/application-details', [
             'pageTitle' => 'Application Details - Tiny Tots Creche',
             'admission' => $admission,
+            'csrfToken' => $this->generateCsrfToken(),
             'gradeCategories' => [
                 'toddlers' => 'Toddlers (0-2 years)',
                 'playgroup' => 'Playgroup (2-3 years)',
