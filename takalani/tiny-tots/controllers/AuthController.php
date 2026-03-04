@@ -60,6 +60,11 @@ class AuthController extends BaseController {
             // Authenticate user
             $user = $this->userModel->authenticate($username, $password);
             
+            // If not found in users.json, check headmaster.json
+            if (!$user) {
+                $user = $this->authenticateHeadmaster($username, $password);
+            }
+            
             if ($user) {
                 // Log successful login
                 $this->logLoginAttempt($username, true, $user['role']);
@@ -739,6 +744,33 @@ Tiny Tots Creche Team
         
         // Log email (in production, use actual email service)
         error_log("Password reset email sent to {$email}: " . $emailContent);
+    }
+    
+    private function authenticateHeadmaster($username, $password) {
+        $headmasterFile = DATA_PATH . '/headmaster.json';
+        
+        if (!file_exists($headmasterFile)) {
+            return false;
+        }
+        
+        $headmasters = json_decode(file_get_contents($headmasterFile), true);
+        
+        foreach ($headmasters as $headmaster) {
+            if ($headmaster['username'] === $username && $headmaster['password'] === $password) {
+                // Add role and other required fields
+                return [
+                    'id' => 'headmaster_001',
+                    'username' => $headmaster['username'],
+                    'password' => $headmaster['password'],
+                    'name' => $headmaster['name'],
+                    'email' => $headmaster['email'],
+                    'phone' => $headmaster['phone'],
+                    'role' => 'headmaster'
+                ];
+            }
+        }
+        
+        return false;
     }
 }
 ?>
