@@ -11,8 +11,10 @@
                     </div>
                 <?php else: ?>
                     <div class="login-purpose">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Username will be automatically generated from your name</span>
+                        <i class="fas fa-check-circle"></i>
+                        <span><strong>Registration Successful!</strong><br>
+                        Your username is: <strong class="username-highlight"><?= htmlspecialchars($_SESSION['generated_username'] ?? '') ?></strong><br>
+                        Please save this username for future login.
                     </div>
                 <?php endif; ?>
             </div>
@@ -310,6 +312,24 @@
 
 .login-footer a:hover {
     text-decoration: underline;
+}
+
+.username-highlight {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    display: inline-block;
+    margin: 0.5rem 0;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
 /* Terms and Conditions Styling */

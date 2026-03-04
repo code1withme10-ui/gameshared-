@@ -28,25 +28,38 @@
                 <fieldset class="form-section">
                     <legend><i class="fas fa-user"></i> SECTION 2: PARENT / GUARDIAN DETAILS</legend>
                     
-                    <div class="form-group">
-                        <label for="parentFullName">Parent Full Name *</label>
-                        <input type="text" id="parentFullName" name="parentFullName" required
-                               value="<?= htmlspecialchars($old['parentFullName'] ?? '') ?>">
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Parent Information Auto-Filled</strong><br>
+                            Your details have been automatically filled from your profile. You can edit them if needed.
+                        </div>
+                    <?php endif; ?>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="parentFullName">Parent Full Name *</label>
+                            <input type="text" id="parentFullName" name="parentFullName" required
+                                   value="<?= htmlspecialchars(isset($_SESSION['user']) ? ($_SESSION['user']['name'] . ' ' . $_SESSION['user']['surname']) : ($old['parentFullName'] ?? '')) ?>"
+                                   <?= isset($_SESSION['user']) ? 'readonly' : '' ?>>
+                        </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
                             <label for="relationshipToChild">Relationship to Child *</label>
                             <input type="text" id="relationshipToChild" name="relationshipToChild" required
-                                   value="<?= htmlspecialchars($old['relationshipToChild'] ?? '') ?>"
-                                   placeholder="e.g., Mother, Father, Guardian">
+                                   value="<?= htmlspecialchars(isset($_SESSION['user']) ? ($_SESSION['user']['relationship'] ?? '') : ($old['relationshipToChild'] ?? '')) ?>"
+                                   placeholder="e.g., Mother, Father, Guardian"
+                                   <?= isset($_SESSION['user']) ? 'readonly' : '' ?>>
                         </div>
                         
                         <div class="form-group">
                             <label for="parentIdNumber">ID No/Passport No *</label>
                             <input type="text" id="parentIdNumber" name="parentIdNumber" required
-                                   value="<?= htmlspecialchars($old['parentIdNumber'] ?? '') ?>"
-                                   placeholder="Enter ID or Passport number">
+                                   value="<?= htmlspecialchars(isset($_SESSION['user']) ? ($_SESSION['user']['id_number'] ?? '') : ($old['parentIdNumber'] ?? '')) ?>"
+                                   placeholder="Enter ID or Passport number"
+                                   <?= isset($_SESSION['user']) ? 'readonly' : '' ?>>
                         </div>
                     </div>
                     
@@ -54,16 +67,18 @@
                         <div class="form-group">
                             <label for="emailAddress">Email Address *</label>
                             <input type="email" id="emailAddress" name="emailAddress" required
-                                   value="<?= htmlspecialchars($old['emailAddress'] ?? '') ?>"
-                                   placeholder="your.email@example.com">
+                                   value="<?= htmlspecialchars(isset($_SESSION['user']) ? ($_SESSION['user']['email'] ?? '') : ($old['emailAddress'] ?? '')) ?>"
+                                   placeholder="your.email@example.com"
+                                   <?= isset($_SESSION['user']) ? 'readonly' : '' ?>>
                             <small class="form-help">Must be a valid email format</small>
                         </div>
                         
                         <div class="form-group">
                             <label for="phone">Phone Number *</label>
                             <input type="tel" id="phone" name="phone" required
-                                   value="<?= htmlspecialchars($old['phone'] ?? '') ?>"
-                                   placeholder="Enter phone number">
+                                   value="<?= htmlspecialchars(isset($_SESSION['user']) ? ($_SESSION['user']['phone'] ?? '') : ($old['phone'] ?? '')) ?>"
+                                   placeholder="Enter phone number"
+                                   <?= isset($_SESSION['user']) ? 'readonly' : '' ?>>
                             <small class="form-help">Must be a valid phone number</small>
                         </div>
                     </div>
@@ -71,8 +86,9 @@
                     <div class="form-group">
                         <label for="parentAddress">Residential Address *</label>
                         <input type="text" id="parentAddress" name="parentAddress" required
-                               value="<?= htmlspecialchars($old['parentAddress'] ?? '') ?>"
-                               placeholder="Enter parent's residential address">
+                               value="<?= htmlspecialchars(isset($_SESSION['user']) ? ($_SESSION['user']['address'] ?? '') : ($old['parentAddress'] ?? '')) ?>"
+                               placeholder="Enter parent's residential address"
+                               <?= isset($_SESSION['user']) ? 'readonly' : '' ?>>
                     </div>
                 </fieldset>
 
@@ -1104,7 +1120,35 @@ input[type="file"]:hover {
         justify-content: center;
     }
     
-    /* Terms and Conditions Responsive */
+    /* Auto-filled fields styling */
+input[readonly] {
+    background-color: #f8f9fa;
+    border-color: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+input[readonly]:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Parent info alert styling */
+.alert-info {
+    background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+    border: 1px solid #b8daff;
+    color: #0c5460;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.alert-info strong {
+    color: #0c5460;
+    font-weight: 700;
+}
+
+/* Terms and Conditions Responsive */
     .terms-section {
         padding: 1rem;
         margin: 1rem 0;
