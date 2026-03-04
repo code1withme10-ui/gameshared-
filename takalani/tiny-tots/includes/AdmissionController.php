@@ -336,6 +336,9 @@ class AdmissionController {
         // Get recent applications (last 5)
         $recentApplications = array_slice($allAdmissions, 0, 5);
         
+        // Generate CSRF token
+        $csrfToken = $this->generateCsrfToken();
+        
         include VIEWS_PATH . '/admin/dashboard.php';
     }
     
@@ -343,6 +346,12 @@ class AdmissionController {
         requireRole('headmaster');
         
         header('Content-Type: application/json');
+        
+        // Validate CSRF token
+        if (!$this->validateCsrf()) {
+            echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+            return;
+        }
         
         try {
             $data = json_decode(file_get_contents('php://input'), true);
@@ -408,6 +417,12 @@ class AdmissionController {
         requireRole('headmaster');
         
         header('Content-Type: application/json');
+        
+        // Validate CSRF token
+        if (!$this->validateCsrf()) {
+            echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+            return;
+        }
         
         try {
             $data = json_decode(file_get_contents('php://input'), true);

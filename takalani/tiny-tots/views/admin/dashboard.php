@@ -1088,3 +1088,8 @@ window.onclick = function(event) {
 
 <input type="hidden" id="admitApplicationId" value="">
 <input type="hidden" id="rejectApplicationId" value="">
+
+<!-- CSRF Token for AJAX requests -->
+<script>
+window.csrfToken = '<?= htmlspecialchars($csrfToken) ?>';
+</script>
