@@ -22,7 +22,7 @@
                 </div>
                 
                 <div class="action-buttons">
-                    <?php if ($admission['status'] === 'Pending'): ?>
+                    <?php if ($admission['status'] !== 'Approved' && $admission['status'] !== 'Rejected'): ?>
                         <button onclick="showAdmitModal('<?= htmlspecialchars($admission['id']) ?>', '<?= htmlspecialchars($admission['childFirstName'] . ' ' . $admission['childSurname']) ?>')" 
                                 class="btn btn-success">
                             <i class="fas fa-check"></i> Admit Student

@@ -107,7 +107,7 @@
                                             <i class="fas fa-eye"></i> View
                                         </button>
                                         
-                                        <?php if ($admission['status'] === 'Pending'): ?>
+                                        <?php if ($admission['status'] !== 'Approved' && $admission['status'] !== 'Rejected'): ?>
                                             <button onclick="showAdmitModal('<?= htmlspecialchars($admission['id']) ?>', '<?= htmlspecialchars($admission['childFirstName'] . ' ' . $admission['childSurname']) ?>')" 
                                                     class="btn-small btn-admit">
                                                 <i class="fas fa-check"></i> Admit
