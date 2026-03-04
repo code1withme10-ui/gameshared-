@@ -310,5 +310,24 @@ class AdmissionController {
         
         return ['valid' => true, 'message' => 'Age is appropriate for selected grade'];
     }
+    
+    public function dashboard() {
+        requireRole('headmaster');
+        
+        $allAdmissions = $this->admissionModel->getAllAdmissions();
+        
+        // Calculate statistics
+        $stats = [
+            'total' => count($allAdmissions),
+            'pending' => count(array_filter($allAdmissions, function($a) { return $a['status'] === 'Pending'; })),
+            'approved' => count(array_filter($allAdmissions, function($a) { return $a['status'] === 'Approved'; })),
+            'rejected' => count(array_filter($allAdmissions, function($a) { return $a['status'] === 'Rejected'; }))
+        ];
+        
+        // Get recent applications (last 5)
+        $recentApplications = array_slice($allAdmissions, 0, 5);
+        
+        include VIEWS_PATH . '/admin/dashboard.php';
+    }
 }
 ?>
