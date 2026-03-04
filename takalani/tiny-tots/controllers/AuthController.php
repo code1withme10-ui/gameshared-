@@ -162,6 +162,9 @@ class AuthController extends BaseController {
                 // Auto-generate username from parent details
                 $userData['username'] = $this->generateUsernameFromName($userData['name'], $userData['surname']);
                 
+                // Auto-set role as parent since account type field is removed
+                $userData['role'] = 'parent';
+                
                 // Hash password securely
                 $userData['password'] = password_hash($userData['password'], PASSWORD_DEFAULT);
                 unset($userData['confirm_password']);
@@ -358,10 +361,6 @@ class AuthController extends BaseController {
             'mother', 'father', 'guardian', 'grandparent', 'aunt', 'uncle', 'sibling', 'other'
         ])) {
             $errors['relationship'] = 'Invalid relationship selected';
-        }
-        
-        if (!in_array($userData['role'], ['parent', 'headmaster'])) {
-            $errors['role'] = 'Invalid role selected';
         }
         
         return $errors;

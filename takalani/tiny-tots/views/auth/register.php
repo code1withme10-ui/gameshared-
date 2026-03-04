@@ -153,17 +153,6 @@
                            autocomplete="new-password" placeholder="Confirm your password">
                 </div>
                 
-                <div class="form-group">
-                    <label for="role">
-                        <i class="fas fa-user-tag"></i> Account Type *
-                    </label>
-                    <select id="role" name="role" required>
-                        <option value="">Select account type</option>
-                        <option value="parent" <?= ($old['role'] ?? '') === 'parent' ? 'selected' : '' ?>>Parent</option>
-                        <option value="headmaster" <?= ($old['role'] ?? '') === 'headmaster' ? 'selected' : '' ?>>Headmaster</option>
-                    </select>
-                </div>
-                
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary btn-full">
                         <i class="fas fa-user-plus"></i> Create Account
