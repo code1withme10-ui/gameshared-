@@ -49,6 +49,7 @@ $routes = [
     // Parent routes
     '/parent/portal' => ['ParentController', 'portal'],
     '/parent/profile' => ['ParentController', 'profile'],
+    '/parent/application-status' => ['ParentController', 'applicationStatus'],
 ];
 
 // Handle 404

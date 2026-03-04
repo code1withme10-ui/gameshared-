@@ -1,3 +1,21 @@
+<?php
+// Helper function for progress percentage
+function getProgressPercentage($status) {
+    switch ($status) {
+        case 'pending':
+            return 25;
+        case 'under-review':
+            return 50;
+        case 'approved':
+            return 100;
+        case 'rejected':
+            return 0;
+        default:
+            return 25;
+    }
+}
+?>
+
 <?php require_once VIEWS_PATH . '/layouts/header.php'; ?>
 
 <div class="content-wrapper">
@@ -51,6 +69,110 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Application Status Section -->
+    <section class="applications-section">
+        <div class="container">
+            <h2>📋 Your Applications</h2>
+            
+            <?php if (empty($applications)): ?>
+                <div class="no-applications">
+                    <div class="no-applications-card">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>No Applications Yet</h3>
+                        <p>You haven't submitted any admission applications yet.</p>
+                        <a href="/admission" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Apply for Admission
+                        </a>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="applications-grid">
+                    <?php foreach ($applications as $application): ?>
+                        <div class="application-card">
+                            <div class="application-header">
+                                <div class="application-info">
+                                    <h3><?= htmlspecialchars($application['child_name']) ?></h3>
+                                    <p class="application-id">ID: <?= htmlspecialchars($application['id']) ?></p>
+                                </div>
+                                <div class="application-status">
+                                    <?php
+                                    $statusClass = '';
+                                    $statusIcon = '';
+                                    switch ($application['status']) {
+                                        case 'pending':
+                                            $statusClass = 'status-pending';
+                                            $statusIcon = 'fas fa-clock';
+                                            break;
+                                        case 'under-review':
+                                            $statusClass = 'status-review';
+                                            $statusIcon = 'fas fa-eye';
+                                            break;
+                                        case 'approved':
+                                            $statusClass = 'status-approved';
+                                            $statusIcon = 'fas fa-check-circle';
+                                            break;
+                                        case 'rejected':
+                                            $statusClass = 'status-rejected';
+                                            $statusIcon = 'fas fa-times-circle';
+                                            break;
+                                        default:
+                                            $statusClass = 'status-pending';
+                                            $statusIcon = 'fas fa-clock';
+                                    }
+                                    ?>
+                                    <span class="status-badge <?= $statusClass ?>">
+                                        <i class="<?= $statusIcon ?>"></i>
+                                        <?= ucfirst(str_replace('-', ' ', $application['status'])) ?>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="application-details">
+                                <div class="detail-row">
+                                    <span class="label">Age:</span>
+                                    <span class="value"><?= htmlspecialchars($application['child_age']) ?> years</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="label">Grade:</span>
+                                    <span class="value"><?= htmlspecialchars($application['grade']) ?></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="label">Submitted:</span>
+                                    <span class="value"><?= date('M j, Y', strtotime($application['submitted_at'])) ?></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="label">Last Updated:</span>
+                                    <span class="value"><?= date('M j, Y', strtotime($application['updated_at'])) ?></span>
+                                </div>
+                            </div>
+                            
+                            <div class="application-progress">
+                                <div class="progress-header">
+                                    <span>Application Progress</span>
+                                    <span class="progress-percentage"><?= getProgressPercentage($application['status']) ?>%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: <?= getProgressPercentage($application['status']) ?>%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="application-actions">
+                                <a href="/parent/application-status?id=<?= htmlspecialchars($application['id']) ?>" class="btn btn-outline">
+                                    <i class="fas fa-eye"></i> View Details
+                                </a>
+                                <?php if ($application['status'] === 'pending'): ?>
+                                    <a href="/admission" class="btn btn-secondary">
+                                        <i class="fas fa-edit"></i> Edit Application
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 
@@ -137,7 +259,218 @@
 </div>
 
 <style>
-/* Parent Portal Styles */
+/* Application Status Section */
+.applications-section {
+    padding: 3rem 0;
+    background: var(--warm-white);
+    border-radius: 20px;
+    margin-bottom: 2rem;
+}
+
+.applications-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 3rem;
+}
+
+.no-applications {
+    text-align: center;
+    padding: 3rem;
+}
+
+.no-applications-card {
+    background: white;
+    border-radius: 15px;
+    padding: 3rem;
+    box-shadow: 0 8px 25px var(--shadow-light);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.no-applications-card i {
+    font-size: 4rem;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+}
+
+.no-applications-card h3 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.no-applications-card p {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.applications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.application-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 8px 25px var(--shadow-light);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.application-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px var(--shadow-dark);
+    border-color: var(--primary-color);
+}
+
+.application-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.application-info h3 {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin: 0 0 0.5rem 0;
+}
+
+.application-id {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffc107;
+}
+
+.status-review {
+    background: #cce5ff;
+    color: #004085;
+    border: 1px solid #007bff;
+}
+
+.status-approved {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #28a745;
+}
+
+.status-rejected {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #dc3545;
+}
+
+.application-details {
+    margin-bottom: 1.5rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--light-blue);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-row .label {
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.detail-row .value {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.application-progress {
+    margin-bottom: 1.5rem;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.progress-header span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.progress-percentage {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.progress-bar {
+    height: 8px;
+    background: var(--light-blue);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.application-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.application-actions .btn {
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .applications-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .application-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .application-actions {
+        flex-direction: column;
+    }
+    
+    .no-applications-card {
+        padding: 2rem;
+    }
+}
 .welcome-section {
     padding: 3rem 0;
     background: linear-gradient(135deg, var(--warm-white), var(--light-blue));

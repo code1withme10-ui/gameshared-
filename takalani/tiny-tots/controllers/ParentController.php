@@ -9,8 +9,13 @@ class ParentController extends BaseController {
     }
     
     public function portal() {
+        // Get parent's admission applications
+        $admissionModel = new AdmissionModel('admissions.json');
+        $parentApplications = $admissionModel->getApplicationsByParent($_SESSION['user']['id']);
+        
         $this->render('parent/portal', [
-            'pageTitle' => 'Parent Portal - Tiny Tots Creche'
+            'pageTitle' => 'Parent Portal - Tiny Tots Creche',
+            'applications' => $parentApplications
         ]);
     }
     
@@ -23,6 +28,23 @@ class ParentController extends BaseController {
                 'user' => $_SESSION['user']
             ]);
         }
+    }
+    
+    public function applicationStatus() {
+        $applicationId = $_GET['id'] ?? '';
+        $admissionModel = new AdmissionModel('admissions.json');
+        $application = $admissionModel->getApplicationById($applicationId);
+        
+        if (!$application || $application['parent_id'] != $_SESSION['user']['id']) {
+            $this->setFlashMessage('error', 'Application not found or access denied');
+            redirect('/parent/portal');
+            return;
+        }
+        
+        $this->render('parent/application-status', [
+            'pageTitle' => 'Application Status - Tiny Tots Creche',
+            'application' => $application
+        ]);
     }
     
     private function updateProfile() {

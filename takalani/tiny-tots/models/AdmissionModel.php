@@ -43,6 +43,7 @@ class AdmissionModel extends BaseModel {
         $newAdmission = [
             'applicationID' => $this->generateApplicationId(),
             'id' => $this->generateId(),
+            'parent_id' => $_SESSION['user_id'] ?? null, // Add parent_id from session
             'parentFirstName' => $admissionData['parentFirstName'],
             'parentSurname' => $admissionData['parentSurname'],
             'contactNumber' => $admissionData['contactNumber'],
@@ -61,9 +62,13 @@ class AdmissionModel extends BaseModel {
             'childAddress' => $admissionData['childAddress'] ?? '',
             'transportation' => $admissionData['transportation'] ?? 'none',
             'specialNeeds' => $admissionData['specialNeeds'] ?? '',
-            'status' => 'Pending',
-            'submittedAt' => date('Y-m-d H:i:s'),
-            'age' => $age
+            'status' => 'pending',
+            'submitted_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+            'age' => $age,
+            'child_name' => $admissionData['childFirstName'] . ' ' . $admissionData['childSurname'],
+            'child_age' => $age,
+            'grade' => $admissionData['gradeApplyingFor']
         ];
         
         // Add optional fields
@@ -193,6 +198,31 @@ class AdmissionModel extends BaseModel {
         }
         
         return ['valid' => true, 'message' => 'Age is appropriate for selected grade'];
+    }
+    
+    public function getApplicationsByParent($parentId) {
+        $admissions = $this->readJsonFile();
+        $parentApplications = [];
+        
+        foreach ($admissions as $admission) {
+            if (isset($admission['parent_id']) && $admission['parent_id'] === $parentId) {
+                $parentApplications[] = $admission;
+            }
+        }
+        
+        return $parentApplications;
+    }
+    
+    public function getApplicationById($applicationId) {
+        $admissions = $this->readJsonFile();
+        
+        foreach ($admissions as $admission) {
+            if (isset($admission['id']) && $admission['id'] === $applicationId) {
+                return $admission;
+            }
+        }
+        
+        return false;
     }
 }
 ?>
