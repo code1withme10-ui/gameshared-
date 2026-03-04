@@ -159,20 +159,30 @@ class AuthController extends BaseController {
             }
             
             try {
+                // Auto-generate username from parent details
+                $userData['username'] = $this->generateUsernameFromName($userData['name']);
+                
                 // Hash password securely
                 $userData['password'] = password_hash($userData['password'], PASSWORD_DEFAULT);
                 unset($userData['confirm_password']);
                 
                 $user = $this->userModel->createUser($userData);
-                $this->setFlashMessage('success', 'Registration successful! Please login to continue.');
                 
-                // Store the intended destination for after login
+                // Auto-login the user after successful registration
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user'] = $user;
+                $_SESSION['login_time'] = time();
+                
+                $this->setFlashMessage('success', 'Registration successful! Welcome to Tiny Tots Creche.');
+                
+                // Redirect to intended destination or dashboard
                 $redirectUrl = $_SESSION['redirect_after_login'] ?? null;
                 
                 if ($redirectUrl) {
-                    redirect('/login?redirect=' . urlencode($redirectUrl));
+                    unset($_SESSION['redirect_after_login']);
+                    redirect($redirectUrl);
                 } else {
-                    redirect('/login');
+                    $this->redirectBasedOnRole($user['role']);
                 }
             } catch (Exception $e) {
                 $this->setFlashMessage('error', $e->getMessage());
@@ -270,12 +280,6 @@ class AuthController extends BaseController {
     private function validateRegistration($userData) {
         $errors = [];
         
-        if (empty($userData['username'])) {
-            $errors['username'] = 'Username is required';
-        } elseif (strlen($userData['username']) < 3) {
-            $errors['username'] = 'Username must be at least 3 characters';
-        }
-        
         if (empty($userData['password'])) {
             $errors['password'] = 'Password is required';
         } elseif (strlen($userData['password']) < 6) {
@@ -290,6 +294,8 @@ class AuthController extends BaseController {
         
         if (empty($userData['name'])) {
             $errors['name'] = 'Full name is required';
+        } elseif (strlen($userData['name']) < 2) {
+            $errors['name'] = 'Name must be at least 2 characters';
         }
         
         $emailError = $this->validateEmail($userData['email']);
@@ -396,6 +402,29 @@ class AuthController extends BaseController {
         $lastActivity = $_SESSION['last_activity'] ?? $_SESSION['login_time'] ?? time();
         
         return (time() - $lastActivity) > $timeout;
+    }
+    
+    private function generateUsernameFromName($name) {
+        // Remove special characters and convert to lowercase
+        $cleanName = preg_replace('/[^a-zA-Z\s]/', '', $name);
+        $nameParts = explode(' ', trim($cleanName));
+        
+        // Use first name and last initial
+        $firstName = strtolower($nameParts[0] ?? 'user');
+        $lastName = isset($nameParts[1]) ? strtolower(substr($nameParts[1], 0, 1)) : '';
+        
+        $baseUsername = $firstName . $lastName;
+        
+        // Add random number to ensure uniqueness
+        $randomNumber = rand(100, 999);
+        $username = $baseUsername . $randomNumber;
+        
+        // Check if username already exists, if so, generate another
+        if ($this->userModel->findByUsername($username)) {
+            $username = $firstName . $lastName . rand(1000, 9999);
+        }
+        
+        return $username;
     }
     
     public function forgotPassword() {

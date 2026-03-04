@@ -9,6 +9,11 @@
                         <i class="fas fa-graduation-cap"></i>
                         <span>Register to start your child's admission application</span>
                     </div>
+                <?php else: ?>
+                    <div class="login-purpose">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Username will be automatically generated from your name</span>
+                    </div>
                 <?php endif; ?>
             </div>
             
@@ -26,12 +31,21 @@
             
             <form id="registerForm" method="POST" action="/register" class="login-form">
                 <div class="form-group">
-                    <label for="username">
-                        <i class="fas fa-user"></i> Username *
+                    <label for="name">
+                        <i class="fas fa-user"></i> Full Name *
                     </label>
-                    <input type="text" id="username" name="username" required 
-                           autocomplete="username" placeholder="Choose a username"
-                           value="<?= htmlspecialchars($old['username'] ?? '') ?>">
+                    <input type="text" id="name" name="name" required 
+                           autocomplete="name" placeholder="Enter your full name"
+                           value="<?= htmlspecialchars($old['name'] ?? '') ?>">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email Address *
+                    </label>
+                    <input type="email" id="email" name="email" required 
+                           autocomplete="email" placeholder="Enter your email address"
+                           value="<?= htmlspecialchars($old['email'] ?? '') ?>">
                 </div>
                 
                 <div class="form-group">
