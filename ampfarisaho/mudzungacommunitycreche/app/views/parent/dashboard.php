@@ -2,8 +2,8 @@
 require_once __DIR__ . '/../../middleware/auth.php';
 requireRole('parent');
 
-require_once __DIR__ . '/../../partials/header.php';
-require_once __DIR__ . '/../../partials/navbar.php';
+require_once __DIR__ . '/../partials/header.php';
+require_once __DIR__ . '/../partials/navbar.php';
 require_once __DIR__ . '/../../services/JsonStorage.php';
 
 $parent = $_SESSION['user'];
@@ -20,7 +20,7 @@ $myChildren = array_filter($children, fn($child) => $child['parent_id'] === $par
     <h2>Welcome, <?php echo htmlspecialchars($parent['full_name']); ?>!</h2>
 
     <div style="margin: 20px 0; display:flex; flex-wrap:wrap; gap:10px;">
-        <a href="/app/views/parent/admit-child.php" class="btn btn-primary">
+        <a href="/admit-child.php" class="btn btn-primary">
             <?php echo empty($myChildren) ? 'Admit First Child' : 'Add Another Child'; ?>
         </a>
         <a href="/logout.php" class="btn btn-secondary">Logout</a>
@@ -70,4 +70,4 @@ $myChildren = array_filter($children, fn($child) => $child['parent_id'] === $par
     <?php endif; ?>
 </div>
 
-<?php require_once __DIR__ . '/../../partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
