@@ -218,7 +218,9 @@ class AdmissionController extends BaseController {
                     return strcmp($a['status'], $b['status']);
                 case 'date':
                 default:
-                    return strtotime($b['submittedAt']) - strtotime($a['submittedAt']);
+                    $dateA = $a['submittedAt'] ?? $a['submitted_at'] ?? $a['submittedAt'] ?? '1970-01-01';
+                    $dateB = $b['submittedAt'] ?? $b['submitted_at'] ?? $b['submittedAt'] ?? '1970-01-01';
+                    return strtotime($dateB) - strtotime($dateA);
             }
         });
         
@@ -452,8 +454,8 @@ class AdmissionController extends BaseController {
                 'Gender' => $admission['childGender'],
                 'Grade' => $gradeCategories[$admission['gradeApplyingFor']] ?? 'N/A',
                 'Status' => $admission['status'],
-                'Submitted Date' => $admission['submittedAt'],
-                'Updated Date' => $admission['updatedAt'] ?? $admission['submittedAt']
+                'Submitted Date' => $admission['submittedAt'] ?? $admission['submitted_at'] ?? 'N/A',
+                'Updated Date' => $admission['updatedAt'] ?? $admission['updated_at'] ?? $admission['submittedAt'] ?? $admission['submitted_at'] ?? 'N/A'
             ];
         }
         

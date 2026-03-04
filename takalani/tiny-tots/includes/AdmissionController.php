@@ -120,7 +120,7 @@ class AdmissionController {
                                 <p><strong>Child Name:</strong> <?= htmlspecialchars($this->submissionSummary['childFirstName'] . ' ' . $this->submissionSummary['childSurname']) ?></p>
                                 <p><strong>Grade:</strong> <?= htmlspecialchars($gradeCategories[$this->submissionSummary['gradeApplyingFor']]['label']) ?></p>
                                 <p><strong>Status:</strong> <?= htmlspecialchars($this->submissionSummary['status']) ?></p>
-                                <p><strong>Submitted:</strong> <?= date('F j, Y, g:i a', strtotime($this->submissionSummary['submittedAt'])) ?></p>
+                                <p><strong>Submitted:</strong> <?= date('F j, Y, g:i a', strtotime($this->submissionSummary['submittedAt'] ?? $this->submissionSummary['submitted_at'] ?? 'now')) ?></p>
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
