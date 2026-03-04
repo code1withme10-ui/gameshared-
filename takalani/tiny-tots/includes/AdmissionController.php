@@ -312,7 +312,16 @@ class AdmissionController {
     }
     
     public function dashboard() {
-        requireRole('headmaster');
+        // Temporarily bypass role check for testing
+        // requireRole('headmaster');
+        
+        // Check if user is logged in and is headmaster
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'headmaster') {
+            // Redirect to login with message
+            $_SESSION['flash_message'] = 'Please login as headmaster to access the dashboard';
+            header('Location: /login');
+            exit;
+        }
         
         $allAdmissions = $this->admissionModel->getAllAdmissions();
         
