@@ -909,8 +909,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     function validateGradeAge() {
+        console.log('Validating grade age...'); // Debug
         const dob = dateOfBirthInput.value;
         const selectedGrade = gradeSelect.value;
+        
+        console.log('DOB:', dob, 'Grade:', selectedGrade); // Debug
         
         if (!dob || !selectedGrade) {
             gradeError.style.display = 'none';
@@ -922,12 +925,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const minAge = parseInt(selectedOption.dataset.minAge);
         const maxAge = parseInt(selectedOption.dataset.maxAge);
         
+        console.log('Age:', age, 'Min Age:', minAge, 'Max Age:', maxAge); // Debug
+        
         if (age < minAge || age > maxAge) {
             gradeError.style.display = 'block';
             gradeError.textContent = `Selected category does not match child's age. Child is ${age} years old, but this category requires ${minAge}-${maxAge} years.`;
+            console.log('Grade validation FAILED'); // Debug
             return false;
         } else {
             gradeError.style.display = 'none';
+            console.log('Grade validation PASSED'); // Debug
             return true;
         }
     }
