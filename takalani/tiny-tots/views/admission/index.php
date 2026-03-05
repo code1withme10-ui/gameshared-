@@ -970,7 +970,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return re.test(phone) && phone.replace(/\D/g, '').length >= 10;
     }
     
-    // Form validation - simplified to only check terms
+    // Form validation - simplified to only check terms and child details
     function validateForm() {
         console.log('Form validation running...'); // Debug
         
@@ -978,15 +978,33 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.disabled = false;
         console.log('Submit button enabled'); // Debug
         
-        // Only check terms checkbox
+        const errors = [];
+        
+        // Only check child details and terms (parent details are auto-filled for logged-in users)
+        const childName = document.getElementById('childFullName')?.value?.trim();
+        const childDOB = document.getElementById('dateOfBirth')?.value?.trim();
+        const childGender = document.getElementById('childGender')?.value?.trim();
+        
+        if (!childName) errors.push('Child name is required');
+        if (!childDOB) errors.push('Child date of birth is required');
+        if (!childGender) errors.push('Child gender is required');
+        
+        // Check terms checkbox
         const termsCheckbox = document.getElementById('terms');
         if (!termsCheckbox || !termsCheckbox.checked) {
-            console.log('Terms checkbox not checked'); // Debug
+            errors.push('You must accept the terms and conditions');
+        }
+        
+        console.log('Validation errors:', errors); // Debug
+        
+        // Display errors
+        if (errors.length > 0) {
             validationErrors.style.display = 'block';
-            errorList.innerHTML = '<li>You must accept the terms and conditions</li>';
+            errorList.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
+            console.log('Validation errors found'); // Debug
         } else {
-            console.log('Terms checkbox checked'); // Debug
             validationErrors.style.display = 'none';
+            console.log('No validation errors'); // Debug
         }
         
         return true;
