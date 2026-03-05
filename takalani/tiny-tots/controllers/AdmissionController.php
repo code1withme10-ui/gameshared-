@@ -184,7 +184,7 @@ class AdmissionController extends BaseController {
             $admission = $this->admissionModel->createAdmission($admissionData);
             
             $this->setFlashMessage('success', 'Application submitted successfully! Your application ID is: ' . $admission['applicationID']);
-            redirect('/admission/success?id=' . $admission['applicationID']);
+            redirect('/parent/dashboard');
             
         } catch (Exception $e) {
             $this->setFlashMessage('error', $e->getMessage());

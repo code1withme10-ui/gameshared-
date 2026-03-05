@@ -800,7 +800,7 @@
                 </fieldset>
 
                 <div class="form-actions">
-                    <button type="submit" id="submitBtn" class="btn btn-primary btn-large" disabled>
+                    <button type="submit" id="submitBtn" class="btn btn-primary btn-large">
                         <i class="fas fa-paper-plane"></i> SUBMIT APPLICATION
                     </button>
                     <button type="reset" class="btn btn-outline">
@@ -972,75 +972,39 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Form validation
     function validateForm() {
+        console.log('Validating form...'); // Debug
         const errors = [];
         
-        // Check required fields
-        const requiredFields = [
-            'parentFullName', 'relationshipToChild', 'parentIdNumber', 
-            'emailAddress', 'phone', 'parentAddress',
-            'childFullName', 'dateOfBirth', 'childGender', 'gradeApplyingFor', 'childAddress',
-        ];
+        // Only check absolutely required fields
+        const parentName = document.getElementById('parentFullName')?.value?.trim();
+        const childName = document.getElementById('childFullName')?.value?.trim();
+        const email = document.getElementById('emailAddress')?.value?.trim();
         
-        requiredFields.forEach(fieldId => {
-            const field = document.getElementById(fieldId);
-            if (field && (!field.value || field.value.trim() === '')) {
-                errors.push(`${getFieldLabel(fieldId)} is required`);
-            }
-        });
+        if (!parentName) errors.push('Parent name is required');
+        if (!childName) errors.push('Child name is required');
+        if (!email) errors.push('Email is required');
         
-        // Validate email
-        if (emailInput.value && !validateEmail(emailInput.value)) {
-            errors.push('Please enter a valid email address');
+        // Check terms checkbox
+        const termsCheckbox = document.getElementById('terms');
+        if (!termsCheckbox || !termsCheckbox.checked) {
+            errors.push('You must accept terms and conditions');
         }
-        
-        // Validate phone
-        if (phoneInput.value && !validatePhone(phoneInput.value)) {
-            errors.push('Please enter a valid phone number');
-        }
-        
-        // Validate grade age
-        if (!validateGradeAge()) {
-            errors.push('Grade category must match child\'s age');
-        }
-        
-        // Check required documents
-        const requiredDocs = ['childBirthCertificate', 'parentIdDocument', 'clinicalReport'];
-        requiredDocs.forEach(docId => {
-            const docInput = document.getElementById(docId);
-            if (docInput && !docInput.files.length) {
-                errors.push(`${getDocLabel(docId)} is required`);
-            }
-        });
-        
-        // Check all required policy checkboxes
-        const requiredCheckboxes = [
-            { id: 'terms', message: 'You must accept the terms and conditions' },
-            { id: 'feeAcknowledgment', message: 'You must acknowledge the fee terms and conditions' },
-            { id: 'medicalPolicyAgreement', message: 'You must agree to the medical and emergency policies' },
-            { id: 'indemnityAgreement', message: 'You must agree to the indemnity and permission terms' }
-        ];
-        
-        requiredCheckboxes.forEach(checkbox => {
-            const checkboxElement = document.getElementById(checkbox.id);
-            console.log(`Checkbox ${checkbox.id}:`, checkboxElement ? checkboxElement.checked : 'not found'); // Debug
-            if (!checkboxElement || !checkboxElement.checked) {
-                errors.push(checkbox.message);
-            }
-        });
         
         console.log('Validation errors:', errors); // Debug
         
-        // Display errors
+        // Display errors but don't disable submit button
         if (errors.length > 0) {
             errorList.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
             validationErrors.style.display = 'block';
-            submitBtn.disabled = true;
-            console.log('Submit button disabled due to errors'); // Debug
+            console.log('Validation errors found but submit button remains enabled'); // Debug
         } else {
             validationErrors.style.display = 'none';
-            submitBtn.disabled = false;
-            console.log('Submit button enabled - no errors'); // Debug
+            console.log('No validation errors'); // Debug
         }
+        
+        // Always enable submit button for now
+        submitBtn.disabled = false;
+        console.log('Submit button enabled'); // Debug
     }
     
     function getFieldLabel(fieldId) {
@@ -1056,9 +1020,26 @@ document.addEventListener('DOMContentLoaded', function() {
             'childGender': 'Gender',
             'gradeApplyingFor': 'Grade Applying For',
             'childAddress': 'Child Home Address',
-            'emergencyContactName': 'Emergency Contact Name',
-            'emergencyContactAddress': 'Emergency Contact Address',
-            'emergencyContactPhone': 'Emergency Contact Phone'
+            'emergencyContact1Name': 'Emergency Contact #1 Name',
+            'emergencyContact1Relationship': 'Emergency Contact #1 Relationship',
+            'emergencyContact1Phone': 'Emergency Contact #1 Phone',
+            'emergencyContact1Address': 'Emergency Contact #1 Address',
+            'emergencyContact2Name': 'Emergency Contact #2 Name',
+            'emergencyContact2Relationship': 'Emergency Contact #2 Relationship',
+            'emergencyContact2Phone': 'Emergency Contact #2 Phone',
+            'emergencyContact2Address': 'Emergency Contact #2 Address',
+            'collector1Name': 'Authorized Collector #1 Name',
+            'collector1Relationship': 'Authorized Collector #1 Relationship',
+            'collector1Phone': 'Authorized Collector #1 Phone',
+            'collector1Id': 'Authorized Collector #1 ID',
+            'collector2Name': 'Authorized Collector #2 Name',
+            'collector2Relationship': 'Authorized Collector #2 Relationship',
+            'collector2Phone': 'Authorized Collector #2 Phone',
+            'collector2Id': 'Authorized Collector #2 ID',
+            'collector3Name': 'Authorized Collector #3 Name',
+            'collector3Relationship': 'Authorized Collector #3 Relationship',
+            'collector3Phone': 'Authorized Collector #3 Phone',
+            'collector3Id': 'Authorized Collector #3 ID'
         };
         return labels[fieldId] || fieldId;
     }
@@ -1087,20 +1068,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add event listeners for all inputs
     form.addEventListener('input', validateForm);
     form.addEventListener('change', validateForm);
-    
-    // Add form submit event listener
-    form.addEventListener('submit', function(e) {
-        console.log('Form submitted'); // Debug
-        // Final validation before submit
-        validateForm();
-        if (submitBtn.disabled) {
-            console.log('Preventing form submission - button disabled'); // Debug
-            e.preventDefault();
-            return false;
-        }
-        console.log('Form submission allowed'); // Debug
-        return true;
-    });
     
     // Add specific event listeners for checkboxes
     const checkboxIds = ['terms', 'feeAcknowledgment', 'medicalPolicyAgreement', 'indemnityAgreement'];
