@@ -339,7 +339,12 @@ class AdmissionController {
         // Generate CSRF token
         $csrfToken = $this->generateCsrfToken();
         
-        include VIEWS_PATH . '/admin/dashboard.php';
+        $this->render('admin/dashboard', [
+            'pageTitle' => 'Admin Dashboard - Tiny Tots Creche',
+            'stats' => $stats,
+            'recentAdmissions' => $recentApplications,
+            'csrfToken' => $csrfToken
+        ]);
     }
     
     public function admitApplication() {
@@ -348,6 +353,12 @@ class AdmissionController {
         header('Content-Type: application/json');
         
         // Validate CSRF token
+        // Debug: Log CSRF validation details
+        error_log("CSRF Session Token: " . ($_SESSION['csrf_token'] ?? 'NOT SET'));
+        $headers = getallheaders();
+        error_log("CSRF Header: " . ($headers['X-CSRF-Token'] ?? $headers['X-Csrf-Token'] ?? 'NOT SET'));
+        error_log("CSRF POST: " . ($_POST['csrf_token'] ?? 'NOT SET'));
+        
         if (!$this->validateCsrf()) {
             echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
             return;
