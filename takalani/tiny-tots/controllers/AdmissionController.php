@@ -518,5 +518,144 @@ class AdmissionController extends BaseController {
             $this->json(['error' => 'Failed to delete application'], 500);
         }
     }
+    
+    public function admitApplication() {
+        requireRole('headmaster');
+        
+        header('Content-Type: application/json');
+        
+        // Validate CSRF token
+        if (!$this->validateCsrf()) {
+            echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+            return;
+        }
+        
+        try {
+            $data = json_decode(file_get_contents('php://input'), true);
+            
+            if (!$data || !isset($data['applicationId'])) {
+                echo json_encode(['success' => false, 'message' => 'Invalid request data']);
+                return;
+            }
+            
+            $applicationId = $data['applicationId'];
+            $enrollmentDate = $data['enrollmentDate'] ?? date('Y-m-d');
+            $classroom = $data['classroom'] ?? '';
+            $teacher = $data['teacher'] ?? '';
+            $notes = $data['notes'] ?? '';
+            
+            // Get the application
+            $applications = $this->admissionModel->getAllAdmissions();
+            $application = null;
+            
+            foreach ($applications as $index => $app) {
+                if ($app['id'] === $applicationId) {
+                    $application = $app;
+                    break;
+                }
+            }
+            
+            if (!$application) {
+                echo json_encode(['success' => false, 'message' => 'Application not found']);
+                return;
+            }
+            
+            // Update application status and add enrollment details
+            $applications[$index]['status'] = 'Approved';
+            $applications[$index]['approvedAt'] = date('Y-m-d H:i:s');
+            $applications[$index]['enrollmentDate'] = $enrollmentDate;
+            $applications[$index]['classroom'] = $classroom;
+            $applications[$index]['teacher'] = $teacher;
+            $applications[$index]['admissionNotes'] = $notes;
+            $applications[$index]['nextSteps'] = [
+                'title' => 'Enrollment Confirmed',
+                'description' => 'Your child has been admitted to Tiny Tots Creche',
+                'items' => [
+                    'Complete enrollment forms at the school office',
+                    'Pay registration fee of R500',
+                    'Submit birth certificate and immunization records',
+                    'Purchase school uniform',
+                    'Attend orientation meeting on ' . date('F j, Y', strtotime($enrollmentDate . ' + 1 week'))
+                ],
+                'contactInfo' => 'Please contact the school office at 081 421 0084 for any questions'
+            ];
+            
+            // Save updated applications
+            $this->admissionModel->saveAllAdmissions($applications);
+            
+            echo json_encode(['success' => true, 'message' => 'Application admitted successfully']);
+            
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+    
+    public function rejectApplication() {
+        requireRole('headmaster');
+        
+        header('Content-Type: application/json');
+        
+        // Validate CSRF token
+        if (!$this->validateCsrf()) {
+            echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+            return;
+        }
+        
+        try {
+            $data = json_decode(file_get_contents('php://input'), true);
+            
+            if (!$data || !isset($data['applicationId'])) {
+                echo json_encode(['success' => false, 'message' => 'Invalid request data']);
+                return;
+            }
+            
+            $applicationId = $data['applicationId'];
+            $reason = $data['reason'] ?? '';
+            $requirements = $data['requirements'] ?? '';
+            $contactOption = $data['contactOption'] ?? '';
+            
+            // Get the application
+            $applications = $this->admissionModel->getAllAdmissions();
+            $application = null;
+            
+            foreach ($applications as $index => $app) {
+                if ($app['id'] === $applicationId) {
+                    $application = $app;
+                    break;
+                }
+            }
+            
+            if (!$application) {
+                echo json_encode(['success' => false, 'message' => 'Application not found']);
+                return;
+            }
+            
+            // Update application status and add rejection details
+            $applications[$index]['status'] = 'Rejected';
+            $applications[$index]['rejectedAt'] = date('Y-m-d H:i:s');
+            $applications[$index]['rejectionReason'] = $reason;
+            $applications[$index]['requirements'] = $requirements;
+            $applications[$index]['contactOption'] = $contactOption;
+            $applications[$index]['nextSteps'] = [
+                'title' => 'Application Rejected',
+                'description' => 'Your application was not approved at this time',
+                'items' => [
+                    'Review the rejection reasons provided',
+                    'Address any requirements mentioned',
+                    'Consider reapplying in the future',
+                    'Contact the school for more information'
+                ],
+                'contactInfo' => 'Please contact the school office at 081 421 0084 for assistance'
+            ];
+            
+            // Save updated applications
+            $this->admissionModel->saveAllAdmissions($applications);
+            
+            echo json_encode(['success' => true, 'message' => 'Application rejected successfully']);
+            
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }
 ?>
