@@ -143,6 +143,14 @@
                                                 class="btn btn-sm btn-danger" title="Reject Application">
                                             <i class="fas fa-times"></i>
                                         </button>
+                                    <?php elseif ($application['status'] === 'Approved'): ?>
+                                        <button class="btn btn-sm btn-disabled" disabled title="Already Admitted">
+                                            <i class="fas fa-check"></i> Admitted
+                                        </button>
+                                    <?php elseif ($application['status'] === 'Rejected'): ?>
+                                        <button class="btn btn-sm btn-disabled" disabled title="Already Rejected">
+                                            <i class="fas fa-times"></i> Rejected
+                                        </button>
                                     <?php endif; ?>
                                 </div>
                             </div>

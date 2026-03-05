@@ -116,6 +116,14 @@
                                                     class="btn-small btn-reject">
                                                 <i class="fas fa-times"></i> Reject
                                             </button>
+                                        <?php elseif ($admission['status'] === 'Approved'): ?>
+                                            <button class="btn-small btn-disabled" disabled title="Already Admitted">
+                                                <i class="fas fa-check"></i> Admitted
+                                            </button>
+                                        <?php elseif ($admission['status'] === 'Rejected'): ?>
+                                            <button class="btn-small btn-disabled" disabled title="Already Rejected">
+                                                <i class="fas fa-times"></i> Rejected
+                                            </button>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -651,6 +659,18 @@
 .btn-reject:hover {
     background: #c82333;
     transform: translateY(-1px);
+}
+
+.btn-disabled {
+    background: #6c757d;
+    color: white;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.btn-disabled:hover {
+    background: #6c757d;
+    transform: none;
 }
 
 /* Modal Styles */
