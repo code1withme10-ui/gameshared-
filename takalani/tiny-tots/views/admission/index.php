@@ -90,6 +90,28 @@
                                placeholder="Enter parent's residential address"
                                <?= isset($_SESSION['user']) ? 'readonly' : '' ?>>
                     </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="maritalStatus">Marital Status *</label>
+                            <select id="maritalStatus" name="maritalStatus" required
+                                    <?= isset($_SESSION['user']) ? 'disabled' : '' ?>>
+                                <option value="">Select Status</option>
+                                <option value="married" <?= (isset($_SESSION['user']) ? ($_SESSION['user']['marital_status'] ?? '') : ($old['maritalStatus'] ?? '')) === 'married' ? 'selected' : '' ?>>Married</option>
+                                <option value="single" <?= (isset($_SESSION['user']) ? ($_SESSION['user']['marital_status'] ?? '') : ($old['maritalStatus'] ?? '')) === 'single' ? 'selected' : '' ?>>Single</option>
+                                <option value="divorced" <?= (isset($_SESSION['user']) ? ($_SESSION['user']['marital_status'] ?? '') : ($old['maritalStatus'] ?? '')) === 'divorced' ? 'selected' : '' ?>>Divorced</option>
+                                <option value="widowed" <?= (isset($_SESSION['user']) ? ($_SESSION['user']['marital_status'] ?? '') : ($old['maritalStatus'] ?? '')) === 'widowed' ? 'selected' : '' ?>>Widowed</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="workContactNumber">Work Contact Number</label>
+                            <input type="tel" id="workContactNumber" name="workContactNumber"
+                                   value="<?= htmlspecialchars(isset($_SESSION['user']) ? ($_SESSION['user']['work_phone'] ?? '') : ($old['workContactNumber'] ?? '')) ?>"
+                                   placeholder="Work phone number"
+                                   <?= isset($_SESSION['user']) ? 'readonly' : '' ?>>
+                        </div>
+                    </div>
                 </fieldset>
 
                 <!-- Mother Information -->
@@ -168,6 +190,13 @@
                             <input type="text" id="childFullName" name="childFullName" required
                                    value="<?= htmlspecialchars($old['childFullName'] ?? '') ?>">
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="childNickname">Nickname</label>
+                            <input type="text" id="childNickname" name="childNickname"
+                                   value="<?= htmlspecialchars($old['childNickname'] ?? '') ?>"
+                                   placeholder="Child's preferred name (optional)">
+                        </div>
                     </div>
                     
                     <div class="form-row">
@@ -177,6 +206,14 @@
                                    value="<?= htmlspecialchars($old['dateOfBirth'] ?? '') ?>">
                             <small class="form-help">Age will be calculated automatically</small>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="childIdNumber">Child ID Number</label>
+                            <input type="text" id="childIdNumber" name="childIdNumber"
+                                   value="<?= htmlspecialchars($old['childIdNumber'] ?? '') ?>"
+                                   placeholder="Child's ID number (if available)">
+                        </div>
+                    </div>
                         
                         <div class="form-group">
                             <label for="childGender">Gender *</label>
@@ -264,27 +301,233 @@
 
                 <!-- Emergency Contact -->
                 <fieldset class="form-section">
-                    <legend><i class="fas fa-phone-alt"></i> SECTION 3: EMERGENCY CONTACT (Other than parent/guardian)</legend>
+                    <legend><i class="fas fa-phone-alt"></i> SECTION 3: EMERGENCY CONTACTS (Other than parent/guardian)</legend>
                     
-                    <div class="form-group">
-                        <label for="emergencyContactName">Full Name *</label>
-                        <input type="text" id="emergencyContactName" name="emergencyContactName" required
-                               value="<?= htmlspecialchars($old['emergencyContactName'] ?? '') ?>"
-                               placeholder="Enter emergency contact full name">
+                    <div class="emergency-contacts">
+                        <div class="contact-entry">
+                            <h4>Emergency Contact #1 *</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="emergencyContact1Name">Full Name *</label>
+                                    <input type="text" id="emergencyContact1Name" name="emergencyContact1Name" required
+                                           value="<?= htmlspecialchars($old['emergencyContact1Name'] ?? '') ?>"
+                                           placeholder="Enter emergency contact full name">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="emergencyContact1Relationship">Relationship to Child *</label>
+                                    <input type="text" id="emergencyContact1Relationship" name="emergencyContact1Relationship" required
+                                           value="<?= htmlspecialchars($old['emergencyContact1Relationship'] ?? '') ?>"
+                                           placeholder="e.g., Grandmother, Uncle, Family Friend">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="emergencyContact1Phone">Phone Number *</label>
+                                    <input type="tel" id="emergencyContact1Phone" name="emergencyContact1Phone" required
+                                           value="<?= htmlspecialchars($old['emergencyContact1Phone'] ?? '') ?>"
+                                           placeholder="Enter emergency contact phone number">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="emergencyContact1Address">Residential Address *</label>
+                                    <input type="text" id="emergencyContact1Address" name="emergencyContact1Address" required
+                                           value="<?= htmlspecialchars($old['emergencyContact1Address'] ?? '') ?>"
+                                           placeholder="Enter emergency contact address">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-entry">
+                            <h4>Emergency Contact #2</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="emergencyContact2Name">Full Name</label>
+                                    <input type="text" id="emergencyContact2Name" name="emergencyContact2Name"
+                                           value="<?= htmlspecialchars($old['emergencyContact2Name'] ?? '') ?>"
+                                           placeholder="Enter emergency contact full name">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="emergencyContact2Relationship">Relationship to Child</label>
+                                    <input type="text" id="emergencyContact2Relationship" name="emergencyContact2Relationship"
+                                           value="<?= htmlspecialchars($old['emergencyContact2Relationship'] ?? '') ?>"
+                                           placeholder="e.g., Grandfather, Aunt, Family Friend">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="emergencyContact2Phone">Phone Number</label>
+                                    <input type="tel" id="emergencyContact2Phone" name="emergencyContact2Phone"
+                                           value="<?= htmlspecialchars($old['emergencyContact2Phone'] ?? '') ?>"
+                                           placeholder="Enter emergency contact phone number">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="emergencyContact2Address">Residential Address</label>
+                                    <input type="text" id="emergencyContact2Address" name="emergencyContact2Address"
+                                           value="<?= htmlspecialchars($old['emergencyContact2Address'] ?? '') ?>"
+                                           placeholder="Enter emergency contact address">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Authorized Collectors -->
+                <fieldset class="form-section">
+                    <legend><i class="fas fa-user-check"></i> SECTION 3B: PEOPLE AUTHORIZED TO COLLECT CHILD</legend>
+                    <p><strong>Important:</strong> People not on this list will only be allowed to take your child with special arrangement made by you</p>
+                    
+                    <div class="collectors-section">
+                        <div class="collector-entry">
+                            <h4>Authorized Person #1 *</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="collector1Name">Name & Surname *</label>
+                                    <input type="text" id="collector1Name" name="collector1Name" required
+                                           value="<?= htmlspecialchars($old['collector1Name'] ?? '') ?>"
+                                           placeholder="Full name of authorized person">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="collector1Relationship">Relationship to Parents *</label>
+                                    <input type="text" id="collector1Relationship" name="collector1Relationship" required
+                                           value="<?= htmlspecialchars($old['collector1Relationship'] ?? '') ?>"
+                                           placeholder="e.g., Mother, Father, Grandmother">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="collector1Phone">Contact Number *</label>
+                                <input type="tel" id="collector1Phone" name="collector1Phone" required
+                                       value="<?= htmlspecialchars($old['collector1Phone'] ?? '') ?>"
+                                       placeholder="Contact number for authorized person">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="collector1Id">ID Number *</label>
+                                <input type="text" id="collector1Id" name="collector1Id" required
+                                       value="<?= htmlspecialchars($old['collector1Id'] ?? '') ?>"
+                                       placeholder="ID number for verification">
+                            </div>
+                        </div>
+                        
+                        <div class="collector-entry">
+                            <h4>Authorized Person #2</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="collector2Name">Name & Surname</label>
+                                    <input type="text" id="collector2Name" name="collector2Name"
+                                           value="<?= htmlspecialchars($old['collector2Name'] ?? '') ?>"
+                                           placeholder="Full name of authorized person">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="collector2Relationship">Relationship to Parents</label>
+                                    <input type="text" id="collector2Relationship" name="collector2Relationship"
+                                           value="<?= htmlspecialchars($old['collector2Relationship'] ?? '') ?>"
+                                           placeholder="e.g., Mother, Father, Grandmother">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="collector2Phone">Contact Number</label>
+                                    <input type="tel" id="collector2Phone" name="collector2Phone"
+                                           value="<?= htmlspecialchars($old['collector2Phone'] ?? '') ?>"
+                                           placeholder="Contact number for authorized person">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="collector2Id">ID Number</label>
+                                    <input type="text" id="collector2Id" name="collector2Id"
+                                           value="<?= htmlspecialchars($old['collector2Id'] ?? '') ?>"
+                                           placeholder="ID number for verification">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="collector-entry">
+                            <h4>Authorized Person #3</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="collector3Name">Name & Surname</label>
+                                    <input type="text" id="collector3Name" name="collector3Name"
+                                           value="<?= htmlspecialchars($old['collector3Name'] ?? '') ?>"
+                                           placeholder="Full name of authorized person">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="collector3Relationship">Relationship to Parents</label>
+                                    <input type="text" id="collector3Relationship" name="collector3Relationship"
+                                           value="<?= htmlspecialchars($old['collector3Relationship'] ?? '') ?>"
+                                           placeholder="e.g., Mother, Father, Grandmother">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="collector3Phone">Contact Number</label>
+                                    <input type="tel" id="collector3Phone" name="collector3Phone"
+                                           value="<?= htmlspecialchars($old['collector3Phone'] ?? '') ?>"
+                                           placeholder="Contact number for authorized person">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="collector3Id">ID Number</label>
+                                    <input type="text" id="collector3Id" name="collector3Id"
+                                           value="<?= htmlspecialchars($old['collector3Id'] ?? '') ?>"
+                                           placeholder="ID number for verification">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Medical Aid Information -->
+                <fieldset class="form-section">
+                    <legend><i class="fas fa-hospital"></i> SECTION 4: MEDICAL AID INFORMATION</legend>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="medicalAidName">Medical Aid Name</label>
+                            <input type="text" id="medicalAidName" name="medicalAidName"
+                                   value="<?= htmlspecialchars($old['medicalAidName'] ?? '') ?>"
+                                   placeholder="e.g., Discovery, Bonitas, Momentum">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="medicalAidNumber">Medical Aid Number</label>
+                            <input type="text" id="medicalAidNumber" name="medicalAidNumber"
+                                   value="<?= htmlspecialchars($old['medicalAidNumber'] ?? '') ?>"
+                                   placeholder="Medical aid scheme number">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="childDependentNumber">Child Dependent Number</label>
+                            <input type="text" id="childDependentNumber" name="childDependentNumber"
+                                   value="<?= htmlspecialchars($old['childDependentNumber'] ?? '') ?>"
+                                   placeholder="Child's dependent number on medical aid">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mainMemberName">Main Member Name & Surname</label>
+                            <input type="text" id="mainMemberName" name="mainMemberName"
+                                   value="<?= htmlspecialchars($old['mainMemberName'] ?? '') ?>"
+                                   placeholder="Main member's full name">
+                        </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="emergencyContactAddress">Residential Address *</label>
-                        <input type="text" id="emergencyContactAddress" name="emergencyContactAddress" required
-                               value="<?= htmlspecialchars($old['emergencyContactAddress'] ?? '') ?>"
-                               placeholder="Enter emergency contact address">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="emergencyContactPhone">Phone Number *</label>
-                        <input type="tel" id="emergencyContactPhone" name="emergencyContactPhone" required
-                               value="<?= htmlspecialchars($old['emergencyContactPhone'] ?? '') ?>"
-                               placeholder="Enter emergency contact phone number">
+                        <label for="mainMemberIdNumber">Main Member ID Number</label>
+                        <input type="text" id="mainMemberIdNumber" name="mainMemberIdNumber"
+                               value="<?= htmlspecialchars($old['mainMemberIdNumber'] ?? '') ?>"
+                               placeholder="Main member's ID number">
                     </div>
                 </fieldset>
 
@@ -317,7 +560,7 @@
 
                 <!-- Supporting Documents -->
                 <fieldset class="form-section">
-                    <legend><i class="fas fa-file-upload"></i> SECTION 4: UPLOAD SUPPORTING DOCUMENTS</legend>
+                    <legend><i class="fas fa-file-upload"></i> SECTION 5: UPLOAD SUPPORTING DOCUMENTS</legend>
                     
                     <div class="form-row">
                         <div class="form-group">
@@ -367,9 +610,151 @@
                     </div>
                 </fieldset>
 
+                <!-- Fee Acknowledgment and Policies -->
+                <fieldset class="form-section">
+                    <legend><i class="fas fa-file-contract"></i> SECTION 6: FEE ACKNOWLEDGMENT AND POLICIES</legend>
+                    
+                    <div class="fee-acknowledgment">
+                        <div class="fee-header">
+                            <i class="fas fa-info-circle"></i>
+                            <h3>Important Fee and Policy Information</h3>
+                        </div>
+                        
+                        <div class="fee-content">
+                            <div class="fee-box">
+                                <h4>📅 Fee Structure and Payment Terms</h4>
+                                <ul>
+                                    <li><strong>Registration Fee:</strong> R500.00 payable annually</li>
+                                    <li><strong>Monthly Fees:</strong> R1,850.00 (Full day 6:30-17:00) or R1,650.00 (Half day 6:30-13:00)</li>
+                                    <li><strong>Payment Due:</strong> Strictly payable in advance on or before the last day of each month</li>
+                                    <li><strong>Late Payment:</strong> +10% for each day of late payment</li>
+                                    <li><strong>Late Collection:</strong> R30 for every 15 minutes after closing time</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="fee-box">
+                                <h4>🏦 Banking Details</h4>
+                                <ul>
+                                    <li><strong>Bank:</strong> FNB Bank</li>
+                                    <li><strong>Account Name:</strong> Tiny Tots Creche NPO</li>
+                                    <li><strong>Account Number:</strong> 63073329089</li>
+                                    <li><strong>Reference:</strong> Child's name and surname</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="fee-box">
+                                <h4>📋 Important Policies</h4>
+                                <ul>
+                                    <li><strong>Notice Period:</strong> One (1) month's paid and written notice required if child is leaving</li>
+                                    <li><strong>No Refunds:</strong> Full payment due even if child is absent for any reason</li>
+                                    <li><strong>Space Forfeiture:</strong> No payment for 3 months = automatic space forfeiture</li>
+                                    <li><strong>Required Documents:</strong> Clinic card, birth certificate, parent IDs, collector IDs</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="fee-box">
+                                <h4>🚗 Transportation and Collection</h4>
+                                <ul>
+                                    <li><strong>Authorized Collectors Only:</strong> Only people on the authorized list may collect child</li>
+                                    <li><strong>ID Verification:</strong> Collectors must present ID for verification</li>
+                                    <li><strong>Special Arrangements:</strong> Required for anyone not on authorized list</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="fee-agreement">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="feeAcknowledgment" name="feeAcknowledgment" required>
+                                <span class="checkmark"></span>
+                                <strong>I have read, understood, and agree to all fee terms and payment conditions</strong>
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Medical and Emergency Policies -->
+                <fieldset class="form-section">
+                    <legend><i class="fas fa-heartbeat"></i> SECTION 7: MEDICAL AND EMERGENCY POLICIES</legend>
+                    
+                    <div class="medical-policies">
+                        <div class="policy-box">
+                            <h4>🤒 Fever and Illness Policy</h4>
+                            <ul>
+                                <li>Children with temperature 37°C and higher must be kept home</li>
+                                <li>Parents will be contacted immediately to collect sick children</li>
+                                <li>No medication kept on premises - children must be kept home when ill</li>
+                                <li>Contagious illnesses (stomach viruses, measles, head lice, etc.) require clearance before return</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="policy-box">
+                            <h4>💊 Medication Policy</h4>
+                            <ul>
+                                <li>Medication must be clearly marked with child's name and administration times</li>
+                                <li>Message MUST be sent to 081 421 0084 with medication instructions</li>
+                                <li>No medication in bags - must be handed directly to teachers</li>
+                                <li>All allergies must be disclosed and taken seriously</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="policy-box">
+                            <h4>🏥 Emergency Medical Treatment</h4>
+                            <ul>
+                                <li>Staff authorized to provide emergency medical care when parents unavailable</li>
+                                <li>Parents take full responsibility for all medical costs</li>
+                                <li>Emergency transportation authorized when necessary</li>
+                                <li>No life-sustaining procedures will be withheld</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="policy-agreement">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="medicalPolicyAgreement" name="medicalPolicyAgreement" required>
+                            <span class="checkmark"></span>
+                            <strong>I understand and agree to all medical and emergency policies</strong>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <!-- Indemnity and Permission -->
+                <fieldset class="form-section">
+                    <legend><i class="fas fa-shield-alt"></i> SECTION 8: INDEMNITY AND PERMISSION</legend>
+                    
+                    <div class="indemnity-section">
+                        <div class="indemnity-content">
+                            <div class="indemnity-box">
+                                <h4>📋 Indemnity Agreement</h4>
+                                <p>The undersigned parent or legal guardian hereby expressly grants to Tiny Tots Crèche and its authorized staff consent to emergency medical care for the child when immediate contact with parents is not possible and waiting would jeopardize the child's health and welfare.</p>
+                                <p>The undersigned assumes all risk of injury or harm to the child associated with participation in the crèche and agrees to release, indemnify, defend and forever discharge Tiny Tots Crèche and its staff from all liability.</p>
+                            </div>
+                            
+                            <div class="indemnity-box">
+                                <h4>🚌 Permission for Outings and Transportation</h4>
+                                <p>I give permission for my child to participate in all activities while in the care of Tiny Tots and to be transported by designated drivers of Tiny Tots.</p>
+                                <p>I understand that Tiny Tots shall not be held responsible for any costs incurred due to accident or injury either on the premises or during transit.</p>
+                            </div>
+                            
+                            <div class="indemnity-box">
+                                <h4>📱 Communication and Data Processing</h4>
+                                <p>Upon registration, I consent to the processing of personal information for academic and related purposes, including communication with governmental departments and school WhatsApp/Telegram groups.</p>
+                                <p>I agree that relevant staff of Tiny Tots act in loco parentis should I or my child's emergency contact be unavailable should medical treatment and/or surgery be deemed necessary.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="indemnity-agreement">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="indemnityAgreement" name="indemnityAgreement" required>
+                                <span class="checkmark"></span>
+                                <strong>I have read, understood, and agree to the indemnity and permission terms</strong>
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+
                 <!-- Form Validation and Submission -->
                 <fieldset class="form-section">
-                    <legend><i class="fas fa-check-circle"></i> SECTION 5: FORM VALIDATION AND SUBMISSION</legend>
+                    <legend><i class="fas fa-check-circle"></i> SECTION 9: FORM VALIDATION AND SUBMISSION</legend>
                     
                     <!-- Validation Errors Display Area -->
                     <div id="validationErrors" class="validation-errors" style="display: none;">
