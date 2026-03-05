@@ -970,7 +970,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return re.test(phone) && phone.replace(/\D/g, '').length >= 10;
     }
     
-    // Form validation - simplified to not block submission
+    // Form validation - simplified to only check terms
     function validateForm() {
         console.log('Form validation running...'); // Debug
         
@@ -978,8 +978,16 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.disabled = false;
         console.log('Submit button enabled'); // Debug
         
-        // Hide validation errors for now
-        validationErrors.style.display = 'none';
+        // Only check terms checkbox
+        const termsCheckbox = document.getElementById('terms');
+        if (!termsCheckbox || !termsCheckbox.checked) {
+            console.log('Terms checkbox not checked'); // Debug
+            validationErrors.style.display = 'block';
+            errorList.innerHTML = '<li>You must accept the terms and conditions</li>';
+        } else {
+            console.log('Terms checkbox checked'); // Debug
+            validationErrors.style.display = 'none';
+        }
         
         return true;
     }
@@ -1046,8 +1054,8 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('input', validateForm);
     form.addEventListener('change', validateForm);
     
-    // Add specific event listeners for checkboxes
-    const checkboxIds = ['terms', 'feeAcknowledgment', 'medicalPolicyAgreement', 'indemnityAgreement'];
+    // Add specific event listeners for checkboxes - only terms is required
+    const checkboxIds = ['terms'];
     checkboxIds.forEach(id => {
         const checkbox = document.getElementById(id);
         if (checkbox) {
