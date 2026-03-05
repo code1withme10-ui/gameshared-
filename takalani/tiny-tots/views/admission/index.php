@@ -832,6 +832,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorList = document.getElementById('errorList');
     const gradeError = document.getElementById('gradeError');
     
+    // Initial validation to enable/disable submit button
+    validateForm();
+    
     // File upload handling
     const fileInputs = [
         { input: 'childBirthCertificate', preview: 'birthCertPreview' },
@@ -969,12 +972,11 @@ document.addEventListener('DOMContentLoaded', function() {
             'parentFullName', 'relationshipToChild', 'parentIdNumber', 
             'emailAddress', 'phone', 'parentAddress',
             'childFullName', 'dateOfBirth', 'childGender', 'gradeApplyingFor', 'childAddress',
-            'emergencyContactName', 'emergencyContactAddress', 'emergencyContactPhone'
         ];
         
         requiredFields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
-            if (field && !field.value.trim()) {
+            if (field && (!field.value || field.value.trim() === '')) {
                 errors.push(`${getFieldLabel(fieldId)} is required`);
             }
         });
@@ -1003,20 +1005,34 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Check terms
-        const termsCheckbox = document.getElementById('terms');
-        if (!termsCheckbox.checked) {
-            errors.push('You must accept the terms and conditions');
-        }
+        // Check all required policy checkboxes
+        const requiredCheckboxes = [
+            { id: 'terms', message: 'You must accept the terms and conditions' },
+            { id: 'feeAcknowledgment', message: 'You must acknowledge the fee terms and conditions' },
+            { id: 'medicalPolicyAgreement', message: 'You must agree to the medical and emergency policies' },
+            { id: 'indemnityAgreement', message: 'You must agree to the indemnity and permission terms' }
+        ];
+        
+        requiredCheckboxes.forEach(checkbox => {
+            const checkboxElement = document.getElementById(checkbox.id);
+            console.log(`Checkbox ${checkbox.id}:`, checkboxElement ? checkboxElement.checked : 'not found'); // Debug
+            if (!checkboxElement || !checkboxElement.checked) {
+                errors.push(checkbox.message);
+            }
+        });
+        
+        console.log('Validation errors:', errors); // Debug
         
         // Display errors
         if (errors.length > 0) {
             errorList.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
             validationErrors.style.display = 'block';
             submitBtn.disabled = true;
+            console.log('Submit button disabled due to errors'); // Debug
         } else {
             validationErrors.style.display = 'none';
             submitBtn.disabled = false;
+            console.log('Submit button enabled - no errors'); // Debug
         }
     }
     
@@ -1064,6 +1080,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add event listeners for all inputs
     form.addEventListener('input', validateForm);
     form.addEventListener('change', validateForm);
+    
+    // Add form submit event listener
+    form.addEventListener('submit', function(e) {
+        console.log('Form submitted'); // Debug
+        // Final validation before submit
+        validateForm();
+        if (submitBtn.disabled) {
+            console.log('Preventing form submission - button disabled'); // Debug
+            e.preventDefault();
+            return false;
+        }
+        console.log('Form submission allowed'); // Debug
+        return true;
+    });
+    
+    // Add specific event listeners for checkboxes
+    const checkboxIds = ['terms', 'feeAcknowledgment', 'medicalPolicyAgreement', 'indemnityAgreement'];
+    checkboxIds.forEach(id => {
+        const checkbox = document.getElementById(id);
+        if (checkbox) {
+            checkbox.addEventListener('change', validateForm);
+        }
+    });
 });
 </script>
 
@@ -1872,6 +1911,122 @@ input[readonly]:focus {
     .form-actions .btn {
         width: 100%;
         max-width: 300px;
+    }
+}
+
+/* New Form Sections CSS */
+.emergency-contacts, .collectors-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.contact-entry, .collector-entry {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.contact-entry h4, .collector-entry h4 {
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.fee-acknowledgment, .medical-policies, .indemnity-section {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.fee-header, .policy-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.fee-header h3, .policy-header h3 {
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+}
+
+.fee-content, .medical-policies, .indemnity-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.fee-box, .policy-box, .indemnity-box {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.fee-box h4, .policy-box h4, .indemnity-box h4 {
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.fee-box ul, .policy-box ul, .indemnity-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.fee-box li, .policy-box li, .indemnity-box li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f1f3f4;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.fee-box li:last-child, .policy-box li:last-child, .indemnity-box li:last-child {
+    border-bottom: none;
+}
+
+.fee-agreement, .policy-agreement, .indemnity-agreement {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px solid var(--primary-blue);
+    text-align: center;
+}
+
+.fee-agreement label, .policy-agreement label, .indemnity-agreement label {
+    margin: 0;
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.indemnity-box p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #495057;
+    margin-bottom: 1rem;
+}
+
+.indemnity-box p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .fee-content, .medical-policies, .indemnity-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-entry, .collector-entry {
+        padding: 1rem;
+    }
+    
+    .fee-acknowledgment, .medical-policies, .indemnity-section {
+        padding: 1rem;
     }
 }
 </style>

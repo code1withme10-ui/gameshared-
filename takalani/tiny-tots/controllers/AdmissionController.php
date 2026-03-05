@@ -94,6 +94,84 @@ class AdmissionController extends BaseController {
                 unset($admissionData['parentAddress']);
             }
             
+            // Map child address for model compatibility
+            if (isset($admissionData['childAddress'])) {
+                $admissionData['homeAddress'] = $admissionData['childAddress'];
+                unset($admissionData['childAddress']);
+            }
+            
+            // Handle emergency contacts
+            $emergencyContacts = [];
+            for ($i = 1; $i <= 2; $i++) {
+                $prefix = "emergencyContact{$i}";
+                if (!empty($admissionData[$prefix . 'Name'])) {
+                    $emergencyContacts[] = [
+                        'name' => $admissionData[$prefix . 'Name'] ?? '',
+                        'relationship' => $admissionData[$prefix . 'Relationship'] ?? '',
+                        'phone' => $admissionData[$prefix . 'Phone'] ?? '',
+                        'address' => $admissionData[$prefix . 'Address'] ?? ''
+                    ];
+                    // Remove individual fields
+                    unset($admissionData[$prefix . 'Name']);
+                    unset($admissionData[$prefix . 'Relationship']);
+                    unset($admissionData[$prefix . 'Phone']);
+                    unset($admissionData[$prefix . 'Address']);
+                }
+            }
+            $admissionData['emergencyContacts'] = $emergencyContacts;
+            
+            // Handle authorized collectors
+            $authorizedCollectors = [];
+            for ($i = 1; $i <= 3; $i++) {
+                $prefix = "collector{$i}";
+                if (!empty($admissionData[$prefix . 'Name'])) {
+                    $authorizedCollectors[] = [
+                        'name' => $admissionData[$prefix . 'Name'] ?? '',
+                        'relationship' => $admissionData[$prefix . 'Relationship'] ?? '',
+                        'phone' => $admissionData[$prefix . 'Phone'] ?? '',
+                        'idNumber' => $admissionData[$prefix . 'Id'] ?? ''
+                    ];
+                    // Remove individual fields
+                    unset($admissionData[$prefix . 'Name']);
+                    unset($admissionData[$prefix . 'Relationship']);
+                    unset($admissionData[$prefix . 'Phone']);
+                    unset($admissionData[$prefix . 'Id']);
+                }
+            }
+            $admissionData['authorizedCollectors'] = $authorizedCollectors;
+            
+            // Handle medical aid information
+            $medicalAidInfo = [
+                'name' => $admissionData['medicalAidName'] ?? '',
+                'number' => $admissionData['medicalAidNumber'] ?? '',
+                'childDependentNumber' => $admissionData['childDependentNumber'] ?? '',
+                'mainMemberName' => $admissionData['mainMemberName'] ?? '',
+                'mainMemberIdNumber' => $admissionData['mainMemberIdNumber'] ?? ''
+            ];
+            $admissionData['medicalAidInfo'] = $medicalAidInfo;
+            
+            // Remove individual medical aid fields
+            unset($admissionData['medicalAidName']);
+            unset($admissionData['medicalAidNumber']);
+            unset($admissionData['childDependentNumber']);
+            unset($admissionData['mainMemberName']);
+            unset($admissionData['mainMemberIdNumber']);
+            
+            // Handle policy acknowledgments
+            $policyAcknowledgments = [
+                'feeAcknowledgment' => $admissionData['feeAcknowledgment'] ?? false,
+                'medicalPolicyAgreement' => $admissionData['medicalPolicyAgreement'] ?? false,
+                'indemnityAgreement' => $admissionData['indemnityAgreement'] ?? false,
+                'terms' => $admissionData['terms'] ?? false
+            ];
+            $admissionData['policyAcknowledgments'] = $policyAcknowledgments;
+            
+            // Remove individual policy fields
+            unset($admissionData['feeAcknowledgment']);
+            unset($admissionData['medicalPolicyAgreement']);
+            unset($admissionData['indemnityAgreement']);
+            unset($admissionData['terms']);
+            
             // Handle file uploads
             $uploadedFiles = $this->handleFileUploads($_FILES);
             if (!empty($uploadedFiles['errors'])) {
@@ -530,13 +608,10 @@ class AdmissionController extends BaseController {
         header('Content-Type: application/json');
         
         // Validate CSRF token
-        // Temporarily disabled for testing
-        /*
         if (!$this->validateCsrf()) {
             echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
             return;
         }
-        */
         
         try {
             $data = json_decode(file_get_contents('php://input'), true);
@@ -609,13 +684,10 @@ class AdmissionController extends BaseController {
         header('Content-Type: application/json');
         
         // Validate CSRF token
-        // Temporarily disabled for testing
-        /*
         if (!$this->validateCsrf()) {
             echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
             return;
         }
-        */
         
         try {
             $data = json_decode(file_get_contents('php://input'), true);

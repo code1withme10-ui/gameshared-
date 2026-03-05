@@ -15,5 +15,22 @@
         "postal_code": "0960",
         "id_number": "0012246254086",
         "relationship": "mother"
+    },
+    {
+        "id": "tt_69a9208c3e15b8.14671705",
+        "username": "tshifiwa manavhelam497",
+        "password": "$2y$10$AfCza2CXOQT\/H0eujfuenOMU3VerqgevylHFRsgz0lv39on6GnAzi",
+        "name": "TSHIFIWA MANAVHELA",
+        "email": "hlungwanimfaneloblondy@gmail.com",
+        "role": "parent",
+        "created_at": "2026-03-05 07:19:56",
+        "surname": "Manavhela",
+        "phone": "+27768523084",
+        "address": "MBOKOTA, ELIM",
+        "city": "MAKHADO",
+        "province": "limpopo",
+        "postal_code": "0960",
+        "id_number": "0123425656544",
+        "relationship": "father"
     }
 ]
