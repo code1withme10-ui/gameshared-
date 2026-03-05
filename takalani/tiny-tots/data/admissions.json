@@ -21,7 +21,7 @@
         "childAddress": "MBOKOTA",
         "transportation": "both",
         "specialNeeds": "none",
-        "status": "pending",
+        "status": "Approved",
         "submitted_at": "2026-03-04 20:51:23",
         "updated_at": "2026-03-04 20:51:23",
         "age": 3,
@@ -35,6 +35,23 @@
         "fatherFirstName": "",
         "fatherSurname": "",
         "fatherIdNumber": "",
-        "fatherOccupation": ""
+        "fatherOccupation": "",
+        "approvedAt": "2026-03-05 06:49:53",
+        "enrollmentDate": "2026-03-05",
+        "classroom": "Toddler Room A",
+        "teacher": "Mrs. Johnson",
+        "admissionNotes": "",
+        "nextSteps": {
+            "title": "Enrollment Confirmed",
+            "description": "Your child has been admitted to Tiny Tots Creche",
+            "items": [
+                "Complete enrollment forms at the school office",
+                "Pay registration fee of R500",
+                "Submit birth certificate and immunization records",
+                "Purchase school uniform",
+                "Attend orientation meeting on March 12, 2026"
+            ],
+            "contactInfo": "Please contact the school office at 081 421 0084 for any questions"
+        }
     }
 ]

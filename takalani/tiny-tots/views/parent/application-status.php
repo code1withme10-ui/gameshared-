@@ -296,19 +296,41 @@
                     <?php endif; ?>
                 </div>
             </div>
-                            <div class="step-content">
-                                <h4>Accept Offer</h4>
-                                <p>Follow the instructions in your approval email to accept the placement.</p>
+                    <?php if ($application['status'] === 'Approved'): ?>
+                        <?php if (isset($application['nextSteps'])): ?>
+                            <div class="step-item completed">
+                                <div class="step-number">✓</div>
+                                <div class="step-content">
+                                    <h4><?= htmlspecialchars($application['nextSteps']['title']) ?></h4>
+                                    <p><?= htmlspecialchars($application['nextSteps']['description']) ?></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="step-item">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h4>Complete Enrollment</h4>
-                                <p>Submit required documents and complete the enrollment process.</p>
+                            <?php foreach ($application['nextSteps']['items'] as $index => $item): ?>
+                                <div class="step-item">
+                                    <div class="step-number"><?= $index + 1 ?></div>
+                                    <div class="step-content">
+                                        <p><?= htmlspecialchars($item) ?></p>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                            <div class="contact-info">
+                                <h4>📞 Contact Information</h4>
+                                <p><?= htmlspecialchars($application['nextSteps']['contactInfo']) ?></p>
                             </div>
-                        </div>
-                    <?php elseif ($application['status'] === 'rejected'): ?>
+                            
+                            <?php if (isset($application['enrollmentDate'])): ?>
+                                <div class="enrollment-details">
+                                    <h4>🎓 Enrollment Details</h4>
+                                    <p><strong>Enrollment Date:</strong> <?= date('F j, Y', strtotime($application['enrollmentDate'])) ?></p>
+                                    <p><strong>Classroom:</strong> <?= htmlspecialchars($application['classroom']) ?></p>
+                                    <p><strong>Teacher:</strong> <?= htmlspecialchars($application['teacher']) ?></p>
+                                    <?php if (isset($application['admissionNotes'])): ?>
+                                        <p><strong>Notes:</strong> <?= htmlspecialchars($application['admissionNotes']) ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    <?php elseif ($application['status'] === 'Rejected'): ?>
                         <div class="step-item">
                             <div class="step-number">1</div>
                             <div class="step-content">
