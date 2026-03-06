@@ -1,20 +1,16 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/partials/header.php';
-require_once __DIR__ . '/partials/navbar.php';
+require_once __DIR__ . '/../app/views/partials/header.php';
+require_once __DIR__ . '/../app/views/partials/navbar.php';
 
-// Correct gallery directory on filesystem
+// Gallery directory
 $galleryDir = __DIR__ . '/assets/images/gallery/';
-
-// Get images
 $images = glob($galleryDir . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
 
-// Convert filesystem paths to URL paths
+// Convert to browser URL
 $baseUrl = '/assets/images/gallery/';
-$imageUrls = array_map(function($img){
-    return $baseUrl . basename($img);
-}, $images);
+$imageUrls = array_map(fn($img) => $baseUrl . basename($img), $images);
 ?>
 
 <div class="container" style="margin-top:60px; margin-bottom:60px;">
