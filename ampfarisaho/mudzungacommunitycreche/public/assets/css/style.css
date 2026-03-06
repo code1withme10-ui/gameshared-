@@ -5,10 +5,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
 }
 
 body {
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
     background-color: #f4f6f8;
     color: #333;
     line-height: 1.6;
@@ -19,7 +19,7 @@ body {
 ================================ */
 header {
     background-color: #09223b;
-    padding: 15px 40px;
+    padding: 18px 40px;
 }
 
 .header-container {
@@ -33,18 +33,17 @@ header {
 .logo-area {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
 }
 
 .logo-area img {
-    width: 55px;
-    height: auto;
+    width: 65px;
 }
 
 .logo-area h1 {
     color: #ffd700;
-    font-size: 22px;
-    font-weight: bold;
+    font-size: 24px;
+    font-weight: 700;
     letter-spacing: 1px;
 }
 
@@ -54,34 +53,34 @@ header {
 nav ul {
     list-style: none;
     display: flex;
-    gap: 25px;
+    gap: 30px;
 }
 
 nav ul a {
     text-decoration: none;
     color: #ffffff;
     font-weight: 600;
-    padding: 6px 0;
     position: relative;
+    transition: color 0.3s ease;
 }
 
 nav ul a::after {
     content: "";
     position: absolute;
     left: 0;
-    bottom: -4px;
+    bottom: -5px;
     width: 0;
     height: 2px;
     background-color: #ffd700;
     transition: width 0.3s ease;
 }
 
-nav ul a:hover::after {
-    width: 100%;
-}
-
 nav ul a:hover {
     color: #ffd700;
+}
+
+nav ul a:hover::after {
+    width: 100%;
 }
 
 /* ================================
@@ -89,20 +88,66 @@ nav ul a:hover {
 ================================ */
 .container {
     max-width: 1200px;
-    margin: 50px auto;
+    margin: 60px auto;
     padding: 0 20px;
 }
 
-.container h1,
-.container h2,
-.container h3 {
-    margin-bottom: 20px;
-    color: #09223b;
+/* ================================
+   PREMIUM HERO SECTION
+================================ */
+.hero-premium {
+    text-align: center;
+    background: linear-gradient(to bottom, #081a2e, #0c2c4d);
+    padding: 90px 20px;
+    border-radius: 12px;
 }
 
-.container p {
-    margin-bottom: 15px;
-    font-size: 16px;
+.hero-premium h1 {
+    color: #ffd700;
+    font-size: 42px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.hero-premium p {
+    color: #ffd700;
+    font-size: 18px;
+    max-width: 750px;
+    margin: 0 auto;
+    opacity: 0.95;
+}
+
+.gold-divider {
+    width: 120px;
+    height: 3px;
+    background-color: #ffd700;
+    margin: 18px auto 28px auto;
+}
+
+/* ================================
+   SECTION TITLES
+================================ */
+.section-title {
+    color: #09223b;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.section-divider {
+    width: 80px;
+    height: 3px;
+    background-color: #ffd700;
+    margin: 12px 0 25px 0;
+}
+
+/* ================================
+   LIGHT FEATURE SECTION
+================================ */
+.section-light {
+    background-color: #f8f9fa;
+    padding: 50px 40px;
+    border-radius: 10px;
 }
 
 /* ================================
@@ -110,59 +155,56 @@ nav ul a:hover {
 ================================ */
 .card {
     background-color: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    margin-bottom: 30px;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    margin-bottom: 40px;
 }
 
 /* ================================
-   LOGIN & REGISTER CARD
+   NOTICE CARDS
 ================================ */
-.login-card,
-.register-card {
-    max-width: 420px;
-    margin: 60px auto;
+.notice-card {
+    padding: 25px;
+    border-left: 5px solid #ffd700;
     background-color: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    border-radius: 8px;
 }
 
-.login-card h2,
-.register-card h2 {
-    text-align: center;
-    margin-bottom: 25px;
+.notice-card h3 {
     color: #09223b;
+    margin-bottom: 10px;
+}
+
+.notice-card small {
+    color: #666;
+    display: block;
+    margin-top: 15px;
 }
 
 /* ================================
    FORMS
 ================================ */
-form {
-    width: 100%;
-}
-
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
     font-weight: 600;
     margin-bottom: 6px;
-    color: #333;
 }
 
 input,
 textarea,
 select {
     width: 100%;
-    padding: 11px 12px;
+    padding: 12px;
     border-radius: 6px;
     border: 1px solid #ccc;
     font-size: 14px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 input:focus,
@@ -174,23 +216,43 @@ select:focus {
 }
 
 /* ================================
+   LOGIN & REGISTER CARDS
+================================ */
+.login-card,
+.register-card {
+    max-width: 450px;
+    margin: 80px auto;
+    background-color: #ffffff;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.login-card h2,
+.register-card h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #09223b;
+}
+
+/* ================================
    BUTTONS
 ================================ */
 .btn {
     display: inline-block;
-    width: 100%;
-    padding: 12px;
+    padding: 13px;
     border-radius: 6px;
     border: none;
     cursor: pointer;
     font-weight: 600;
     text-decoration: none;
     text-align: center;
-    transition: transform 0.2s ease, background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .btn:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
 .btn-primary {
@@ -200,33 +262,6 @@ select:focus {
 
 .btn-primary:hover {
     background-color: #e6c200;
-}
-
-.btn-success {
-    background-color: #28a745;
-    color: #ffffff;
-}
-
-.btn-success:hover {
-    background-color: #218838;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    color: #ffffff;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-}
-
-.btn-secondary {
-    background-color: #6c757d;
-    color: #ffffff;
-}
-
-.btn-secondary:hover {
-    background-color: #5a6268;
 }
 
 .btn-outline {
@@ -240,13 +275,28 @@ select:focus {
     color: #09223b;
 }
 
+.btn-success {
+    background-color: #28a745;
+    color: #ffffff;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #ffffff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #ffffff;
+}
+
 /* ================================
    ALERTS
 ================================ */
 .error {
     background-color: #ffe6e6;
     color: #b30000;
-    padding: 10px;
+    padding: 12px;
     border-radius: 6px;
     margin-bottom: 15px;
     font-size: 14px;
@@ -255,7 +305,7 @@ select:focus {
 .success {
     background-color: #e6ffe6;
     color: #006600;
-    padding: 10px;
+    padding: 12px;
     border-radius: 6px;
     margin-bottom: 15px;
     font-size: 14px;
@@ -269,7 +319,7 @@ table {
     border-collapse: collapse;
     background-color: #ffffff;
     margin-top: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     overflow: hidden;
 }
 
@@ -295,8 +345,8 @@ table tr:hover {
 footer {
     background-color: #09223b;
     color: #ffffff;
-    margin-top: 80px;
-    padding: 25px 0;
+    margin-top: 100px;
+    padding: 30px 0;
 }
 
 footer p {
@@ -316,22 +366,22 @@ footer p {
 
 .gallery-card {
     background:#fff;
-    border:2px solid #f2c400;
-    border-radius:8px;
+    border:2px solid #ffd700;
+    border-radius:10px;
     padding:8px;
-    box-shadow:0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
 .gallery-card:hover {
     transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
 .gallery-card img {
     width: 100%;
     height:180px;
     object-fit:cover;
-    border-radius:5px;
+    border-radius:6px;
 }
 

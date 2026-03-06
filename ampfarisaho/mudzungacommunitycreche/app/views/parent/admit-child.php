@@ -2,8 +2,6 @@
 require_once __DIR__ . '/../../middleware/auth.php';
 requireRole('parent');
 
-require_once __DIR__ . '/../partials/header.php';
-require_once __DIR__ . '/../partials/navbar.php';
 require_once __DIR__ . '/../../services/JsonStorage.php';
 
 $parentId = $_SESSION['user']['id'];
@@ -21,51 +19,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $allergies = trim($_POST['allergies'] ?? '');
     $previousSchool = trim($_POST['previous_school'] ?? '');
 
-    // Validation
     if ($fullName === '') $errors[] = 'Child full name is required.';
     if ($dob === '') $errors[] = 'Date of birth is required.';
     if ($gender === '') $errors[] = 'Gender is required.';
     if ($grade === '') $errors[] = 'Grade selection is required.';
     if ($address === '') $errors[] = 'Residential address is required.';
 
-    // DOB validation
     try {
         $dobDate = new DateTime($dob);
         $today = new DateTime();
-        if ($dobDate > $today) $errors[] = 'Date of birth cannot be in the future.';
+
+        if ($dobDate > $today) {
+            $errors[] = 'Date of birth cannot be in the future.';
+        }
+
     } catch (Exception $e) {
         $errors[] = 'Invalid date of birth.';
     }
 
-    // Age vs Grade validation
     if (empty($errors)) {
+
         $diff = $today->diff($dobDate);
         $ageMonths = ($diff->y * 12) + $diff->m;
 
         $gradeValid = match ($grade) {
-            'Infants'     => ($ageMonths >= 0 && $ageMonths <= 12),
-            'Toddlers'    => ($ageMonths > 12 && $ageMonths <= 36),
-            'Playgroup'   => ($ageMonths > 36 && $ageMonths <= 48),
-            'Pre-School'  => ($ageMonths > 48 && $ageMonths <= 60),
-            default       => false,
+            'Infants' => ($ageMonths >= 0 && $ageMonths <= 12),
+            'Toddlers' => ($ageMonths > 12 && $ageMonths <= 36),
+            'Playgroup' => ($ageMonths > 36 && $ageMonths <= 48),
+            'Pre-School' => ($ageMonths > 48 && $ageMonths <= 60),
+            default => false,
         };
 
-        if (!$gradeValid) $errors[] = "Selected category does not match child's age.";
+        if (!$gradeValid) {
+            $errors[] = "Selected category does not match child's age.";
+        }
     }
 
-    // File uploads
     $allowedTypes = ['image/jpeg','image/png','application/pdf'];
     $maxSize = 2 * 1024 * 1024;
 
     $uploadFields = [
         'birth_certificate' => 'Birth Certificate',
-        'parent_id'         => 'Parent ID',
-        'clinical_report'   => 'Clinical Report'
+        'parent_id' => 'Parent ID',
+        'clinical_report' => 'Clinical Report'
     ];
 
     $uploadedFiles = [];
 
     foreach ($uploadFields as $key => $label) {
+
         if (!isset($_FILES[$key]) || $_FILES[$key]['error'] !== UPLOAD_ERR_OK) {
             $errors[] = "$label is required.";
             continue;
@@ -85,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
         $safeName = uniqid($key . '_') . '.' . $extension;
+
         $targetPath = __DIR__ . '/../../../public/uploads/' . $safeName;
 
         if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
@@ -95,9 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploadedFiles[$key] = '/uploads/' . $safeName;
     }
 
-    // Save data
     if (empty($errors)) {
+
         $children = $childrenStorage->read();
+
         $children[] = [
             'id' => uniqid('child_'),
             'parent_id' => $parentId,
@@ -112,12 +116,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'status' => 'pending',
             'created_at' => date('Y-m-d H:i:s')
         ];
+
         $childrenStorage->write($children);
 
         header('Location: /app/views/parent/dashboard.php');
         exit;
     }
 }
+
+require_once __DIR__ . '/../partials/header.php';
+require_once __DIR__ . '/../partials/navbar.php';
 ?>
 
 <div class="container">
@@ -129,6 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endforeach; ?>
 
         <form method="POST" enctype="multipart/form-data">
+
             <div class="form-group">
                 <label>Child Full Name</label>
                 <input type="text" name="full_name" required>
@@ -191,6 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <button type="submit" class="btn btn-primary">Submit Admission</button>
+
         </form>
     </div>
 </div>
