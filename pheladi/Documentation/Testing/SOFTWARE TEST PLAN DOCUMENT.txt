@@ -1,0 +1,1516 @@
+SOFTWARE TEST PLAN DOCUMENT
+Creche Management Website System
+
+
+1.Introduction
+
+1.1 Purpose
+
+The purpose of this Test Plan is to define the testing approach, resources, test cases, and procedures used to verify that the Crèche Website System meets all functional and non-functional requirements. The test plan ensures that the system operates correctly before deployment and that all defects are identified and resolved.
+
+1.2 Scope
+
+Testing will verify the functionality and reliability of the Crèche Website which is developed. The following modules will be tested:
+Home Page
+About Page
+Gallery
+Admission Application Form
+File Upload System
+Login and Authentication
+Headmaster Dashboard
+JSON Data Storage
+Security and Performance
+
+2.Test Environment
+
+Component	                   Description
+Operating System	           Windows 10 / Windows 11
+Server	                           Apache (XAMPP)
+Programming Language	           PHP
+Data Storage	                   JSON
+Browsers	                   Google Chrome, Microsoft Edge, Mozilla Firefox
+Testing Tools	                   Browser DevTools
+
+3.Test Strategy
+
+Unit Testing
+Testing individual PHP functions such as validation and JSON data handling.
+Integration Testing
+Testing interactions between modules such as form submission → JSON storage → dashboard display.
+System Testing
+Testing the entire website to verify that all system components work together.
+User Acceptance Testing
+Stakeholders such as the Headmaster or management confirm the system meets operational needs.
+
+4.Test Data
+
+Data Field	          Valid Example	                    Invalid Example
+Child Name	          John Doe	                    (empty)
+Email	                  parent@gmail.com                  parentgmail.com
+Phone Number	          0823456789	                    abc123
+Date of Birth	          2020-05-10	                    2030-01-01
+
+5.Detailed Test Cases
+
+
+Tiny tots.txt
+Document
+can you please help me write testing procedures for this document and check any errors
+
+Hi Pheladi 👋🏽
+
+I’ve carefully reviewed your SRD for Tiny Tots Crèche. Overall, this is a very good and well-structured document 👏 — especially for an academic project.
+
+I will do two things for you:
+
+✅ Point out errors / improvements
+
+✅ Create detailed Testing Procedures (Full Test Plan Section)
+
+✅ PART 1: Errors & Improvements Found
+Below are corrections and recommendations:
+
+🔹 1. Numbering Issues
+❌ Issue:
+You have:
+
+FR-ADM 01
+
+FRD-04
+
+5.7 Login Audit
+
+Two section 4s (Admission & Headmaster)
+
+✅ Correction:
+Use consistent formatting:
+
+Current	Correct
+FR-ADM 01	FR-ADM-01
+FRD-04	FR-ADM-04
+FR-HMA 01	FR-HMA-01
+5.7 Login Audit	FR-LOG-07
+Two section 4	Make Headmaster 4.2
+Consistency is important for traceability during testing.
+
+🔹 2. Missing Functional Requirements
+You mention:
+
+Email address in Headmaster view
+
+Preferred start date
+
+Additional notes
+
+But these fields are NOT defined in FR-ADM section.
+
+✅ Add:
+FR-ADM-06 Additional Fields
+
+Email address
+
+Preferred start date
+
+Additional notes
+
+🔹 3. Minor Grammar Corrections
+Current	Correction
+creche	crèche (be consistent)
+kid	child
+Mother and father's ID	Mother’s and Father’s ID copies
+Must be three different people	Must allow exactly three different people
+🔹 4. Validation Issue
+You wrote:
+
+Grade must be selected
+
+But your form does NOT contain a grade field.
+
+✅ Either:
+Remove it
+OR
+
+Add Grade/Class field in FR-ADM
+
+🔹 5. Security Improvement
+Add:
+
+NFR-SEC-06:
+The system shall use HTTPS for secure communication.
+This is very important.
+
+✅ PART 2: FULL TESTING PROCEDURES DOCUMENT
+Below is a structured Testing Procedures Section you can add after Validation Requirements.
+
+🧪 TEST PLAN & TESTING PROCEDURES
+1. Introduction
+This test plan describes the testing approach for the Tiny Tots Crèche Website to ensure that the system meets all functional and non-functional requirements defined in the SRD.
+
+2. Testing Objectives
+The objectives of testing are:
+
+Verify that all functional requirements work correctly
+
+Validate all input fields and file uploads
+
+Ensure data security and privacy
+
+Confirm system performance and reliability
+
+Identify and fix defects before deployment
+
+3. Types of Testing
+🔹 3.1 Unit Testing
+Objective:
+To test individual components independently.
+
+Performed By:
+Developer
+
+Procedure:
+Test each form field validation.
+
+Test login authentication function.
+
+Test file upload function.
+
+Test status update logic.
+
+Test notification sending function.
+
+Expected Result:
+Each function works correctly in isolation.
+
+🔹 3.2 Integration Testing
+Objective:
+To verify that system components work together.
+
+Procedure:
+Submit admission form.
+
+Check if data is saved in database.
+
+Login as Headmaster.
+
+Verify application appears on dashboard.
+
+Change status to “Accepted”.
+
+Confirm notification is sent.
+
+Expected Result:
+All modules communicate correctly.
+
+🔹 3.3 System Testing
+Objective:
+To test the complete system.
+
+Procedure:
+Navigate all website pages.
+
+Test full admission process.
+
+Test login for all roles.
+
+Test dashboard reporting.
+
+Test exporting PDF/Excel.
+
+Expected Result:
+Entire system works as specified in SRD.
+
+🔹 3.4 User Acceptance Testing (UAT)
+Objective:
+To confirm system meets stakeholder expectations.
+
+Performed By:
+Crèche Management / Headmaster
+
+Procedure:
+Headmaster logs in.
+
+Reviews applications.
+
+Accepts/declines application.
+
+Reviews reports.
+
+Confirms system usability.
+
+Expected Result:
+Stakeholders approve system for deployment.
+
+🔹 3.5 Functional Testing
+Test each FR requirement:
+
+Requirement	Test Case	Expected Result
+FR-HOME-01	Open home page	Logo and name displayed
+FR-ADM-01	Submit form empty	Error shown
+FR-ADM-05	Upload invalid file	Rejected
+FR-HMA-05	Accept application	Status changes
+FR-LOG-02	Enter wrong password	Access denied
+🔹 3.6 Validation Testing
+Test Cases:
+Test Scenario	Expected Result
+Upload .exe file	Rejected
+Upload file >2MB	Rejected
+Enter future DOB	Error message
+Invalid email format	Error message
+Empty required field	Submission blocked
+🔹 3.7 Security Testing
+Procedure:
+Attempt SQL injection in login.
+
+Attempt to access dashboard without login.
+
+Attempt to change URL to access restricted pages.
+
+Check password storage in database.
+
+Check HTTPS encryption.
+
+Expected Result:
+System blocks all unauthorised access attempts.
+
+🔹 3.8 Performance Testing
+Procedure:
+Load home page.
+
+Measure load time.
+
+Simulate multiple users submitting forms.
+
+Test dashboard response time.
+
+Expected Result:
+Page loads under 3 seconds.
+
+🔹 3.9 Compatibility Testing
+Test On:
+Google Chrome
+
+Microsoft Edge
+
+Mozilla Firefox
+
+Mobile phone
+
+Tablet
+
+Expected Result:
+Layout responsive and functional across devices.
+
+🔹 3.10 Accessibility Testing
+Procedure:
+Check font readability.
+
+Test colour contrast.
+
+Test keyboard navigation.
+
+Add alt text to images.
+
+Expected Result:
+Accessible for users with visual impairments.
+
+🔹 4. Test Environment
+Development Server
+
+MySQL Database
+
+PHP / Laravel (if used)
+
+Chrome, Edge, Firefox
+
+Windows OS
+
+🔹 5. Test Data
+Use:
+
+Valid child data
+
+Invalid emails
+
+Oversized files
+
+Duplicate applications
+
+Boundary dates
+
+🔹 6. Defect Reporting Procedure
+Identify defect.
+
+Record defect ID.
+
+Describe issue.
+
+Assign severity:
+
+Critical
+
+Major
+
+Minor
+
+Assign to developer.
+
+Retest after fix.
+
+⭐ Overall Evaluation
+Your SRD is:
+
+✅ Structured
+✅ Academic-standard
+✅ Clear
+✅ Traceable
+✅ Suitable for submission
+
+With small corrections applied, this can score very high academically.
+
+If you'd like, I can next:
+
+📄 Convert this into a full professional Test Plan document
+
+📊 Create a Test Case Matrix
+
+📑 Create a Requirements Traceability Matrix (RTM)
+
+📌 Create a Testing Checklist per page
+
+Tell me which one you need next 😊
+
+
+
+Tiny tots.txt
+Document
+can you please create test case scenarios, test cases and testing procedures the system will be developed using php and json
+
+Great question 👍 Pheladi. Since your Tiny Tots Crèche system will be developed using PHP and JSON, the testing should verify:
+
+PHP backend logic
+
+JSON data handling
+
+Form validation
+
+Database interactions
+
+UI behaviour
+
+Your SRD already defines the requirements clearly. For example, the Admission Form, Login System, Gallery, and Headmaster Dashboard will require detailed testing. 
+Tiny tots
+
+
+Below is a structured section you can add to your document containing:
+
+1️⃣ Test Scenario
+2️⃣ Test Case
+3️⃣ Testing Procedure (Steps)
+
+TEST CASE SCENARIOS, TEST CASES AND TESTING PROCEDURES
+1. Home Page Testing
+Test Scenario 1: Verify Home Page Loads Correctly
+Test Case ID	TC-HOME-01
+Requirement	FR-HOME-01
+Description	Verify crèche branding appears
+Input	Open website
+Expected Result	Logo, name, and brand colours displayed
+Testing Procedure
+Open the website URL.
+
+Observe the top header section.
+
+Verify the crèche logo is displayed.
+
+Confirm the crèche name appears.
+
+Check that the colours match the defined theme.
+
+Test Scenario 2: Navigation Menu Works
+Test Case ID	TC-HOME-02
+Requirement	FR-HOME-03
+Description	Verify navigation links
+Input	Click navigation menu
+Expected Result	Correct pages load
+Testing Procedure
+Open the website.
+
+Click About Us.
+
+Confirm the About page loads.
+
+Click Admissions.
+
+Confirm the admission form loads.
+
+Repeat for Gallery and Contact.
+
+2. Admission Form Testing
+Test Scenario 3: Submit Admission Form Successfully
+Test Case ID	TC-ADM-01
+Requirement	FR-ADM-01
+Description	Parent submits admission form
+Input	Valid data
+Expected Result	Application saved successfully
+Testing Procedure
+Navigate to Admissions page.
+
+Enter child information.
+
+Enter parent information.
+
+Enter emergency contacts.
+
+Enter transport collectors.
+
+Upload required documents.
+
+Click Submit.
+
+Verify success message appears.
+
+Verify application status is Pending.
+
+Test Scenario 4: Required Field Validation
+Test Case ID	TC-ADM-02
+Requirement	Validation Rules
+Description	Form should not submit if fields are empty
+Input	Leave required fields empty
+Expected Result	Error messages appear
+Testing Procedure
+Open the admission form.
+
+Leave child name empty.
+
+Click Submit.
+
+Check error message appears.
+
+Repeat for other required fields.
+
+Test Scenario 5: File Upload Validation
+Test Case ID	TC-ADM-03
+Requirement	Validation
+Description	Invalid files rejected
+Input	Upload unsupported file
+Expected Result	System rejects upload
+Testing Procedure
+Open admission form.
+
+Upload .exe file.
+
+Click upload.
+
+Verify error message appears.
+
+Upload file larger than 2MB.
+
+Verify system rejects the file.
+
+3. Login System Testing
+Test Scenario 6: Successful Login
+Test Case ID	TC-LOG-01
+Requirement	FR-LOG-02
+Description	User logs in successfully
+Input	Valid username and password
+Expected Result	Redirect to dashboard
+Testing Procedure
+Navigate to login page.
+
+Enter valid email.
+
+Enter correct password.
+
+Click login.
+
+Verify user redirected to Headmaster dashboard.
+
+Test Scenario 7: Invalid Login
+Test Case ID	TC-LOG-02
+Requirement	FR-LOG-02
+Description	Incorrect credentials
+Input	Wrong password
+Expected Result	Access denied
+Testing Procedure
+Open login page.
+
+Enter correct email.
+
+Enter incorrect password.
+
+Click login.
+
+Verify error message appears.
+
+4. Headmaster Dashboard Testing
+Test Scenario 8: View Applications
+Test Case ID	TC-HMA-01
+Requirement	FR-HMA-03
+Description	Headmaster views applications
+Input	Login as headmaster
+Expected Result	List of applications displayed
+Testing Procedure
+Login as headmaster.
+
+Navigate to dashboard.
+
+Click Applications.
+
+Verify application list appears.
+
+Check application status column.
+
+Test Scenario 9: Accept Application
+Test Case ID	TC-HMA-02
+Requirement	FR-HMA-05
+Description	Accept an application
+Input	Click Accept
+Expected Result	Status changes to Accepted
+Testing Procedure
+Login as headmaster.
+
+Open application details.
+
+Click Accept Application.
+
+Confirm status changes to Accepted.
+
+Verify notification sent to parent.
+
+5. Gallery Testing
+Test Scenario 10: Display Image Gallery
+Test Case ID	TC-GAL-01
+Requirement	FR-GAL-01
+Description	Verify images display
+Input	Open gallery page
+Expected Result	Images shown in grid
+Testing Procedure
+Navigate to gallery page.
+
+Verify images load.
+
+Check grid layout.
+
+Click an image.
+
+Verify lightbox preview opens.
+
+6. Security Testing
+Test Scenario 11: SQL Injection Protection
+Test Case ID	TC-SEC-01
+Requirement	NFR-SEC
+Description	Prevent SQL injection
+Input	SQL injection query
+Expected Result	Login blocked
+Testing Procedure
+Open login page.
+
+Enter username:
+
+' OR '1'='1
+Enter any password.
+
+Click login.
+
+Verify access is denied.
+
+7. Performance Testing
+Test Scenario 12: Page Load Speed
+Test Case ID	TC-PERF-01
+Requirement	NFR-PERF-01
+Description	Website load time
+Input	Open website
+Expected Result	Page loads under 3 seconds
+Testing Procedure
+Open Chrome DevTools.
+
+Navigate to Network tab.
+
+Reload homepage.
+
+Measure load time.
+
+Confirm load time is < 3 seconds.
+
+8. JSON Data Testing (Important for Your System)
+Since you will use PHP + JSON, test JSON handling.
+
+Test Scenario 13: JSON Data Storage
+Test Case ID	TC-DATA-01
+Description	Verify application saved as JSON
+Expected Result	Data stored correctly
+Testing Procedure
+Submit admission form.
+
+Access server JSON file.
+
+Open JSON data.
+
+Verify child information saved.
+
+Verify parent information saved.
+
+Example JSON:
+
+{
+ "child_name": "John Doe",
+ "date_of_birth": "2021-04-12",
+ "parent_name": "Mary Doe",
+ "phone": "0823456789",
+ "status": "Pending"
+}
+Final Tip for Your Assignment
+Lecturers usually want at least 15–25 test cases.
+
+You currently have 13 strong ones.
+
+You can also add:
+
+Password reset testing
+
+Session timeout testing
+
+Mobile responsiveness testing
+
+File preview testing
+
+Dashboard statistics testing
+
+✅ If you want, I can also create:
+
+30 COMPLETE TEST CASES (very high marks)
+
+Requirements Traceability Matrix (RTM)
+
+Full Test Plan Document
+
+Test Data Table for PHP + JSON
+
+Just tell me 👍
+
+
+Sources
+
+30 complete test cases
+
+Below are 30 complete test cases aligned with your SRD and suitable for a PHP + JSON based system (like your Tiny Tots Crèche website). These test cases cover functional, validation, security, and performance requirements mentioned in your document. 
+Tiny tots
+
+
+You can place this section under “Test Cases” in your test plan.
+
+COMPLETE TEST CASES (30)
+1. Home Page Test Cases
+Test Case ID	Requirement	Description	Test Steps	Expected Result
+TC-HOME-01	FR-HOME-01	Verify crèche logo displays	Open website homepage	Logo appears on header
+TC-HOME-02	FR-HOME-01	Verify crèche name displays	Open homepage	Crèche name visible
+TC-HOME-03	FR-HOME-02	Verify hero section loads	Open homepage	Headline and message displayed
+TC-HOME-04	FR-HOME-03	Verify navigation menu links	Click each menu link	Correct pages load
+TC-HOME-05	FR-HOME-06	Verify CTA button works	Click “Apply Now”	Redirects to admission form
+2. About Page Test Cases
+Test Case ID	Requirement	Description	Test Steps	Expected Result
+TC-ABOUT-01	FR-ABOUT-01	Verify crèche history displays	Open About page	History text visible
+TC-ABOUT-02	FR-ABOUT-02	Verify vision displayed	Navigate to About page	Vision statement visible
+TC-ABOUT-03	FR-ABOUT-02	Verify mission displayed	Navigate to About page	Mission statement visible
+TC-ABOUT-04	FR-ABOUT-03	Verify core values displayed	Open About page	List of values visible
+TC-ABOUT-05	FR-ABOUT-04	Verify staff information	Open About page	Headmaster details displayed
+3. Gallery Test Cases
+Test Case ID	Requirement	Description	Test Steps	Expected Result
+TC-GAL-01	FR-GAL-01	Verify images load	Open gallery page	Images displayed in grid
+TC-GAL-02	FR-GAL-02	Verify image categories	Select category	Relevant images displayed
+TC-GAL-03	FR-GAL-03	Verify image preview	Click image	Lightbox preview opens
+TC-GAL-04	FR-GAL-03	Verify gallery navigation	Click next/previous	Images change
+TC-GAL-05	FR-GAL-05	Admin uploads image	Upload image from dashboard	Image appears in gallery
+4. Admission Form Test Cases
+Test Case ID	Requirement	Description	Test Steps	Expected Result
+TC-ADM-01	FR-ADM-01	Submit form with valid data	Fill form correctly and submit	Application saved
+TC-ADM-02	Validation	Required fields empty	Leave fields blank	Error message shown
+TC-ADM-03	Validation	Invalid email format	Enter email without “@”	Error message displayed
+TC-ADM-04	Validation	Future birth date	Enter future date	System rejects input
+TC-ADM-05	Validation	Phone number validation	Enter letters in phone field	Error message displayed
+5. Document Upload Test Cases
+Test Case ID	Requirement	Description	Test Steps	Expected Result
+TC-UPL-01	Validation	Upload valid document	Upload PDF birth certificate	Upload successful
+TC-UPL-02	Validation	Upload invalid file type	Upload .exe file	System rejects file
+TC-UPL-03	Validation	Upload oversized file	Upload file >2MB	Upload rejected
+TC-UPL-04	Validation	Image preview	Upload image file	Image preview shown
+TC-UPL-05	Validation	Missing required documents	Submit form without documents	Submission blocked
+6. Login System Test Cases
+Test Case ID	Requirement	Description	Test Steps	Expected Result
+TC-LOG-01	FR-LOG-01	Verify login page loads	Navigate to login page	Login form displayed
+TC-LOG-02	FR-LOG-02	Successful login	Enter valid credentials	Redirect to dashboard
+TC-LOG-03	FR-LOG-02	Invalid login attempt	Enter wrong password	Error message shown
+TC-LOG-04	FR-LOG-04	Logout function	Click logout button	User logged out
+TC-LOG-05	FR-LOG-05	Unauthorized access	Enter dashboard URL without login	Redirect to login page
+7. Headmaster Dashboard Test Cases
+Test Case ID	Requirement	Description	Test Steps	Expected Result
+TC-HMA-01	FR-HMA-02	Dashboard statistics	Login as headmaster	Application counts displayed
+TC-HMA-02	FR-HMA-03	View applications	Open applications list	All applications visible
+TC-HMA-03	FR-HMA-05	Accept application	Click accept button	Status changes to Accepted
+TC-HMA-04	FR-HMA-05	Decline application	Click decline button	Status changes to Declined
+TC-HMA-05	FR-HMA-08	Search application	Search by child name	Matching application appears
+8. JSON Data Handling Test Cases (PHP Backend)
+Test Case ID	Requirement	Description	Test Steps	Expected Result
+TC-DATA-01	Data Requirement	Verify JSON storage	Submit application	JSON record created
+TC-DATA-02	Data Requirement	Verify JSON structure	Open JSON file	Fields correctly structured
+TC-DATA-03	Data Requirement	Verify data retrieval	Load applications page	JSON data displayed
+9. Performance & Security Test Cases
+Test Case ID	Requirement	Description	Test Steps	Expected Result
+TC-PERF-01	NFR-PERF-01	Page load speed	Open homepage	Loads within 3 seconds
+TC-SEC-01	NFR-SEC-05	SQL injection prevention	Enter SQL injection in login	Access denied
+TC-SEC-02	NFR-SEC	Session timeout	Leave session idle	User logged out automatically
+Summary
+Total Test Cases: 30
+
+Coverage:
+
+Area	Test Cases
+Home Page	5
+About Page	5
+Gallery	5
+Admission Form	5
+Document Upload	5
+Login System	5
+Dashboard	5
+JSON Data	3
+Security & Performance	2
+✅ These test cases will score well because they cover:
+
+Functional testing
+
+Validation testing
+
+Security testing
+
+Performance testing
+
+Backend data testing (PHP + JSON)
+
+If you want, I can also help you with something that lecturers love seeing in testing documents:
+
+✔ Requirements Traceability Matrix (RTM)
+✔ Test Data Tables
+✔ Defect Report Template
+✔ Test Execution Report
+
+These usually add another 10–20 marks to the assignment.
+
+
+Sources
+
+full test plan document
+
+Below is a complete Test Plan Document you can include in your project for the Tiny Tots Crèche Website System (PHP + JSON). It follows a structure commonly used in IEEE / academic software testing documents, which should work well for assignments.
+
+SOFTWARE TEST PLAN DOCUMENT
+Tiny Tots Crèche Management Website
+1. Introduction
+1.1 Purpose of the Test Plan
+The purpose of this Test Plan is to define the testing strategy, procedures, resources, and schedule required to verify that the Tiny Tots Crèche Website system functions according to the Software Requirements Specification (SRS/SRD). The document ensures that all functional and non-functional requirements are tested before deployment.
+
+1.2 Scope of Testing
+Testing will focus on verifying that the web-based crèche management system works correctly, securely, and efficiently. The testing process will cover:
+
+Website navigation
+
+Admission form functionality
+
+Document upload and validation
+
+Login and authentication
+
+Headmaster dashboard operations
+
+Gallery display and management
+
+Data storage using JSON
+
+Performance and security requirements
+
+The system will be developed using PHP for backend logic and JSON for data storage and transfer.
+
+2. Test Objectives
+The objectives of the testing process are to:
+
+Verify that the system meets all functional requirements.
+
+Validate user input fields and form submissions.
+
+Ensure secure login and access control.
+
+Confirm correct data storage using JSON.
+
+Detect and correct system defects before deployment.
+
+Ensure system performance and reliability.
+
+3. Test Scope
+3.1 In Scope
+The following components will be tested:
+
+Home Page
+
+About Page
+
+Gallery Page
+
+Admission Application Form
+
+File Upload System
+
+Login System
+
+Headmaster Dashboard
+
+JSON Data Handling
+
+Security Features
+
+Performance
+
+3.2 Out of Scope
+The following will not be tested in this phase:
+
+Third-party email/SMS services
+
+External hosting infrastructure
+
+Future modules such as payments and parent portals
+
+4. Test Strategy
+Testing will be conducted using different levels of testing to ensure system reliability.
+
+4.1 Unit Testing
+Each individual module developed in PHP will be tested independently.
+
+Examples:
+
+Form validation functions
+
+Login authentication logic
+
+JSON file reading/writing functions
+
+4.2 Integration Testing
+Modules will be tested together to ensure they communicate correctly.
+
+Example:
+
+Admission Form → JSON Storage → Dashboard Display
+
+4.3 System Testing
+The complete system will be tested to verify that all components work together correctly.
+
+Examples:
+
+Full admission process
+
+Login and role-based access
+
+Viewing and approving applications
+
+4.4 User Acceptance Testing (UAT)
+The system will be tested by stakeholders such as crèche management to confirm that the system meets business needs.
+
+5. Test Environment
+The testing environment will include the following tools and platforms:
+
+Component	Description
+Operating System	Windows 10/11
+Web Server	Apache (XAMPP or similar)
+Programming Language	PHP
+Data Storage	JSON
+Browser	Chrome, Edge, Firefox
+Development Tools	VS Code / PHPStorm
+Testing Tools	Browser Developer Tools
+6. Test Data
+The following test data will be used:
+
+Data Type	Example
+Child Name	John Doe
+Date of Birth	2021-04-12
+Parent Name	Mary Doe
+Email Address	mary@example.com
+Phone Number	0823456789
+File Upload	BirthCertificate.pdf
+Invalid data will also be used for validation testing such as:
+
+Incorrect email formats
+
+Future birth dates
+
+Files larger than 2MB
+
+Unsupported file types
+
+7. Test Case Scenarios
+Testing will be performed on the following system features:
+
+Module	Test Scenario
+Home Page	Display logo, navigation menu, hero section
+About Page	Display mission, vision, and crèche information
+Gallery	Display images and preview functionality
+Admission	Submit admission form and validate input
+Uploads	Validate file types and sizes
+Login	Verify authentication and session management
+Dashboard	View and manage applications
+JSON Data	Verify storage and retrieval
+Security	Prevent unauthorized access
+Performance	Ensure fast page loading
+8. Test Cases
+A total of 30 test cases will be executed covering the system modules.
+
+Examples include:
+
+Test Case ID	Description	Expected Result
+TC-HOME-01	Verify logo displays	Logo visible
+TC-HOME-02	Navigation menu works	Correct pages load
+TC-ADM-01	Submit valid admission form	Application saved
+TC-ADM-02	Required field validation	Error message shown
+TC-UPL-01	Upload valid document	Upload successful
+TC-UPL-02	Upload invalid file	Upload rejected
+TC-LOG-01	Successful login	Redirect to dashboard
+TC-LOG-02	Invalid login attempt	Error displayed
+TC-HMA-01	View applications	List displayed
+TC-HMA-02	Accept application	Status updated
+(The full list of 30 cases can be included in the test case section previously created.)
+
+9. Testing Procedures
+Testing will follow the procedure below:
+
+Step 1 – Prepare Test Environment
+Install web server (XAMPP)
+
+Configure PHP environment
+
+Deploy the application
+
+Step 2 – Prepare Test Data
+Create valid and invalid user data
+
+Prepare sample documents for upload testing
+
+Step 3 – Execute Test Cases
+Execute test cases sequentially
+
+Record results for each test
+
+Step 4 – Record Results
+Each test will be marked as:
+
+Pass
+
+Fail
+
+Blocked
+
+Step 5 – Log Defects
+If a test fails, a defect will be logged and assigned to the developer.
+
+Step 6 – Retesting
+After fixing defects, the test case will be executed again.
+
+10. Defect Management
+Defects discovered during testing will be recorded in a defect log.
+
+Defect ID	Description	Severity	Status
+DEF-01	Login fails with valid credentials	Critical	Open
+DEF-02	File upload accepts invalid format	Major	Open
+DEF-03	Gallery images not loading	Minor	Open
+Severity levels:
+
+Critical – System cannot function
+
+Major – Core feature broken
+
+Minor – Small usability issue
+
+11. Entry and Exit Criteria
+Entry Criteria
+Testing will begin when:
+
+Development of modules is completed
+
+Test environment is ready
+
+Test cases are prepared
+
+Exit Criteria
+Testing will end when:
+
+All test cases are executed
+
+Critical defects are fixed
+
+System meets functional requirements
+
+12. Risks and Mitigation
+Risk	Mitigation
+Incomplete requirements	Review SRD before testing
+Data loss during testing	Use backup test data
+Server configuration issues	Use local development server
+13. Deliverables
+The following documents will be produced during testing:
+
+Test Plan Document
+
+Test Case Document
+
+Test Execution Report
+
+Defect Log
+
+Final Test Summary Report
+
+14. Test Schedule
+Phase	Activity
+Week 1	Prepare test plan
+Week 2	Create test cases
+Week 3	Execute tests
+Week 4	Fix defects and retest
+Week 5	Final testing and reporting
+15. Test Summary
+The testing process will ensure that the Tiny Tots Crèche website is reliable, secure, and meets the needs of parents, staff, and administrators. The test plan provides a structured approach to verifying all system components before deployment.
+
+✅ If you want, I can also create 3 things that will make your project look very professional and get higher marks:
+
+1️⃣ Requirements Traceability Matrix (RTM)
+2️⃣ Test Execution Report template
+3️⃣ Defect Log template
+
+These usually make the testing section look like a real industry QA document.
+
+
+can you please include fully detailed test cases on the test plan this is for my intern work
+
+Below is an enhanced Test Plan Document with fully detailed test cases included. This format is closer to what is used in industry QA documentation and should work well for internship documentation. It includes clear test steps, expected results, and traceability to requirements.
+
+SOFTWARE TEST PLAN DOCUMENT
+Tiny Tots Crèche Management Website System
+1. Introduction
+1.1 Purpose
+The purpose of this Test Plan is to define the testing approach, resources, test cases, and procedures used to verify that the Tiny Tots Crèche Website System meets all functional and non-functional requirements. The test plan ensures that the system operates correctly before deployment and that all defects are identified and resolved.
+
+1.2 Scope
+Testing will verify the functionality and reliability of the Tiny Tots Crèche Website which is developed using PHP for backend logic and JSON for data storage and data exchange.
+
+The following modules will be tested:
+
+Home Page
+
+About Page
+
+Gallery
+
+Admission Application Form
+
+File Upload System
+
+Login and Authentication
+
+Headmaster Dashboard
+
+JSON Data Storage
+
+Security and Performance
+
+2. Test Environment
+Component	Description
+Operating System	Windows 10 / Windows 11
+Server	Apache (XAMPP)
+Programming Language	PHP
+Data Storage	JSON
+Browsers	Google Chrome, Microsoft Edge, Mozilla Firefox
+Testing Tools	Browser DevTools
+3. Test Strategy
+Testing will be conducted using the following testing levels:
+
+Unit Testing
+Testing individual PHP functions such as validation and JSON data handling.
+
+Integration Testing
+Testing interactions between modules such as form submission → JSON storage → dashboard display.
+
+System Testing
+Testing the entire website to verify that all system components work together.
+
+User Acceptance Testing
+Stakeholders such as the Headmaster or management confirm the system meets operational needs.
+
+4. Test Data
+Data Field	Valid Example	Invalid Example
+Child Name	John Doe	(empty)
+Email	parent@gmail.com	parentgmail.com
+Phone Number	0823456789	abc123
+Date of Birth	2020-05-10	2030-01-01
+File Upload	birthcertificate.pdf	malware.exe
+
+5. Detailed Test Cases
+---------------------------------------------------------------------------------
+MODULE 1: Home Page
+TEST CASE 1
+TEST CASE ID: TC-HOME-01
+REQUIREMENTS: FR-HOME-01
+TEST CASE SCENARIO: Verify crèche branding is displayed
+
+Preconditions
+Website is deployed and accessible.
+=======================================================
+Test Steps
+==========================================================
+Open web browser.
+Enter the website URL.
+Load the home page.
+Observe the header section.
+=============================================================
+Expected Result
+========================================================
+Crèche logo is displayed.
+Crèche name is visible.
+Brand colours appear consistently.
+---------------------------------------------------------------------------------
+TEST CASE 2
+TEST CASE ID: TC-HOME-02
+REQUIREMENTS: FR-HOME-03
+SCENARIO: Verify navigation menu links
+===========================================
+Test Steps
+==========================================
+Open the home page.
+Click the About Us menu item.
+Click Admissions.
+Click Gallery.
+Click Contact Us.
+=======================================================
+Expected Result
+======================================================
+Each link opens the correct page.
+---------------------------------------------------------------------------------
+TEST CASE 3
+TEST CASE ID: TC-HOME-03
+REQUIREMENT: FR-HOME-06
+SCENARIO: Verify call-to-action button works
+===========================================================
+Test Steps
+===========================================================
+Open home page.
+Locate Apply Now / Admission button.
+Click the button.
+========================================================
+Expected Result
+=========================================================
+User is redirected to the admission form page.
+--------------------------------------------------------------------------------
+MODULE 2: About Page
+TEST CASE 4
+TEST CASE ID: TC-ABOUT-01
+REQUIREMENT: FR-ABOUT-01
+SCENARIO: Verify crèche background information displays.
+==============================================================
+Test Steps
+=============================================================
+Open website.
+Navigate to About Us page.
+Scroll through page.
+=========================================================
+Expected Result
+========================================================
+Crèche history and year established are displayed.
+---------------------------------------------------------------------------------
+Test Case 5
+TEST CASE ID: TC-ABOUT-02
+REQUIREMENT: FR-ABOUT-02
+SCENARIO: Verify mission and vision statements.
+============================================================
+Test Steps
+===========================================================
+Open About page.
+Locate Vision Statement.
+Locate Mission Statement.
+===========================================================
+Expected Result
+===========================================================
+Both mission and vision statements appear correctly.
+---------------------------------------------------------------------------------
+MODULE 3: Gallery
+TEST CASE 6
+TEST CASE ID: TC-GAL-01
+REQUIREMENT: FR-GAL-01
+SCENARIO: Verify gallery images display.
+============================================================
+Test Steps
+=============================================================
+Navigate to Gallery page.
+Observe image grid.
+==========================================================
+Expected Result
+============================================================
+Images are displayed in grid layout.
+---------------------------------------------------------------------------------
+TEST CASE7
+TEST CASE ID: TC-GAL-02
+REQUIREMENT: FR-GAL-03
+SCENARIO: Verify image preview.
+==========================================================
+Test Steps
+==========================================================
+Open gallery page.
+Click an image.
+===========================================================
+Expected Result
+===========================================================
+Image opens in enlarged preview (lightbox).
+---------------------------------------------------------------------------------
+MODULE 4: Admission Form
+TEST CASE 8
+TEST CASE ID: TC-ADM-01
+REQUIREMENT: FR-ADM-01
+SCENARIO: Submit valid admission form.
+=========================================================
+Test Steps
+=========================================================
+Navigate to Admissions page.
+Enter child information.
+Enter parent information.
+Enter emergency contacts.
+Upload documents.
+Click Submit.
+=========================================================
+Expected Result
+==========================================================
+Application successfully submitted and confirmation message displayed.
+---------------------------------------------------------------------------------
+TEST CASE 9
+TEST CASE ID: TC-ADM-02
+REQUIREMENT: Validation
+SCENARIO: Required field validation.
+=========================================================
+Test Steps
+=========================================================
+Open admission form.
+Leave child name blank.
+Click Submit.
+=========================================================
+Expected Result
+===========================================================
+System displays error message requiring the field.
+---------------------------------------------------------------------------------
+TEST CASE 10
+TEST CASE ID: TC-ADM-03
+SCENARIO: Date of birth validation.
+===========================================================
+Test Steps
+==========================================================
+Enter future date in DOB field.
+Submit form.
+============================================================
+Expected Result
+===========================================================
+System rejects submission and displays error message.
+---------------------------------------------------------------------------------
+MODULE 5: File Upload System
+Test Case 11
+Test Case ID: TC-UPL-01
+Scenario: Upload valid document.
+=========================================================
+Steps
+==========================================================
+Upload PDF birth certificate.
+Submit form.
+==========================================================
+Expected Result
+==========================================================
+File uploads successfully.
+--------------------------------------------------------------------------------
+TEST CASE 12
+TEST CASE ID: TC-UPL-02
+SCENARIO: Upload invalid file type.
+=========================================================
+Test Steps
+===========================================================
+Upload file with extension .exe.
+===========================================================
+Expected Result
+===========================================================
+System rejects the upload.
+---------------------------------------------------------------------------------
+TEST CASE 13
+TEST CASE ID: TC-UPL-03
+SCENARIO: Upload file larger than allowed size.
+=========================================================
+Test Steps
+=========================================================
+Upload file larger than 2MB.
+========================================================
+Expected Result
+========================================================
+System displays file size error.
+---------------------------------------------------------------------------------
+Module 6: Login System
+Test Case 14
+Test Case ID: TC-LOG-01
+Scenario: Successful login.
+====================================================
+Steps
+=====================================================
+Open login page.
+Enter valid email and password.
+Click login.
+======================================================
+Expected Result
+=======================================================
+User redirected to dashboard.
+---------------------------------------------------------------------------------
+Test Case 15
+Test Case ID: TC-LOG-02
+Scenario: Invalid login credentials.
+=============================================
+Steps
+===========================================
+Enter incorrect password.
+Click login.
+==============================================
+Expected Result
+=============================================
+System displays login error.
+---------------------------------------------------------------------------------
+Test Case 16
+Test Case ID: TC-LOG-03
+Scenario: Logout functionality.
+=====================================================
+Steps
+=====================================================
+Login to dashboard.
+Click logout button.
+======================================================
+Expected Result
+======================================================
+User session ends and login page appears.
+---------------------------------------------------------------------------------
+Module 7: Headmaster Dashboard
+Test Case 17
+Test Case ID: TC-HMA-01
+Scenario: View applications list.
+=======================================================
+Steps
+===========================================================
+Login as Headmaster.
+Navigate to Applications page.
+=======================================================
+Expected Result
+==========================================================
+All submitted applications are displayed.
+---------------------------------------------------------------------------------
+Test Case 18
+Test Case ID: TC-HMA-02
+Scenario: Accept application.
+==================================================
+Steps
+====================================================
+Open application details.
+Click Accept button.
+=========================================================
+Expected Result
+=============================================================
+Application status changes to Accepted.
+---------------------------------------------------------------------------------
+Test Case 19
+Test Case ID: TC-HMA-03
+Scenario: Decline application.
+=============================================================
+Steps
+============================================================
+Open application.
+Click Decline.
+============================================================
+Expected Result
+===========================================================
+Status updates to Declined.
+---------------------------------------------------------------------------------
+Module 8: JSON Data Handling
+Test Case 20
+Test Case ID: TC-DATA-01
+Scenario: Verify JSON data storage.
+=============================================================
+Steps
+==============================================================
+Submit admission form.
+Open JSON storage file.
+==============================================================
+Expected Result
+==============================================================
+Application data stored in JSON format
+---------------------------------------------------------------------------------
+Test Case 21
+Scenario: Verify JSON data retrieval.
+========================================================
+Steps
+==========================================================
+Login as Headmaster.
+Open applications page.
+========================================================
+Expected Result
+=======================================================
+JSON data correctly displayed in dashboard.
+---------------------------------------------------------------------------------
+Module 9: Security Testing
+Test Case 22
+Scenario: SQL Injection prevention.
+=========================================================
+Steps
+============================================================
+Enter ' OR '1'='1 in login field.
+==========================================================
+Expected Result
+=========================================================
+Login fails.
+---------------------------------------------------------------------------------
+Test Case 23
+Scenario: Unauthorized page access.
+==========================================================
+Steps
+===========================================================
+Attempt to open dashboard without login.
+===========================================================
+Expected Result
+=============================================================
+User redirected to login page.
+---------------------------------------------------------------------------------
+Module 10: Performance Testing
+Test Case 24
+Scenario: Page load speed.
+=============================================================
+Steps
+=============================================================
+Open homepage.
+Measure load time using browser tools.
+============================================================
+Expected Result
+===========================================================
+Page loads within 3 seconds.
+---------------------------------------------------------------------------------
+Additional Test Cases
+===========================================================
+ID	Scenario
+TC-25	Session timeout after inactivity
+TC-26	Mobile responsiveness
+TC-27	Multiple users accessing system
+TC-28	Archive old applications
+------------------------------------------------------------------------------------------
+6. Defect Reporting
+
+Defects will be logged with:
+
+Defect ID	Description	       Severity	           Status
+DEF-01	        Login failure	        Critical	    Open
+--------------------------------------------------------------------------------------------------
+7. Entry and Exit Criteria
+======================================================
+Entry Criteria
+System development completed
+Test environment prepared
+------------------------------------------------------------
+Exit Criteria
+All test cases executed
+Critical defects resolved
+_______________________________________________________________________________________________________________________________________________________________________
