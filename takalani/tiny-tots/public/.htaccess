@@ -1,0 +1,30 @@
+RewriteEngine On
+
+# Route all requests to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L,QSA]
+
+# Handle existing files and directories normally
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Hide .htaccess file
+<Files .htaccess>
+    Require all denied
+</Files>
+
+# Set default charset
+AddDefaultCharset UTF-8
+
+# Error handling
+ErrorDocument 404 errors/404.php
+ErrorDocument 500 errors/500.php

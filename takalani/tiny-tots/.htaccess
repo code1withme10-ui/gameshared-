@@ -1,0 +1,29 @@
+RewriteEngine On
+
+# Redirect to public directory
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/$1 [L]
+
+# Handle PHP files
+RewriteCond %{REQUEST_FILENAME} \.php$
+RewriteRule ^(.*)$ public/$1 [L]
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Hide .htaccess file
+<Files .htaccess>
+    Require all denied
+</Files>
+
+# Set default charset
+AddDefaultCharset UTF-8
+
+# Error handling
+ErrorDocument 404 /public/errors/404.php
+ErrorDocument 500 /public/errors/500.php
