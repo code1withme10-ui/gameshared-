@@ -1,1 +1,56 @@
-[]
+[
+    {
+        "id": "child_69a958a7e46d4",
+        "parent_id": "parent_69a0139e5bb0b",
+        "full_name": "Ampfarisaho Mathagu",
+        "dob": "2024-07-03",
+        "gender": "Male",
+        "grade": "Toddlers",
+        "address": "Tshakhuma, Luvhalani B, house 159",
+        "allergies": "Allegic to tin stuff",
+        "previous_school": "",
+        "documents": {
+            "birth_certificate": "\/uploads\/birth_certificate_69a958a7a8697.pdf",
+            "parent_id": "\/uploads\/parent_id_69a958a7c4b18.pdf",
+            "clinical_report": "\/uploads\/clinical_report_69a958a7d88e9.pdf"
+        },
+        "status": "pending",
+        "created_at": "2026-03-05 10:19:19"
+    },
+    {
+        "id": "child_69a9624e85d1e",
+        "parent_id": "parent_69a0139e5bb0b",
+        "full_name": "Junior Makala",
+        "dob": "2025-02-05",
+        "gender": "Male",
+        "grade": "Toddlers",
+        "address": "Tshakhuma, Luvhalani B, house 159",
+        "allergies": "None",
+        "previous_school": "",
+        "documents": {
+            "birth_certificate": "\/uploads\/birth_certificate_69a9624e2c810.pdf",
+            "parent_id": "\/uploads\/parent_id_69a9624e51a07.pdf",
+            "clinical_report": "\/uploads\/clinical_report_69a9624e5cdff.pdf"
+        },
+        "status": "pending",
+        "created_at": "2026-03-05 11:00:30"
+    },
+    {
+        "id": "child_69a96a5b52a31",
+        "parent_id": "parent_69a0139e5bb0b",
+        "full_name": "Junior Makala",
+        "dob": "2025-02-05",
+        "gender": "Male",
+        "grade": "Toddlers",
+        "address": "Tshakhuma, Luvhalani B, house 159",
+        "allergies": "None",
+        "previous_school": "",
+        "documents": {
+            "birth_certificate": "\/uploads\/birth_certificate_69a96a5a6b25e.pdf",
+            "parent_id": "\/uploads\/parent_id_69a96a5abe7f5.pdf",
+            "clinical_report": "\/uploads\/clinical_report_69a96a5ada0f8.pdf"
+        },
+        "status": "pending",
+        "created_at": "2026-03-05 11:34:51"
+    }
+]
