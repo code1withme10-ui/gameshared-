@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MVC & Routing – Full Chapter Recap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+        .w3-panel { margin-top: 10px; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>CodeWithMe – Architectural Training Series</h1>
+    <p class="w3-large">MVC & Routing – Full Chapter Recap</p>
+</div>
+
+<!-- Main Content -->
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+        <p>
+            Consolidate all phases of the MVC & Routing chapter.  
+            This page is your reference for:
+        </p>
+        <ul class="w3-ul">
+            <li>Controller, Model, and View integration</li>
+            <li>Routing using a custom Router</li>
+            <li>Message storage in JSON file</li>
+            <li>CLI message sending & status tracking</li>
+            <li>Safe decommission of old entry points (sender.php)</li>
+        </ul>
+    </div>
+
+    <!-- Phase Recap -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Phase Recap</h2>
+
+        <ol class="w3-ol">
+            <li><strong>Phase 1:</strong> Basic HTML sender.php form</li>
+            <li><strong>Phase 2:</strong> POST form → execute CLI using <code>shell_exec</code></li>
+            <li><strong>Phase 3:</strong> Introduced Router & Controller, mapped routes to methods</li>
+            <li><strong>Phase 4:</strong> Added Model (MessageModel) → messages stored in JSON</li>
+            <li><strong>Phase 5:</strong> Controller calls CLI, stores status, views display messages</li>
+            <li><strong>Phase 6:</strong> Optional: safely decommission sender.php, finalize routing</li>
+        </ol>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            Following all phases ensures a clean, maintainable MVC application.
+        </div>
+    </div>
+
+    <!-- File Structure -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Expected File Structure</h2>
+
+        <pre class="terminal">
+/tutorial-folder
+│
+├── public/index.php
+├── public/sender.php (optional, to decommission)
+├── app/core/Router.php
+├── app/core/Controller.php
+├── app/controllers/MessageController.php
+├── app/models/MessageModel.php
+├── storage/messages.json
+        </pre>
+
+        <div class="w3-panel w3-pale-blue w3-border">
+            All PHP files remain flat in the project folder structure.
+        </div>
+    </div>
+
+    <!-- Verification -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Verification Steps</h2>
+
+        <ol>
+            <li>Start PHP server in tutorial folder:</li>
+        </ol>
+        <div class="terminal">
+cd /var/www/tutorial/containers<br>
+php -S localhost:8000 -t public/
+        </div>
+
+        <ol start="2">
+            <li>Open form via Controller:</li>
+        </ol>
+        <div class="terminal">
+http://localhost:8000/messages/create
+        </div>
+
+        <ol start="3">
+            <li>Submit message (SMS, Email, WhatsApp) → status should be returned</li>
+            <li>View message list: <code>/messages</code></li>
+            <li>View message details: <code>/messages/show?id=&lt;id&gt;</code></li>
+            <li>Check storage file: <code>/storage/messages.json</code></li>
+        </ol>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            All messages should persist and show status correctly.
+        </div>
+    </div>
+
+    <!-- Best Practices -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Professional Best Practices</h2>
+        <ul class="w3-ul">
+            <li>Backup old files before deletion (sender.php → sender.php.bak)</li>
+            <li>Always separate concerns: Controller → request, Model → data, View → output</li>
+            <li>Test each phase incrementally</li>
+            <li>Keep code minimal and commented for learning clarity</li>
+            <li>Use AI as a guide, not a replacement for understanding</li>
+        </ul>
+    </div>
+
+    <!-- Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Reflection</h2>
+        <p>
+            How has MVC & Routing improved your workflow compared to a flat PHP script?  
+            How does CLI integration and message persistence prepare you for real-world architecture?
+        </p>
+        <div class="w3-panel w3-pale-yellow w3-border">
+            Focus on maintainability, separation of concerns, and safe development habits.
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="mvc-routing-phase6.html">Previous</a>
+        <a class="w3-button w3-teal" href="#">Next</a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – Learn architecture professionally. Tools do not control you.</p>
+</div>
+
+</body>
+</html>

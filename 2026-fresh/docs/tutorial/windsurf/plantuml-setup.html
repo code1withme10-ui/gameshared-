@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeWithMe – Phase: PlantUML Preview Setup</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            background-color: #009688;
+            color: white;
+            padding: 20px;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .section-header {
+            border-left: 5px solid #009688;
+            padding-left: 10px;
+            font-weight: bold;
+        }
+        .w3-card {
+            border-radius: 8px;
+        }
+        pre.shell {
+            background-color: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        .panel-tip {
+            background-color: #ffffcc;
+            padding: 10px;
+            border-left: 5px solid #009688;
+            margin: 10px 0;
+        }
+        .panel-warning {
+            background-color: #ffdddd;
+            padding: 10px;
+            border-left: 5px solid #e53935;
+            margin: 10px 0;
+        }
+        .panel-info {
+            background-color: #d0e7ff;
+            padding: 10px;
+            border-left: 5px solid #039be5;
+            margin: 10px 0;
+        }
+        .panel-instruction {
+            background-color: #ddffdd;
+            padding: 10px;
+            border-left: 5px solid #43a047;
+            margin: 10px 0;
+        }
+        .nav-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .nav-buttons a {
+            text-decoration: none;
+            color: white;
+            background-color: #009688;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f1f1f1;
+            font-size: 0.9em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header w3-card">
+        <h1>PlantUML Preview Setup</h1>
+        <p>CodeWithMe – Architectural Training Series</p>
+    </div>
+
+    <div class="w3-container">
+
+        <!-- Objective -->
+        <div class="w3-card w3-white w3-padding w3-margin-bottom">
+            <div class="section-header">Objective</div>
+            <p>Enable PlantUML diagram preview in Windsurf on Windows. This includes installing Java, Graphviz, and the PlantUML extension, then verifying a working diagram preview.</p>
+        </div>
+
+        <!-- What Must Change / Key Concepts -->
+        <div class="w3-card w3-white w3-padding w3-margin-bottom">
+            <div class="section-header">What Must Change / Key Concepts</div>
+            <ul>
+                <li>Ensure Java (OpenJDK 17+) is installed and accessible in your PATH.</li>
+                <li>Install Graphviz and confirm `dot` is recognized.</li>
+                <li>Install PlantUML extension in Windsurf, or manually download <code>plantuml.jar</code>.</li>
+                <li>Configure Windsurf settings if using manual installation.</li>
+                <li>Verify diagram rendering using a test <code>.puml</code> file.</li>
+            </ul>
+        </div>
+
+        <!-- AI Prompt / Guidance -->
+        <div class="w3-card w3-white w3-padding w3-margin-bottom">
+            <div class="section-header">Step-by-Step Guide</div>
+            
+            <!-- Step 1 -->
+            <div class="panel-instruction">
+                <strong>Step 1 — Check / Install Java</strong><br>
+                Open a terminal (Git Bash or CMD) and run:
+                <pre class="shell">java -version</pre>
+                If Java is not installed, download and install OpenJDK 17+ from <a href="https://adoptium.net" target="_blank">Adoptium</a>. Then verify:
+                <pre class="shell">java -version</pre>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="panel-instruction">
+                <strong>Step 2 — Install Graphviz (Recommended)</strong><br>
+                Download Graphviz from <a href="https://graphviz.org/download/" target="_blank">Graphviz Downloads</a>.<br>
+                After installation, verify:
+                <pre class="shell">dot -version</pre>
+                If not recognized, add Graphviz <code>/bin</code> folder to your PATH.
+            </div>
+
+            <!-- Step 3 -->
+            <div class="panel-instruction">
+                <strong>Step 3 — Install PlantUML</strong><br>
+                You have two options:
+                <ul>
+                    <li><strong>Extension Only (Recommended)</strong>:
+                        <ol>
+                            <li>Open Windsurf Extensions</li>
+                            <li>Search for <strong>PlantUML by jebbs</strong></li>
+                            <li>Install it. It auto-downloads PlantUML if Java exists.</li>
+                        </ol>
+                    </li>
+                    <li><strong>Manual Install</strong>:
+                        <ol>
+                            <li>Download <code>plantuml.jar</code> from <a href="https://plantuml.com/download" target="_blank">PlantUML Downloads</a></li>
+                            <li>Place in <code>C:\tools\plantuml\plantuml.jar</code></li>
+                        </ol>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="panel-instruction">
+                <strong>Step 4 — Configure Windsurf</strong><br>
+                Open Settings → Search <strong>PlantUML</strong><br>
+                If using manual jar, set:
+                <pre class="shell">
+plantuml.server: ""
+plantuml.jar: C:/tools/plantuml/plantuml.jar
+plantuml.render: Local
+                </pre>
+                Extension-only mode usually needs no extra configuration.
+            </div>
+
+            <!-- Step 5 -->
+            <div class="panel-instruction">
+                <strong>Step 5 — Test Diagram</strong><br>
+                1. Create <code>diagram.puml</code> inside your workspace.<br>
+                2. Add the following:
+                <pre class="shell">
+@startuml
+Alice -> Bob: Hello
+Bob --> Alice: Hi!
+@enduml
+                </pre>
+                3. Right-click → <strong>Preview Current Diagram</strong> or press <strong>Alt + D</strong>.
+            </div>
+
+            <!-- Optional Step -->
+            <div class="panel-tip">
+                <strong>Optional — Use Server Rendering</strong><br>
+                In Windsurf settings, you can set:
+                <pre class="shell">plantuml.render: PlantUMLServer</pre>
+                This avoids Java/Graphviz issues and can improve performance.
+            </div>
+
+            <div class="panel-info">
+                <strong>Workspace Recommendation:</strong> Keep all <code>.puml</code> files inside <code>/docs/diagrams</code> to organize your diagrams.
+            </div>
+
+        </div>
+
+        <!-- What to Check / Verification Steps -->
+        <div class="w3-card w3-white w3-padding w3-margin-bottom">
+            <div class="section-header">What to Check</div>
+            <ol>
+                <li>Run <pre class="shell">java -version</pre> → Should display Java version.</li>
+                <li>Run <pre class="shell">dot -version</pre> → Should display Graphviz version.</li>
+                <li>PlantUML extension installed in Windsurf.</li>
+                <li>Create <code>diagram.puml</code> and confirm preview renders without errors.</li>
+            </ol>
+        </div>
+
+        <!-- Optional Terminology -->
+        <div class="w3-card w3-white w3-padding w3-margin-bottom">
+            <div class="section-header">Terminology</div>
+            <ul>
+                <li><strong>PlantUML:</strong> A tool to generate UML diagrams from plain text.</li>
+                <li><strong>Graphviz:</strong> Renders diagrams using the <code>dot</code> engine.</li>
+                <li><strong>.puml file:</strong> Text file containing PlantUML diagram definitions.</li>
+            </ul>
+        </div>
+
+        <!-- Optional Reflection -->
+        <div class="w3-card w3-white w3-padding w3-margin-bottom">
+            <div class="section-header">Reflection</div>
+            <p>Once PlantUML preview works, you can quickly visualize UML diagrams for projects. Keeping Java and Graphviz updated ensures smooth rendering.</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-buttons">
+            <a href="phase_previous.html">&laquo; Previous</a>
+            <a href="phase_next.html">Next &raquo;</a>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        CodeWithMe – Architectural Training Series
+    </footer>
+
+</body>
+</html>

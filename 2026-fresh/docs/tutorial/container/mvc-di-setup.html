@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeWithMe – Architectural Training Series</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+            white-space: pre-line;
+        }
+
+        .ai-prompt {
+            font-family: monospace;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>CodeWithMe – Architectural Training Series</h1>
+    <p class="w3-large">Dependency Injection – Setup</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Step 1: Reset AI Session -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 1: Reset Your AI Session</h2>
+        <p>Before starting the Dependency Injection chapter:</p>
+        <ul class="w3-ul">
+            <li>Log out of your AI account</li>
+            <li>Log back in or start a brand new chat session</li>
+            <li>Do not paste any previous prompts from other chapters</li>
+        </ul>
+        <div class="w3-panel w3-pale-red w3-border">
+            Previous chat history may influence AI responses and break tutorial constraints. Always start fresh for each chapter.
+        </div>
+    </div>
+
+    <!-- Step 2: Load Prompt & SOP -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 2: Load Prompt & SOP</h2>
+        <p>Download and paste the following files into the new AI session before starting:</p>
+        <ul class="w3-ul">
+            <li>
+                <a href="prompt_mvc_di.md" target="_blank" download class="download-link">prompt_mvc_di.md</a>
+            </li>
+            <li>
+                <a href="SOP-MVC-DI.md" target="_blank" download class="download-link">SOP-MVC-DI.md</a>
+            </li>
+        </ul>
+        <div class="w3-panel w3-pale-green w3-border">
+            The AI will follow these instructions strictly for the Dependency Injection chapter.
+        </div>
+    </div>
+
+    <!-- Step 3: Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+        <p>
+            Learn manual Dependency Injection (constructor-based) in your MVC + Service architecture.
+            Pass dependencies into classes instead of creating them inside.
+        </p>
+        <ul class="w3-ul">
+            <li>Understand constructor-based injection</li>
+            <li>Make Controller independent of Service creation</li>
+            <li>Prepare for clean, testable architecture</li>
+        </ul>
+        <div class="w3-panel w3-pale-green w3-border">
+            Think of DI as “manual container injection” similar to the Notifier container lesson.
+        </div>
+    </div>
+
+    <!-- Step 4: What Must Change / Key Concepts -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What Must Change / Key Concepts</h2>
+        <ul class="w3-ul">
+            <li>Controller must no longer create its own MessageService.</li>
+            <li>MessageService will be passed into Controller via constructor.</li>
+            <li>Optionally, Model can also be injected into Service.</li>
+            <li>Index.php will act as the composition root, creating objects and injecting dependencies.</li>
+        </ul>
+        <div class="w3-panel w3-pale-blue w3-border">
+            This mirrors what you learned with the Container: the creation of dependencies moves outside the class that uses them.
+        </div>
+    </div>
+
+    <!-- Step 5: AI Prompt / Guidance -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">AI Prompt / Guidance</h2>
+        <div class="w3-panel w3-pale-green w3-border ai-prompt">
+Phase 1 – Manual Constructor Injection:
+
+1. Open MessageController.php.
+2. Modify the constructor to accept MessageService as a parameter:
+   function __construct($messageService) { ... }
+3. Remove any 'new MessageService()' inside the Controller.
+4. Leave routing and index.php unchanged for now.
+
+Remember:
+- You are not introducing containers or DI frameworks.
+- Keep it beginner-friendly.
+- Provide inline comments for all important lines.
+        </div>
+    </div>
+
+    <!-- Step 6: Verification -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What to Check / Verification</h2>
+        <ul class="w3-ul">
+            <li>Controller no longer contains: new MessageService()</li>
+            <li>Constructor accepts MessageService as argument</li>
+            <li>All methods in Controller call $this->messageService instead of creating it</li>
+            <li>Application behavior should remain unchanged after you run it</li>
+        </ul>
+        <div class="w3-panel w3-pale-yellow w3-border">
+            DI changes structure but does not change feature output.
+        </div>
+    </div>
+
+    <!-- Step 7: Terminal / Workspace Commands -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Workspace Commands</h2>
+        <p>Ensure you are in the correct tutorial folder and create services directory if not present:</p>
+        <div class="terminal">
+cd /var/www/tutorial/containers
+mkdir -p app/services
+        </div>
+        <p>Start PHP server for testing:</p>
+        <div class="terminal">
+php -S localhost:8000 -t public/
+        </div>
+    </div>
+
+    <!-- Step 8: Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Reflection</h2>
+        <ul class="w3-ul">
+            <li>Where does object creation happen now?</li>
+            <li>How would you replace MessageService with a mock for testing?</li>
+            <li>What layer is responsible for business logic after DI?</li>
+        </ul>
+        <div class="w3-panel w3-pale-blue w3-border">
+            DI improves separation of concerns and prepares for scalable architecture.
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="mvc-routing-phaseT.html">← Previous</a>
+        <a class="w3-button w3-teal" href="mvc-di-phase1.html">Next →</a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – Architecture is about clarity, not complexity.</p>
+</div>
+
+</body>
+</html>

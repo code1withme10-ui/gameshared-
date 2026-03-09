@@ -1,0 +1,112 @@
+@startuml processOverview
+hide empty members
+!theme plain
+skinparam componentStyle rectangle
+
+package "Controllers" {
+    [OnboardingController] as Controller
+}
+
+package "Services Layer" {
+    [IdentityService] as Identity
+    [BrandingService] as Branding
+    [RulesService] as Rules
+    [ContentService] as Content
+}
+
+package "Repository Layer" {
+    [TenantRepository] as TenantRepo
+}
+
+package "Storage Layer" {
+    [JSON File System] as JSONFS
+    [tenant.json] as TenantFile
+    [onboarding.json] as OnboardingFile
+    [admission_rules.json] as RulesFile
+    [theme.json] as ThemeFile
+    [content pages JSON files] as ContentFiles
+}
+
+package "Utilities" {
+    [ULID Generator] as ULIDGen
+    [JSON Schema Validator] as Validator
+}
+
+' Component Relationships
+Controller --> Identity
+Controller --> Branding
+Controller --> Rules
+Controller --> Content
+
+Identity --> TenantRepo
+Branding --> TenantRepo
+Rules --> TenantRepo
+Content --> TenantRepo
+
+TenantRepo --> JSONFS
+JSONFS --> TenantFile
+JSONFS --> OnboardingFile
+JSONFS --> RulesFile
+JSONFS --> ThemeFile
+JSONFS --> ContentFiles
+
+Identity --> ULIDGen
+Rules --> Validator
+Branding --> Validator
+Content --> Validator
+
+note right of Controller
+Onboarding Pipeline Stages
+
+Stage 1: Pre-Onboarding (Intake)
+Stage 2: Tenant Creation (Automated)
+Stage 3: Configuration
+Stage 4: Static Content Initialization
+end note
+
+note right of Identity
+Tenant Creation Flow:
+- createTenant(data)
+- generateULID()
+- createTenantStructure()
+- create tenant.json
+- create onboarding.json
+end note
+
+note right of Rules
+Configuration Flow:
+- validateRulesStructure()
+- save admission_rules.json
+end note
+
+note right of Branding
+Branding Flow:
+- validateBrandingInputs()
+- save theme.json
+end note
+
+note right of Content
+Content Initialization Flow:
+- copyDefaultTemplates()
+- injectTenantSpecificValues()
+- create page JSON files
+end note
+
+note bottom of TenantRepo
+Repository Responsibilities:
+- Enforce tenant isolation
+- Apply meta-wrapper pattern
+- Handle JSON file operations
+- Validate directory structure
+- Maintain SOP compliance
+end note
+
+note bottom of Validator
+Validation Rules:
+- ULID format (26-char Crockford base32)
+- Meta-wrapper schema compliance
+- Structured admission rules
+- Branding input validation
+- Content schema validation
+end note
+@enduml

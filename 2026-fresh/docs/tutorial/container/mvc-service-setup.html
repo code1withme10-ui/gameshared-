@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeWithMe – Architectural Training Series</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            white-space: pre-line;
+}
+            overflow-x: auto;
+        }
+        .download-link { text-decoration: none; color: #00796B; font-weight: bold; }
+        .download-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>CodeWithMe – Architectural Training Series</h1>
+    <p class="w3-large">Chapter: Service Layer & Clean Business Logic</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+        <p>
+            In this chapter, we will introduce a <strong>Service Layer</strong> into our MVC application.
+        </p>
+        <ul class="w3-ul">
+            <li>Remove business logic from the Controller</li>
+            <li>Isolate CLI execution</li>
+            <li>Create a cleaner architecture</li>
+            <li>Prepare for future scalability</li>
+        </ul>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            By the end of this chapter, your Controller will no longer directly execute the CLI.
+        </div>
+    </div>
+
+    <!-- Quick Overview -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Quick Overview – What Is a Service Layer?</h2>
+
+        <p>
+            In our current MVC setup, the <strong>Controller</strong> handles:
+        </p>
+
+        <ul class="w3-ul">
+            <li>Receiving HTTP request</li>
+            <li>Executing CLI command</li>
+            <li>Saving message to Model</li>
+            <li>Redirecting user</li>
+        </ul>
+
+        <div class="w3-panel w3-pale-red w3-border">
+            The Controller is doing too much.
+        </div>
+
+        <p>
+            A <strong>Service Layer</strong> is a class that contains business logic.
+        </p>
+
+        <p>
+            In our case:
+        </p>
+
+        <ul class="w3-ul">
+            <li>Sending message via CLI</li>
+            <li>Capturing status</li>
+            <li>Saving message</li>
+        </ul>
+
+        <p>
+            The Controller will only coordinate the request.
+        </p>
+
+        <div class="w3-panel w3-pale-blue w3-border">
+            Think of the Service as the "manager" that knows how the work is done.
+            The Controller just tells it what to do.
+        </div>
+
+        <h3>Before:</h3>
+        <div class="terminal">
+Controller → CLI → Model
+        </div>
+
+        <h3>After:</h3>
+        <div class="terminal">
+Controller → Service → CLI  
+Service → Model
+        </div>
+
+        <p>
+            This makes the system easier to maintain, test, and extend.
+        </p>
+    </div>
+
+    <!-- AI Reset -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Reset Your AI Session</h2>
+
+        <ol class="w3-ol">
+            <li>Log out of AI</li>
+            <li>Log back in</li>
+            <li>Start a brand new chat session</li>
+            <li>Do NOT attach previous conversations</li>
+        </ol>
+
+        <div class="w3-panel w3-pale-red w3-border">
+            Previous chat context may break architectural constraints.
+        </div>
+    </div>
+
+    <!-- Download Prompt & SOP -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Initialize AI Correctly</h2>
+
+        <p>Download and paste into a new AI session:</p>
+
+        <ul class="w3-ul">
+            <li>
+                <a href="prompt_mvc_service.md" target="_blank" download class="download-link">
+                    Download prompt_mvc_service.md
+                </a>
+            </li>
+            <li>
+                <a href="SOP-MVC-SERVICE.md" target="_blank" download class="download-link">
+                    Download SOP-MVC-SERVICE.md
+                </a>
+            </li>
+        </ul>
+
+        <ol class="w3-ol">
+            <li>Paste prompt first</li>
+            <li>Paste SOP second</li>
+            <li>Then begin Phase 1</li>
+        </ol>
+
+        <div class="w3-panel w3-pale-yellow w3-border">
+            Professionals control AI. AI does not control architecture.
+        </div>
+    </div>
+
+    <!-- Workspace Reminder -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Workspace Reminder</h2>
+
+        <ul class="w3-ul">
+            <li>Project Root: <strong>/var/www/tutorial/containers</strong></li>
+            <li>Web Root: <strong>/var/www/tutorial/containers/public</strong></li>
+        </ul>
+
+        <div class="terminal">
+cd /var/www/tutorial/containers
+php -S localhost:8000 -t public/
+        </div>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            All development must stay inside the tutorial folder.
+        </div>
+    </div>
+
+    <!-- Phases Overview -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Chapter Phases</h2>
+
+        <ul class="w3-ul">
+            <li>Phase 1 – Create MessageService</li>
+            <li>Phase 2 – Move CLI logic into Service</li>
+            <li>Phase 3 – Update Controller to use Service</li>
+            <li>Phase 4 – Final cleanup & verification</li>
+        </ul>
+
+        <div class="w3-panel w3-pale-blue w3-border">
+            Do not skip phases. Architecture is learned step-by-step.
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="mvc-routing-phase6.html">← Previous</a>
+        <a class="w3-button w3-teal" href="mvc-service-phase1.html">Next →</a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – Clean architecture is built step by step.</p>
+</div>
+
+</body>
+</html>
+

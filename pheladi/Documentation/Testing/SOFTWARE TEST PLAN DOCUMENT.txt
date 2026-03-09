@@ -1,0 +1,537 @@
+SOFTWARE TEST PLAN DOCUMENT
+Creche Management Website System
+
+
+1.Introduction
+
+1.1 Purpose
+
+The purpose of this Test Plan is to define the testing approach, resources, test cases, and procedures used to verify that the Crèche Website System meets all functional and non-functional requirements. The test plan ensures that the system operates correctly before deployment and that all defects are identified and resolved.
+
+1.2 Scope
+
+Testing will verify the functionality and reliability of the Crèche Website which is developed. The following modules will be tested:
+Home Page
+About Page
+Gallery
+Admission Application Form
+File Upload System
+Login and Authentication
+Headmaster Dashboard
+JSON Data Storage
+Security and Performance
+
+1.3Test Environment
+
+Component	                   Description
+Operating System	           Windows 10 / Windows 11
+Server	                           Apache (XAMPP)
+Programming Language	           PHP
+Data Storage	                   JSON
+Browsers	                   Google Chrome, Microsoft Edge, Mozilla Firefox
+Testing Tools	                   Browser DevTools
+
+1.4 Test Data
+Data Field	          Valid Example	                    Invalid Example
+Child Name	          John Doe	                    (empty)
+Email	                  parent@gmail.com                  parentgmail.com
+Phone Number	          0823456789	                    abc123
+Date of Birth	          2020-05-10	                    2030-01-01
+
+2. Test Objectives
+The objectives of the testing process are to:
+Verify that the system meets all functional requirements.
+Validate user input fields and form submissions.
+Ensure secure login and access control.
+Confirm correct data storage using JSON.
+Detect and correct system defects before deployment.
+Ensure system performance and reliability.
+
+3. Test Scope
+3.1 In Scope
+The following components will be tested:
+Home Page
+About Page
+Gallery Page
+Admission Application Form
+File Upload System
+Login System
+Headmaster Dashboard
+JSON Data Handling
+Security Features
+Performance
+
+3.2 Out of Scope
+The following will not be tested in this phase:
+Third-party email/SMS services
+External hosting infrastructure
+Future modules such as payments and parent portals
+
+3.3 Types of Testing
+Unit Testing
+Objective:
+To test individual components independently.
+
+Performed By:
+Developer
+
+Procedure:
+Test each form field validation.
+Test login authentication function.
+Test file upload function.
+Test status update logic.
+Test notification sending function.
+Expected Result:
+Each function works correctly in isolation.
+=======================================================================================
+Integration Testing
+Objective:
+To verify that system components work together.
+
+Procedure:
+Submit admission form.
+Check if data is saved in database.
+Login as Headmaster.
+Verify application appears on dashboard.
+Change status to “Accepted”.
+Confirm notification is sent.
+
+Expected Result:
+All modules communicate correctly.
+======================================================================================
+System Testing
+Objective:
+To test the complete system.
+
+Procedure:
+Navigate all website pages.
+Test full admission process.
+Test login for all roles.
+Test dashboard reporting.
+Test exporting PDF/Excel.
+Expected Result:
+Entire system works as specified in SRD.
+================================================================================
+User Acceptance Testing (UAT)
+Objective:
+To confirm system meets stakeholder expectations.
+
+Performed By:
+Crèche Management / Headmaster
+
+Procedure:
+Headmaster logs in.
+Reviews applications.
+Accepts/declines application.
+Reviews reports.
+Confirms system usability.
+Expected Result:
+Stakeholders approve system for deployment.
+=============================================================================
+Security Testing
+Procedure:
+Attempt SQL injection in login.
+Attempt to access dashboard without login.
+Attempt to change URL to access restricted pages.
+Check password storage in database.
+Check HTTPS encryption.
+Expected Result:
+System blocks all unauthorised access attempts.
+==============================================================================
+Performance Testing
+Procedure:
+Load home page.
+Measure load time.
+Simulate multiple users submitting forms.
+Test dashboard response time.
+Expected Result:
+Page loads under 3 seconds.
+==================================================================================
+Compatibility Testing
+Test On:
+Google Chrome
+Microsoft Edge
+Mozilla Firefox
+Mobile phone
+Tablet
+Expected Result:
+Layout responsive and functional across devices.
+=======================================================================================
+Accessibility Testing
+Procedure:
+Check font readability.
+Test colour contrast.
+Test keyboard navigation.
+Add alt text to images.
+Expected Result:
+Accessible for users with visual impairments.
+
+5. Detailed Test Cases
+---------------------------------------------------------------------------------
+MODULE 1: Home Page
+TEST CASE 1
+TEST CASE ID: TC-HOME-01
+REQUIREMENTS: FR-HOME-01
+TEST CASE SCENARIO: Verify crèche branding is displayed
+
+Preconditions
+Website is deployed and accessible.
+=======================================================
+Test Steps
+==========================================================
+Open web browser.
+Enter the website URL.
+Load the home page.
+Observe the header section.
+=============================================================
+Expected Result
+========================================================
+Crèche logo is displayed.
+Crèche name is visible.
+Brand colours appear consistently.
+---------------------------------------------------------------------------------
+TEST CASE 2
+TEST CASE ID: TC-HOME-02
+REQUIREMENTS: FR-HOME-03
+SCENARIO: Verify navigation menu links
+===========================================
+Test Steps
+==========================================
+Open the home page.
+Click the About Us menu item.
+Click Admissions.
+Click Gallery.
+Click Contact Us.
+=======================================================
+Expected Result
+======================================================
+Each link opens the correct page.
+---------------------------------------------------------------------------------
+TEST CASE 3
+TEST CASE ID: TC-HOME-03
+REQUIREMENT: FR-HOME-06
+SCENARIO: Verify call-to-action button works
+===========================================================
+Test Steps
+===========================================================
+Open home page.
+Locate Apply Now / Admission button.
+Click the button.
+========================================================
+Expected Result
+=========================================================
+User is redirected to the admission form page.
+--------------------------------------------------------------------------------
+MODULE 2: About Page
+TEST CASE 4
+TEST CASE ID: TC-ABOUT-01
+REQUIREMENT: FR-ABOUT-01
+SCENARIO: Verify crèche background information displays.
+==============================================================
+Test Steps
+=============================================================
+Open website.
+Navigate to About Us page.
+Scroll through page.
+=========================================================
+Expected Result
+========================================================
+Crèche history and year established are displayed.
+---------------------------------------------------------------------------------
+Test Case 5
+TEST CASE ID: TC-ABOUT-02
+REQUIREMENT: FR-ABOUT-02
+SCENARIO: Verify mission and vision statements.
+============================================================
+Test Steps
+===========================================================
+Open About page.
+Locate Vision Statement.
+Locate Mission Statement.
+===========================================================
+Expected Result
+===========================================================
+Both mission and vision statements appear correctly.
+---------------------------------------------------------------------------------
+MODULE 3: Gallery
+TEST CASE 6
+TEST CASE ID: TC-GAL-01
+REQUIREMENT: FR-GAL-01
+SCENARIO: Verify gallery images display.
+============================================================
+Test Steps
+=============================================================
+Navigate to Gallery page.
+Observe image grid.
+==========================================================
+Expected Result
+============================================================
+Images are displayed in grid layout.
+---------------------------------------------------------------------------------
+TEST CASE7
+TEST CASE ID: TC-GAL-02
+REQUIREMENT: FR-GAL-03
+SCENARIO: Verify image preview.
+==========================================================
+Test Steps
+==========================================================
+Open gallery page.
+Click an image.
+===========================================================
+Expected Result
+===========================================================
+Image opens in enlarged preview (lightbox).
+---------------------------------------------------------------------------------
+MODULE 4: Admission Form
+TEST CASE 8
+TEST CASE ID: TC-ADM-01
+REQUIREMENT: FR-ADM-01
+SCENARIO: Submit valid admission form.
+=========================================================
+Test Steps
+=========================================================
+Navigate to Admissions page.
+Enter child information.
+Enter parent information.
+Enter emergency contacts.
+Upload documents.
+Click Submit.
+=========================================================
+Expected Result
+==========================================================
+Application successfully submitted and confirmation message displayed.
+---------------------------------------------------------------------------------
+TEST CASE 9
+TEST CASE ID: TC-ADM-02
+REQUIREMENT: Validation
+SCENARIO: Required field validation.
+=========================================================
+Test Steps
+=========================================================
+Open admission form.
+Leave child name blank.
+Click Submit.
+=========================================================
+Expected Result
+===========================================================
+System displays error message requiring the field.
+---------------------------------------------------------------------------------
+TEST CASE 10
+TEST CASE ID: TC-ADM-03
+SCENARIO: Date of birth validation.
+===========================================================
+Test Steps
+==========================================================
+Enter future date in DOB field.
+Submit form.
+============================================================
+Expected Result
+===========================================================
+System rejects submission and displays error message.
+---------------------------------------------------------------------------------
+MODULE 5: File Upload System
+Test Case 11
+Test Case ID: TC-UPL-01
+Scenario: Upload valid document.
+=========================================================
+Steps
+==========================================================
+Upload PDF birth certificate.
+Submit form.
+==========================================================
+Expected Result
+==========================================================
+File uploads successfully.
+--------------------------------------------------------------------------------
+TEST CASE 12
+TEST CASE ID: TC-UPL-02
+SCENARIO: Upload invalid file type.
+=========================================================
+Test Steps
+===========================================================
+Upload file with extension .exe.
+===========================================================
+Expected Result
+===========================================================
+System rejects the upload.
+---------------------------------------------------------------------------------
+TEST CASE 13
+TEST CASE ID: TC-UPL-03
+SCENARIO: Upload file larger than allowed size.
+=========================================================
+Test Steps
+=========================================================
+Upload file larger than 2MB.
+========================================================
+Expected Result
+========================================================
+System displays file size error.
+---------------------------------------------------------------------------------
+Module 6: Login System
+Test Case 14
+Test Case ID: TC-LOG-01
+Scenario: Successful login.
+====================================================
+Steps
+=====================================================
+Open login page.
+Enter valid email and password.
+Click login.
+======================================================
+Expected Result
+=======================================================
+User redirected to dashboard.
+---------------------------------------------------------------------------------
+Test Case 15
+Test Case ID: TC-LOG-02
+Scenario: Invalid login credentials.
+=============================================
+Steps
+===========================================
+Enter incorrect password.
+Click login.
+==============================================
+Expected Result
+=============================================
+System displays login error.
+---------------------------------------------------------------------------------
+Test Case 16
+Test Case ID: TC-LOG-03
+Scenario: Logout functionality.
+=====================================================
+Steps
+=====================================================
+Login to dashboard.
+Click logout button.
+======================================================
+Expected Result
+======================================================
+User session ends and login page appears.
+---------------------------------------------------------------------------------
+Module 7: Headmaster Dashboard
+Test Case 17
+Test Case ID: TC-HMA-01
+Scenario: View applications list.
+=======================================================
+Steps
+===========================================================
+Login as Headmaster.
+Navigate to Applications page.
+=======================================================
+Expected Result
+==========================================================
+All submitted applications are displayed.
+---------------------------------------------------------------------------------
+Test Case 18
+Test Case ID: TC-HMA-02
+Scenario: Accept application.
+==================================================
+Steps
+====================================================
+Open application details.
+Click Accept button.
+=========================================================
+Expected Result
+=============================================================
+Application status changes to Accepted.
+---------------------------------------------------------------------------------
+Test Case 19
+Test Case ID: TC-HMA-03
+Scenario: Decline application.
+=============================================================
+Steps
+============================================================
+Open application.
+Click Decline.
+============================================================
+Expected Result
+===========================================================
+Status updates to Declined.
+---------------------------------------------------------------------------------
+Module 8: JSON Data Handling
+Test Case 20
+Test Case ID: TC-DATA-01
+Scenario: Verify JSON data storage.
+=============================================================
+Steps
+==============================================================
+Submit admission form.
+Open JSON storage file.
+==============================================================
+Expected Result
+==============================================================
+Application data stored in JSON format
+---------------------------------------------------------------------------------
+Test Case 21
+Scenario: Verify JSON data retrieval.
+========================================================
+Steps
+==========================================================
+Login as Headmaster.
+Open applications page.
+========================================================
+Expected Result
+=======================================================
+JSON data correctly displayed in dashboard.
+---------------------------------------------------------------------------------
+Module 9: Security Testing
+Test Case 22
+Scenario: SQL Injection prevention.
+=========================================================
+Steps
+============================================================
+Enter ' OR '1'='1 in login field.
+==========================================================
+Expected Result
+=========================================================
+Login fails.
+---------------------------------------------------------------------------------
+Test Case 23
+Scenario: Unauthorized page access.
+==========================================================
+Steps
+===========================================================
+Attempt to open dashboard without login.
+===========================================================
+Expected Result
+=============================================================
+User redirected to login page.
+---------------------------------------------------------------------------------
+Module 10: Performance Testing
+Test Case 24
+Scenario: Page load speed.
+=============================================================
+Steps
+=============================================================
+Open homepage.
+Measure load time using browser tools.
+============================================================
+Expected Result
+===========================================================
+Page loads within 3 seconds.
+---------------------------------------------------------------------------------
+Additional Test Cases
+===========================================================
+ID	Scenario
+TC-25	Session timeout after inactivity
+TC-26	Mobile responsiveness
+TC-27	Multiple users accessing system
+TC-28	Archive old applications
+------------------------------------------------------------------------------------------
+6. Defect Reporting
+
+Defects will be logged with:
+
+Defect ID	Description	       Severity	           Status
+DEF-01	        Login failure	        Critical	    Open
+--------------------------------------------------------------------------------------------------
+7. Entry and Exit Criteria
+======================================================
+Entry Criteria
+System development completed
+Test environment prepared
+------------------------------------------------------------
+Exit Criteria
+All test cases executed
+Critical defects resolved
+_______________________________________________________________________________________________________________________________________________________________________

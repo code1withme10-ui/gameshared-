@@ -1,36 +1,91 @@
 <?php
-require_once __DIR__ . '/partials/header.php';
-require_once __DIR__ . '/partials/navbar.php';
 session_start();
 
-// Set the gallery folder
-$galleryFolder = __DIR__ . '/assets/images/gallery/';
+require_once __DIR__ . '/../app/views/partials/header.php';
+require_once __DIR__ . '/../app/views/partials/navbar.php';
 
-// Get all image files in the folder
-$images = glob($galleryFolder . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+// Gallery directory
+$galleryDir = __DIR__ . '/assets/images/gallery/';
+$images = glob($galleryDir . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+
+// Convert to browser URL
+$baseUrl = '/assets/images/gallery/';
+$imageUrls = array_map(fn($img) => $baseUrl . basename($img), $images);
 ?>
 
-<div class="container" style="margin-top:50px;">
-    <h2>Mudzunga Community Creche Gallery</h2>
+<div class="container" style="margin-top:60px; margin-bottom:60px;">
 
-    <?php if (!empty($images)): ?>
-        <div style="display:flex; flex-wrap:wrap; gap:15px;">
-            <?php foreach ($images as $img): ?>
-                <div style="flex:0 0 200px;">
-                    <a href="<?php echo str_replace(__DIR__ . '/','/',$img); ?>" target="_blank">
-                        <img src="<?php echo str_replace(__DIR__ . '/','/',$img); ?>" 
-                             alt="Gallery Image" 
-                             style="width:100%; height:auto; border:1px solid #ccc; padding:3px;">
-                    </a>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    <?php else: ?>
-        <p>No images found. Please add images to <code>assets/images/gallery/</code>.</p>
-    <?php endif; ?>
+<h2 style="text-align:center; color:#0a1f44; margin-bottom:10px;">
+Our Gallery
+</h2>
+
+<p style="text-align:center; color:#555; margin-bottom:30px;">
+A glimpse into life at <strong>Mudzunga Community Creche</strong>
+</p>
+
+<?php if (!empty($imageUrls)): ?>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:20px;
+">
+
+<?php foreach ($imageUrls as $imgUrl): ?>
+
+<div style="
+background:#fff;
+border:2px solid #f2c400;
+border-radius:8px;
+padding:8px;
+box-shadow:0 4px 8px rgba(0,0,0,0.1);
+transition:transform 0.3s ease;
+">
+
+<a href="<?php echo $imgUrl; ?>" target="_blank">
+
+<img
+src="<?php echo $imgUrl; ?>"
+alt="Creche Activity"
+style="
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:5px;
+transition:transform 0.3s ease;
+"
+onmouseover="this.style.transform='scale(1.08)'"
+onmouseout="this.style.transform='scale(1)'"
+>
+
+</a>
+
 </div>
 
-<?php
-require_once __DIR__ . '/partials/footer.php';
-?>
+<?php endforeach; ?>
+
+</div>
+
+<?php else: ?>
+
+<div style="
+text-align:center;
+padding:40px;
+background:#f9f9f9;
+border:1px dashed #ccc;
+border-radius:8px;
+">
+
+<p style="color:#777;">
+No images yet.<br>
+Add photos to <code>public/assets/images/gallery/</code>
+</p>
+
+</div>
+
+<?php endif; ?>
+
+</div>
+
+<?php require_once __DIR__ . '/partials/footer.php'; ?>
 

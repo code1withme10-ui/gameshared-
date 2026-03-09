@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeWithMe – Google Chat Space Troubleshooting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>Google Chat Space – Troubleshooting Checklist</h1>
+    <p class="w3-large">Follow these steps to resolve Space invitation issues</p>
+</div>
+
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+     
+    <!-- Step 1 -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 1: Check if Google Chat is Disabled for the Recipient</h2>
+
+        <p>Even if the email address is valid, the recipient may have disabled Google Chat in Gmail settings.</p>
+
+        <h3>Ask the recipient to:</h3>
+
+        <div class="terminal">
+1. Open Gmail
+2. Click the gear icon (⚙)
+3. Click "See all settings"
+4. Go to the "Chat and Meet" tab
+5. Ensure "Google Chat" is set to ON
+6. Save changes
+        </div>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            ✅ Once enabled, ask them to refresh Gmail and try accepting the invitation again.
+        </div>
+    </div>
+
+    <!-- Step 2-->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Step 2: Check Invitation Privacy Settings</h2>
+
+        <p>Google may block invitations from users who are not in contacts or are restricted by privacy settings.</p>
+
+        <h3>Ask the recipient to verify:</h3>
+        <ul class="w3-ul">
+            <li>No blocked users in Google Chat settings</li>
+            <li>Chat settings are not restricted to <strong>"Only people I know"</strong></li>
+            <li>Your email address is added to their Google Contacts</li>
+        </ul>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            ✅ Adding you to their contacts often resolves invitation blocking.
+        </div>
+    </div>
+
+    <!-- Final Verification -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Final Verification</h2>
+
+        <ul class="w3-ul">
+            <li>Try sending a direct Google Chat message first.</li>
+            <li>If direct chat works but Space invite fails, recreate the Space with external access enabled.</li>
+            <li>If still blocked, confirm with your organization’s Google Workspace admin.</li>
+        </ul>
+
+        <div class="w3-panel w3-pale-blue w3-border">
+            Most invitation issues are caused by external access restrictions or disabled Chat settings.
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>Follow each step carefully. Do not skip checks.</p>
+</div>
+
+</body>
+</html>

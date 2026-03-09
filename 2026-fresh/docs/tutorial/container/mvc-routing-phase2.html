@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MVC & Routing – Phase 2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>CodeWithMe – Architectural Training Series</h1>
+    <p class="w3-large">Phase 2 – Introduce Router Class</p>
+</div>
+
+<!-- Main Content -->
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+
+        <p>
+            In Phase 1, manual routing used if/else statements inside <strong>index.php</strong>.
+        </p>
+
+        <p>
+            In this phase, we will create a minimal <strong>Router.php</strong> to cleanly handle GET routes.
+        </p>
+
+        <div class="w3-panel w3-pale-blue w3-border">
+            Sender.php functionality will remain unchanged.
+        </div>
+    </div>
+
+    <!-- What Must Change -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What Must Change / Key Concepts</h2>
+
+        <ul class="w3-ul">
+            <li>Create <strong>/app/core/Router.php</strong></li>
+            <li>Define GET routes</li>
+            <li>Remove if/else URI logic from index.php</li>
+            <li>Dispatch requests using Router</li>
+        </ul>
+
+        <p>Example Router class:</p>
+
+        <div class="terminal">
+&lt;?php
+// Minimal router class for GET requests
+class Router {
+    private $routes = [];
+
+    public function get($uri, $callback) {
+        $this->routes['GET'][$uri] = $callback;
+    }
+
+    public function dispatch($uri, $method) {
+        $uri = parse_url($uri, PHP_URL_PATH);
+
+        if(isset($this->routes[$method][$uri])) {
+            $callback = $this->routes[$method][$uri];
+            $callback();
+        } else {
+            echo "Page not found.";
+        }
+    }
+}
+        </div>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            This is the simplest Router abstraction.
+        </div>
+    </div>
+
+    <!-- AI Guidance -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">AI Prompt / Guidance for Learner</h2>
+
+        <div class="w3-panel w3-pale-red w3-border">
+            Paste your full index.php contents into AI first.
+        </div>
+
+        <p>Then instruct AI:</p>
+
+        <div class="terminal">
+This is Phase 2 – Introduce Router Class.
+
+Please:
+
+1. Create /app/core/Router.php as above.
+2. Update public/index.php to:
+   - Require Router.php
+   - Create Router instance
+   - Map '/messages/create' to sender.php
+   - Map '/messages' to simple text
+   - Dispatch the request
+3. Preserve all existing functionality
+4. Do NOT introduce Controllers or Models yet
+        </div>
+    </div>
+
+    <!-- Verification -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What to Check / Verification Steps</h2>
+
+        <ol>
+            <li>Start server:</li>
+        </ol>
+
+        <div class="terminal">
+php -S localhost:8000 -t /var/www/tutorial/containers/public/
+        </div>
+
+        <ol start="2">
+            <li>Visit:</li>
+        </ol>
+
+        <div class="terminal">
+http://localhost:8000/messages/create
+        </div>
+
+        <ol start="3">
+            <li>Confirm sender.php form appears</li>
+        </ol>
+
+        <ol start="4">
+            <li>Visit:</li>
+        </ol>
+
+        <div class="terminal">
+http://localhost:8000/messages
+        </div>
+
+        <ol start="5">
+            <li>Confirm "Listing messages..." text appears</li>
+        </ol>
+
+        <ol start="6">
+            <li>Visit unknown route:</li>
+        </ol>
+
+        <div class="terminal">
+http://localhost:8000/unknown
+        </div>
+
+        <ol start="7">
+            <li>Confirm "Page not found." appears</li>
+        </ol>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            If all checks pass, minimal routing with Router class works.
+        </div>
+    </div>
+
+    <!-- Terminology -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Terminology</h2>
+
+        <ul class="w3-ul">
+            <li><strong>Router</strong> – A class that maps URLs to callbacks.</li>
+            <li><strong>Dispatch</strong> – Execute the callback matching the current URI.</li>
+            <li><strong>Callback</strong> – A function or code block called by Router.</li>
+        </ul>
+    </div>
+
+    <!-- Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Reflection</h2>
+
+        <p>
+            How does using a Router class improve maintainability over if/else statements?
+        </p>
+
+        <div class="w3-panel w3-pale-yellow w3-border">
+            It centralizes route logic and prepares for Controllers in next phase.
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="mvc-routing-phase1.html">← Phase 1</a>
+        <a class="w3-button w3-teal" href="mvc-routing-phase3.html">Next → Phase 3</a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – Learn architecture professionally. Tools do not control you.</p>
+</div>
+
+</body>
+</html>

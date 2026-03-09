@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MVC & Routing – Phase 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- W3.CSS CDN -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .section-title { border-left: 5px solid #009688; padding-left: 10px; margin-bottom: 10px; }
+        .w3-card { border-radius: 8px; }
+        .terminal {
+            background: #000;
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+    </style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Header -->
+<div class="w3-container w3-teal w3-padding-32">
+    <h1>CodeWithMe – Architectural Training Series</h1>
+    <p class="w3-large">Phase 1 – Manual Routing Inside index.php</p>
+</div>
+
+<!-- Main Content -->
+<div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <!-- Objective -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Objective</h2>
+
+        <p>
+            In Phase T, we centralized web access through <strong>public/index.php</strong>.
+        </p>
+
+        <p>
+            In this phase, we will introduce simple manual routing logic.
+        </p>
+
+        <div class="w3-panel w3-pale-blue w3-border">
+            We are still NOT creating a Router class.
+        </div>
+    </div>
+
+    <!-- What Must Change -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What Must Change / Key Concepts</h2>
+
+        <p>
+            index.php must now:
+        </p>
+
+        <ul class="w3-ul">
+            <li>Detect the current URI</li>
+            <li>Load different logic based on that URI</li>
+        </ul>
+
+        <p>Example logic:</p>
+
+        <div class="terminal">
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+if ($uri === '/messages/create') {
+    require 'sender.php';
+}
+
+elseif ($uri === '/messages') {
+    echo "Listing messages...";
+}
+
+else {
+    echo "Page not found.";
+}
+        </div>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            This is manual routing. No abstraction yet.
+        </div>
+    </div>
+
+    <!-- AI Guidance -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">AI Prompt / Guidance for Learner</h2>
+
+        <div class="w3-panel w3-pale-red w3-border">
+            Before modifying index.php, paste its full contents into AI.
+        </div>
+
+        <p>Then instruct AI:</p>
+
+        <div class="terminal">
+This is Phase 1 – Manual Routing.
+
+Please help me modify my public/index.php to:
+
+- Detect the URI
+- Load sender.php when URI is /messages/create
+- Display simple text for /messages
+- Show "Page not found" for unknown routes
+- Without introducing Router class
+- Without introducing Controller
+        </div>
+
+        <p>
+            Ensure no existing functionality breaks.
+        </p>
+    </div>
+
+    <!-- What To Check -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">What to Check / Verification Steps</h2>
+
+        <ol>
+            <li>Start server:</li>
+        </ol>
+
+        <div class="terminal">
+php -S localhost:8000 -t /var/www/tutorial/containers/public/
+        </div>
+
+        <ol start="2">
+            <li>Visit:</li>
+        </ol>
+
+        <div class="terminal">
+http://localhost:8000/messages/create
+        </div>
+
+        <ol start="3">
+            <li>Confirm sender form appears.</li>
+        </ol>
+
+        <ol start="4">
+            <li>Visit:</li>
+        </ol>
+
+        <div class="terminal">
+http://localhost:8000/messages
+        </div>
+
+        <ol start="5">
+            <li>Confirm text "Listing messages..." appears.</li>
+        </ol>
+
+        <ol start="6">
+            <li>Visit unknown route:</li>
+        </ol>
+
+        <div class="terminal">
+http://localhost:8000/unknown
+        </div>
+
+        <ol start="7">
+            <li>Confirm "Page not found." appears.</li>
+        </ol>
+
+        <div class="w3-panel w3-pale-green w3-border">
+            If all checks pass, manual routing is working.
+        </div>
+    </div>
+
+    <!-- Terminology -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Terminology</h2>
+
+        <ul class="w3-ul">
+            <li><strong>Route</strong> – A URL mapped to logic.</li>
+            <li><strong>Dispatching</strong> – Deciding what code runs based on the URL.</li>
+            <li><strong>Conditional Routing</strong> – Using if/else to decide behavior.</li>
+        </ul>
+    </div>
+
+    <!-- Reflection -->
+    <div class="w3-card w3-white w3-padding w3-margin-bottom">
+        <h2 class="section-title">Reflection</h2>
+
+        <p>
+            If we add 10 more routes, what happens to index.php?
+        </p>
+
+        <div class="w3-panel w3-pale-yellow w3-border">
+            This question prepares your mind for the next phase.
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <a class="w3-button w3-teal" href="mvc-routing-phaseT.html">← Phase T</a>
+        <a class="w3-button w3-teal" href="mvc-routing-phase2.html">Next → Phase 2</a>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="w3-container w3-teal w3-padding-16 w3-center">
+    <p>CodeWithMe – Learn architecture professionally. Tools do not control you.</p>
+</div>
+
+</body>
+</html>
+

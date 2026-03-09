@@ -4,17 +4,96 @@ require_once __DIR__ . '/../app/views/partials/header.php';
 require_once __DIR__ . '/../app/views/partials/navbar.php';
 ?>
 
-<div class="container" style="margin-top:50px;">
-    <h2>Help Desk</h2>
-    <p>If you need more information or have any queries, please contact the creche practitioner using the details below.</p>
+<div class="container">
 
-    <div class="card" style="padding:20px; max-width:600px;">
-        <p><strong>Creche Name:</strong> Mudzunga Community Creche</p>
-        <p><strong>Contact Person:</strong> Creche Practitioner</p>
-        <p><strong>Phone Number:</strong> 083 507 3848</p>
-        <p><strong>Email Address:</strong> chivhuvhu77@gmail.com</p>
-        <p><strong>Creche Address:</strong> Tshakhuma, Luvhalani A (opposite Tshakhuma Butchery)</p>
-    </div>
+    <!-- PREMIUM HERO SECTION -->
+    <section style="
+        text-align:center;
+        background: linear-gradient(to bottom, #081a2e, #0c2c4d);
+        padding:80px 20px;
+        margin-top:40px;
+        border-radius:10px;
+    ">
+
+        <h1 style="
+            color:#ffd700;
+            font-size:38px;
+            letter-spacing:2px;
+            font-weight:700;
+            margin-bottom:10px;
+        ">
+            HELP DESK
+        </h1>
+
+        <div style="
+            width:100px;
+            height:3px;
+            background-color:#ffd700;
+            margin:15px auto 20px auto;
+        "></div>
+
+        <p style="
+            color:#ffd700;
+            font-size:18px;
+            max-width:700px;
+            margin:0 auto;
+            opacity:0.95;
+        ">
+            For further information, assistance, or general enquiries, 
+            please contact the creche practitioner using the details below.
+        </p>
+
+    </section>
+
+
+    <!-- CONTACT SECTION -->
+    <section style="
+        margin-top:60px;
+        margin-bottom:80px;
+        background-color:#f8f9fa;
+        padding:50px 40px;
+        border-radius:10px;
+        max-width:700px;
+    ">
+
+        <h2 style="color:#09223b; font-size:28px;">
+            Contact Information
+        </h2>
+
+        <div style="
+            width:80px;
+            height:3px;
+            background-color:#ffd700;
+            margin:12px 0 30px 0;
+        "></div>
+
+        <p style="font-size:17px; line-height:1.8;">
+            <strong>Creche Name:</strong> Mudzunga Community Creche
+        </p>
+
+        <p style="font-size:17px; line-height:1.8;">
+            <strong>Contact Person:</strong> Creche Practitioner
+        </p>
+
+        <p style="font-size:17px; line-height:1.8;">
+            <strong>Phone Number:</strong> 083 507 3848
+        </p>
+
+        <p style="font-size:17px; line-height:1.8;">
+            <strong>Email Address:</strong> 
+            <a href="mailto:chivhuvhu77@gmail.com" 
+               style="color:#09223b; font-weight:bold; text-decoration:none;">
+               chivhuvhu77@gmail.com
+            </a>
+        </p>
+
+        <p style="font-size:17px; line-height:1.8;">
+            <strong>Address:</strong> Tshakhuma, Luvhalani A 
+            (opposite Tshakhuma Butchery)
+        </p>
+
+    </section>
+
 </div>
 
 <?php

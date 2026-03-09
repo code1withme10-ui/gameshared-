@@ -18,18 +18,31 @@ $children = [];
 if (file_exists($childrenFile)) {
     $children = json_decode(file_get_contents($childrenFile), true);
 }
+
+// Filter only this parent's children
+$myChildren = array_filter($children, fn($c) => $c['parent_id'] === $parent['id']);
+
+// Function to compute age from DOB
+function calculateAge($dob) {
+    try {
+        $dobDate = new DateTime($dob);
+        $today = new DateTime();
+        $diff = $today->diff($dobDate);
+        return $diff->y . ' yrs, ' . $diff->m . ' mos';
+    } catch (Exception $e) {
+        return '-';
+    }
+}
 ?>
 
-<div class="container" style="margin-top:50px;">
+<div class="container">
     <h2>Admission Status</h2>
+    <p>Below is the admission status of your child(ren).</p>
 
-    <p>Below is the admission status of your children.</p>
-
-    <?php if (empty($children)): ?>
-        <p><strong>No children admitted yet.</strong></p>
+    <?php if (empty($myChildren)): ?>
+        <p class="error"><strong>No children admitted yet.</strong></p>
     <?php else: ?>
-
-        <table border="1" cellpadding="10" cellspacing="0" width="100%">
+        <table class="table">
             <thead>
                 <tr>
                     <th>Child Full Name</th>
@@ -39,28 +52,34 @@ if (file_exists($childrenFile)) {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($children as $child): ?>
-                    <?php if ($child['parent_id'] === $parent['id']): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($child['full_name']); ?></td>
-                            <td><?php echo htmlspecialchars($child['age']); ?></td>
-                            <td>
-                                <?php echo htmlspecialchars($child['status']); ?>
-                            </td>
-                            <td><?php echo htmlspecialchars($child['submitted_at']); ?></td>
-                        </tr>
-                    <?php endif; ?>
+                <?php foreach ($myChildren as $child): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($child['full_name']); ?></td>
+                        <td><?php echo calculateAge($child['dob']); ?></td>
+                        <td>
+                            <?php
+                                $status = strtolower($child['status']);
+                                if ($status === 'pending') {
+                                    echo '<span style="color:orange;">Pending</span>';
+                                } elseif ($status === 'accepted') {
+                                    echo '<span style="color:green;">Accepted</span>';
+                                } elseif ($status === 'declined') {
+                                    echo '<span style="color:red;">Declined</span>';
+                                } else {
+                                    echo htmlspecialchars($child['status']);
+                                }
+                            ?>
+                        </td>
+                        <td><?php echo htmlspecialchars($child['created_at'] ?? '-'); ?></td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-
     <?php endif; ?>
 
-    <br>
-
-    <a href="/parent/dashboard.php" class="btn btn-secondary">
-        Back to Dashboard
-    </a>
+    <div style="margin-top:20px;">
+        <a href="/parent/dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
 </div>
 
 <?php
