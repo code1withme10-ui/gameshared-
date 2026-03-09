@@ -1,7 +1,8 @@
 <?php
 session_start();
 // Path to your JSON data
-$data_file = __DIR__ . '/storage/users.json';
+$data_file = __DIR__ . '/../storage/users.json';
+
 
 // Load users from JSON
 function get_users($file) {

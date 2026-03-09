@@ -1,7 +1,7 @@
 <?php
 session_start();
+$users_file = __DIR__ . '/../storage/users.json';
 
-$data_file = __DIR__ . '/storage/users.json';
 
 // --------------------- Functions ---------------------
 function get_users($file) {
@@ -18,7 +18,7 @@ function generate_child_id() {
     return "child-" . uniqid();
 }
 
-$users = get_users($data_file);
+$users = get_users($users_file);
 
 // Not logged in
 if (!isset($_SESSION['email'])) {
@@ -102,8 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addChild']) && !$isHe
         "birthCertificate" => $fileName,
         "status" => "pending"
     ];
-
-    save_users($data_file, $users);
+save_users($users_file, $users);
 
     header("Location: index.php?page=dashboard&child_added=1");
     exit;

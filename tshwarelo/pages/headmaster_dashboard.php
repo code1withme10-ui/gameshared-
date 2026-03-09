@@ -2,7 +2,7 @@
 session_start();
 
 // ----------------- Paths -----------------
-$users_file = __DIR__ . '/storage/users.json';
+$users_file = __DIR__ . '/../storage/users.json';
 
 // ----------------- Load/Save Functions -----------------
 function get_users($file) {

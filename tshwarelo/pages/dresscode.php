@@ -12,7 +12,8 @@ session_start();
 
 <nav class="navbar">
     <ul>
-        <li><a href="info.php">Back to Info</a></li>
+       <li><a href="index.php?page=info">Back to Info</a></li>
+
     </ul>
 </nav>
 
@@ -23,7 +24,7 @@ session_start();
 
     <ul>
         <li><strong>Monday & Wednesday:</strong> Orange T-shirt + Blue skirt/jeans</li>
-        <li><strong>Tuesday & Thursday:</strong> Green T-shirt + Black skirt/jeans (you can change this)</li>
+        <li><strong>Tuesday & Thursday:</strong> Green T-shirt + Black skirt/jeans</li>
         <li><strong>Friday:</strong> Sports clothes (comfortable wear)</li>
         <li>No jewellery, only small hair accessories.</li>
     </ul>

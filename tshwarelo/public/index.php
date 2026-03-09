@@ -8,6 +8,12 @@ if (file_exists($autoload)) {
 }
 
 // -----------------------------------------------------
+// Start session (ONE place only)
+// -----------------------------------------------------
+if (session_status() === PHP_SESSION_NONE) {
+}
+
+// -----------------------------------------------------
 // FRONT CONTROLLER – Acts as webroot for your website
 // -----------------------------------------------------
 
@@ -16,28 +22,32 @@ $page = $_GET['page'] ?? 'home';
 
 // Define all allowed pages with full paths
 $pages = [
-    'home' => __DIR__ . '/../home.php',
-    'about' => __DIR__ . '/../about.php',
-    'login' => __DIR__ . '/../login.php',
-    'logout' => __DIR__ . '/../logout.php',
-    'admission' => __DIR__ . '/../admission.php',
-    'gallery' => __DIR__ . '/../gallery.php',
-    'add_child' => __DIR__ . '/../add_child.php',
-    'contact' => __DIR__ . '/../contact.php',
-    'dashboard' => __DIR__ . '/../dashboard.php', // <-- key matches your file
-    'headmaster_dashboard' => __DIR__ . '/../headmaster_dashboard.php',
-    'progress_report' => __DIR__ . '/../progress_report.php',
+    'home' => __DIR__ . '/../pages/home.php',
+    'about' => __DIR__ . '/../pages/about.php',
+    'login' => __DIR__ . '/../pages/login.php',
+    'logout' => __DIR__ . '/../pages/logout.php',
+    'info' => __DIR__ . '/../pages/info.php',
+    'admission' => __DIR__ . '/../pages/admission.php',
+    'gallery' => __DIR__ . '/../pages/gallery.php',
+    'add_child' => __DIR__ . '/../pages/add_child.php',
+    'contact' => __DIR__ . '/../pages/contact.php',
+    'dashboard' => __DIR__ . '/../pages/dashboard.php',
+    'dresscode' => __DIR__ . '/../pages/dresscode.php',
+    'sports_culture' => __DIR__ . '/../pages/sports_culture.php',
+    'meals' => __DIR__ . '/../pages/meals.php',
+    'headmaster_dashboard' => __DIR__ . '/../pages/headmaster_dashboard.php',
+    'progress_report' => __DIR__ . '/../pages/progress_report.php',
 ];
 
 // Load the page if it exists
 if (isset($pages[$page]) && file_exists($pages[$page])) {
-    
-    // Optional: Include navbar for every page automatically
+
+    // Include navbar for every page
     require __DIR__ . '/../includes/navbar.php';
-    
+
     // Include requested page
     require $pages[$page];
-    
+
 } else {
     http_response_code(404);
     echo "<h1>404 - Page Not Found</h1>";

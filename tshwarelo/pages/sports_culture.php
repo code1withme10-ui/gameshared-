@@ -12,7 +12,8 @@ session_start();
 
 <nav class="navbar">
     <ul>
-        <li><a href="info.php">Back to Info</a></li>
+     <li><a href="index.php?page=info">Back to Info</a></li>
+
     </ul>
 </nav>
 

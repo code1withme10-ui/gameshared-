@@ -2,9 +2,12 @@
 session_start();
 
 // ----------------- Paths -----------------
-$users_file = __DIR__ . '/storage/users.json';           // storage/users.json (same-level storage folder)
-$uploads_fs_dir = __DIR__ . '/public/uploads/';         // filesystem path where files are stored
-$uploads_url_dir = 'uploads/';                          // URL path used in HTML (relative to public/index.php)
+$users_file = __DIR__ . '/../storage/users.json';      // tshwarelo/storage/users.json
+
+$uploads_fs_dir = __DIR__ . '/../uploads/';            // tshwarelo/uploads/ (filesystem)
+
+$uploads_url_dir = 'uploads/';                          // URL path (relative to public/index.php)
+
 
 // ensure uploads folder exists
 if (!file_exists($uploads_fs_dir)) {
