@@ -87,5 +87,5 @@ Add photos to <code>public/assets/images/gallery/</code>
 
 </div>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php require_once __DIR__ . '/../app/views/partials/footer.php'; ?>
 
