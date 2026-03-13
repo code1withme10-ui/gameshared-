@@ -1,17 +1,16 @@
 <?php
-session_start();
 
 require_once __DIR__ . '/../../middleware/auth.php';
 requireRole('headmaster');
 
 require_once __DIR__ . '/../../services/JsonStorage.php';
 
-/* ---------------- LOAD CHILDREN ---------------- */
+/* LOAD CHILDREN */
 
 $childrenStorage = new JsonStorage(__DIR__ . '/../../../storage/children.json');
 $children = $childrenStorage->read();
 
-/* ---------------- ACCEPT / DECLINE ---------------- */
+/* ACCEPT / DECLINE */
 
 if (isset($_GET['action']) && isset($_GET['id'])) {
 
@@ -37,22 +36,19 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     exit;
 }
 
-/* ---------------- LOAD PARENTS ---------------- */
+/* LOAD PARENTS */
 
 $parentsStorage = new JsonStorage(__DIR__ . '/../../../storage/parents.json');
 $parents = $parentsStorage->read();
 
-/* ---------------- DASHBOARD STATS ---------------- */
+/* DASHBOARD STATS */
 
 $total = count($children);
-
 $pending = count(array_filter($children, fn($c) => $c['status'] === 'pending'));
-
 $accepted = count(array_filter($children, fn($c) => $c['status'] === 'accepted'));
-
 $declined = count(array_filter($children, fn($c) => $c['status'] === 'declined'));
 
-/* ---------------- FILTER ---------------- */
+/* FILTER */
 
 $statusFilter = $_GET['status'] ?? '';
 
@@ -62,21 +58,13 @@ if ($statusFilter) {
 
 require_once __DIR__ . '/../partials/header.php';
 require_once __DIR__ . '/../partials/navbar.php';
-
 ?>
 
 <div class="container">
 
 <h2 style="margin-bottom:30px;">Headmaster Dashboard</h2>
 
-<!-- DASHBOARD CARDS -->
-
-<div style="
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-margin-bottom:30px;
-">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:30px;">
 
 <div class="card" style="padding:20px;text-align:center;">
 <h3>Total Applications</h3>
@@ -100,9 +88,6 @@ margin-bottom:30px;
 
 </div>
 
-
-<!-- FILTER BUTTONS -->
-
 <div style="margin-bottom:20px;display:flex;gap:10px;flex-wrap:wrap;">
 
 <a href="dashboard.php" class="btn btn-primary">All</a>
@@ -111,9 +96,6 @@ margin-bottom:30px;
 <a href="?status=declined" class="btn btn-danger">Declined</a>
 
 </div>
-
-
-<!-- APPLICATION TABLE -->
 
 <div class="card" style="padding:20px;overflow-x:auto;">
 
@@ -142,79 +124,47 @@ margin-bottom:30px;
 
 <tr style="border-bottom:1px solid #ddd;">
 
-<td style="padding:10px;">
-<?php echo htmlspecialchars($child['full_name']); ?>
-</td>
+<td style="padding:10px;"><?php echo htmlspecialchars($child['full_name']); ?></td>
 
 <td>
-
 <?php
-
 $parentName = "Unknown";
-
 foreach ($parents as $parent) {
-
-if ($parent['id'] === $child['parent_id']) {
-
-$parentName = $parent['full_name'];
-break;
-
+    if ($parent['id'] === $child['parent_id']) {
+        $parentName = $parent['full_name'];
+        break;
+    }
 }
-
-}
-
 echo htmlspecialchars($parentName);
-
 ?>
-
 </td>
 
 <td><?php echo htmlspecialchars($child['grade']); ?></td>
 
 <td>
-
-<span style="
-padding:5px 12px;
-border-radius:5px;
-color:white;
-background:
+<span style="padding:5px 12px;border-radius:5px;color:white;background:
 <?php
 echo $child['status'] === 'pending'
 ? '#f39c12'
 : ($child['status'] === 'accepted'
 ? '#27ae60'
 : '#c0392b');
-?>;
-">
-
+?>;">
 <?php echo ucfirst($child['status']); ?>
-
 </span>
-
 </td>
 
 <td>
 
 <?php if (!empty($child['documents'])): ?>
 
-<button class="btn btn-primary btn-sm"
-onclick="openDoc('<?php echo $child['documents']['birth_certificate']; ?>')">
-Birth
-</button>
-
-<button class="btn btn-primary btn-sm"
-onclick="openDoc('<?php echo $child['documents']['parent_id']; ?>')">
-Parent ID
-</button>
-
-<button class="btn btn-primary btn-sm"
-onclick="openDoc('<?php echo $child['documents']['clinical_report']; ?>')">
-Clinical
-</button>
+<button onclick="openDoc('<?php echo $child['documents']['birth_certificate']; ?>')">Birth</button>
+<button onclick="openDoc('<?php echo $child['documents']['parent_id']; ?>')">Parent ID</button>
+<button onclick="openDoc('<?php echo $child['documents']['clinical_report']; ?>')">Clinical</button>
 
 <?php else: ?>
 
-<span style="color:#777;">No files</span>
+<span>No files</span>
 
 <?php endif; ?>
 
@@ -224,19 +174,13 @@ Clinical
 
 <?php if ($child['status'] === 'pending'): ?>
 
-<a href="?action=accept&id=<?php echo $child['id']; ?>"
-class="btn btn-success btn-sm">
-Accept
-</a>
+<a href="?action=accept&id=<?php echo $child['id']; ?>" onclick="return confirm('Accept this application?')">Accept</a>
 
-<a href="?action=decline&id=<?php echo $child['id']; ?>"
-class="btn btn-danger btn-sm">
-Decline
-</a>
+<a href="?action=decline&id=<?php echo $child['id']; ?>" onclick="return confirm('Decline this application?')">Decline</a>
 
 <?php else: ?>
 
-<span style="color:#777;">Completed</span>
+Completed
 
 <?php endif; ?>
 
@@ -260,77 +204,31 @@ Decline
 
 </div>
 
+<div id="docModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;">
 
-<!-- DOCUMENT MODAL -->
+<div style="width:80%;height:80%;background:white;position:relative;">
 
-<div id="docModal" style="
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-justify-content:center;
-align-items:center;
-z-index:9999;
-">
+<button onclick="closeDoc()" style="position:absolute;top:10px;right:10px;">Close</button>
 
-<div style="
-width:80%;
-height:80%;
-background:white;
-border-radius:8px;
-position:relative;
-padding:10px;
-">
-
-<button onclick="closeDoc()" style="
-position:absolute;
-top:10px;
-right:10px;
-background:#c0392b;
-color:white;
-border:none;
-padding:6px 12px;
-cursor:pointer;
-">
-Close
-</button>
-
-<iframe id="docFrame"
-style="
-width:100%;
-height:100%;
-border:none;
-">
-</iframe>
+<iframe id="docFrame" style="width:100%;height:100%;border:none;"></iframe>
 
 </div>
 
 </div>
-
 
 <script>
 
 function openDoc(url){
-
 document.getElementById("docFrame").src = url;
-
 document.getElementById("docModal").style.display = "flex";
-
 }
 
 function closeDoc(){
-
 document.getElementById("docModal").style.display = "none";
-
 document.getElementById("docFrame").src = "";
-
 }
 
 </script>
-
 
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 

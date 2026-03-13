@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $confirmPassword = $_POST['confirm_password'] ?? '';
 
-    // Validation
     if ($fullName === '') {
         $errors[] = 'Full name is required.';
     }
@@ -31,15 +30,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Password is required.';
     }
 
+    // STRONG PASSWORD CHECK
+    if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W]).{8,}$/', $password)) {
+        $errors[] = 'Password must contain uppercase, lowercase, number and special character (8+ characters).';
+    }
+
     if ($password !== $confirmPassword) {
         $errors[] = 'Passwords do not match.';
     }
 
-    // Load parents storage
     $parentsStorage = new JsonStorage(__DIR__ . '/../storage/parents.json');
     $parents = $parentsStorage->read();
 
-    // Check duplicate email
     foreach ($parents as $parent) {
         if ($parent['email'] === $email) {
             $errors[] = 'Email is already registered.';
@@ -47,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Save parent
     if (empty($errors)) {
 
         $parents[] = [
@@ -76,9 +77,9 @@ require_once __DIR__ . '/../app/views/partials/navbar.php';
 <h2>Parent Registration</h2>
 
 <?php if (!empty($errors)): ?>
-    <?php foreach ($errors as $error): ?>
-        <p class="error"><?php echo htmlspecialchars($error); ?></p>
-    <?php endforeach; ?>
+<?php foreach ($errors as $error): ?>
+<p class="error"><?php echo htmlspecialchars($error); ?></p>
+<?php endforeach; ?>
 <?php endif; ?>
 
 <?php if ($success): ?>
@@ -108,7 +109,19 @@ require_once __DIR__ . '/../app/views/partials/navbar.php';
 
 <div class="form-group">
 <label>Password</label>
-<input type="password" name="password" required>
+
+<div style="position:relative;">
+<input type="password" name="password" id="password" required onkeyup="checkStrength()">
+
+<span onclick="togglePassword()" style="position:absolute;right:10px;top:8px;cursor:pointer;">👁</span>
+</div>
+
+<div style="width:100%;background:#ddd;height:8px;margin-top:5px;border-radius:5px;">
+<div id="strengthBar" style="height:8px;width:0%;background:red;border-radius:5px;"></div>
+</div>
+
+<p id="strengthText" style="font-size:13px;margin-top:5px;"></p>
+
 </div>
 
 <div class="form-group">
@@ -129,5 +142,55 @@ Already have an account?
 
 </div>
 </div>
+
+<script>
+
+function togglePassword(){
+
+let password = document.getElementById("password");
+
+if(password.type === "password"){
+password.type = "text";
+}else{
+password.type = "password";
+}
+
+}
+
+function checkStrength(){
+
+let password = document.getElementById("password").value;
+let bar = document.getElementById("strengthBar");
+let text = document.getElementById("strengthText");
+
+let strength = 0;
+
+if(password.length >= 8){ strength++; }
+if(password.match(/[a-z]/)){ strength++; }
+if(password.match(/[A-Z]/)){ strength++; }
+if(password.match(/[0-9]/)){ strength++; }
+if(password.match(/[^a-zA-Z0-9]/)){ strength++; }
+
+if(strength <= 2){
+bar.style.width = "33%";
+bar.style.background = "red";
+text.innerHTML = "Weak password";
+}
+
+else if(strength <=4){
+bar.style.width = "66%";
+bar.style.background = "orange";
+text.innerHTML = "Medium password";
+}
+
+else{
+bar.style.width = "100%";
+bar.style.background = "green";
+text.innerHTML = "Strong password";
+}
+
+}
+
+</script>
 
 <?php require_once __DIR__ . '/../app/views/partials/footer.php'; ?>

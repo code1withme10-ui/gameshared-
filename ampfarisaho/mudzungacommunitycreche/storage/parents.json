@@ -6,13 +6,5 @@
   "phone": "0835073848",
   "password": "$2y$10$jVFJINwuykeKpqbU7wEGbeP7tDsXyeCrDPaIf4jJPC0fH66b/P9e2",
   "role": "headmaster"
-},
-    {
-        "id": "parent_69a0139e5bb0b",
-        "full_name": "Tshifhiwa",
-        "email": "Mudzunga465@gmail.com",
-        "phone": "0729583729",
-        "password": "$2y$10$PmrVVWusY4vD1fF1HWuIYepXS4a\/qQy0hPUaCnYv26YS8g4hxZKTK",
-        "role": "parent"
-    }
+}
 ]
