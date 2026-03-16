@@ -110,6 +110,11 @@ require_once __DIR__ . '/../app/views/partials/header.php';
                 <label>Password</label>
                 <input type="password" name="password" placeholder="Enter your password" required>
             </div>
+            <p style="text-align:right; margin-top:5px;">
+                <a href="/forgot-password.php" style="font-size:14px;">
+                    Forgot Password?
+                </a>
+            </p>
 
             <button type="submit" class="btn btn-primary">Login</button>
         </form>

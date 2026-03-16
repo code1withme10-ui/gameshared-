@@ -1,1 +1,20 @@
-[]
+[
+    {
+        "id": "child_69b7c1cd19284",
+        "parent_id": "parent_69b7c0e5916c4",
+        "full_name": "Pheladi Mathagu",
+        "dob": "2025-01-03",
+        "gender": "Female",
+        "grade": "Toddlers",
+        "address": "Tshakhuma, Luvhalani B, house 159",
+        "allergies": "Allegic to tin stuff",
+        "previous_school": "N\/A",
+        "documents": {
+            "birth_certificate": "\/uploads\/birth_certificate_69b7c1cc1f598.pdf",
+            "parent_id": "\/uploads\/parent_id_69b7c1cc958f1.pdf",
+            "clinical_report": "\/uploads\/clinical_report_69b7c1ccef883.pdf"
+        },
+        "status": "accepted",
+        "created_at": "2026-03-16 08:39:41"
+    }
+]

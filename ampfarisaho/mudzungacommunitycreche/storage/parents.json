@@ -1,10 +1,28 @@
 [
-   {
-  "id": "headmaster_1",
-  "full_name": "Mudzunga Headmaster",
-  "email": "Mudzunga465@gmail.com",
-  "phone": "0835073848",
-  "password": "$2y$10$jVFJINwuykeKpqbU7wEGbeP7tDsXyeCrDPaIf4jJPC0fH66b/P9e2",
-  "role": "headmaster"
-}
+    {
+        "id": "headmaster_1",
+        "full_name": "Mudzunga Headmaster",
+        "email": "Mudzunga465@gmail.com",
+        "phone": "0835073848",
+        "password": "$2y$10$jVFJINwuykeKpqbU7wEGbeP7tDsXyeCrDPaIf4jJPC0fH66b\/P9e2",
+        "role": "headmaster"
+    },
+    {
+        "id": "parent_69b7bceccbacd",
+        "full_name": "Ampfarisaho Mathagu",
+        "email": "mathaguampfarisaho@gmail.com",
+        "phone": "0765406436",
+        "password": "$2y$10$oCkxikOyI.fHwQ0v7fIHNe6LANI4hMnhJr35eVSdz18VVcvmN4lLa",
+        "role": "parent",
+        "created_at": "2026-03-16 08:18:53"
+    },
+    {
+        "id": "parent_69b7c0e5916c4",
+        "full_name": "Ntsieni Mathagu",
+        "email": "ntsiemi@gmail.com",
+        "phone": "0716543213",
+        "password": "$2y$10$TKthh51dRlJF3Ek3nI9J6.3jOWAjQujaPaAlNGmSCgH7Ys8ukDTH2",
+        "role": "parent",
+        "created_at": "2026-03-16 08:35:50"
+    }
 ]
