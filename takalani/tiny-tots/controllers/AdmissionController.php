@@ -27,7 +27,7 @@ class AdmissionController extends BaseController {
     
     public function index() {
         // Check if user is logged in
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             // Store the intended destination for redirect after login
             $_SESSION['redirect_after_login'] = '/admission';
             $this->setFlashMessage('info', 'Please login or register to access the admission form.');
@@ -50,7 +50,7 @@ class AdmissionController extends BaseController {
     
     public function submit() {
         // Check if user is logged in
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             $this->setFlashMessage('error', 'Please login to submit your application.');
             redirect('/login');
         }
@@ -155,12 +155,18 @@ class AdmissionController extends BaseController {
         
         $allAdmissions = $this->admissionModel->getAllAdmissions();
         
+        // Debug: Check what we got
+        error_log("DEBUG: All admissions count: " . count($allAdmissions));
+        if (!empty($allAdmissions)) {
+            error_log("DEBUG: First admission: " . print_r($allAdmissions[0], true));
+        }
+        
         // Calculate statistics
         $stats = [
             'total' => count($allAdmissions),
-            'pending' => count(array_filter($allAdmissions, function($a) { return $a['status'] === 'Pending'; })),
-            'approved' => count(array_filter($allAdmissions, function($a) { return $a['status'] === 'Approved'; })),
-            'rejected' => count(array_filter($allAdmissions, function($a) { return $a['status'] === 'Rejected'; }))
+            'pending' => count(array_filter($allAdmissions, function($a) { return strtolower($a['status']) === 'pending'; })),
+            'approved' => count(array_filter($allAdmissions, function($a) { return strtolower($a['status']) === 'approved'; })),
+            'rejected' => count(array_filter($allAdmissions, function($a) { return strtolower($a['status']) === 'rejected'; }))
         ];
         
         // Get recent applications (last 5)

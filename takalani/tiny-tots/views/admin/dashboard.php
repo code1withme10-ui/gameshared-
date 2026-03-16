@@ -59,7 +59,10 @@
                         <div>Application ID</div>
                         <div>Parent Name</div>
                         <div>Child Name</div>
+                        <div>Age</div>
                         <div>Grade</div>
+                        <div>Address</div>
+                        <div>Contact</div>
                         <div>Status</div>
                         <div>Submitted</div>
                         <div>Actions</div>
@@ -90,7 +93,22 @@
                                     </div>
                                 </div>
                                 <div>
+                                    <span class="age-badge"><?= htmlspecialchars($admission['age'] ?? 'N/A') ?> years</span>
+                                </div>
+                                <div>
                                     <span class="grade-badge"><?= htmlspecialchars($gradeCategories[$admission['gradeApplyingFor']] ?? 'N/A') ?></span>
+                                </div>
+                                <div>
+                                    <div class="address-info">
+                                        <span class="address-line"><?= htmlspecialchars($admission['residentialAddress'] ?? 'N/A') ?></span>
+                                        <span class="city-line"><?= htmlspecialchars($admission['city'] ?? 'N/A') ?></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="contact-info">
+                                        <span class="phone"><?= htmlspecialchars($admission['contactNumber']) ?></span>
+                                        <span class="email-small"><?= htmlspecialchars($admission['emailAddress']) ?></span>
+                                    </div>
                                 </div>
                                 <div>
                                     <span class="status-badge status-<?= strtolower($admission['status']) ?>">
@@ -101,10 +119,20 @@
                                     <span class="submit-date"><?= date('M j, Y', strtotime($admission['submittedAt'])) ?></span>
                                 </div>
                                 <div>
-                                    <button onclick="viewApplication('<?= htmlspecialchars($admission['id']) ?>')" 
-                                            class="btn-small btn-view">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
+                                    <div class="action-buttons-inline">
+                                        <button onclick="testFunction('<?= htmlspecialchars($admission['id']) ?>')" 
+                                                class="btn-small btn-test">
+                                            <i class="fas fa-bug"></i> Test
+                                        </button>
+                                        <button onclick="admitApplication('<?= htmlspecialchars($admission['id']) ?>')" 
+                                                class="btn-small btn-admit">
+                                            <i class="fas fa-check"></i> Admit
+                                        </button>
+                                        <button onclick="rejectApplication('<?= htmlspecialchars($admission['id']) ?>')" 
+                                                class="btn-small btn-reject">
+                                            <i class="fas fa-times"></i> Reject
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -162,25 +190,12 @@
     </div>
 </div>
 
-<!-- Application Details Modal -->
-<div id="applicationModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Application Details</h2>
-            <span class="modal-close" onclick="closeModal()">&times;</span>
-        </div>
-        <div class="modal-body" id="modalBody">
-            <!-- Content will be loaded dynamically -->
-        </div>
-    </div>
-</div>
-
 <style>
 /* Admin Dashboard Styles */
 .admin-container {
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 3rem 2rem;
 }
 
 .admin-header {
@@ -193,6 +208,268 @@
     font-size: 2.5rem;
     margin: 0 0 0.5rem 0;
     font-weight: 600;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    font-size: 3rem;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--light-blue);
+}
+
+.stat-card.total .stat-icon {
+    background: var(--primary-color);
+    color: white;
+}
+
+.stat-card.pending .stat-icon {
+    background: #ffc107;
+    color: white;
+}
+
+.stat-card.approved .stat-icon {
+    background: #28a745;
+    color: white;
+}
+
+.stat-card.rejected .stat-icon {
+    background: #dc3545;
+    color: white;
+}
+
+.stat-content h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: var(--text-dark);
+}
+
+.stat-content p {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+.dashboard-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+.recent-applications {
+    background: white;
+    border-radius: 15px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.recent-applications h2 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin: 0 0 2rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.applications-table {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 0.8fr 1.5fr 1.5fr 0.8fr 1fr 1.8fr 1.5fr 1fr 1.2fr 1.5fr;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--warm-white);
+    border-radius: 10px;
+    font-weight: 600;
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 0.8fr 1.5fr 1.5fr 0.8fr 1fr 1.8fr 1.5fr 1fr 1.2fr 1.5fr;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--light-blue);
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.table-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-color: var(--primary-color);
+}
+
+.parent-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.parent-name {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 1rem;
+}
+
+.parent-email {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.child-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.child-name {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 1rem;
+}
+
+.child-age {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.grade-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.age-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.address-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.address-line {
+    font-size: 0.8rem;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.city-line {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.phone {
+    font-size: 0.8rem;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.email-small {
+    font-size: 0.7rem;
+    color: var(--text-light);
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffc107;
+}
+
+.status-approved {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #28a745;
+}
+
+.status-rejected {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #dc3545;
+}
+
+.submit-date {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.btn-small {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-view {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-view:hover {
+    background: var(--secondary-color);
 }
 
 .admin-header p {
@@ -409,6 +686,41 @@
     gap: 0.3rem;
 }
 
+.action-buttons-inline {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-admit {
+    background: #28a745;
+    color: white;
+}
+
+.btn-admit:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
+.btn-reject {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-reject:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+}
+
+.btn-test {
+    background: #ffc107;
+    color: #212529;
+}
+
+.btn-test:hover {
+    background: #e0a800;
+    transform: translateY(-1px);
+}
+
 .btn-view {
     background: var(--primary-color);
     color: white;
@@ -496,62 +808,6 @@
     font-size: 0.9rem;
 }
 
-/* Modal Styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 10000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-    position: relative;
-    background: white;
-    margin: 5% auto;
-    padding: 0;
-    width: 90%;
-    max-width: 800px;
-    max-height: 90vh;
-    border-radius: 20px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-}
-
-.modal-header {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: var(--text-dark);
-    padding: 1.5rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-header h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.modal-close {
-    font-size: 2rem;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.modal-close:hover {
-    color: var(--accent-color);
-}
-
-.modal-body {
-    padding: 2rem;
-    max-height: calc(90vh - 100px);
-    overflow-y: auto;
-}
-
 @media (max-width: 1024px) {
     .dashboard-content {
         grid-template-columns: 1fr;
@@ -583,47 +839,82 @@
     .actions-grid {
         grid-template-columns: 1fr;
     }
-    
-    .modal-content {
-        width: 95%;
-        margin: 2% auto;
-    }
 }
 </style>
 
 <script>
-function viewApplication(id) {
-    // This would typically fetch data from server
-    const modalBody = document.getElementById('modalBody');
-    modalBody.innerHTML = `
-        <div class="application-details">
-            <h3>Application ID: ${id}</h3>
-            <p><strong>Status:</strong> Under Review</p>
-            <p><em>Detailed application information would be loaded here.</em></p>
-            <div style="margin-top: 2rem; text-align: center;">
-                <button onclick="window.location.href='/admin/admissions/view?id=${id}'" class="btn btn-primary">
-                    <i class="fas fa-eye"></i> View Full Details
-                </button>
-            </div>
-        </div>
-    `;
-    
-    document.getElementById('applicationModal').style.display = 'block';
+function testFunction(id) {
+    alert('Test function called! ID: ' + id);
+    console.log('Test function - ID:', id);
 }
 
-function closeModal() {
-    document.getElementById('applicationModal').style.display = 'none';
+function admitApplication(id) {
+    console.log('Admit function called with ID:', id);
+    
+    if (confirm('Admit application ' + id + '?')) {
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('status', 'Approved');
+        formData.append('notes', 'Approved via dashboard');
+        
+        fetch('/admin/admissions/updateStatus', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response:', data);
+            if (data.success) {
+                alert('Application admitted successfully!');
+                location.reload();
+            } else {
+                alert('Error: ' + (data.error || data.message));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Network error: ' + error.message);
+        });
+    }
+}
+
+function rejectApplication(id) {
+    console.log('Reject function called with ID:', id);
+    
+    const reason = prompt('Enter rejection reason:');
+    if (!reason) {
+        alert('Please provide a reason');
+        return;
+    }
+    
+    if (confirm('Reject application ' + id + '?')) {
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('status', 'Rejected');
+        formData.append('notes', reason);
+        
+        fetch('/admin/admissions/updateStatus', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response:', data);
+            if (data.success) {
+                alert('Application rejected successfully!');
+                location.reload();
+            } else {
+                alert('Error: ' + (data.error || data.message));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Network error: ' + error.message);
+        });
+    }
 }
 
 function exportData() {
     alert('Export functionality would download all applications as CSV/Excel');
-}
-
-// Close modal when clicking outside
-window.onclick = function(event) {
-    const modal = document.getElementById('applicationModal');
-    if (event.target === modal) {
-        closeModal();
-    }
 }
 </script>

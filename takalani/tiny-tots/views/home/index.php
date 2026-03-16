@@ -135,7 +135,7 @@
 <!-- Key Highlights -->
 <section class="highlights-section">
     <div class="container">
-        <h2 class="section-title">Why Choose <?= htmlspecialchars($heroTitle ?? 'Tiny Tots') ?>?</h2>
+        <h2 class="section-title">Why Choose Tiny Tots Creche?</h2>
         <div class="highlights-grid">
             <?php 
             $highlights = $highlights ?? [

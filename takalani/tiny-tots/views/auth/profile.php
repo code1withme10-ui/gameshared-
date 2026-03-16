@@ -70,7 +70,7 @@
                 <div class="info-grid">
                     <div class="info-item">
                         <label>Member Since:</label>
-                        <span><?= date('F j, Y', strtotime($user['created_at'])) ?></span>
+                        <span><?= isset($user['created_at']) ? date('F j, Y', strtotime($user['created_at'])) : 'Not available' ?></span>
                     </div>
                     <div class="info-item">
                         <label>Last Login:</label>

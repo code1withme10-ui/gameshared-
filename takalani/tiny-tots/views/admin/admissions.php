@@ -134,7 +134,7 @@
                                         <i class="fas fa-eye"></i>
                                     </button>
                                     
-                                    <?php if ($application['status'] === 'Pending'): ?>
+                                    <?php if (strtolower($application['status']) === 'pending'): ?>
                                         <button onclick="updateStatus('<?= htmlspecialchars($application['id']) ?>', 'approved')" 
                                                 class="btn btn-sm btn-success" title="Accept Application">
                                             <i class="fas fa-check"></i>
@@ -620,9 +620,63 @@ function viewApplication(id) {
 }
 
 function updateStatus(id, status) {
-    document.getElementById('statusApplicationId').value = id;
-    document.getElementById('newStatus').value = status;
-    document.getElementById('statusModal').style.display = 'block';
+    console.log('updateStatus called:', {id, status});
+    
+    if (status === 'approved') {
+        const reason = prompt('Enter admission reason (optional):');
+        const admissionDate = prompt('Enter admission date (YYYY-MM-DD):');
+        
+        if (!admissionDate) {
+            alert('Please provide admission date');
+            return;
+        }
+        
+        if (confirm('Admit application ' + id + '?')) {
+            sendStatusUpdate(id, 'Approved', reason || '', admissionDate);
+        }
+    } else if (status === 'rejected') {
+        const reason = prompt('Enter rejection reason (required):');
+        
+        if (!reason || !reason.trim()) {
+            alert('Please provide a reason for rejection');
+            return;
+        }
+        
+        if (confirm('Reject application ' + id + '?')) {
+            sendStatusUpdate(id, 'Rejected', reason);
+        }
+    }
+}
+
+function sendStatusUpdate(id, status, notes, admissionDate = null) {
+    console.log('Sending status update:', {id, status, notes, admissionDate});
+    
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('status', status);
+    formData.append('notes', notes);
+    if (admissionDate) {
+        formData.append('admission_date', admissionDate);
+    }
+    
+    fetch('/admin/admissions/updateStatus', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Response:', data);
+        if (data.success) {
+            alert('Application status updated successfully!');
+            location.reload();
+        } else {
+            alert('Error updating status: ' + (data.error || data.message));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Network error: ' + error.message);
+    });
 }
 
 function closeModal() {

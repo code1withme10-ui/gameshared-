@@ -94,25 +94,25 @@ class HomeController extends BaseController {
                 'classroom' => [
                     'title' => 'Classroom Activities',
                     'images' => [
-                        ['src' => '/public/images/gallery/classroom1.jpg', 'alt' => 'Children learning in classroom'],
-                        ['src' => '/public/images/gallery/classroom2.jpg', 'alt' => 'Interactive learning session'],
-                        ['src' => '/public/images/gallery/classroom3.jpg', 'alt' => 'Story time with teacher']
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29 (1).jpeg', 'alt' => 'Children learning in classroom'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29 (2).jpeg', 'alt' => 'Interactive learning session'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29.jpeg', 'alt' => 'Story time with teacher']
                     ]
                 ],
                 'creative' => [
                     'title' => 'Creative Corner',
                     'images' => [
-                        ['src' => '/public/images/gallery/art1.jpg', 'alt' => 'Art and craft activities'],
-                        ['src' => '/public/images/gallery/art2.jpg', 'alt' => 'Music and movement'],
-                        ['src' => '/public/images/gallery/art3.jpg', 'alt' => 'Drama and role play']
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.30.jpeg', 'alt' => 'Art and craft activities'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29 (1).jpeg', 'alt' => 'Music and movement'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29 (2).jpeg', 'alt' => 'Drama and role play']
                     ]
                 ],
                 'outdoor' => [
                     'title' => 'Outdoor Play',
                     'images' => [
-                        ['src' => '/public/images/gallery/play1.jpg', 'alt' => 'Playground activities'],
-                        ['src' => '/public/images/gallery/play2.jpg', 'alt' => 'Sports and games'],
-                        ['src' => '/public/images/gallery/play3.jpg', 'alt' => 'Nature exploration']
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29.jpeg', 'alt' => 'Playground activities'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.30.jpeg', 'alt' => 'Sports and games'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29 (1).jpeg', 'alt' => 'Nature exploration']
                     ]
                 ]
             ]
