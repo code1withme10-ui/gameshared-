@@ -6,9 +6,9 @@ require_once __DIR__ . '/../app/views/partials/navbar.php';
 <div class="container">
 
     <!-- ABOUT HERO -->
-    <section class="card" style="background-color:#09223b; color:#ffd700; text-align:center; margin-top:50px;">
-        <h1>About Mudzunga Community Creche</h1>
-        <p style="font-size:16px; margin-top:10px;">
+    <section class="card" style="background-color:#0f172a; text-align:center; margin-top:50px; padding: 60px;">
+        <h1 style="color:#fcd34d; font-size: 2.5rem; margin-bottom: 15px;">About Mudzunga Community Creche</h1>
+        <p style="font-size:1.1rem; color: #cbd5e1; margin-top:10px;">
             Established in 1985 in the heart of Venda (Limpopo, Tshakhuma Luvhalani A, opposite Tshakhuma Butchery)
         </p>
     </section>

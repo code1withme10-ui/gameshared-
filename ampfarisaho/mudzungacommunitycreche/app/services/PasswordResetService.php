@@ -15,7 +15,7 @@ class PasswordResetService
 
     public function findParent($identifier)
     {
-        $parents = $this->parentsStorage->all();
+        $parents = $this->parentsStorage->read();
 
         foreach ($parents as $parent) {
             if ($parent['email'] === $identifier || $parent['phone'] === $identifier) {
@@ -33,14 +33,14 @@ class PasswordResetService
 
     public function storeCode($parentId, $code)
     {
-        $data = $this->resetStorage->all();
+        $data = $this->resetStorage->read();
 
         $data[$parentId] = [
             "code" => $code,
             "expires" => date('Y-m-d H:i:s', strtotime('+10 minutes'))
         ];
 
-        $this->resetStorage->save($data);
+        $this->resetStorage->write($data);
     }
 
     public function sendEmail($email, $code)
@@ -68,7 +68,7 @@ class PasswordResetService
 
     public function verifyCode($parentId, $enteredCode)
     {
-        $data = $this->resetStorage->all();
+        $data = $this->resetStorage->read();
 
         if (!isset($data[$parentId])) {
             return false;
@@ -89,7 +89,7 @@ class PasswordResetService
 
     public function resetPassword($parentId, $newPassword)
     {
-        $parents = $this->parentsStorage->all();
+        $parents = $this->parentsStorage->read();
 
         foreach ($parents as &$parent) {
             if ($parent['id'] === $parentId) {
@@ -97,7 +97,7 @@ class PasswordResetService
             }
         }
 
-        $this->parentsStorage->save($parents);
+        $this->parentsStorage->write($parents);
     }
 }
 

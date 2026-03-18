@@ -15,56 +15,44 @@ $imageUrls = array_map(fn($img) => $baseUrl . basename($img), $images);
 
 <div class="container" style="margin-top:60px; margin-bottom:60px;">
 
-<h2 style="text-align:center; color:#0a1f44; margin-bottom:10px;">
-Our Gallery
-</h2>
-
-<p style="text-align:center; color:#555; margin-bottom:30px;">
-A glimpse into life at <strong>Mudzunga Community Creche</strong>
-</p>
+<div class="gallery-header">
+    <h2>Our Gallery</h2>
+    <p>A beautiful glimpse into daily life at Mudzunga Community Creche</p>
+</div>
 
 <?php if (!empty($imageUrls)): ?>
 
-<div style="
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-gap:20px;
-">
-
-<?php foreach ($imageUrls as $imgUrl): ?>
-
-<div style="
-background:#fff;
-border:2px solid #f2c400;
-border-radius:8px;
-padding:8px;
-box-shadow:0 4px 8px rgba(0,0,0,0.1);
-transition:transform 0.3s ease;
-">
-
-<a href="<?php echo $imgUrl; ?>" target="_blank">
-
-<img
-src="<?php echo $imgUrl; ?>"
-alt="Creche Activity"
-style="
-width:100%;
-height:180px;
-object-fit:cover;
-border-radius:5px;
-transition:transform 0.3s ease;
-"
-onmouseover="this.style.transform='scale(1.08)'"
-onmouseout="this.style.transform='scale(1)'"
->
-
-</a>
-
+<div class="gallery-grid">
+    <?php foreach ($imageUrls as $imgUrl): ?>
+        <div class="gallery-item" onclick="openLightbox('<?php echo htmlspecialchars($imgUrl); ?>')">
+            <img src="<?php echo htmlspecialchars($imgUrl); ?>" loading="lazy" alt="Creche Activity">
+            <div class="gallery-overlay">
+                <div class="gallery-icon">🔍</div>
+            </div>
+        </div>
+    <?php endforeach; ?>
 </div>
 
-<?php endforeach; ?>
-
+<!-- Lightbox Modal -->
+<div id="lightbox" onclick="closeLightbox(event)">
+    <span id="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="Full Screen Activity">
 </div>
+
+<script>
+    function openLightbox(url) {
+        document.getElementById('lightbox-img').src = url;
+        document.getElementById('lightbox').style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+    
+    function closeLightbox(e) {
+        if (e.target.id === 'lightbox' || e.target.id === 'lightbox-close') {
+            document.getElementById('lightbox').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+    }
+</script>
 
 <?php else: ?>
 

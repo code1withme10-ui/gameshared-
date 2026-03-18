@@ -24,5 +24,19 @@
         "password": "$2y$10$TKthh51dRlJF3Ek3nI9J6.3jOWAjQujaPaAlNGmSCgH7Ys8ukDTH2",
         "role": "parent",
         "created_at": "2026-03-16 08:35:50"
+    },
+    {
+        "id": "parent_8af2646d06",
+        "full_name": "Ampfarisaho Mathagu",
+        "address": "R524",
+        "email": "mathaguampfarisaho@gmail.com",
+        "phone": "0765406436",
+        "role_to_child": "father",
+        "password": "$2y$10$mcTIZQJkIefYytbSJ02GpeB3n1jvxqdaVPanN9BpwLEL0FPZFLxzG",
+        "created_at": "2026-03-18 10:58:50",
+        "role": "parent",
+        "documents": {
+            "parent_id_card": "\/storage\/uploads\/parentID_e2d9296800.png"
+        }
     }
 ]

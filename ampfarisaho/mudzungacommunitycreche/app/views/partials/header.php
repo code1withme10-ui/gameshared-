@@ -17,17 +17,3 @@ if (session_status() === PHP_SESSION_NONE) {
 </head>
 <body>
 
-<header class="main-header">
-    <div class="container header-container">
-        <div class="logo-area">
-            <img src="/assets/images/logo.png" alt="Creche Logo" class="logo">
-            <div class="logo-text">
-                <h1>Mudzunga Community Crèche</h1>
-                <p class="slogan">Nurturing tiny hearts, shaping bright futures</p>
-            </div>
-        </div>
-    </div>
-
-    <?php require_once __DIR__ . '/navbar.php'; ?>
-</header>
-
