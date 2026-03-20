@@ -33,5 +33,28 @@
             "birth_certificate": "\/storage\/uploads\/birth_21887b09e9.png",
             "clinical_report": "\/storage\/uploads\/clinical_10a9ba6ff1.png"
         }
+    },
+    {
+        "id": "child_69bd01c88ed7d",
+        "parent_id": "parent_69bd008e2240a",
+        "full_name": "Tshilidzi Mudzunga",
+        "dob": "2025-01-07",
+        "gender": "Female",
+        "grade": "Toddlers",
+        "address": "Tshakhuma, Luvhalani B, house 159",
+        "allergies": "None",
+        "previous_school": "N\/A",
+        "emergency_contact": {
+            "name": "Donald Mudzunga",
+            "phone": "082 567 8725",
+            "relation": "Father"
+        },
+        "documents": {
+            "birth_certificate": "\/uploads\/birth_certificate_69bd01c8816b3.png",
+            "parent_id": "\/uploads\/parent_id_69bd01c889416.pdf",
+            "clinical_report": ""
+        },
+        "status": "accepted",
+        "created_at": "2026-03-20 09:14:00"
     }
 ]

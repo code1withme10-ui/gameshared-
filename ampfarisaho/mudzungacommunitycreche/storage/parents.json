@@ -38,5 +38,14 @@
         "documents": {
             "parent_id_card": "\/storage\/uploads\/parentID_e2d9296800.png"
         }
+    },
+    {
+        "id": "parent_69bd008e2240a",
+        "full_name": "Tshifhiwa Mudzunga",
+        "email": "chivhuvhu77@gmail.com",
+        "phone": "0729583729",
+        "password": "$2y$10$XZDSXFqfZd5DI\/\/2R\/Im5OSPqBsZrwDGi0uQU.J9i2iWAgQzRr0H6",
+        "role": "parent",
+        "created_at": "2026-03-20 09:08:46"
     }
 ]

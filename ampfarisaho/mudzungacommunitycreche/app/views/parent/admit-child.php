@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $childrenStorage->write($children);
 
-        header('Location: /app/views/parent/dashboard.php');
+        header('Location: /parent-dashboard.php');
         exit;
     }
 }

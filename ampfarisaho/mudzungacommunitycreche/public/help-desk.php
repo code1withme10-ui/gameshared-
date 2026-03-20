@@ -88,8 +88,7 @@ require_once __DIR__ . '/../app/views/partials/navbar.php';
         </p>
 
         <p style="font-size:17px; line-height:1.8;">
-            <strong>Address:</strong> Tshakhuma, Luvhalani A 
-            (opposite Tshakhuma Butchery)
+            <strong>Address:</strong> Tshakhuma next to Netshikhudini butchery
         </p>
 
     </section>
