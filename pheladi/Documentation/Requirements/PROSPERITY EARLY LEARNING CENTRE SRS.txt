@@ -1,0 +1,159 @@
+PROSPERITY EARLY LEARNING CENTRE SOFTWARE REQUIREMENTS SPECIFICATIONS (SRS) DOCUMENT
+=======================================================================================================================================================================
+
+1. General Information
+
+Name of the crèche: Prosperity Early Learning Centre
+Tagline/Slogan: “Education is the light ”
+Location: Mashau Bodwe Mavhina Village stand 1000 Makhado Limpopo , South Africa
+Established: 2015
+Theme/Colours: Bright and playful colours (yellow, blue, green, and soft pastel tones)
+Look & Feel: Child-friendly, warm, welcoming, and modern
+
+======================================================================================================================================================================
+2. Background & Identity
+
+Brief history:
+Prosperity Early Learning Centre was established in 2015/04/15 to provide a safe, nurturing, and educational environment for young children while supporting working parents in the community.
+
+Vision:
+To be a leading early childhood development centre that nurtures confident, happy, and independent children.
+
+Mission:
+To provide quality care and early education through play-based learning in a safe and loving environment.
+Core Values:
+Care and safety
+Respect
+Learning through play
+Inclusivity
+Honesty
+
+=======================================================================================================================================================================
+3. About Us
+
+Description:
+Prosperity Early Leaning Centre is a safe and loving space where children learn, play, and grow. We focus on early childhood development through fun, structured activities that support emotional, social, and cognitive growth.
+
+What makes it unique:
+We offer small class sizes, personalized attention, and a caring environment that feels like a second home.
+
+=======================================================================================================================================================================
+4. Home Page Content
+
+Welcome message:
+
+Welcome to Prosperity Early Leaning Centre, where your child’s happiness, safety, and development come first.
+
+Services/Programmes:
+Daycare services
+Early childhood education
+
+Age groups:
+Birth months(0- to 4.5) School readiness years
+
+Operating hours:
+Monday to Thursday 06:00 - 16:00
+Friday 06:00-14:30
+
+Why choose us:
+Safe and secure environment
+Qualified and caring staff
+Structured learning programmes
+Affordable fees
+
+=======================================================================================================================================================================
+5. Capacity & Operations
+
+Current capacity: 94 children
+Maximum enrolment: 94 children
+Administration method: Manual records and WhatsApp communication
+
+Challenges:
+Paperwork gets lost
+Difficult to track payments and records
+Communication delays with parents
+
+=======================================================================================================================================================================
+6. Gallery
+
+Photos available: Yes
+Types of photos:
+Classrooms, play areas, learning activities, events
+Parental consent: Yes
+
+=======================================================================================================================================================================
+7. Admissions & Enrolment Details
+Child information required:
+
+Full name
+Date of birth
+Gender
+Home address
+Medical information:
+Allergies
+Medical conditions
+Doctor’s details
+Immunisation records
+
+=======================================================================================================================================================================
+8. Parent / Guardian Information
+Required details:
+Full name
+Phone number
+Email address
+ID number
+Home/work address
+Emergency contact: Yes
+Name
+Phone number
+Relationship to child
+
+======================================================================================================================================================================
+9. Required Documents Upload
+
+Birth certificate
+Immunisation card
+Parent/guardian ID copy
+Proof of residence
+
+======================================================================================================================================================================
+10. Login & Access
+
+Who has access: Administrators and staff
+Login info: Username and password
+Parent accounts: Yes, parents should have access
+
+=======================================================================================================================================================================
+11. Contact Information
+
+Phone: 0680778437
+EmailProsperityelc@gmail.com
+Address: Mashau Mavhina Village Stand 1000
+Social media:
+Facebook
+WhatsApp
+Instagram
+
+=======================================================================================================================================================================
+12. Legal & Privacy
+
+Must comply with POPIA (Protection of Personal Information Act)
+Yes, include privacy policy and terms & conditions
+
+=======================================================================================================================================================================
+13. Website Management
+
+Content approval: Crèche owner/manager
+Updates: Admin staff
+
+=======================================================================================================================================================================
+14. Timeline & Expectations
+
+Completion: Within 4–6 weeks
+Purpose:
+Information
+Online enrolment
+Admin management
+Parent communication
+
+=======================================================================================================================================================================

@@ -19,6 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $allergies = trim($_POST['allergies'] ?? '');
     $previousSchool = trim($_POST['previous_school'] ?? '');
 
+    $emergencyName = trim($_POST['emergency_contact_name'] ?? '');
+    $emergencyPhone = trim($_POST['emergency_contact_phone'] ?? '');
+    $emergencyRelation = trim($_POST['emergency_contact_relation'] ?? '');
+
     if ($fullName === '') $errors[] = 'Child full name is required.';
     if ($dob === '') $errors[] = 'Date of birth is required.';
     if ($gender === '') $errors[] = 'Gender is required.';
@@ -69,6 +73,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($uploadFields as $key => $label) {
 
         if (!isset($_FILES[$key]) || $_FILES[$key]['error'] !== UPLOAD_ERR_OK) {
+            if ($key === 'clinical_report') {
+                $uploadedFiles[$key] = '';
+                continue;
+            }
             $errors[] = "$label is required.";
             continue;
         }
@@ -112,6 +120,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'address' => $address,
             'allergies' => $allergies,
             'previous_school' => $previousSchool,
+            'emergency_contact' => [
+                'name' => $emergencyName,
+                'phone' => $emergencyPhone,
+                'relation' => $emergencyRelation
+            ],
             'documents' => $uploadedFiles,
             'status' => 'pending',
             'created_at' => date('Y-m-d H:i:s')
@@ -119,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $childrenStorage->write($children);
 
-        header('Location: /app/views/parent/dashboard.php');
+        header('Location: /parent-dashboard.php');
         exit;
     }
 }
@@ -184,19 +197,40 @@ require_once __DIR__ . '/../partials/navbar.php';
                 <input type="text" name="previous_school">
             </div>
 
+            <hr style="margin:25px 0; border:1px solid #e2e8f0;">
+            <h3 style="margin-bottom:15px; font-family:'Outfit', sans-serif;">Emergency Contact (Secondary)</h3>
+
             <div class="form-group">
-                <label>Birth Certificate</label>
-                <input type="file" name="birth_certificate" required>
+                <label>Emergency Contact Name</label>
+                <input type="text" name="emergency_contact_name" required>
             </div>
 
             <div class="form-group">
-                <label>Parent ID</label>
-                <input type="file" name="parent_id" required>
+                <label>Emergency Contact Phone Number</label>
+                <input type="text" name="emergency_contact_phone" required>
             </div>
 
             <div class="form-group">
-                <label>Clinical Report</label>
-                <input type="file" name="clinical_report" required>
+                <label>Relationship to Child (e.g., Grandparent, Uncle)</label>
+                <input type="text" name="emergency_contact_relation" required>
+            </div>
+
+            <hr style="margin:25px 0; border:1px solid #e2e8f0;">
+            <h3 style="margin-bottom:15px; font-family:'Outfit', sans-serif;">Required Documents</h3>
+
+            <div class="form-group">
+                <label>Birth Certificate (PDF/Image)</label>
+                <input type="file" name="birth_certificate" accept=".pdf,image/*" required>
+            </div>
+
+            <div class="form-group">
+                <label>Parent ID (PDF/Image)</label>
+                <input type="file" name="parent_id" accept=".pdf,image/*" required>
+            </div>
+
+            <div class="form-group">
+                <label>Clinical Report (PDF/Image, Optional)</label>
+                <input type="file" name="clinical_report" accept=".pdf,image/*">
             </div>
 
             <button type="submit" class="btn btn-primary">Submit Admission</button>
