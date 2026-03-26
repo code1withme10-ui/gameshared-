@@ -1,0 +1,8 @@
+# Prevent anyone from viewing the directory list
+Options -Indexes
+
+# Block access to all files in this folder from a web browser
+<Files "*">
+    Order Deny,Allow
+    Deny from all
+</Files>

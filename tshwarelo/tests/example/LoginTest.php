@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../include/auth/login.php';
 
 class LoginTest extends TestCase {
 
-    public function testValidLogin() {
+    public function testValidLogin(): void {
 
         echo "\n🧪 Starting LoginTest::testValidLogin...";
         echo "\nNow asserting if username and password are correct... 🔍\n";
@@ -14,7 +14,7 @@ class LoginTest extends TestCase {
         $this->assertTrue(login("admin", "1234"));
     }
 
-    public function testInvalidLogin() {
+    public function testInvalidLogin(): void {
 
         echo "\n🧪 Starting LoginTest::testInvalidLogin...";
         echo "\nNow asserting invalid login attempt... ❌\n";

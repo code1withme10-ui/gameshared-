@@ -1,0 +1,14 @@
+services:
+  web:
+    build: .
+    container_name: govern_psy_server
+    ports:
+      - "8085:80"  # Changed from 8080 to 8085 to avoid the port conflict
+    volumes:
+      - .:/var/www/html
+    networks:
+      - creche-network
+
+networks:
+  creche-network:
+    driver: bridge

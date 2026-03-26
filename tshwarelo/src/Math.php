@@ -1,10 +1,7 @@
 <?php
 // Simple Math class 😊
 class Math {
-
-    // Adds two numbers ➕
-    public function add($a, $b) {
+    public function add(int|float $a, int|float $b): int|float {
         return $a + $b;
     }
-}
-  
+} 

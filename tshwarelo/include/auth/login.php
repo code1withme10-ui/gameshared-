@@ -1,7 +1,7 @@
 <?php
 
 // Simple login function for demonstration 😊
-function login($username, $password) {
+function login(string $username, string $password): bool {
 
     echo "\n👀 login() function called...";
     echo "\nChecking credentials...\n";
