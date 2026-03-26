@@ -6,13 +6,11 @@ require_once __DIR__ . '/../app/views/partials/navbar.php';
 <div class="container">
 
     <!-- ABOUT HERO -->
-    <section class="card" style="background-color:#0f172a; text-align:center; margin-top:50px; padding: 60px;">
-        <h1 style="color:#fcd34d; font-size: 2.5rem; margin-bottom: 15px;">About Mudzunga Community Creche</h1>
-        <p style="font-size:1.1rem; color: #cbd5e1; margin-top:10px;">
-            <div class="about-text">
+    <section style="text-align:center; background: linear-gradient(to bottom, #081a2e, #0c2c4d); padding: 80px 20px; margin-top:40px; border-radius:10px; margin-bottom: 40px;">
+        <h1 style="color:#ffd700; font-size: 38px; letter-spacing:2px; font-weight:700; margin-bottom: 10px;">About Mudzunga Community Creche</h1>
+        <div class="about-text" style="color: #ffd700; font-size:18px; max-width:700px; margin:10px auto 0 auto; line-height: 1.8; opacity:0.95;">
             Established in 1985 in the heart of Venda (Limpopo, Tshakhuma next to Netshikhudini butchery), Mudzunga Community Crèche has been a beacon of early childhood development for decades.
         </div>
-        </p>
     </section>
 
     <!-- MISSION -->

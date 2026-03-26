@@ -44,9 +44,9 @@ require_once __DIR__ . '/../app/views/partials/navbar.php';
 <div class="container">
 
 <!-- PAGE HEADER -->
-<section style="margin-top:50px; text-align:center;">
-    <h1>Notice Board</h1>
-    <p>Stay updated with the latest announcements and important notices from the creche.</p>
+<section style="text-align:center; background: linear-gradient(to bottom, #081a2e, #0c2c4d); padding: 80px 20px; margin-top: 40px; border-radius:10px;">
+    <h1 style="color:#ffd700; font-size:38px; letter-spacing:2px; font-weight:700; margin-bottom:10px;">Notice Board</h1>
+    <p style="color:#ffd700; font-size:18px; max-width:700px; margin:0 auto; opacity:0.95;">Stay updated with the latest announcements and important notices from the creche.</p>
 </section>
 
 

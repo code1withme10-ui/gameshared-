@@ -71,12 +71,28 @@ require_once __DIR__ . '/../app/views/partials/navbar.php';
             <strong>Creche Name:</strong> Mudzunga Community Creche
         </p>
 
-        <p style="font-size:17px; line-height:1.8;">
-            <strong>Contact Person:</strong> Creche Practitioner
+        <p style="font-size:17px; line-height:1.8; margin-bottom:15px;">
+            <strong>Creche Practitioner (Tshifhiwa):</strong> 
+            <span style="display:inline-flex; align-items:center; gap:12px; margin-left:8px;">
+                <a href="tel:0835073848" style="text-decoration:none; color:#09223b; font-weight:600;">
+                    <i class="bi bi-telephone-fill" style="color:#09223b;"></i> 083 507 3848
+                </a>
+                <a href="https://wa.me/27835073848" target="_blank" style="text-decoration:none; color:#25D366; font-size:20px;" title="WhatsApp Tshifhiwa">
+                    <i class="bi bi-whatsapp"></i>
+                </a>
+            </span>
         </p>
 
-        <p style="font-size:17px; line-height:1.8;">
-            <strong>Phone Number:</strong> 083 507 3848
+        <p style="font-size:17px; line-height:1.8; margin-bottom:25px;">
+            <strong>Creche Practitioner (Julia):</strong> 
+            <span style="display:inline-flex; align-items:center; gap:12px; margin-left:8px;">
+                <a href="tel:0824053167" style="text-decoration:none; color:#09223b; font-weight:600;">
+                    <i class="bi bi-telephone-fill" style="color:#09223b;"></i> 082 405 3167
+                </a>
+                <a href="https://wa.me/27824053167" target="_blank" style="text-decoration:none; color:#25D366; font-size:20px;" title="WhatsApp Julia">
+                    <i class="bi bi-whatsapp"></i>
+                </a>
+            </span>
         </p>
 
         <p style="font-size:17px; line-height:1.8;">

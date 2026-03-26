@@ -15,10 +15,10 @@ $imageUrls = array_map(fn($img) => $baseUrl . basename($img), $images);
 
 <div class="container" style="margin-top:60px; margin-bottom:60px;">
 
-<div class="gallery-header">
-    <h2>Our Gallery</h2>
-    <p>A beautiful glimpse into daily life at Mudzunga Community Creche</p>
-</div>
+<section style="text-align:center; background: linear-gradient(to bottom, #081a2e, #0c2c4d); padding: 80px 20px; margin-top: 40px; margin-bottom: 50px; border-radius:10px;">
+    <h2 style="color:#ffd700; font-size:38px; letter-spacing:2px; font-weight:700; margin-bottom:10px; font-family:'Outfit', sans-serif;">Our Gallery</h2>
+    <p style="color:#ffd700; font-size:18px; max-width:700px; margin:0 auto; opacity:0.95;">A beautiful glimpse into daily life at Mudzunga Community Creche</p>
+</section>
 
 <?php if (!empty($imageUrls)): ?>
 
