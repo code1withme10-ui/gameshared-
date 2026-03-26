@@ -1,0 +1,75 @@
+<?php
+require_once 'config/config.php';
+
+// Simple router
+$request = $_SERVER['REQUEST_URI'];
+$request = parse_url($request, PHP_URL_PATH);
+
+// Remove query string and trim slashes
+$request = rtrim($request, '/');
+$request = $request === '' ? '/' : $request;
+
+// Route definitions
+$routes = [
+    // Home routes
+    '/' => ['HomeController', 'index'],
+    '/home' => ['HomeController', 'index'],
+    '/about' => ['HomeController', 'about'],
+    '/contact' => ['HomeController', 'contact'],
+    '/gallery' => ['HomeController', 'gallery'],
+    
+    // Auth routes
+    '/login' => ['AuthController', 'login'],
+    '/logout' => ['AuthController', 'logout'],
+    '/register' => ['AuthController', 'register'],
+    '/profile' => ['AuthController', 'profile'],
+    '/forgot-password' => ['AuthController', 'forgotPassword'],
+    '/reset-password' => ['AuthController', 'resetPassword'],
+    
+    // Admission routes
+    '/admission' => ['AdmissionController', 'index'],
+    '/admission/submit' => ['AdmissionController', 'submit'],
+    '/admission/success' => ['AdmissionController', 'success'],
+    '/admission/list' => ['AdmissionController', 'list'],
+    '/admission/view' => ['AdmissionController', 'view'],
+    '/admission/update-status' => ['AdmissionController', 'updateStatus'],
+    '/admission/delete' => ['AdmissionController', 'delete'],
+    '/admission/export' => ['AdmissionController', 'export'],
+    
+    // Admin routes
+    '/admin/dashboard' => ['AdmissionController', 'dashboard'],
+    '/admin/admissions' => ['AdmissionController', 'list'],
+    '/admin/admissions/view' => ['AdmissionController', 'view'],
+    '/admin/admissions/updateStatus' => ['AdmissionController', 'updateStatus'],
+    '/admin/users' => ['AdminController', 'users'],
+    '/admin/create-user' => ['AdminController', 'createUser'],
+    '/admin/delete-user' => ['AdminController', 'deleteUser'],
+    '/admin/settings' => ['AdminController', 'settings'],
+    
+    // Parent routes
+    '/parent/portal' => ['ParentController', 'portal'],
+    '/parent/profile' => ['ParentController', 'profile'],
+    '/parent/application-status' => ['ParentController', 'applicationStatus'],
+];
+
+// Handle 404
+if (!isset($routes[$request])) {
+    http_response_code(404);
+    require VIEWS_PATH . '/errors/404.php';
+    exit;
+}
+
+// Route to controller
+[$controllerName, $method] = $routes[$request];
+
+// Instantiate controller
+$controller = new $controllerName();
+
+// Call method
+try {
+    $controller->$method();
+} catch (Exception $e) {
+    http_response_code(500);
+    require VIEWS_PATH . '/errors/500.php';
+}
+?>
