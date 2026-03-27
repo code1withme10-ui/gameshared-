@@ -93,22 +93,22 @@ require_once __DIR__ . '/../app/views/partials/navbar.php';
 <form method="POST">
 
 <div class="form-group">
-<label>Full Name</label>
+<label>Full Name <span style="color:red;">*</span></label>
 <input type="text" name="full_name" required>
 </div>
 
 <div class="form-group">
-<label>Email Address</label>
+<label>Email Address <span style="color:red;">*</span></label>
 <input type="email" name="email" required>
 </div>
 
 <div class="form-group">
-<label>Phone Number</label>
+<label>Phone Number <span style="color:red;">*</span></label>
 <input type="text" name="phone" placeholder="Example: 0712345678" required>
 </div>
 
 <div class="form-group">
-<label>Password</label>
+<label>Password <span style="color:red;">*</span></label>
 
 <div style="position:relative;">
 <input type="password" name="password" id="password" required onkeyup="checkStrength()">
@@ -125,7 +125,7 @@ require_once __DIR__ . '/../app/views/partials/navbar.php';
 </div>
 
 <div class="form-group">
-<label>Confirm Password</label>
+<label>Confirm Password <span style="color:red;">*</span></label>
 <input type="password" name="confirm_password" required>
 </div>
 

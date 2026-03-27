@@ -1,60 +1,48 @@
 [
     {
-        "id": "child_69b7c1cd19284",
-        "parent_id": "parent_69b7c0e5916c4",
-        "full_name": "Pheladi Mathagu",
-        "dob": "2025-01-03",
+        "id": "child_69c64ec8ebf1c",
+        "parent_id": "parent_69c64a144a77e",
+        "full_name": "Zoe Mathagu",
+        "dob": "2024-07-03",
         "gender": "Female",
         "grade": "Toddlers",
-        "address": "Tshakhuma, Luvhalani B, house 159",
-        "allergies": "Allegic to tin stuff",
-        "previous_school": "N\/A",
-        "documents": {
-            "birth_certificate": "\/uploads\/birth_certificate_69b7c1cc1f598.pdf",
-            "parent_id": "\/uploads\/parent_id_69b7c1cc958f1.pdf",
-            "clinical_report": "\/uploads\/clinical_report_69b7c1ccef883.pdf"
-        },
-        "status": "accepted",
-        "created_at": "2026-03-16 08:39:41"
-    },
-    {
-        "id": "child_7fd0768579",
-        "parent_id": "parent_8af2646d06",
-        "full_name": "Tshifhiwa Mathagu",
-        "address": "R524",
-        "dob": "2025-03-01",
-        "gender": "male",
-        "category": "0-2",
-        "allergies": "none",
-        "status": "accepted",
-        "application_source": "walk-in",
-        "submitted_at": "2026-03-18 10:58:50",
-        "documents": {
-            "birth_certificate": "\/storage\/uploads\/birth_21887b09e9.png",
-            "clinical_report": "\/storage\/uploads\/clinical_10a9ba6ff1.png"
-        }
-    },
-    {
-        "id": "child_69bd01c88ed7d",
-        "parent_id": "parent_69bd008e2240a",
-        "full_name": "Tshilidzi Mudzunga",
-        "dob": "2025-01-07",
-        "gender": "Female",
-        "grade": "Toddlers",
-        "address": "Tshakhuma, Luvhalani B, house 159",
+        "address": "Tshakhuma ,Luvhalani B, House no 159",
         "allergies": "None",
         "previous_school": "N\/A",
         "emergency_contact": {
-            "name": "Donald Mudzunga",
-            "phone": "082 567 8725",
-            "relation": "Father"
+            "name": "Nyiko Mathagu",
+            "phone": "079 976 0891",
+            "relation": "Mother"
         },
         "documents": {
-            "birth_certificate": "\/uploads\/birth_certificate_69bd01c8816b3.png",
-            "parent_id": "\/uploads\/parent_id_69bd01c889416.pdf",
+            "birth_certificate": "\/uploads\/birth_certificate_69c64ec8e8fd2.png",
+            "parent_id": "\/uploads\/parent_id_69c64ec8e99dc.png",
             "clinical_report": ""
         },
         "status": "accepted",
-        "created_at": "2026-03-20 09:14:00"
+        "created_at": "2026-03-27 10:32:56"
+    },
+    {
+        "id": "child_69c654d94081b",
+        "parent_id": "parent_69c6541e096cc",
+        "full_name": "Annah Phatudi",
+        "dob": "2025-07-03",
+        "gender": "Female",
+        "grade": "Infants",
+        "address": "R524",
+        "allergies": "None",
+        "previous_school": "N\/A",
+        "emergency_contact": {
+            "name": "Zoe Phathudi",
+            "phone": "0729583729",
+            "relation": "Mother"
+        },
+        "documents": {
+            "birth_certificate": "\/uploads\/birth_certificate_69c654d9330c9.png",
+            "parent_id": "\/uploads\/parent_id_69c654d93fd67.pdf",
+            "clinical_report": ""
+        },
+        "status": "accepted",
+        "created_at": "2026-03-27 10:58:49"
     }
 ]

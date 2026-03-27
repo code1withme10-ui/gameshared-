@@ -218,6 +218,7 @@ require_once __DIR__ . '/../partials/navbar.php';
 <th style="padding:10px;">Child Name</th>
 <th>Parent Name</th>
 <th>Category</th>
+<th>Address</th>
 <th>Status</th>
 <th>Documents</th>
 <th>Actions</th>
@@ -247,11 +248,16 @@ break;
 }
 }
 
+if (empty($parentDoc) && !empty($child['documents']['parent_id'])) {
+    $parentDoc = $child['documents']['parent_id'];
+}
+
 echo htmlspecialchars($parentName);
 ?>
 </td>
 
-<td><?php echo htmlspecialchars($child['category'] ?? ''); ?></td>
+<td><?php echo htmlspecialchars($child['category'] ?? $child['grade'] ?? ''); ?></td>
+<td><?php echo htmlspecialchars($child['address'] ?? ''); ?></td>
 
 <td>
 <span style="padding:5px 12px;border-radius:5px;color:white;background:
@@ -318,7 +324,7 @@ Completed
             <h3>Walk-In Registration</h3>
             <button onclick="closeWalkInModal()">X</button>
         </div>
-        <form method="POST" enctype="multipart/form-data">
+        <form id="walkInForm" method="POST" enctype="multipart/form-data">
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div class="form-group">
                     <label>Parent Full Name</label>
@@ -345,8 +351,8 @@ Completed
                     <input type="text" name="parent_address" required>
                 </div>
                 <div class="form-group" style="grid-column: span 2;">
-                    <label>Parent ID Card (PDF/Image)</label>
-                    <input type="file" name="parent_id_card" accept=".pdf,image/*" required>
+                    <label>Parent ID Card (PDF/Image, Optional)</label>
+                    <input type="file" name="parent_id_card" accept=".pdf,image/*">
                 </div>
             </div>
 
@@ -409,8 +415,8 @@ Completed
                 </div>
 
                 <div class="form-group" style="grid-column: span 2;">
-                    <label>Child Birth Certificate (PDF/Image)</label>
-                    <input type="file" name="child_birth_certificate" accept=".pdf,image/*" required>
+                    <label>Child Birth Certificate (PDF/Image, Optional)</label>
+                    <input type="file" name="child_birth_certificate" accept=".pdf,image/*">
                 </div>
                 <div class="form-group" style="grid-column: span 2;">
                     <label>Road to Health Clinical Report (PDF/Image, Optional)</label>
@@ -418,7 +424,10 @@ Completed
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-success" style="width:100%; margin-top:20px; padding:15px; font-size:1.1rem;">Register Walk-In Student</button>
+            <div style="display:flex; gap:15px; margin-top:20px;">
+                <button type="button" class="btn btn-danger" onclick="closeWalkInModal()" style="flex:1; padding:15px; font-size:1.1rem;">Cancel</button>
+                <button type="submit" class="btn btn-success" style="flex:1; padding:15px; font-size:1.1rem;">Register</button>
+            </div>
         </form>
     </div>
 </div>
@@ -441,6 +450,7 @@ document.getElementById("walkInModal").style.display = "flex";
 }
 
 function closeWalkInModal(){
+document.getElementById("walkInForm").reset();
 document.getElementById("walkInModal").style.display = "none";
 }
 

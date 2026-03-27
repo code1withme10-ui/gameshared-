@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $allowedTypes = ['image/jpeg','image/png','application/pdf'];
-    $maxSize = 2 * 1024 * 1024;
+    $maxSize = 4 * 1024 * 1024;
 
     $uploadFields = [
         'birth_certificate' => 'Birth Certificate',
@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if ($file['size'] > $maxSize) {
-            $errors[] = "$label must be less than 2MB.";
+            $errors[] = "$label must be 4MB or less.";
             continue;
         }
 
@@ -149,20 +149,20 @@ require_once __DIR__ . '/../partials/navbar.php';
             <p class="error"><?php echo htmlspecialchars($error); ?></p>
         <?php endforeach; ?>
 
-        <form method="POST" enctype="multipart/form-data">
+        <form id="admitChildForm" method="POST" enctype="multipart/form-data" autocomplete="off">
 
             <div class="form-group">
-                <label>Child Full Name</label>
+                <label>Child Full Name <span style="color:red;">*</span></label>
                 <input type="text" name="full_name" required>
             </div>
 
             <div class="form-group">
-                <label>Date of Birth</label>
+                <label>Date of Birth <span style="color:red;">*</span></label>
                 <input type="date" name="dob" required>
             </div>
 
             <div class="form-group">
-                <label>Gender</label>
+                <label>Gender <span style="color:red;">*</span></label>
                 <select name="gender" required>
                     <option value="">Select Gender</option>
                     <option>Male</option>
@@ -172,7 +172,7 @@ require_once __DIR__ . '/../partials/navbar.php';
             </div>
 
             <div class="form-group">
-                <label>Grade Category</label>
+                <label>Grade Category <span style="color:red;">*</span></label>
                 <select name="grade" required>
                     <option value="">Select Category</option>
                     <option value="Infants">Infants (0–12 months)</option>
@@ -183,7 +183,7 @@ require_once __DIR__ . '/../partials/navbar.php';
             </div>
 
             <div class="form-group">
-                <label>Residential Address</label>
+                <label>Residential Address <span style="color:red;">*</span></label>
                 <input type="text" name="address" required>
             </div>
 
@@ -201,17 +201,17 @@ require_once __DIR__ . '/../partials/navbar.php';
             <h3 style="margin-bottom:15px; font-family:'Outfit', sans-serif;">Emergency Contact (Secondary)</h3>
 
             <div class="form-group">
-                <label>Emergency Contact Name</label>
+                <label>Emergency Contact Name <span style="color:red;">*</span></label>
                 <input type="text" name="emergency_contact_name" required>
             </div>
 
             <div class="form-group">
-                <label>Emergency Contact Phone Number</label>
+                <label>Emergency Contact Phone Number <span style="color:red;">*</span></label>
                 <input type="text" name="emergency_contact_phone" required>
             </div>
 
             <div class="form-group">
-                <label>Relationship to Child (e.g., Grandparent, Uncle)</label>
+                <label>Relationship to Child (e.g., Grandparent, Uncle) <span style="color:red;">*</span></label>
                 <input type="text" name="emergency_contact_relation" required>
             </div>
 
@@ -219,12 +219,12 @@ require_once __DIR__ . '/../partials/navbar.php';
             <h3 style="margin-bottom:15px; font-family:'Outfit', sans-serif;">Required Documents</h3>
 
             <div class="form-group">
-                <label>Birth Certificate (PDF/Image)</label>
+                <label>Birth Certificate (PDF/Image) <span style="color:red;">*</span></label>
                 <input type="file" name="birth_certificate" accept=".pdf,image/*" required>
             </div>
 
             <div class="form-group">
-                <label>Parent ID (PDF/Image)</label>
+                <label>Parent ID (PDF/Image) <span style="color:red;">*</span></label>
                 <input type="file" name="parent_id" accept=".pdf,image/*" required>
             </div>
 
@@ -233,10 +233,17 @@ require_once __DIR__ . '/../partials/navbar.php';
                 <input type="file" name="clinical_report" accept=".pdf,image/*">
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit Admission</button>
+            <button type="submit" class="btn btn-primary" style="margin-top:20px;">Submit Admission</button>
 
         </form>
     </div>
 </div>
+
+<script>
+window.addEventListener('pageshow', function() {
+    // Some browsers preserve form data when using the back button; this forces a wipe.
+    document.getElementById('admitChildForm').reset();
+});
+</script>
 
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>

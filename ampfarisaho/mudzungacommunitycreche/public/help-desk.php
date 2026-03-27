@@ -10,7 +10,7 @@ require_once __DIR__ . '/../app/views/partials/navbar.php';
     <section style="
         text-align:center;
         background: linear-gradient(to bottom, #081a2e, #0c2c4d);
-        padding:80px 20px;
+        padding:40px 20px;
         margin-top:40px;
         border-radius:10px;
     ">
