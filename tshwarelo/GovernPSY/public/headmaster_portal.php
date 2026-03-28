@@ -30,8 +30,8 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     $id = $_GET['id'];
 
     foreach ($applications as &$app) {
-        if ($app['application_id'] === $id) {
-            if (strtolower($app['status']) === 'pending') {
+        if (isset($app['application_id']) && $app['application_id'] === $id) {
+            if (strtolower($app['status'] ?? 'pending') === 'pending') {
                 $app['status'] = ($action === 'approve') ? 'Approved' : 'Rejected';
             }
             break;
@@ -42,12 +42,11 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     exit();
 }
 
-// NEW: 4. Handle Deleting Guest Inquiries
+// 4. Handle Deleting Guest Inquiries
 if (isset($_GET['delete_inquiry'])) {
     $indexToDelete = $_GET['delete_inquiry'];
     if (isset($inquiries[$indexToDelete])) {
         unset($inquiries[$indexToDelete]);
-        // Re-index array and save
         file_put_contents($inquiryFile, json_encode(array_values($inquiries), JSON_PRETTY_PRINT));
         header("Location: headmaster_portal.php?msg=inquiry_deleted");
         exit();
@@ -70,36 +69,37 @@ $pending = count(array_filter($applications, function($a) {
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root { --navy: #003366; --red: #C41E3A; --gold: #FFD700; }
         .admin-page { background: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         .admin-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         .stat-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); min-width: 150px; text-align: center; }
-        .stat-card strong { font-size: 1.5rem; color: #003366; display: block; }
+        .stat-card strong { font-size: 1.5rem; color: var(--navy); display: block; }
         .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
         .status-badge.pending { background: #fff3cd; color: #856404; }
         .status-badge.approved { background: #d4edda; color: #155724; }
         .status-badge.rejected { background: #f8d7da; color: #721c24; }
-        .doc-link { color: #003366; margin: 0 5px; transition: 0.2s; }
-        .doc-link:hover { color: #c62828; }
-        .msg-btn { color: #003366; margin-left: 10px; transition: 0.3s; }
-        .msg-btn:hover { color: #ffc107; }
-        .inquiry-item { background: #fff; border-left: 5px solid #c62828; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: relative; }
+        .doc-link { color: var(--navy); margin: 0 5px; transition: 0.2s; }
+        .doc-link:hover { color: var(--red); }
+        .msg-btn { color: var(--navy); margin-left: 10px; transition: 0.3s; }
+        .msg-btn:hover { color: var(--gold); }
+        .inquiry-item { background: #fff; border-left: 5px solid var(--red); padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: relative; }
         .delete-inquiry { position: absolute; top: 10px; right: 10px; color: #ccc; transition: 0.3s; }
-        .delete-inquiry:hover { color: #dc3545; }
+        .delete-inquiry:hover { color: var(--red); }
     </style>
 </head>
 <body class="admin-page">
 
-     <?php include 'includes/navbar.php'; ?>
+    <?php include 'includes/navbar.php'; ?>
 
-    <header class="page-banner" style="background: #003366; color: white; padding: 30px 0; text-align: center;">
-        <h1>Headmaster Dashboard</h1>
-        <p>Official Enrollment Management System 2026</p>
+    <header class="page-banner" style="background: var(--navy); color: white; padding: 30px 0; text-align: center; border-bottom: 5px solid var(--red);">
+        <h1 style="margin:0; text-transform: uppercase; font-weight: 900;">Headmaster Dashboard</h1>
+        <p style="letter-spacing: 2px;">Official Enrollment Management System 2026</p>
     </header>
 
     <main class="container" style="padding-top: 40px; max-width: 1300px; margin: auto;">
 
         <section style="margin-bottom: 40px;">
-            <h2 style="color: #003366;"><i class="fas fa-envelope-open-text"></i> Guest Inquiries</h2>
+            <h2 style="color: var(--navy);"><i class="fas fa-envelope-open-text"></i> Guest Inquiries</h2>
             <?php if (empty($inquiries)): ?>
                 <p style="color: #999; background: #fff; padding: 20px; border-radius: 10px; text-align: center;">No guest messages yet.</p>
             <?php else: ?>
@@ -109,11 +109,10 @@ $pending = count(array_filter($applications, function($a) {
                             <a href="headmaster_portal.php?delete_inquiry=<?php echo $index; ?>" class="delete-inquiry" onclick="return confirm('Delete this inquiry?')" title="Delete Inquiry">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
-                            
                             <small style="color: #aaa;"><?php echo htmlspecialchars($iq['date'] ?? 'N/A'); ?></small>
-                            <h4 style="margin: 5px 0; color: #003366;"><?php echo htmlspecialchars($iq['name']); ?></h4>
-                            <p style="margin: 5px 0; font-size: 0.85rem; color: #c62828;"><strong><i class="fas fa-phone"></i> <?php echo htmlspecialchars($iq['phone']); ?></strong></p>
-                            <p style="margin-top: 10px; font-size: 0.9rem; line-height: 1.4; color: #444;">"<?php echo htmlspecialchars($iq['message']); ?>"</p>
+                            <h4 style="margin: 5px 0; color: var(--navy);"><?php echo htmlspecialchars($iq['name'] ?? 'Unknown'); ?></h4>
+                            <p style="margin: 5px 0; font-size: 0.85rem; color: var(--red);"><strong><i class="fas fa-phone"></i> <?php echo htmlspecialchars($iq['phone'] ?? 'N/A'); ?></strong></p>
+                            <p style="margin-top: 10px; font-size: 0.9rem; line-height: 1.4; color: #444;">"<?php echo htmlspecialchars($iq['message'] ?? ''); ?>"</p>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -122,19 +121,19 @@ $pending = count(array_filter($applications, function($a) {
 
         <hr style="border: 0; border-top: 1px solid #ddd; margin-bottom: 40px;">
 
-        <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; border-left: 5px solid #ffc107; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-            <h3 style="margin-top:0; color:#003366;"><i class="fas fa-bullhorn"></i> Send Announcement</h3>
+        <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; border-left: 5px solid var(--gold); box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h3 style="margin-top:0; color:var(--navy);"><i class="fas fa-bullhorn"></i> Send Announcement</h3>
             <form action="actions/send_announcement.php" method="POST" style="display: flex; gap: 10px;">
                 <input type="text" name="title" placeholder="Title" required style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
                 <input type="text" name="message" placeholder="Message to parents..." required style="flex: 2; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                <button type="submit" style="background: #003366; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Send</button>
+                <button type="submit" style="background: var(--navy); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Send</button>
             </form>
         </div>
 
         <div class="admin-header-flex">
             <div style="display: flex; gap: 20px;">
                 <div class="stat-card">Total Applications <strong><?php echo $total; ?></strong></div>
-                <div class="stat-card" style="border-bottom: 4px solid #ffc107;">Pending Review <strong><?php echo $pending; ?></strong></div>
+                <div class="stat-card" style="border-bottom: 4px solid var(--gold);">Pending Review <strong><?php echo $pending; ?></strong></div>
             </div>
 
             <div style="display: flex; gap: 15px; align-items: center;">
@@ -149,7 +148,7 @@ $pending = count(array_filter($applications, function($a) {
                     <i class="fas fa-search" style="position: absolute; left: 12px; top: 12px; color: #aaa;"></i>
                     <input type="text" id="adminSearch" onkeyup="filterTable()" placeholder="Search student name..." style="padding: 10px 10px 10px 35px; border-radius: 5px; border: 1px solid #ddd; width: 250px;">
                 </div>
-                <a href="admin_add_child.php" class="btn btn-primary" style="background: #28a745; border: none; padding: 10px 20px; border-radius: 5px; color: white; text-decoration: none;">
+                <a href="admin_add_child.php" class="btn btn-primary" style="background: #28a745; border: none; padding: 10px 20px; border-radius: 5px; color: white; text-decoration: none; font-weight: bold;">
                     <i class="fas fa-plus-circle"></i> New Walk-in
                 </a>
             </div>
@@ -177,47 +176,56 @@ $pending = count(array_filter($applications, function($a) {
                         $sorted_apps = array_reverse($applications);
                         foreach($sorted_apps as $app): 
                             $status = isset($app['status']) ? strtolower($app['status']) : 'pending';
+                            
+                            // SAFE DATA HANDLING
+                            $childName = $app['child_name'] ?? 'Incomplete Application';
+                            $grade = $app['grade'] ?? 'N/A';
+                            $gender = $app['gender'] ?? 'N/A';
+                            $appId = $app['application_id'] ?? null;
                         ?>
                         <tr style="border-bottom: 1px solid #f1f1f1;">
                             <td style="padding: 15px 20px; font-size: 0.85rem; color: #666;">
                                 <?php echo isset($app['submission_date']) ? date("d M Y", strtotime($app['submission_date'])) : '---'; ?>
                             </td>
                             <td class="child-column" style="padding: 15px 20px;">
-                                <strong><?php echo htmlspecialchars($app['child_name']); ?></strong><br>
-                                <small style="color: #888;"><?php echo htmlspecialchars($app['gender'] ?? 'N/A'); ?></small>
+                                <strong><?php echo htmlspecialchars((string)$childName); ?></strong><br>
+                                <small style="color: #888;"><?php echo htmlspecialchars((string)$gender); ?></small>
                             </td>
-                            <td class="grade-column" style="padding: 15px 20px;"><?php echo htmlspecialchars($app['grade']); ?></td>
+                            <td class="grade-column" style="padding: 15px 20px;"><?php echo htmlspecialchars((string)$grade); ?></td>
                             <td style="padding: 15px 20px; font-size: 0.85rem; max-width: 150px;">
                                 <?php 
                                     $med = $app['medical_info'] ?? 'None';
-                                    echo (strlen($med) > 30) ? substr($med, 0, 27) . "..." : $med;
+                                    echo (strlen($med) > 30) ? htmlspecialchars(substr($med, 0, 27)) . "..." : htmlspecialchars($med);
                                 ?>
                             </td>
                             <td style="padding: 15px 20px; font-size: 0.85rem;">
-                                <i class="fas fa-envelope"></i> <?php echo htmlspecialchars($app['email']); ?><br>
+                                <i class="fas fa-envelope"></i> <?php echo htmlspecialchars($app['email'] ?? 'No Email'); ?><br>
                                 <i class="fas fa-phone"></i> <?php echo htmlspecialchars($app['parent_phone'] ?? 'No Phone'); ?>
                             </td>
                             <td style="padding: 15px 20px; text-align: center;">
-                                <?php if(isset($app['documents']['doc_birth'])): ?>
-                                    <a href="<?php echo $app['documents']['doc_birth']; ?>" target="_blank" class="doc-link"><i class="fas fa-baby fa-lg"></i></a>
+                                <?php if(!empty($app['documents']['doc_birth'])): ?>
+                                    <a href="<?php echo $app['documents']['doc_birth']; ?>" target="_blank" class="doc-link" title="Birth Certificate"><i class="fas fa-baby fa-lg"></i></a>
                                 <?php endif; ?>
-                                <?php if(isset($app['documents']['doc_parent_id'])): ?>
-                                    <a href="<?php echo $app['documents']['doc_parent_id']; ?>" target="_blank" class="doc-link"><i class="fas fa-id-card fa-lg"></i></a>
+                                <?php if(!empty($app['documents']['doc_parent_id'])): ?>
+                                    <a href="<?php echo $app['documents']['doc_parent_id']; ?>" target="_blank" class="doc-link" title="Parent ID"><i class="fas fa-id-card fa-lg"></i></a>
                                 <?php endif; ?>
                             </td>
                             <td style="padding: 15px 20px;">
                                 <span class="status-badge <?php echo $status; ?>"><?php echo strtoupper($status); ?></span>
                             </td>
                             <td style="padding: 15px 20px; text-align: right; display: flex; justify-content: flex-end; align-items: center;">
-                                <?php if ($status === 'pending'): ?>
-                                    <a href="headmaster_portal.php?action=approve&id=<?php echo $app['application_id']; ?>" style="color: #28a745; margin-right: 15px;" onclick="return confirm('Approve this student?')"><i class="fas fa-check"></i></a>
-                                    <a href="headmaster_portal.php?action=reject&id=<?php echo $app['application_id']; ?>" style="color: #dc3545;" onclick="return confirm('Reject this student?')"><i class="fas fa-times"></i></a>
+                                <?php if ($status === 'pending' && $appId): ?>
+                                    <a href="headmaster_portal.php?action=approve&id=<?php echo $appId; ?>" style="color: #28a745; margin-right: 15px;" onclick="return confirm('Approve this student?')"><i class="fas fa-check"></i></a>
+                                    <a href="headmaster_portal.php?action=reject&id=<?php echo $appId; ?>" style="color: var(--red);" onclick="return confirm('Reject this student?')"><i class="fas fa-times"></i></a>
                                 <?php else: ?>
                                     <span style="color: #bbb; font-size: 0.8rem; margin-right: 15px;"><i class="fas fa-lock"></i> Finalized</span>
                                 <?php endif; ?>
-                               <a href="actions/send_direct_message.php?id=<?php echo $app['application_id']; ?>" class="msg-btn">
-    <i class="fas fa-comment-dots fa-lg"></i>
-</a>
+
+                                <?php if($appId): ?>
+                                    <a href="actions/send_direct_message.php?id=<?php echo $appId; ?>" class="msg-btn">
+                                        <i class="fas fa-comment-dots fa-lg"></i>
+                                    </a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

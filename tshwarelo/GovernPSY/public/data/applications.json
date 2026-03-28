@@ -1,2 +1,108 @@
 [
+    {
+        "application_id": "GP-1774599155",
+        "email": "jay7@gmail.com",
+        "parent_name": "Jay Mathonsi",
+        "status": "registered",
+        "submission_date": "2026-03-27 08:12:35"
+    },
+    {
+        "application_id": "GP-177460309146",
+        "email": "kaya@gmail.com",
+        "parent_name": "Buti Kaya",
+        "child_name": "Samith Kaya",
+        "gender": "Male",
+        "dob": "2022-03-17",
+        "grade": "Playgroup",
+        "medical_info": "None",
+        "status": "pending",
+        "submission_date": "2026-03-27 09:18:11",
+        "documents": {
+            "doc_birth": null,
+            "doc_parent_id": null
+        }
+    },
+    {
+        "application_id": "GP-177460330259",
+        "email": "edge@gmail.com",
+        "parent_name": "Edge Zwane",
+        "child_name": "Lebu Zwane",
+        "gender": "Female",
+        "dob": "2020-04-10",
+        "grade": "Pre-School",
+        "medical_info": "None",
+        "status": "pending",
+        "submission_date": "2026-03-27 09:21:42",
+        "documents": {
+            "doc_birth": null,
+            "doc_parent_id": null
+        }
+    },
+    {
+        "application_id": "GP-177460360078",
+        "email": "edge@gmail.com",
+        "parent_name": "Edge Zwane",
+        "parent_phone": "N\/A",
+        "child_name": "Jr Zwane",
+        "gender": "Female",
+        "dob": "2019-03-12",
+        "grade": "Foundation",
+        "medical_info": "None",
+        "status": "pending",
+        "submission_date": "2026-03-27 09:26:40",
+        "documents": {
+            "doc_birth": null,
+            "doc_parent_id": null
+        }
+    },
+    {
+        "application_id": "WALK-1774603695",
+        "email": "khoza@gmail.com",
+        "parent_name": "Tlharihani Khoza",
+        "parent_phone": "075648977",
+        "child_name": "Thlari",
+        "gender": "Female",
+        "dob": "2023-02-07",
+        "grade": "Toddlers",
+        "medical_info": "None",
+        "status": "Approved",
+        "submission_date": "2026-03-27 09:28:15",
+        "documents": {
+            "doc_birth": "Walk-in\/Manual Entry"
+        }
+    },
+    {
+        "application_id": "GP-177460628377",
+        "email": "edge@gmail.com",
+        "parent_name": "Edge Zwane",
+        "parent_phone": "N\/A",
+        "child_name": "Dzuni Zwane",
+        "gender": "Male",
+        "dob": "2023-03-04",
+        "grade": "Toddlers",
+        "medical_info": "None",
+        "status": "pending",
+        "submission_date": "2026-03-27 10:11:23",
+        "documents": {
+            "doc_birth": null,
+            "doc_parent_id": null
+        }
+    },
+    {
+        "application_id": "GP-177460905254",
+        "email": "mata@gmail.com",
+        "parent_name": "Mata Suthu",
+        "parent_phone": "0715579865",
+        "child_name": "Maria Suthu",
+        "gender": "Female",
+        "dob": "2023-02-16",
+        "grade": "Toddlers",
+        "medical_info": "None",
+        "status": "pending",
+        "submission_date": "2026-03-27 10:57:32",
+        "documents": {
+            "doc_birth": null,
+            "doc_parent_id": null
+        }
+    }
 ]

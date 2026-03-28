@@ -4,5 +4,33 @@
         "password": "admin123",
         "name": "Headmaster",
         "role": "admin"
+    },
+    {
+        "email": "jay7@gmail.com",
+        "password": "$2y$10$915OaueXKzqPp6I\/oOoHEefsn9yJRDFV3cGQLtHNsOkCbMx5B1nY6",
+        "name": "Jay Mathonsi",
+        "phone": "071855994",
+        "role": "parent"
+    },
+    {
+        "email": "kaya@gmail.com",
+        "password": "$2y$10$AxSD4Flt4sSYZftrfs2RHOwP.0WL0s4X1pnhNBmDvktRSFg.peSdW",
+        "name": "Buti Kaya",
+        "phone": "0759896655",
+        "role": "parent"
+    },
+    {
+        "email": "edge@gmail.com",
+        "password": "$2y$10$U3Q0GTHK\/Wpqd.YT2xAZl.RT189xYwCDBTQLsI1wQPFb0HJytJJqm",
+        "name": "Edge Zwane",
+        "phone": "0724152667",
+        "role": "parent"
+    },
+    {
+        "email": "mata@gmail.com",
+        "password": "$2y$10$XAaa3.UKeuOpYD1fjuBokuSubWsdWiTou6JJuYMkiqLKtPm4kFBMu",
+        "name": "Mata Suthu",
+        "phone": "0715579865",
+        "role": "parent"
     }
 ]

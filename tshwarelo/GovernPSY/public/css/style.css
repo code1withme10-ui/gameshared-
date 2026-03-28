@@ -21,11 +21,10 @@ body {
 }
 
 /* =========================================
-   NEW: NO-SCROLL LAYOUT (For App-like feel)
+   NO-SCROLL LAYOUT
    ========================================= */
 .no-scroll-page {
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -39,7 +38,7 @@ body {
 }
 
 /* =========================================
-   NAVIGATION BAR (Professional White)
+   NAVIGATION BAR
    ========================================= */
 .announcement-bar {
     background: var(--red);
@@ -62,12 +61,13 @@ nav {
     position: sticky;
     top: 0;
     z-index: 1000;
+    flex-wrap: wrap; /* Allows wrapping on small screens */
 }
 
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 30px;
+    gap: 20px;
     align-items: center;
 }
 
@@ -75,175 +75,108 @@ nav {
     color: var(--navy);
     text-decoration: none;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
     transition: var(--transition);
 }
 
-.nav-links a:hover {
-    color: var(--red);
-}
+.nav-links a:hover { color: var(--red); }
 
-/* Red Login/Action Button in Nav */
 .nav-login-btn {
     border: 2px solid var(--red);
     color: var(--red) !important;
-    padding: 8px 22px;
+    padding: 6px 15px;
     border-radius: 25px;
-    transition: var(--transition);
-}
-
-.nav-login-btn:hover {
-    background: var(--red);
-    color: white !important;
 }
 
 /* =========================================
-   HERO SECTION (Full Screen)
+   HERO SECTION
    ========================================= */
 .hero {
-    background: linear-gradient(rgba(0, 51, 102, 0.6), rgba(0, 51, 102, 0.6)), 
+    background: linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.7)), 
                 url('../assets/hero.png');
     background-size: cover;
     background-position: center;
-    height: calc(100vh - 120px); /* Perfect fit without scroll */
+    min-height: calc(100vh - 120px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: white;
-    padding: 0 20px;
+    padding: 40px 20px;
 }
 
 .hero h1 {
-    font-size: clamp(2rem, 5vw, 4rem); /* Responsive text size */
+    font-size: clamp(1.8rem, 8vw, 4rem); 
     font-weight: 900;
-    margin-bottom: 10px;
-    letter-spacing: -1px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
 }
 
 .hero p {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 3vw, 1.2rem);
     margin-bottom: 30px;
-    max-width: 800px;
+    max-width: 700px;
     color: #f0f0f0;
 }
 
 /* =========================================
-   CONTACT & LOGIN CARDS
+   MOBILE RESPONSIVENESS FIXES
    ========================================= */
-.contact-layout {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 30px;
-    width: 100%;
-    max-width: 1100px;
+@media (max-width: 768px) {
+    /* Stack Navigation */
+    nav {
+        padding: 10px 15px;
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .nav-links {
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .nav-links a {
+        font-size: 0.75rem;
+    }
+
+    /* Hero adjustments */
+    .hero {
+        padding: 60px 15px;
+    }
+
+    /* Form & Layout Cards */
+    .contact-layout {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .contact-info-card, .form-card {
+        padding: 20px;
+    }
+
+    /* Admin Tables - Make them scrollable on mobile */
+    .admin-table-container {
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    .admin-table {
+        min-width: 600px; /* Forces scroll instead of squashing */
+    }
+
+    /* Buttons */
+    .submit-btn {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
 }
 
-.contact-info-card, .form-card {
-    background: white;
-    padding: 35px;
-    border-radius: 15px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-}
-
-.card-header h2 { 
-    color: var(--navy); 
-    font-size: 1.8rem;
-    margin-bottom: 5px; 
-}
-
-/* =========================================
-   FORM STYLING
-   ========================================= */
-.styled-form .input-group { margin-bottom: 15px; }
-
-.styled-form label { 
-    display: block; 
-    font-weight: 700; 
-    color: var(--navy); 
-    margin-bottom: 5px; 
-    font-size: 0.85rem; 
-}
-
-.styled-form input, .styled-form textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1.5px solid #eee;
-    border-radius: 8px;
-    background: #fdfdfd;
-    transition: var(--transition);
-}
-
-.styled-form input:focus { 
-    border-color: var(--navy); 
-    outline: none; 
-    background: white;
-}
-
-.submit-btn {
-    width: 100%;
-    background: var(--red);
-    color: white;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: var(--transition);
-    letter-spacing: 1px;
-}
-
-.submit-btn:hover { 
-    background: var(--navy); 
-    transform: translateY(-2px);
-}
-
-/* =========================================
-   ADMIN & PORTAL TABLES
-   ========================================= */
-.admin-table { 
-    width: 100%; 
-    border-collapse: separate; 
-    border-spacing: 0 10px; /* Space between rows */
-}
-
-.admin-table th { 
-    background: transparent; 
-    color: var(--navy); 
-    padding: 15px; 
-    text-align: left; 
-    text-transform: uppercase;
-    font-size: 0.8rem;
-}
-
-.admin-table td { 
-    background: white;
-    padding: 15px; 
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-}
-
-.admin-table td:first-child { border-left: 1px solid #eee; border-radius: 10px 0 0 10px; }
-.admin-table td:last-child { border-right: 1px solid #eee; border-radius: 0 10px 10px 0; }
-
-.status-badge { 
-    padding: 5px 12px; 
-    border-radius: 6px; 
-    font-weight: bold; 
-    font-size: 0.7rem; 
-    text-transform: uppercase;
-}
-.status-badge.pending { background: #fff3cd; color: #856404; }
-.status-badge.approved { background: #d4edda; color: #155724; }
-.status-badge.rejected { background: #f8d7da; color: #721c24; }
-
-/* Responsive adjustments */
-@media (max-width: 900px) {
-    body { overflow-y: auto; }
-    .no-scroll-page { height: auto; overflow: visible; }
-    .contact-layout { grid-template-columns: 1fr; }
-    nav { padding: 10px 5%; }
+/* Tablet Adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+    nav { padding: 10px 4%; }
+    .nav-links { gap: 15px; }
 }
