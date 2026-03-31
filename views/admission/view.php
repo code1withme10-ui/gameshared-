@@ -111,6 +111,10 @@
                         <span><?= htmlspecialchars($admission['dateOfBirth']) ?></span>
                     </div>
                     <div class="detail-item">
+                        <label>Child ID Number:</label>
+                        <span><?= htmlspecialchars($admission['childIdNumber'] ?? 'N/A') ?></span>
+                    </div>
+                    <div class="detail-item">
                         <label>Age:</label>
                         <span><?= $admission['age'] ?? 'N/A' ?> years</span>
                     </div>

@@ -94,7 +94,7 @@ function getProgressPercentage($status) {
                         <div class="application-card">
                             <div class="application-header">
                                 <div class="application-info">
-                                    <h3><?= htmlspecialchars($application['child_name']) ?></h3>
+                                    <h3><?= htmlspecialchars($application['child_name'] ?? $application['childFirstName'] . ' ' . $application['childSurname']) ?></h3>
                                     <p class="application-id">ID: <?= htmlspecialchars($application['id']) ?></p>
                                 </div>
                                 <div class="application-status">

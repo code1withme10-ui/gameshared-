@@ -49,5 +49,41 @@
         "postal_code": "0960",
         "id_number": "1234567891236",
         "relationship": "mother"
+    },
+    {
+        "id": "tt_69c553a8acf3e5.89260377",
+        "username": "silencen976",
+        "password": "$2y$10$V2F8BUTvTl0ltAQF1eZ4CuG5wSQk0FweFF5C8HxqsjLfpbdtXggdC",
+        "name": "Silence",
+        "email": "hlungwanimfaneloblondy@gmail.com",
+        "role": "parent",
+        "created_at": "2026-03-26 16:41:28",
+        "is_locked": false,
+        "surname": "nkuna",
+        "phone": "+27123654863",
+        "address": "MBOKOTA, ELIM",
+        "city": "MAKHADO",
+        "province": "gauteng",
+        "postal_code": "0960",
+        "id_number": "021152345485",
+        "relationship": "mother"
+    },
+    {
+        "id": "tt_69c61f16e7ffe4.98722397",
+        "username": "silencen782",
+        "password": "$2y$10$ruwlcneMNCj6IxQwGEsBm.rAZZDm.jFp83qiXk5DQBjuJI5ewCEsu",
+        "name": "Silence",
+        "email": "hlungwanimfaneloblondy@gmail.com",
+        "role": "parent",
+        "created_at": "2026-03-27 07:09:26",
+        "is_locked": false,
+        "surname": "nkuna",
+        "phone": "+27123654863",
+        "address": "MBOKOTA, ELIM",
+        "city": "MAKHADO",
+        "province": "gauteng",
+        "postal_code": "0960",
+        "id_number": "001224540228054",
+        "relationship": "mother"
     }
 ]

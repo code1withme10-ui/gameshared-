@@ -14,7 +14,7 @@
             <div class="overview-card">
                 <div class="overview-header">
                     <div class="child-info">
-                        <h2><?= htmlspecialchars($application['child_name']) ?></h2>
+                        <h2><?= htmlspecialchars($application['child_name'] ?? $application['childFirstName'] . ' ' . $application['childSurname']) ?></h2>
                         <p>Application ID: <?= htmlspecialchars($application['id']) ?></p>
                     </div>
                     <div class="status-badge-large">

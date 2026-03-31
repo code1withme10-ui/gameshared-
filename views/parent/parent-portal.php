@@ -3,13 +3,21 @@ require_once 'config/config.php';
 
 // Check if user is logged in and is a parent
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'parent') {
-    header('Location: login.php');
+    redirect('/login');
     exit;
 }
 
-// Get parent's admission applications directly
-$admissionModel = new AdmissionModel('admissions.json');
+// Get parent's admission applications using the proper MVC structure
+require_once '../models/AdmissionModel.php';
+$admissionModel = new AdmissionModel();
 $parentApplications = $admissionModel->getApplicationsByParent($_SESSION['user']['id']);
+
+// Debug: Log the parent ID and applications found
+error_log("Parent ID: " . $_SESSION['user']['id']);
+error_log("Applications found: " . count($parentApplications));
+foreach ($parentApplications as $app) {
+    error_log("Application: " . $app['id'] . " - " . ($app['child_name'] ?? $app['childFirstName'] . ' ' . $app['childSurname']));
+}
 ?>
 
 <!DOCTYPE html>
@@ -18,13 +26,13 @@ $parentApplications = $admissionModel->getApplicationsByParent($_SESSION['user']
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parent Portal - Tiny Tots Creche</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <?php require_once 'includes/header.php'; ?>
+    <?php require_once '../views/layouts/header.php'; ?>
 
     <div class="content-wrapper">
         <!-- Welcome Section -->
@@ -81,7 +89,7 @@ $parentApplications = $admissionModel->getApplicationsByParent($_SESSION['user']
                             <i class="fas fa-file-alt"></i>
                             <h3>No Applications Yet</h3>
                             <p>You haven't submitted any admission applications yet.</p>
-                            <a href="admission.php" class="btn btn-primary">
+                            <a href="/admission" class="btn btn-primary">
                                 <i class="fas fa-plus"></i> Apply for Admission
                             </a>
                         </div>

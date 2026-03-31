@@ -64,8 +64,11 @@
                             <label for="parentIdNumber">ID No/Passport No *</label>
                             <input type="text" id="parentIdNumber" name="parentIdNumber" required
                                    value="<?= htmlspecialchars(isset($_SESSION['user']) ? ($_SESSION['user']['id_number'] ?? '') : ($old['parentIdNumber'] ?? '')) ?>"
-                                   placeholder="Enter ID or Passport number"
+                                   placeholder="Enter ID or Passport number (8-13 digits)"
+                                   pattern="[0-9]{8,13}"
+                                   maxlength="13"
                                    <?= isset($_SESSION['user']) ? 'readonly' : '' ?>>
+                            <small class="form-help">8-13 digit ID number required</small>
                         </div>
                     </div>
                     
@@ -182,6 +185,17 @@
                             <input type="date" id="dateOfBirth" name="dateOfBirth" required
                                    value="<?= htmlspecialchars($old['dateOfBirth'] ?? '') ?>">
                             <small class="form-help">Age will be calculated automatically</small>
+                            <div id="ageDisplay" style="margin-top: 5px; font-weight: bold; color: var(--primary-color);"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="childIdNumber">Child ID Number *</label>
+                            <input type="text" id="childIdNumber" name="childIdNumber" required
+                                   value="<?= htmlspecialchars($old['childIdNumber'] ?? '') ?>"
+                                   placeholder="Enter child's ID number (8-13 digits)"
+                                   pattern="[0-9]{8,13}"
+                                   maxlength="13">
+                            <small class="form-help">8-13 digit ID number required</small>
                         </div>
                         
                         <div class="form-group">
@@ -516,7 +530,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const dateOfBirthInput = document.getElementById('dateOfBirth');
     const gradeSelect = document.getElementById('gradeApplyingFor');
     
+    // Grade categories for auto-selection
+    const gradeCategories = {
+        'toddlers': 'Toddlers (0-2 years)',
+        'playgroup': 'Playgroup (2-3 years)',
+        'preschool': 'Pre-School (3-4 years)',
+        'grade_r': 'Grade R (4-5 years)',
+        'grade_1': 'Grade 1 (5-6 years)',
+        'foundation': 'Foundation Phase (6-7 years)'
+    };
+    
     dateOfBirthInput.addEventListener('change', function() {
+        const age = calculateAge(dateOfBirthInput.value);
+        const ageDisplay = document.getElementById('ageDisplay');
+        
+        if (ageDisplay) {
+            if (age > 0) {
+                ageDisplay.textContent = `Calculated Age: ${age} years old`;
+                ageDisplay.style.color = 'var(--success-color)';
+                
+                // Auto-select the correct grade based on age
+                const correctGrade = findCorrectGradeForAge(age);
+                if (correctGrade) {
+                    gradeSelect.value = correctGrade;
+                    console.log(`Auto-selected grade: ${correctGrade} for age: ${age}`);
+                }
+            } else {
+                ageDisplay.textContent = 'Please enter a valid date';
+                ageDisplay.style.color = 'var(--error-color)';
+            }
+        }
+        
         validateGradeAge();
         validateForm();
     });
@@ -540,9 +584,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const minAge = parseInt(selectedOption.dataset.minAge);
         const maxAge = parseInt(selectedOption.dataset.maxAge);
         
+        // Debug logging
+        console.log('DOB:', dob);
+        console.log('Calculated Age:', age);
+        console.log('Selected Grade:', selectedGrade);
+        console.log('Grade Range:', minAge, '-', maxAge);
+        
         if (age < minAge || age > maxAge) {
             gradeError.style.display = 'block';
-            gradeError.textContent = `Selected category does not match child's age. Child is ${age} years old, but this category requires ${minAge}-${maxAge} years.`;
+            gradeError.textContent = `Selected category does not match child's age. Child is ${age} years old, but this category requires ${minAge}-${maxAge} years. Auto-selecting correct grade...`;
+            
+            // Auto-select the correct grade based on age
+            const correctGrade = findCorrectGradeForAge(age);
+            if (correctGrade) {
+                gradeSelect.value = correctGrade;
+                gradeError.textContent += ` Changed to: ${gradeCategories[correctGrade].label}`;
+            }
+            
             return false;
         } else {
             gradeError.style.display = 'none';
@@ -550,9 +608,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    function findCorrectGradeForAge(age) {
+        // Define grade categories with their age ranges
+        const gradeRanges = {
+            'toddlers': { min: 0, max: 2 },
+            'playgroup': { min: 2, max: 3 },
+            'preschool': { min: 3, max: 4 },
+            'grade_r': { min: 4, max: 5 },
+            'grade_1': { min: 5, max: 6 },
+            'foundation': { min: 6, max: 7 }
+        };
+        
+        // Find the correct grade for the age
+        for (const [gradeKey, range] of Object.entries(gradeRanges)) {
+            if (age >= range.min && age <= range.max) {
+                console.log(`Auto-selecting grade: ${gradeKey} for age: ${age}`);
+                return gradeKey;
+            }
+        }
+        
+        return null; // No suitable grade found
+    }
+    
     function calculateAge(dob) {
         const birthDate = new Date(dob);
         const today = new Date();
+        
+        // Check if date is valid
+        if (isNaN(birthDate.getTime())) {
+            console.log('Invalid birth date:', dob);
+            return 0;
+        }
+        
         let age = today.getFullYear() - birthDate.getFullYear();
         const monthDiff = today.getMonth() - birthDate.getMonth();
         
@@ -560,6 +647,7 @@ document.addEventListener('DOMContentLoaded', function() {
             age--;
         }
         
+        console.log('Age calculation - Birth Date:', birthDate.toISOString(), 'Today:', today.toISOString(), 'Age:', age);
         return age;
     }
     
@@ -576,9 +664,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const phoneInput = document.getElementById('phone');
     phoneInput.addEventListener('input', validateForm);
     
+    // Child ID number validation
+    const childIdNumberInput = document.getElementById('childIdNumber');
+    childIdNumberInput.addEventListener('input', validateForm);
+    
     function validatePhone(phone) {
         const re = /^[\d\s\-\+\(\)]+$/;
         return re.test(phone) && phone.replace(/\D/g, '').length >= 10;
+    }
+    
+    // Child ID number validation
+    function validateChildIdNumber(idNumber) {
+        const re = /^[0-9]{8,13}$/;
+        return re.test(idNumber);
     }
     
     // Form validation
@@ -589,7 +687,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const requiredFields = [
             'parentFullName', 'relationshipToChild', 'parentIdNumber', 
             'emailAddress', 'phone', 'parentAddress',
-            'childFullName', 'dateOfBirth', 'childGender', 'gradeApplyingFor', 'childAddress',
+            'childFullName', 'dateOfBirth', 'childIdNumber', 'childGender', 'gradeApplyingFor', 'childAddress',
             'emergencyContactName', 'emergencyContactAddress', 'emergencyContactPhone'
         ];
         
@@ -608,6 +706,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Validate phone
         if (phoneInput.value && !validatePhone(phoneInput.value)) {
             errors.push('Please enter a valid phone number');
+        }
+        
+        // Validate child ID number
+        if (childIdNumberInput.value && !validateChildIdNumber(childIdNumberInput.value)) {
+            errors.push('Please enter a valid 8-13 digit child ID number');
         }
         
         // Validate grade age
@@ -651,6 +754,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'parentAddress': 'Parent Residential Address',
             'childFullName': 'Child Full Name',
             'dateOfBirth': 'Date of Birth',
+            'childIdNumber': 'Child ID Number',
             'childGender': 'Gender',
             'gradeApplyingFor': 'Grade Applying For',
             'childAddress': 'Child Home Address',

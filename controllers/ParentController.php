@@ -10,8 +10,12 @@ class ParentController extends BaseController {
     
     public function portal() {
         // Get parent's admission applications
-        $admissionModel = new AdmissionModel('admissions.json');
+        $admissionModel = new AdmissionModel();
         $parentApplications = $admissionModel->getApplicationsByParent($_SESSION['user']['id']);
+        
+        // Debug: Log the parent ID and applications found
+        error_log("Parent ID: " . $_SESSION['user']['id']);
+        error_log("Applications found: " . count($parentApplications));
         
         $this->render('parent/portal', [
             'pageTitle' => 'Parent Portal - Tiny Tots Creche',

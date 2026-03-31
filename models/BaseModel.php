@@ -49,7 +49,8 @@ abstract class BaseModel {
     }
     
     protected function validateIdNumber($idNumber) {
-        return preg_match('/^[0-9]{13}$/', $idNumber);
+        // Accept 8-13 digit ID numbers (more flexible for various formats)
+        return preg_match('/^[0-9]{8,13}$/', $idNumber);
     }
 }
 ?>

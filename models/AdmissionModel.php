@@ -8,7 +8,7 @@ class AdmissionModel extends BaseModel {
         $requiredFields = [
             'parentFirstName', 'parentSurname', 'contactNumber', 'emailAddress',
             'parentIdNumber', 'residentialAddress', 'childFirstName', 'childSurname',
-            'dateOfBirth', 'childGender', 'gradeApplyingFor', 'emergencyContactName',
+            'dateOfBirth', 'childIdNumber', 'childGender', 'gradeApplyingFor', 'emergencyContactName',
             'emergencyContactPhone', 'relationshipToChild'
         ];
         
@@ -28,6 +28,10 @@ class AdmissionModel extends BaseModel {
         
         if (!$this->validateIdNumber($admissionData['parentIdNumber'])) {
             throw new Exception("Invalid parent ID number");
+        }
+        
+        if (!$this->validateIdNumber($admissionData['childIdNumber'])) {
+            throw new Exception("Invalid child ID number");
         }
         
         // Validate age and grade
@@ -54,6 +58,7 @@ class AdmissionModel extends BaseModel {
             'childFirstName' => $admissionData['childFirstName'],
             'childSurname' => $admissionData['childSurname'],
             'dateOfBirth' => $admissionData['dateOfBirth'],
+            'childIdNumber' => $admissionData['childIdNumber'],
             'childGender' => $admissionData['childGender'],
             'gradeApplyingFor' => $admissionData['gradeApplyingFor'],
             'emergencyContactName' => $admissionData['emergencyContactName'],
