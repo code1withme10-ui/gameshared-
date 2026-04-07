@@ -68,9 +68,10 @@ $pending = count(array_filter($applications, function($a) {
     <title>Headmaster Administration | Govern Psy</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
         :root { --navy: #003366; --red: #C41E3A; --gold: #FFD700; }
-        .admin-page { background: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .admin-page { background: #f4f7f6; font-family: 'Montserrat', sans-serif; }
         .admin-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         .stat-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); min-width: 150px; text-align: center; }
         .stat-card strong { font-size: 1.5rem; color: var(--navy); display: block; }

@@ -1,5 +1,5 @@
 /* =========================================
-   GLOBAL THEME & VARIABLES
+   CSS VARIABLES
    ========================================= */
 :root {
     --navy: #003366;
@@ -11,57 +11,51 @@
     --transition: all 0.3s ease;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body { 
-    font-family: 'Montserrat', 'Segoe UI', sans-serif; 
-    background-color: var(--white); 
-    color: var(--text-dark);
-    line-height: 1.6;
-}
-
 /* =========================================
-   NO-SCROLL LAYOUT
+    1. GLOBAL THEME & NAVIGATION (Laptop)
    ========================================= */
-.no-scroll-page {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.no-scroll-page main {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-/* =========================================
-   NAVIGATION BAR
-   ========================================= */
-.announcement-bar {
-    background: var(--red);
-    color: white;
-    text-align: center;
-    padding: 8px;
-    font-weight: bold;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-}
-
 nav {
     background: var(--white);
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 8%;
-    min-height: 80px;
+    min-height: 90px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
-    flex-wrap: wrap; /* Allows wrapping on small screens */
+}
+
+.logo a {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.logo-top {
+    color: var(--navy);
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.logo-bottom {
+    color: var(--red);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border-top: 1.5px solid #eee;
+    padding-top: 2px;
+    margin-top: 2px;
+}
+
+.menu-toggle {
+    display: none; 
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--navy);
 }
 
 .nav-links {
@@ -69,6 +63,8 @@ nav {
     list-style: none;
     gap: 20px;
     align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links a {
@@ -80,7 +76,9 @@ nav {
     transition: var(--transition);
 }
 
-.nav-links a:hover { color: var(--red); }
+.nav-links a:hover { 
+    color: var(--red); 
+}
 
 .nav-login-btn {
     border: 2px solid var(--red);
@@ -90,16 +88,15 @@ nav {
 }
 
 /* =========================================
-   HERO SECTION
+    2. HERO & MAIN CONTENT (Laptop)
    ========================================= */
 .hero {
-    background: linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.7)), 
-                url('../assets/hero.png');
+    width: 100%;
+    min-height: 60vh;
+    background: linear-gradient(135deg, var(--navy) 0%, #001a33 100%), url('../assets/hero.png');
     background-size: cover;
     background-position: center;
-    min-height: calc(100vh - 120px);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -107,76 +104,102 @@ nav {
     padding: 40px 20px;
 }
 
-.hero h1 {
-    font-size: clamp(1.8rem, 8vw, 4rem); 
-    font-weight: 900;
-    margin-bottom: 15px;
-    text-transform: uppercase;
+.hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; }
+.hero .highlight { color: var(--gold); }
+
+/* Button Styles */
+.btn-primary {
+    background: var(--red);
+    color: white;
+    padding: 15px 35px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    transition: 0.3s;
 }
 
-.hero p {
-    font-size: clamp(1rem, 3vw, 1.2rem);
-    margin-bottom: 30px;
-    max-width: 700px;
-    color: #f0f0f0;
+.btn-secondary {
+    border: 2px solid white;
+    color: white;
+    padding: 13px 35px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-left: 10px;
+    transition: 0.3s;
 }
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    padding: 60px 8%;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.info-card {
+    padding: 40px 20px;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    text-align: center;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Responsive grid for smaller screens */
+@media (max-width: 1024px) {
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+        padding: 40px 20px;
+    }
+}
+
+.card-navy { border-top: 5px solid var(--navy); }
+.card-red { border-top: 5px solid var(--red); }
 
 /* =========================================
-   MOBILE RESPONSIVENESS FIXES
+    3. MOBILE RESPONSIVENESS (Phone)
    ========================================= */
 @media (max-width: 768px) {
-    /* Stack Navigation */
-    nav {
-        padding: 10px 15px;
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
+    .menu-toggle {
+        display: block; /* Show the 3 dots */
     }
 
     .nav-links {
-        gap: 12px;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .nav-links a {
-        font-size: 0.75rem;
-    }
-
-    /* Hero adjustments */
-    .hero {
-        padding: 60px 15px;
-    }
-
-    /* Form & Layout Cards */
-    .contact-layout {
-        grid-template-columns: 1fr;
-        padding: 10px;
-    }
-
-    .contact-info-card, .form-card {
-        padding: 20px;
-    }
-
-    /* Admin Tables - Make them scrollable on mobile */
-    .admin-table-container {
-        overflow-x: auto;
+        display: none; /* Hide text links */
+        flex-direction: column;
+        position: absolute;
+        top: 90px;
+        left: 0;
         width: 100%;
+        background: var(--white);
+        padding: 20px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        z-index: 1001;
     }
 
-    .admin-table {
-        min-width: 600px; /* Forces scroll instead of squashing */
+    .nav-links.active {
+        display: flex; /* Reveal on click */
     }
 
-    /* Buttons */
-    .submit-btn {
-        padding: 12px;
-        font-size: 0.9rem;
+    /* Stack buttons on phone */
+    .hero-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
     }
-}
 
-/* Tablet Adjustments */
-@media (max-width: 1024px) and (min-width: 769px) {
-    nav { padding: 10px 4%; }
-    .nav-links { gap: 15px; }
+    .btn-secondary { margin-left: 0; }
 }

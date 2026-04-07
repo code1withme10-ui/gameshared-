@@ -1,32 +1,58 @@
-<nav class="main-nav" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #ffffff; color: #333; min-height: 80px; font-family: 'Montserrat', sans-serif; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;">
-    
+<nav class="main-nav">
     <div class="logo">
         <a href="index.php">
-            <img src="images/logo.png" alt="Govern Psy Educational Center" style="height: 65px; width: auto; transition: 0.3s;">
+            <span class="logo-top">GOVERN PSY</span>
+            <span class="logo-bottom">EDUCATIONAL CENTER</span>
         </a>
     </div>
 
-    <ul style="list-style: none; display: flex; gap: 35px; margin: 0; padding: 0; align-items: center;">
-        <?php if (!isset($_SESSION['user_role'])): ?>
-            <li><a href="index.php" style="color: #003366; text-decoration: none; font-weight: 600; font-size: 0.95rem; text-transform: uppercase;">Home</a></li>
-            <li><a href="about.php" style="color: #003366; text-decoration: none; font-weight: 600; font-size: 0.95rem; text-transform: uppercase;">About Us</a></li>
-            <li><a href="admissions.php" style="color: #003366; text-decoration: none; font-weight: 600; font-size: 0.95rem; text-transform: uppercase;">Admissions</a></li>
-            <li><a href="contact.php" style="color: #003366; text-decoration: none; font-weight: 600; font-size: 0.95rem; text-transform: uppercase;">Contact</a></li>
-            <li>
-                <a href="login.php" style="background: #c62828; padding: 10px 25px; border-radius: 5px; color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: 0.3s;">
-                    LOGIN
-                </a>
-            </li>
-        <?php else: ?>
-            <li style="font-weight: bold; color: #c62828; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">
+    <?php if (!isset($_SESSION['user_role'])): ?>
+        <!-- Public pages: Show ellipsis menu and navigation links -->
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-ellipsis-v"></i>
+        </div>
+
+        <ul class="nav-links" id="nav-list">
+            <li><a href="index.php">Home</a></li>
+            <li><a href="about.php">About Us</a></li>
+            <li><a href="admissions.php">Admissions</a></li>
+            <li><a href="contact.php">Contact</a></li>
+            <li><a href="login.php" class="nav-login-btn">LOGIN</a></li>
+        </ul>
+    <?php else: ?>
+        <!-- Logged-in pages: Show only User Badge and Logout -->
+        <ul class="nav-links" style="display: flex; gap: 20px; align-items: center;">
+            <li class="user-info" style="font-weight: bold; color: var(--red); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">
                 <i class="fas fa-user-circle"></i> 
                 <?php echo ($_SESSION['user_role'] === 'admin') ? 'Headmaster' : 'Parent Portal'; ?>
             </li>
             <li>
-                <a href="actions/logout.php" style="background: #333; color: white; padding: 8px 18px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 0.85rem;">
-                    LOGOUT
-                </a>
+                <a href="actions/logout.php" class="logout-btn" style="background: #333; color: white; padding: 8px 18px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 0.85rem;">LOGOUT</a>
             </li>
-        <?php endif; ?>
-    </ul>
+        </ul>
+    <?php endif; ?>
 </nav>
+
+<?php if (!isset($_SESSION['user_role'])): ?>
+<script>
+// Mobile menu toggle functionality (only for public pages)
+document.addEventListener('DOMContentLoaded', function() {
+    const menuBtn = document.getElementById('mobile-menu');
+    const navList = document.getElementById('nav-list');
+
+    if(menuBtn && navList) {
+        menuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            navList.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!menuBtn.contains(e.target) && !navList.contains(e.target)) {
+                navList.classList.remove('active');
+            }
+        });
+    }
+});
+</script>
+<?php endif; ?>
