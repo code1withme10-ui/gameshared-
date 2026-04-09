@@ -34,13 +34,11 @@ class AdmissionModel extends BaseModel {
             throw new Exception("Invalid child ID number");
         }
         
-        // Validate age and grade
-        $age = $this->calculateAge($admissionData['dateOfBirth']);
-        $gradeValidation = $this->validateGradeForAge($admissionData['gradeApplyingFor'], $age);
+        // Grade validation is now handled client-side with auto-selection
+        // No need for server-side validation as grade is automatically set based on age
         
-        if (!$gradeValidation['valid']) {
-            throw new Exception($gradeValidation['message']);
-        }
+        // Calculate age for storage
+        $age = $this->calculateAge($admissionData['dateOfBirth']);
         
         $admissions = $this->readJsonFile();
         
