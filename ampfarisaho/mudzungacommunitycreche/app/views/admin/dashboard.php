@@ -125,19 +125,27 @@ $parents = $parentsStorage->read() ?? [];
    ACCEPT / DECLINE ACTION
 ---------------------------- */
 
-if (isset($_GET['action']) && isset($_GET['id'])) {
+if (isset($_GET['action']) && isset($_GET['id']) && $_GET['action'] === 'accept') {
 
     foreach ($children as &$child) {
-
         if ($child['id'] === $_GET['id']) {
+            $child['status'] = 'accepted';
+        }
+    }
 
-            if ($_GET['action'] === 'accept') {
-                $child['status'] = 'accepted';
-            }
+    $childrenStorage->write($children);
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+}
 
-            if ($_GET['action'] === 'decline') {
-                $child['status'] = 'declined';
-            }
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'decline') {
+    $declineId = $_POST['child_id'] ?? '';
+    $declineReason = $_POST['decline_reason'] ?? '';
+
+    foreach ($children as &$child) {
+        if ($child['id'] === $declineId) {
+            $child['status'] = 'declined';
+            $child['rejection_reason'] = trim($declineReason);
         }
     }
 
@@ -287,7 +295,7 @@ echo htmlspecialchars($parentName);
 <?php if ($child['status'] === 'pending'): ?>
 
 <a href="?action=accept&id=<?php echo $child['id']; ?>" class="action-btn accept">Accept</a>
-<a href="?action=decline&id=<?php echo $child['id']; ?>" class="action-btn decline">Decline</a>
+<button type="button" onclick="openDeclineModal('<?php echo $child['id']; ?>')" class="action-btn decline" style="border:none; cursor:pointer; font-family:inherit;">Decline</button>
 
 <?php else: ?>
 
@@ -426,7 +434,7 @@ Completed
 
             <div style="display:flex; gap:15px; margin-top:20px;">
                 <button type="button" class="btn btn-danger" onclick="closeWalkInModal()" style="flex:1; padding:15px; font-size:1.1rem;">Cancel</button>
-                <button type="submit" class="btn btn-success" style="flex:1; padding:15px; font-size:1.1rem;">Register</button>
+                <button type="submit" class="btn btn-success" style="flex:1; padding:15px; font-size:1.1rem; background-color: #28a745; color: white; border: none;">Register</button>
             </div>
         </form>
     </div>
@@ -440,6 +448,28 @@ Completed
             <button onclick="closeDoc()">X</button>
         </div>
         <iframe id="docFrame" style="width:100%; height:60vh; border:1px solid #ddd; border-radius:5px;"></iframe>
+    </div>
+</div>
+
+<!-- DECLINE MODAL -->
+<div id="declineModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:999;">
+    <div style="background:#fff; border-radius:10px; padding:25px; width:90%; max-width:500px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h3>Decline Application</h3>
+            <button onclick="closeDeclineModal()" style="background:#dc3545; color:#fff; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">X</button>
+        </div>
+        <form method="POST">
+            <input type="hidden" name="action" value="decline">
+            <input type="hidden" name="child_id" id="declineChildId">
+            <div class="form-group">
+                <label>Reason for Declining</label>
+                <textarea name="decline_reason" required rows="4" style="width:100%; padding:10px; border-radius:5px; border:1px solid #ccc; font-family:inherit;"></textarea>
+            </div>
+            <div style="display:flex; gap:15px; margin-top:20px;">
+                <button type="button" class="btn btn-secondary" onclick="closeDeclineModal()" style="flex:1; padding:10px;">Cancel</button>
+                <button type="submit" class="btn btn-danger" style="flex:1; padding:10px;">Confirm Decline</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -462,6 +492,15 @@ document.getElementById("docModal").style.display = "flex";
 function closeDoc(){
 document.getElementById("docModal").style.display = "none";
 document.getElementById("docFrame").src = "";
+}
+
+function openDeclineModal(childId){
+    document.getElementById("declineChildId").value = childId;
+    document.getElementById("declineModal").style.display = "flex";
+}
+
+function closeDeclineModal(){
+    document.getElementById("declineModal").style.display = "none";
 }
 
 </script>

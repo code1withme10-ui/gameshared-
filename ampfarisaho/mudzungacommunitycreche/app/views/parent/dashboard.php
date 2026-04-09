@@ -55,6 +55,9 @@ $myChildren = array_filter($children, fn($child) => $child['parent_id'] === $par
                                         break;
                                     case 'declined':
                                         echo '<span style="color:red; font-weight:bold;">Declined</span>';
+                                        if (!empty($child['rejection_reason'])) {
+                                            echo '<div style="margin-top:5px; font-size:13px; color:#c0392b; background:#fadbd8; padding:8px; border-radius:5px;"><strong>Reason:</strong> ' . htmlspecialchars($child['rejection_reason']) . '</div>';
+                                        }
                                         break;
                                     default:
                                         echo '<span>' . htmlspecialchars($child['status']) . '</span>';
