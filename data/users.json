@@ -1,1 +1,20 @@
-[]
+[
+    {
+        "id": "tt_69d7a8875885b7.38052606",
+        "username": "Kubayiremember48670",
+        "password": "$2y$10$NPUe4r3PC4HGTACSvkH90.eSd9.yC2RaNdQl4abtYYCx5lh26IVwW",
+        "name": "takalani",
+        "email": "Kubayiremember48@gmail.com",
+        "role": "parent",
+        "created_at": "2026-04-09 15:24:23",
+        "is_locked": false,
+        "surname": "munyai",
+        "phone": "+27661194211",
+        "address": "Mbokota, elim, makhado",
+        "city": "MAKHADO",
+        "province": "limpopo",
+        "postal_code": "0960",
+        "id_number": "0012232454280",
+        "relationship": "mother"
+    }
+]
