@@ -566,21 +566,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <style>
-/* CSS Variables */
+/* CSS Variables - Match Main System Exactly */
 :root {
-    --primary-color: #007bff;
-    --secondary-color: #6c757d;
-    --success-color: #28a745;
-    --danger-color: #dc3545;
-    --warning-color: #ffc107;
-    --info-color: #17a2b8;
-    --light-color: #f8f9fa;
-    --dark-color: #343a40;
+    --primary-color: #87CEEB;      /* Baby Blue */
+    --secondary-color: #FFD700;     /* Sunny Yellow */
+    --accent-color: #FFA500;        /* Golden Yellow */
+    --light-blue: #B0E0E6;        /* Soft Blue */
+    --warm-white: #FFFEF7;         /* Warm White */
     --text-dark: #333333;
     --text-light: #666666;
     --text-muted: #999999;
-    --light-blue: #e3f2fd;
-    --warm-white: #fafafa;
+    --error-red: #ff6b6b;
+    --success-green: #51cf66;
     --shadow-light: rgba(0, 0, 0, 0.1);
     --shadow-medium: rgba(0, 0, 0, 0.15);
     --border-radius: 8px;
@@ -736,7 +733,7 @@ body {
 }
 
 .required {
-    color: var(--danger-color);
+    color: var(--error-red);
 }
 
 /* Form Inputs */
@@ -744,7 +741,7 @@ body {
 .form-group textarea,
 .form-group select {
     padding: 14px 16px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--light-blue);
     border-radius: var(--border-radius);
     font-size: 1rem;
     font-family: inherit;
@@ -758,7 +755,7 @@ body {
 .form-group select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.2);
     transform: translateY(-1px);
 }
 
@@ -788,7 +785,7 @@ body {
 
 /* Error Messages */
 .error-message {
-    color: var(--danger-color);
+    color: var(--error-red);
     font-size: 0.875rem;
     margin-top: 5px;
     display: flex;
@@ -840,14 +837,14 @@ body {
 }
 
 .btn-primary {
-    background: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
 }
 
 .btn-primary:hover {
-    background: #0056b3;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+    box-shadow: 0 4px 12px rgba(135, 206, 235, 0.3);
 }
 
 .btn-secondary {
