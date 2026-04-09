@@ -98,25 +98,44 @@ class HomeController extends BaseController {
                 'classroom' => [
                     'title' => 'Classroom Activities',
                     'images' => [
-                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29 (1).jpeg', 'alt' => 'Children learning in classroom'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29 (1).jpeg', 'alt' => 'Children learning in bright classroom'],
                         ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29 (2).jpeg', 'alt' => 'Interactive learning session'],
-                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29.jpeg', 'alt' => 'Story time with teacher']
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29.jpeg', 'alt' => 'Story time with teacher'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.41.jpeg', 'alt' => 'Morning circle time activities'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.42 (1).jpeg', 'alt' => 'Children engaged in learning'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.42 (2).jpeg', 'alt' => 'Teacher assisting students'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.42 (3).jpeg', 'alt' => 'Group learning activities']
                     ]
                 ],
                 'creative' => [
                     'title' => 'Creative Corner',
                     'images' => [
                         ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.30.jpeg', 'alt' => 'Art and craft activities'],
-                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29 (1).jpeg', 'alt' => 'Music and movement'],
-                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29 (2).jpeg', 'alt' => 'Drama and role play']
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.42.jpeg', 'alt' => 'Music and movement session'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.43 (1).jpeg', 'alt' => 'Drama and role play activities'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.43 (2).jpeg', 'alt' => 'Creative art projects'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.43 (3).jpeg', 'alt' => 'Painting and drawing time'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.43 (4).jpeg', 'alt' => 'Craft making session']
                     ]
                 ],
                 'outdoor' => [
-                    'title' => 'Outdoor Play',
+                    'title' => 'Outdoor Play & Activities',
                     'images' => [
-                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29.jpeg', 'alt' => 'Playground activities'],
-                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.30.jpeg', 'alt' => 'Sports and games'],
-                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29 (1).jpeg', 'alt' => 'Nature exploration']
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.29.jpeg', 'alt' => 'Playground fun activities'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-03-14 at 14.11.30.jpeg', 'alt' => 'Sports and outdoor games'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.43.jpeg', 'alt' => 'Nature exploration activities'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.44.jpeg', 'alt' => 'Outdoor playtime fun']
+                    ]
+                ],
+                'celebrations' => [
+                    'title' => 'Events & Celebrations',
+                    'images' => [
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.41.jpeg', 'alt' => 'Special celebration day'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.42 (1).jpeg', 'alt' => 'Birthday celebration'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.42 (2).jpeg', 'alt' => 'Cultural day event'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.42 (3).jpeg', 'alt' => 'Fun day activities'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.42.jpeg', 'alt' => 'Award ceremony'],
+                        ['src' => '/public/images/gallery/WhatsApp Image 2026-04-08 at 08.48.43 (1).jpeg', 'alt' => 'Graduation day celebration']
                     ]
                 ]
             ]

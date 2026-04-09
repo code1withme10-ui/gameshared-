@@ -7,7 +7,7 @@ abstract class BaseModel {
         $this->ensureDataFileExists();
     }
     
-    protected function readJsonFile() {
+    public function readJsonFile() {
         if (!file_exists($this->dataFile)) {
             return [];
         }
@@ -40,15 +40,15 @@ abstract class BaseModel {
         return $missing;
     }
     
-    protected function validateEmail($email) {
+    public function validateEmail($email) {
         return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
     }
     
-    protected function validatePhone($phone) {
+    public function validatePhone($phone) {
         return preg_match('/^[0-9\s\-\+\(\)]{10,}$/', $phone);
     }
     
-    protected function validateIdNumber($idNumber) {
+    public function validateIdNumber($idNumber) {
         // Accept 8-13 digit ID numbers (more flexible for various formats)
         return preg_match('/^[0-9]{8,13}$/', $idNumber);
     }

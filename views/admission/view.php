@@ -28,11 +28,11 @@
                     </div>
                     <div class="detail-item">
                         <label>Submitted:</label>
-                        <span><?= date('F j, Y, g:i a', strtotime($admission['submittedAt'])) ?></span>
+                        <span><?= date('F j, Y, g:i a', strtotime($admission['submitted_at'] ?? $admission['submittedAt'] ?? 'now')) ?></span>
                     </div>
                     <div class="detail-item">
                         <label>Last Updated:</label>
-                        <span><?= isset($admission['updatedAt']) ? date('F j, Y, g:i a', strtotime($admission['updatedAt'])) : 'Never' ?></span>
+                        <span><?= isset($admission['updated_at']) ? date('F j, Y, g:i a', strtotime($admission['updated_at'])) : (isset($admission['updatedAt']) ? date('F j, Y, g:i a', strtotime($admission['updatedAt'])) : 'Never') ?></span>
                     </div>
                 </div>
             </div>
@@ -160,6 +160,100 @@
                 </div>
             </div>
             <?php endif; ?>
+            
+            <!-- Documents Section -->
+            <div class="detail-section">
+                <h2><i class="fas fa-file-alt"></i> Uploaded Documents</h2>
+                <div class="documents-grid">
+                    <?php if (!empty($admission['childBirthCertificate'])): ?>
+                    <div class="document-item">
+                        <div class="document-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="document-info">
+                            <h4>Child Birth Certificate</h4>
+                            <p class="document-filename"><?= htmlspecialchars(basename($admission['childBirthCertificate'])) ?></p>
+                            <div class="document-actions">
+                                <a href="<?= htmlspecialchars($admission['childBirthCertificate']) ?>" target="_blank" class="btn btn-sm btn-outline">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                                <a href="<?= htmlspecialchars($admission['childBirthCertificate']) ?>" download class="btn btn-sm btn-primary">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <?php if (!empty($admission['parentIdDocument'])): ?>
+                    <div class="document-item">
+                        <div class="document-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="document-info">
+                            <h4>Parent ID Document</h4>
+                            <p class="document-filename"><?= htmlspecialchars(basename($admission['parentIdDocument'])) ?></p>
+                            <div class="document-actions">
+                                <a href="<?= htmlspecialchars($admission['parentIdDocument']) ?>" target="_blank" class="btn btn-sm btn-outline">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                                <a href="<?= htmlspecialchars($admission['parentIdDocument']) ?>" download class="btn btn-sm btn-primary">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <?php if (!empty($admission['clinicalReport'])): ?>
+                    <div class="document-item">
+                        <div class="document-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="document-info">
+                            <h4>Clinical Report</h4>
+                            <p class="document-filename"><?= htmlspecialchars(basename($admission['clinicalReport'])) ?></p>
+                            <div class="document-actions">
+                                <a href="<?= htmlspecialchars($admission['clinicalReport']) ?>" target="_blank" class="btn btn-sm btn-outline">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                                <a href="<?= htmlspecialchars($admission['clinicalReport']) ?>" download class="btn btn-sm btn-primary">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <?php if (!empty($admission['previousSchoolReport'])): ?>
+                    <div class="document-item">
+                        <div class="document-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="document-info">
+                            <h4>Previous School Report</h4>
+                            <p class="document-filename"><?= htmlspecialchars(basename($admission['previousSchoolReport'])) ?></p>
+                            <div class="document-actions">
+                                <a href="<?= htmlspecialchars($admission['previousSchoolReport']) ?>" target="_blank" class="btn btn-sm btn-outline">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                                <a href="<?= htmlspecialchars($admission['previousSchoolReport']) ?>" download class="btn btn-sm btn-primary">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <?php if (empty($admission['childBirthCertificate']) && empty($admission['parentIdDocument']) && empty($admission['clinicalReport']) && empty($admission['previousSchoolReport'])): ?>
+                    <div class="no-documents">
+                        <i class="fas fa-inbox"></i>
+                        <h4>No Documents Uploaded</h4>
+                        <p>No documents were uploaded with this application.</p>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
         
         <div class="action-section">
@@ -406,6 +500,111 @@
     .action-buttons .btn {
         width: 100%;
         justify-content: center;
+    }
+}
+
+/* Documents Section Styles */
+.documents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.document-item {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.document-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.document-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.document-icon i {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.document-info h4 {
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.document-filename {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    word-break: break-all;
+}
+
+.document-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.no-documents {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+
+.no-documents i {
+    font-size: 3rem;
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.no-documents h4 {
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.no-documents p {
+    margin: 0;
+    font-style: italic;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+    .documents-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .document-actions {
+        justify-content: center;
+    }
+    
+    .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .detail-row .value {
+        text-align: left;
     }
 }
 </style>

@@ -84,7 +84,7 @@ class UserModel extends BaseModel {
         $users[] = $newUser;
         $this->writeJsonFile($users);
         
-        return $newUser;
+        return $newUser['id'];
     }
     
     public function getAllUsers() {
@@ -190,6 +190,46 @@ class UserModel extends BaseModel {
         }
         
         return false;
+    }
+    
+    public function searchParents($search) {
+        $users = $this->readJsonFile();
+        $parents = [];
+        
+        foreach ($users as $user) {
+            if ($user['role'] === 'parent') {
+                $searchLower = strtolower($search);
+                $nameMatch = strpos(strtolower($user['firstName'] . ' ' . $user['surname']), $searchLower) !== false;
+                $emailMatch = strpos(strtolower($user['email'] ?? ''), $searchLower) !== false;
+                $idMatch = strpos(strtolower($user['idNumber'] ?? ''), $searchLower) !== false;
+                
+                if ($nameMatch || $emailMatch || $idMatch) {
+                    $parents[] = [
+                        'id' => $user['id'],
+                        'firstName' => $user['firstName'],
+                        'surname' => $user['surname'],
+                        'email' => $user['email'] ?? '',
+                        'phone' => $user['phone'] ?? '',
+                        'idNumber' => $user['idNumber'] ?? '',
+                        'address' => $user['address'] ?? ''
+                    ];
+                }
+            }
+        }
+        
+        return $parents;
+    }
+    
+    public function getUserById($id) {
+        $users = $this->readJsonFile();
+        
+        foreach ($users as $user) {
+            if ($user['id'] === $id) {
+                return $user;
+            }
+        }
+        
+        return null;
     }
 }
 ?>

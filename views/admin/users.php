@@ -92,7 +92,7 @@
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
                                     <?php if ($user['id'] !== $_SESSION['user']['id']): ?>
-                                        <button onclick="deleteUser('<?= htmlspecialchars($user['id']) ?>')" 
+                                        <button onclick="deleteUser('<?= htmlspecialchars($user['id']) ?>', this)" 
                                                 class="btn-small btn-delete">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
@@ -376,31 +376,59 @@ function editUser(id) {
     alert(`Edit user functionality for user ID: ${id}`);
 }
 
-function deleteUser(id) {
+function deleteUser(id, button) {
+    console.log('Delete user called with ID:', id);
+    
     if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
-        // In a real application, this would make an AJAX call
+        console.log('User confirmed deletion');
+        
+        // Show loading state
+        const deleteBtn = button;
+        const originalText = deleteBtn.innerHTML;
+        deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+        deleteBtn.disabled = true;
+        
+        // Make AJAX call
+        console.log('Making fetch request to /admin/delete-user');
+        
         fetch('/admin/delete-user', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-Token': window.csrfToken
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 id: id
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log('Response status:', response.status);
+            console.log('Response ok:', response.ok);
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log('Response data:', data);
+            
             if (data.success) {
                 alert('User deleted successfully!');
                 location.reload();
             } else {
-                alert('Error: ' + data.error);
+                alert('Error: ' + (data.error || 'Unknown error occurred'));
+                // Restore button state
+                deleteBtn.innerHTML = originalText;
+                deleteBtn.disabled = false;
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred while deleting the user.');
+            console.error('Error stack:', error.stack);
+            alert('An error occurred while deleting the user. Please try again.');
+            // Restore button state
+            deleteBtn.innerHTML = originalText;
+            deleteBtn.disabled = false;
         });
     }
 }

@@ -47,7 +47,7 @@ class AdmissionModel extends BaseModel {
         $newAdmission = [
             'applicationID' => $this->generateApplicationId(),
             'id' => $this->generateId(),
-            'parent_id' => $_SESSION['user_id'] ?? null, // Add parent_id from session
+            'parent_id' => $admissionData['parent_id'] ?? null, // Use parent_id from form data
             'parentFirstName' => $admissionData['parentFirstName'],
             'parentSurname' => $admissionData['parentSurname'],
             'contactNumber' => $admissionData['contactNumber'],
@@ -75,6 +75,11 @@ class AdmissionModel extends BaseModel {
             'child_age' => $age,
             'grade' => $admissionData['gradeApplyingFor']
         ];
+        
+        // Add documents if provided
+        if (isset($admissionData['documents']) && is_array($admissionData['documents'])) {
+            $newAdmission['documents'] = $admissionData['documents'];
+        }
         
         // Add optional fields
         $optionalFields = [

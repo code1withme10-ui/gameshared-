@@ -7,6 +7,46 @@
         </div>
     </section>
 
+    <!-- Quick Actions Section -->
+    <section class="quick-actions">
+        <div class="actions-container">
+            <h2>Quick Actions</h2>
+            <div class="action-cards">
+                <a href="/admin/register-parent" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3>Register Parent</h3>
+                    <p>Add a new parent account to the system</p>
+                </a>
+                
+                <a href="/admin/add-application" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <h3>Add Application</h3>
+                    <p>Create a new application for a child</p>
+                </a>
+                
+                <a href="/admin/admissions" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <h3>View All Applications</h3>
+                    <p>Manage and review all applications</p>
+                </a>
+                
+                <a href="/admin/parents-list" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Parents List</h3>
+                    <p>View all parents and their documents</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <div class="admin-container">
         
         <div class="stats-grid">
@@ -53,7 +93,7 @@
         
         <div class="dashboard-content">
             <div class="recent-applications">
-                <h2><i class="fas fa-clock"></i> Recent Applications</h2>
+                <h2><i class="fas fa-clock"></i> Pending Applications</h2>
                 <div class="applications-table">
                     <div class="table-header">
                         <div>Application ID</div>
@@ -65,17 +105,18 @@
                         <div>Contact</div>
                         <div>Status</div>
                         <div>Submitted</div>
+                        <div>Documents</div>
                         <div>Actions</div>
                     </div>
                     
-                    <?php if (empty($recentAdmissions)): ?>
+                    <?php if (empty($recentApplications)): ?>
                         <div class="no-data">
                             <i class="fas fa-inbox"></i>
-                            <h3>No applications yet</h3>
-                            <p>When applications are submitted, they will appear here.</p>
+                            <h3>No Pending Applications</h3>
+                            <p>All applications have been processed. New pending applications will appear here.</p>
                         </div>
                     <?php else: ?>
-                        <?php foreach ($recentAdmissions as $admission): ?>
+                        <?php foreach ($recentApplications as $admission): ?>
                             <div class="table-row">
                                 <div>
                                     <span class="app-id"><?= htmlspecialchars($admission['applicationID']) ?></span>
@@ -88,7 +129,7 @@
                                 </div>
                                 <div>
                                     <div class="child-info">
-                                        <span class="child-name"><?= htmlspecialchars($admission['childFirstName'] . ' ' . $admission['childSurname']) ?></span>
+                                        <span class="child-name"><?= htmlspecialchars($admission['child_name'] ?? $admission['childFirstName'] . ' ' . $admission['childSurname']) ?></span>
                                         <span class="child-age">Age: <?= $admission['age'] ?? 'N/A' ?></span>
                                     </div>
                                 </div>
@@ -96,7 +137,7 @@
                                     <span class="age-badge"><?= htmlspecialchars($admission['age'] ?? 'N/A') ?> years</span>
                                 </div>
                                 <div>
-                                    <span class="grade-badge"><?= htmlspecialchars($gradeCategories[$admission['gradeApplyingFor']] ?? 'N/A') ?></span>
+                                    <span class="grade-badge"><?= htmlspecialchars($gradeCategories[$admission['grade'] ?? $admission['gradeApplyingFor']] ?? $admission['grade'] ?? $admission['gradeApplyingFor'] ?? 'N/A') ?></span>
                                 </div>
                                 <div>
                                     <div class="address-info">
@@ -116,7 +157,34 @@
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="submit-date"><?= date('M j, Y', strtotime($admission['submittedAt'])) ?></span>
+                                    <span class="submit-date"><?= date('M j, Y', strtotime($admission['submitted_at'] ?? $admission['submittedAt'] ?? 'now')) ?></span>
+                                </div>
+                                <div>
+                                    <div class="document-indicators">
+                                        <?php if (!empty($admission['childBirthCertificate'])): ?>
+                                            <a href="<?= htmlspecialchars($admission['childBirthCertificate']) ?>" target="_blank" class="doc-link" title="View Birth Certificate">
+                                                <i class="fas fa-file-pdf"></i>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if (!empty($admission['parentIdDocument'])): ?>
+                                            <a href="<?= htmlspecialchars($admission['parentIdDocument']) ?>" target="_blank" class="doc-link" title="View Parent ID">
+                                                <i class="fas fa-id-card"></i>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if (!empty($admission['clinicalReport'])): ?>
+                                            <a href="<?= htmlspecialchars($admission['clinicalReport']) ?>" target="_blank" class="doc-link" title="View Clinical Report">
+                                                <i class="fas fa-notes-medical"></i>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if (!empty($admission['previousSchoolReport'])): ?>
+                                            <a href="<?= htmlspecialchars($admission['previousSchoolReport']) ?>" target="_blank" class="doc-link" title="View School Report">
+                                                <i class="fas fa-graduation-cap"></i>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if (empty($admission['childBirthCertificate']) && empty($admission['parentIdDocument']) && empty($admission['clinicalReport']) && empty($admission['previousSchoolReport'])): ?>
+                                            <span class="no-docs">No docs</span>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                                 <div>
                                     <div class="action-buttons-inline">
@@ -918,3 +986,152 @@ function exportData() {
     alert('Export functionality would download all applications as CSV/Excel');
 }
 </script>
+
+<style>
+.quick-actions {
+    padding: 40px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: -20px -20px 40px -20px;
+}
+
+.actions-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.actions-container h2 {
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+.action-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.action-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    text-decoration: none;
+    color: inherit;
+}
+
+.action-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.action-icon i {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.action-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.action-card p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .action-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .quick-actions {
+        margin: -20px -10px 30px -10px;
+        padding: 30px 0;
+    }
+    
+    .actions-container {
+        padding: 0 10px;
+    }
+    
+    .actions-container h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Document Indicators Styles */
+.document-indicators {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.doc-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    color: #495057;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.doc-link:hover {
+    background: #e9ecef;
+    color: #007bff;
+    transform: scale(1.1);
+}
+
+.doc-link i {
+    font-size: 14px;
+}
+
+.no-docs {
+    color: #6c757d;
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* Adjust table column widths for documents */
+.table-header > div:nth-child(10),
+.table-row > div:nth-child(10) {
+    min-width: 120px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .document-indicators {
+        justify-content: flex-start;
+    }
+    
+    .table-header > div:nth-child(10),
+    .table-row > div:nth-child(10) {
+        min-width: 80px;
+    }
+}
+</style>

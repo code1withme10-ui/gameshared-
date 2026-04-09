@@ -183,8 +183,19 @@ class AdmissionController extends BaseController {
             'rejected' => count(array_filter($allAdmissions, function($a) { return strtolower($a['status']) === 'rejected'; }))
         ];
         
-        // Get recent applications (last 5)
-        $recentApplications = array_slice($allAdmissions, 0, 5);
+        // Get only pending applications and sort by submission date (newest first)
+        $pendingApplications = array_filter($allAdmissions, function($a) { 
+            return strtolower($a['status']) === 'pending'; 
+        });
+        
+        usort($pendingApplications, function($a, $b) {
+            $dateA = strtotime($a['submitted_at'] ?? $a['submittedAt'] ?? '1970-01-01');
+            $dateB = strtotime($b['submitted_at'] ?? $b['submittedAt'] ?? '1970-01-01');
+            return $dateB - $dateA; // Descending order (newest first)
+        });
+        
+        // Get recent pending applications (last 5)
+        $recentApplications = array_slice($pendingApplications, 0, 5);
         
         $this->render('admin/dashboard', [
             'pageTitle' => 'Headmaster Dashboard - Tiny Tots Creche',
