@@ -82,12 +82,6 @@ require_once __DIR__ . '/../app/views/partials/header.php';
     <!-- FEATURES PREMIUM -->
     <section class="features-premium">
         <div class="feature-box">
-            <div class="icon">👶</div>
-            <h3>Safe Environment</h3>
-            <p>Secure, clean, and child-friendly spaces for peace of mind.</p>
-        </div>
-
-        <div class="feature-box">
             <div class="icon">📚</div>
             <h3>Early Learning</h3>
             <p>Fun, engaging activities that build strong foundations.</p>

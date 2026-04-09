@@ -419,6 +419,20 @@ table tr:hover {
     .hero-premium p { font-size: 1rem; }
     .features-premium { grid-template-columns: 1fr; }
     .header-container { flex-direction: column; gap: 15px; }
+
+    /* Navbar & Header Fixes */
+    .main-nav { padding: 15px; position: static; }
+    .nav-container { flex-direction: column; gap: 20px; text-align: center; }
+    .nav-left { justify-content: center; width: 100%; }
+    .nav-logo { height: 80px; }
+    .nav-center { flex-wrap: wrap; justify-content: center; gap: 15px; width: 100%; }
+    .nav-center a { font-size: 1rem; }
+    .nav-right { width: 100%; justify-content: center; gap: 10px; flex-wrap: wrap; }
+
+    /* Top Strip Header Fixes */
+    .top-strip { padding: 15px 10px; }
+    .top-strip h2 { font-size: 1.6rem; letter-spacing: 1px; }
+    .top-strip p { font-size: 0.85rem; letter-spacing: 2px; }
 }
 
 /* ================================
@@ -610,9 +624,12 @@ table tr:hover {
 
 .features-premium {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
     margin-bottom: 60px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .feature-box {

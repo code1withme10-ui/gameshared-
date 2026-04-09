@@ -38,46 +38,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($email === '' || $password === '') {
         $errors[] = 'Please enter both email and password.';
     } else {
+        
+        $lockoutStorage = new JsonStorage(__DIR__ . '/../storage/lockouts.json');
+        $lockouts = $lockoutStorage->read() ?? [];
+        $lockoutTime = 15 * 60; // 15 minutes lockout
 
-        $usersStorage   = new JsonStorage(__DIR__ . '/../storage/users.json');
-        $parentsStorage = new JsonStorage(__DIR__ . '/../storage/parents.json');
+        // Check if account is currently locked out
+        if (isset($lockouts[$email])) {
+            $attempts = $lockouts[$email]['count'] ?? 0;
+            $lastAttempt = $lockouts[$email]['time'] ?? 0;
 
-        $users = array_merge(
-            $usersStorage->read() ?? [],
-            $parentsStorage->read() ?? []
-        );
-
-        $userFound = null;
-
-        foreach ($users as $user) {
-            if (
-                isset($user['email'], $user['password']) &&
-                $user['email'] === $email &&
-                password_verify($password, $user['password'])
-            ) {
-                $userFound = $user;
-                break;
+            if ($attempts >= 3) {
+                if (time() - $lastAttempt < $lockoutTime) {
+                    $remaining = ceil(($lockoutTime - (time() - $lastAttempt)) / 60);
+                    $errors[] = "Account locked due to too many failed attempts. Please try again in {$remaining} minute(s).";
+                } else {
+                    // Lockout period has expired, reset attempts
+                    $lockouts[$email] = ['count' => 0, 'time' => time()];
+                    $lockoutStorage->write($lockouts);
+                }
             }
         }
 
-        if ($userFound) {
+        if (empty($errors)) {
+            $usersStorage   = new JsonStorage(__DIR__ . '/../storage/users.json');
+            $parentsStorage = new JsonStorage(__DIR__ . '/../storage/parents.json');
 
-            $_SESSION['user'] = [
-                'id'        => $userFound['id'],
-                'full_name' => $userFound['full_name'],
-                'email'     => $userFound['email'],
-                'role'      => strtolower($userFound['role'] ?? 'parent')
-            ];
+            $users = array_merge(
+                $usersStorage->read() ?? [],
+                $parentsStorage->read() ?? []
+            );
 
-            if ($_SESSION['user']['role'] === 'parent') {
-                header('Location: /parent-dashboard.php');
-            } else {
-                header('Location: /admin-dashboard.php');
+            $userFound = null;
+
+            foreach ($users as $user) {
+                if (
+                    isset($user['email'], $user['password']) &&
+                    $user['email'] === $email &&
+                    password_verify($password, $user['password'])
+                ) {
+                    $userFound = $user;
+                    break;
+                }
             }
-            exit;
 
-        } else {
-            $errors[] = 'Invalid email or password.';
+            if ($userFound) {
+                
+                // Clear lockout attempts on successful login
+                if (isset($lockouts[$email])) {
+                    unset($lockouts[$email]);
+                    $lockoutStorage->write($lockouts);
+                }
+
+                $_SESSION['user'] = [
+                    'id'        => $userFound['id'],
+                    'full_name' => $userFound['full_name'],
+                    'email'     => $userFound['email'],
+                    'role'      => strtolower($userFound['role'] ?? 'parent')
+                ];
+
+                if ($_SESSION['user']['role'] === 'parent') {
+                    header('Location: /parent-dashboard.php');
+                } else {
+                    header('Location: /admin-dashboard.php');
+                }
+                exit;
+
+            } else {
+                // Record failed login attempt
+                if (!isset($lockouts[$email])) {
+                    $lockouts[$email] = ['count' => 0, 'time' => time()];
+                }
+                
+                // Reset to 1 attempt if the last failure was past the lockout time but they failed again
+                if ($lockouts[$email]['count'] >= 3 && (time() - $lockouts[$email]['time']) >= $lockoutTime) {
+                    $lockouts[$email]['count'] = 1;
+                } else {
+                     $lockouts[$email]['count']++;
+                }
+
+                $lockouts[$email]['time'] = time();
+                $lockoutStorage->write($lockouts);
+                
+                $attemptsLeft = 3 - $lockouts[$email]['count'];
+                
+                if ($attemptsLeft > 0) {
+                    $errors[] = "Invalid email or password. You have {$attemptsLeft} attempt(s) left.";
+                } else {
+                    $errors[] = "Account locked due to too many failed attempts. Please try again in 15 minutes.";
+                }
+            }
         }
     }
 }
