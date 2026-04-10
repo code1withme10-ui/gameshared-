@@ -52,27 +52,25 @@
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="parent_id">Parent ID</label>
-                        <input type="text" id="parent_id" name="parent_id" readonly required
-                               value="<?= htmlspecialchars($parent['id'] ?? $_POST['parent_id'] ?? '') ?>">
-                    </div>
-                    
-                    <div class="form-group">
                         <label for="parentFirstName">Parent First Name</label>
                         <input type="text" id="parentFirstName" name="parentFirstName" required
                                value="<?= htmlspecialchars($parent['name'] ?? $_POST['parentFirstName'] ?? '') ?>"
                                <?= $fromRegistration ? 'readonly' : '' ?>>
                     </div>
-                </div>
-                
-                <div class="form-row">
+                    
                     <div class="form-group">
                         <label for="parentSurname">Parent Surname</label>
                         <input type="text" id="parentSurname" name="parentSurname" required
                                value="<?= htmlspecialchars($parent['surname'] ?? $_POST['parentSurname'] ?? '') ?>"
                                <?= $fromRegistration ? 'readonly' : '' ?>>
                     </div>
-                    
+                </div>
+                
+                <!-- Hidden parent ID field -->
+<input type="hidden" id="parent_id" name="parent_id" 
+       value="<?= htmlspecialchars($parent['id'] ?? $_POST['parent_id'] ?? '') ?>">
+                
+                <div class="form-row">
                     <div class="form-group">
                         <label for="relationshipToChild">Relationship to Child</label>
                         <select id="relationshipToChild" name="relationshipToChild" required
@@ -650,6 +648,21 @@ document.addEventListener('DOMContentLoaded', function() {
         parentIdNumberInput.value = idNumber;
         residentialAddressInput.value = address;
         
+        // Make parent fields readonly after selection
+        parentFirstNameInput.readOnly = true;
+        parentSurnameInput.readOnly = true;
+        emailAddressInput.readOnly = true;
+        contactNumberInput.readOnly = true;
+        parentIdNumberInput.readOnly = true;
+        residentialAddressInput.readOnly = true;
+        
+        // Style readonly fields to indicate they're locked
+        const parentFields = [parentFirstNameInput, parentSurnameInput, emailAddressInput, contactNumberInput, parentIdNumberInput, residentialAddressInput];
+        parentFields.forEach(field => {
+            field.style.backgroundColor = '#f8f9fa';
+            field.style.cursor = 'not-allowed';
+        });
+        
         // Clear search
         parentSearchInput.value = '';
         parentSearchResults.innerHTML = '';
@@ -658,7 +671,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const successDiv = document.createElement('div');
         successDiv.className = 'alert alert-success';
         successDiv.style.cssText = 'margin-top: 10px;';
-        successDiv.innerHTML = '<i class="fas fa-check-circle"></i> Parent selected successfully';
+        successDiv.innerHTML = '<i class="fas fa-check-circle"></i> Parent selected successfully. Parent details are now locked for this application.';
         parentSearchInput.parentNode.appendChild(successDiv);
         
         // Remove success message after 3 seconds
