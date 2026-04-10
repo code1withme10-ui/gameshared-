@@ -17,7 +17,7 @@ class ParentController extends BaseController {
         error_log("Parent ID: " . $_SESSION['user']['id']);
         error_log("Applications found: " . count($parentApplications));
         
-        $this->render('parent/portal', [
+        $this->render('parent/parent-portal', [
             'pageTitle' => 'Parent Portal - Tiny Tots Creche',
             'applications' => $parentApplications
         ]);

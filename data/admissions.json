@@ -1,1 +1,49 @@
-[]
+[
+    {
+        "applicationID": "TT20267720",
+        "id": "tt_69d89802bf56c6.72483188",
+        "parent_id": "",
+        "parentFirstName": "takalani",
+        "parentSurname": "masubu",
+        "contactNumber": "0660245504",
+        "emailAddress": "takalanimusubi117@gmail.com",
+        "parentIdNumber": "0012245428082",
+        "residentialAddress": "MBOKOTA, ELIM",
+        "relationshipToChild": "mother",
+        "childFirstName": "REMEMBER",
+        "childSurname": "SUPRISE",
+        "dateOfBirth": "2020-02-02",
+        "childIdNumber": "0121022505412",
+        "childGender": "male",
+        "gradeApplyingFor": "toddlers",
+        "emergencyContactName": "REMEMBER SUPRISE",
+        "emergencyContactPhone": "0661194211",
+        "emergencyContactAddress": "Mbokota",
+        "childAddress": "",
+        "transportation": "none",
+        "specialNeeds": "n",
+        "status": "Approved",
+        "submitted_at": "2026-04-10 08:26:10",
+        "updated_at": "2026-04-10 08:26:10",
+        "age": 6,
+        "child_name": "REMEMBER SUPRISE",
+        "child_age": 6,
+        "grade": "toddlers",
+        "documents": {
+            "childBirthCertificate": "1775802370_web.ws25pkg (1).pdf",
+            "parentIdDocument": "1775802370_web.ws25pkg (1).pdf",
+            "clinicalReport": "1775802370_web.ws25pkg (1).pdf",
+            "previousSchoolReport": "1775802370_web.ws25pkg (1).pdf"
+        },
+        "updatedAt": "2026-04-10 08:26:42",
+        "statusHistory": [
+            {
+                "date": "2026-04-10 08:26:42",
+                "oldStatus": "pending",
+                "newStatus": "Approved",
+                "notes": "Approved via dashboard",
+                "changedBy": "Vanessa Roets"
+            }
+        ]
+    }
+]

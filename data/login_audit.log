@@ -80,3 +80,5 @@
 [2026-04-08 05:25:15] SUCCESS | Username: admin | IP: ::1 | Role: headmaster | Action: login | User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0
 [2026-04-08 19:14:23] SUCCESS | Username: admin | IP: ::1 | Role: headmaster | Action: login | User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0
 [2026-04-10 01:55:30] SUCCESS | Username: admin | IP: ::1 | Role: headmaster | Action: login | User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0
+[2026-04-10 08:26:52] FAILED | Username: admin | IP: ::1 | Role: headmaster | Action: logout | User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0
+[2026-04-10 08:27:23] SUCCESS | Username: Kubayiremember48670 | IP: ::1 | Role: parent | Action: login | User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0

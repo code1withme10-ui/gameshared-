@@ -1,14 +1,6 @@
 <?php
-require_once 'config/config.php';
-
-// Check if user is logged in and is a parent
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'parent') {
-    redirect('/login');
-    exit;
-}
-
 // Get parent's admission applications using the proper MVC structure
-require_once '../models/AdmissionModel.php';
+require_once MODELS_PATH . '/AdmissionModel.php';
 $admissionModel = new AdmissionModel();
 $parentApplications = $admissionModel->getApplicationsByParent($_SESSION['user']['id']);
 
@@ -26,13 +18,13 @@ foreach ($parentApplications as $app) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parent Portal - Tiny Tots Creche</title>
-    <link rel="stylesheet" href="public/css/styles.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <?php require_once '../views/layouts/header.php'; ?>
+    <?php require_once VIEWS_PATH . '/layouts/header.php'; ?>
 
     <div class="content-wrapper">
         <!-- Welcome Section -->
@@ -224,6 +216,6 @@ foreach ($parentApplications as $app) {
         </section>
     </div>
 
-    <?php require_once 'includes/footer.php'; ?>
+    <?php require_once VIEWS_PATH . '/layouts/footer.php'; ?>
 </body>
 </html>
