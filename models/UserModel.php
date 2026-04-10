@@ -199,18 +199,18 @@ class UserModel extends BaseModel {
         foreach ($users as $user) {
             if ($user['role'] === 'parent') {
                 $searchLower = strtolower($search);
-                $nameMatch = strpos(strtolower($user['firstName'] . ' ' . $user['surname']), $searchLower) !== false;
+                $nameMatch = strpos(strtolower(($user['firstName'] ?? $user['name'] ?? '') . ' ' . ($user['surname'] ?? '')), $searchLower) !== false;
                 $emailMatch = strpos(strtolower($user['email'] ?? ''), $searchLower) !== false;
                 $idMatch = strpos(strtolower($user['idNumber'] ?? ''), $searchLower) !== false;
                 
                 if ($nameMatch || $emailMatch || $idMatch) {
                     $parents[] = [
                         'id' => $user['id'],
-                        'firstName' => $user['firstName'],
+                        'name' => $user['firstName'] ?? $user['name'] ?? '',
                         'surname' => $user['surname'],
                         'email' => $user['email'] ?? '',
                         'phone' => $user['phone'] ?? '',
-                        'idNumber' => $user['idNumber'] ?? '',
+                        'id_number' => $user['idNumber'] ?? '',
                         'address' => $user['address'] ?? ''
                     ];
                 }

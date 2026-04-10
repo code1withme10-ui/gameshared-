@@ -562,6 +562,116 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+    
+    // Parent search functionality
+    const parentSearchInput = document.getElementById('parent_search');
+    const parentSearchResults = document.getElementById('parent_search_results');
+    const parentIdInput = document.getElementById('parent_id');
+    const parentFirstNameInput = document.getElementById('parentFirstName');
+    const parentSurnameInput = document.getElementById('parentSurname');
+    const contactNumberInput = document.getElementById('contactNumber');
+    const emailAddressInput = document.getElementById('emailAddress');
+    const parentIdNumberInput = document.getElementById('parentIdNumber');
+    const residentialAddressInput = document.getElementById('residentialAddress');
+    const relationshipToChildInput = document.getElementById('relationshipToChild');
+    
+    let searchTimeout;
+    
+    if (parentSearchInput) {
+        parentSearchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim();
+            
+            // Clear previous timeout
+            clearTimeout(searchTimeout);
+            
+            if (searchTerm.length < 2) {
+                parentSearchResults.innerHTML = '';
+                return;
+            }
+            
+            // Debounce search
+            searchTimeout = setTimeout(() => {
+                searchParents(searchTerm);
+            }, 300);
+        });
+        
+        // Hide results when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!parentSearchInput.contains(e.target) && !parentSearchResults.contains(e.target)) {
+                parentSearchResults.innerHTML = '';
+            }
+        });
+    }
+    
+    function searchParents(searchTerm) {
+        fetch(`/admin/search-parents?search=${encodeURIComponent(searchTerm)}`)
+            .then(response => response.json())
+            .then(parents => {
+                displaySearchResults(parents);
+            })
+            .catch(error => {
+                console.error('Search error:', error);
+                parentSearchResults.innerHTML = '<div class="search-error">Error searching parents</div>';
+            });
+    }
+    
+    function displaySearchResults(parents) {
+        if (!parents || parents.length === 0) {
+            parentSearchResults.innerHTML = '<div class="search-no-results">No parents found</div>';
+            return;
+        }
+        
+        let html = '';
+        parents.forEach(parent => {
+            html += `
+                <div class="search-result-item" onclick="selectParent('${parent.id}', '${escapeHtml(parent.name)}', '${escapeHtml(parent.surname)}', '${escapeHtml(parent.email)}', '${escapeHtml(parent.phone)}', '${escapeHtml(parent.id_number)}', '${escapeHtml(parent.address)}')">
+                    <div style="font-weight: 600;">${escapeHtml(parent.name)} ${escapeHtml(parent.surname)}</div>
+                    <div style="font-size: 0.875rem; color: #666;">
+                        <i class="fas fa-envelope"></i> ${escapeHtml(parent.email)} | 
+                        <i class="fas fa-phone"></i> ${escapeHtml(parent.phone)}
+                    </div>
+                    <div style="font-size: 0.75rem; color: #999;">
+                        ID: ${escapeHtml(parent.id)}
+                    </div>
+                </div>
+            `;
+        });
+        
+        parentSearchResults.innerHTML = html;
+    }
+    
+    function selectParent(id, name, surname, email, phone, idNumber, address) {
+        // Fill parent fields
+        parentIdInput.value = id;
+        parentFirstNameInput.value = name;
+        parentSurnameInput.value = surname;
+        emailAddressInput.value = email;
+        contactNumberInput.value = phone;
+        parentIdNumberInput.value = idNumber;
+        residentialAddressInput.value = address;
+        
+        // Clear search
+        parentSearchInput.value = '';
+        parentSearchResults.innerHTML = '';
+        
+        // Show success message
+        const successDiv = document.createElement('div');
+        successDiv.className = 'alert alert-success';
+        successDiv.style.cssText = 'margin-top: 10px;';
+        successDiv.innerHTML = '<i class="fas fa-check-circle"></i> Parent selected successfully';
+        parentSearchInput.parentNode.appendChild(successDiv);
+        
+        // Remove success message after 3 seconds
+        setTimeout(() => {
+            successDiv.remove();
+        }, 3000);
+    }
+    
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
 });
 </script>
 
@@ -979,7 +1089,7 @@ body {
     left: 0;
     right: 0;
     background: white;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--light-blue);
     border-top: none;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
     max-height: 200px;
@@ -996,11 +1106,23 @@ body {
 }
 
 .search-result-item:hover {
-    background-color: var(--light-color);
+    background-color: var(--light-blue);
 }
 
 .search-result-item:last-child {
     border-bottom: none;
+}
+
+.search-no-results,
+.search-error {
+    padding: 12px 16px;
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+}
+
+.search-error {
+    color: var(--error-red);
 }
 
 /* Responsive Design */
