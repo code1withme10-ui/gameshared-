@@ -350,6 +350,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const dateOfBirthInput = document.getElementById('dateOfBirth');
     const gradeSelect = document.getElementById('gradeApplyingFor');
     
+    // Add form submission debugging
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            console.log('Form submitting...');
+            console.log('Parent ID value:', document.getElementById('parent_id').value);
+            console.log('Form data:', new FormData(form));
+        });
+    }
+    
     // Grade age mapping
     const gradeAgeMap = {
         'toddlers': [0, 2],
@@ -639,6 +648,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function selectParent(id, name, surname, email, phone, idNumber, address) {
+        console.log('Selecting parent:', {id, name, surname, email, phone, idNumber, address});
+        
         // Fill parent fields
         parentIdInput.value = id;
         parentFirstNameInput.value = name;
@@ -647,6 +658,8 @@ document.addEventListener('DOMContentLoaded', function() {
         contactNumberInput.value = phone;
         parentIdNumberInput.value = idNumber;
         residentialAddressInput.value = address;
+        
+        console.log('Parent ID set to:', parentIdInput.value);
         
         // Make parent fields readonly after selection
         parentFirstNameInput.readOnly = true;
