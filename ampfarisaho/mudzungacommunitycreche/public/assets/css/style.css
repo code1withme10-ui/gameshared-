@@ -44,59 +44,152 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: space-between;
 }
 
-/* Logo Left */
-.nav-left {
+/* Layout Spacers */
+.nav-left-spacer {
+    flex: 1;
+}
+
+/* Center Logo */
+.nav-center-logo {
+    flex: 1;
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
 .nav-logo {
-    height: 105px; /* Resize the logo here */
+    height: 85px;
     width: auto;
     object-fit: contain;
 }
 
-/* Links Center */
-.nav-center {
+/* Right Menu Area */
+.nav-right-menu {
+    flex: 1;
     display: flex;
-    gap: 30px;
+    justify-content: flex-end;
     align-items: center;
+    position: relative;
 }
 
-.nav-center a {
+/* Hamburger Button */
+.hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 32px;
+    height: 22px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1002;
+}
+
+.hamburger-btn span {
+    width: 100%;
+    height: 3px;
+    background-color: #0f172a;
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: left center;
+}
+
+/* Hamburger Active Animation */
+.hamburger-btn.active span:nth-child(1) {
+    transform: rotate(45deg);
+}
+.hamburger-btn.active span:nth-child(2) {
+    opacity: 0;
+    width: 0;
+}
+.hamburger-btn.active span:nth-child(3) {
+    transform: rotate(-45deg);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    position: absolute;
+    top: 55px;
+    right: 0;
+    background-color: #ffffff;
+    min-width: 260px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px) scale(0.95);
+    transform-origin: top right;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1001;
+    border: 1px solid #f1f5f9;
+}
+
+.dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.dropdown-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-links a {
     text-decoration: none;
     color: #475569;
     font-weight: 600;
     font-family: "Outfit", sans-serif;
-    position: relative;
-    transition: color 0.3s ease;
+    padding: 12px 24px;
     font-size: 1.05rem;
+    position: relative;
+    transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
 }
 
-.nav-center a::after {
+.dropdown-links a::before {
     content: "";
     position: absolute;
-    left: 0;
-    bottom: -6px;
-    width: 0;
-    height: 2px;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
     background-color: #f59e0b;
-    transition: width 0.3s ease;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
-.nav-center a:hover {
+.dropdown-links a:hover {
     color: #f59e0b;
+    background-color: #f8fafc;
+    padding-left: 28px;
 }
 
-.nav-center a:hover::after {
-    width: 100%;
+.dropdown-links a:hover::before {
+    opacity: 1;
 }
 
-/* Actions Right */
-.nav-right {
+.dropdown-divider {
+    height: 1px;
+    background-color: #e2e8f0;
+    margin: 10px 24px;
+}
+
+.dropdown-actions {
     display: flex;
-    gap: 15px;
-    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 24px;
+    margin-top: 5px;
+}
+
+.dropdown-actions a {
+    width: 100%;
 }
 
 .btn-login, .btn-dashboard, .btn-logout {
@@ -421,13 +514,9 @@ table tr:hover {
     .header-container { flex-direction: column; gap: 15px; }
 
     /* Navbar & Header Fixes */
-    .main-nav { padding: 15px; position: static; }
-    .nav-container { flex-direction: column; gap: 20px; text-align: center; }
-    .nav-left { justify-content: center; width: 100%; }
-    .nav-logo { height: 80px; }
-    .nav-center { flex-wrap: wrap; justify-content: center; gap: 15px; width: 100%; }
-    .nav-center a { font-size: 1rem; }
-    .nav-right { width: 100%; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .main-nav { padding: 10px 20px; position: sticky; }
+    .nav-container { flex-direction: row; align-items: center; justify-content: space-between; }
+    .nav-logo { height: 60px; }
 
     /* Top Strip Header Fixes */
     .top-strip { padding: 15px 10px; }
